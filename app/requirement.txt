@@ -1,2 +1,6 @@
 requests
 pandas
+redis
+sqlalchemy
+sqlalchemy.orm
+dotenv
