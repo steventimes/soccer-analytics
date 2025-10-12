@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:16
+    container_name: football_db
+    restart: always
+    environment:
+      POSTGRES_USER: steven
+      POSTGRES_PASSWORD: 123456!
+      POSTGRES_DB: football_data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: football_app
+    command: python init_db.py
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://steven:123456!@db:5432/football_data
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db
