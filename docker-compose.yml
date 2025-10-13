@@ -1,24 +1,43 @@
 services:
+  app:
+    build: .
+    container_name: football_app
+    volumes:
+      - py_files:/app          # Mount your app folder
+      - ./requirements.txt:/app/requirements.txt  # Mount requirements for hot updates
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/football
+      - REDIS_URL=redis://redis:6379/0
+    command: tail -f /dev/null  # Keeps the container alive for development
+
   db:
     image: postgres:16
     container_name: football_db
     restart: always
     environment:
-      POSTGRES_USER: steven
-      POSTGRES_PASSWORD: 123456!
-      POSTGRES_DB: football_data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: football
     ports:
       - "5432:5432"
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - football_db_data:/var/lib/postgresql/data
 
-  app:
-    build: .
-    container_name: football_app
-    command: python init_db.py
-    environment:
-      - DATABASE_URL=postgresql+psycopg2://steven:123456!@db:5432/football_data
+  redis:
+    image: redis:7
+    container_name: football_redis
+    ports:
+      - "6379:6379"
     volumes:
-      - ./app:/app
-    depends_on:
-      - db
+      - football_redis_data:/data
+
+volumes:
+  py_files:
+  football_db_data:
+  football_redis_data:
+  
