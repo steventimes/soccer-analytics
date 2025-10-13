@@ -1,0 +1,172 @@
+'''set and retrieve data in db'''
+from sqlalchemy import select
+from sqlalchemy.orm import Session as SQLSession
+from typing import List, Optional, Dict
+from datetime import datetime
+import pandas as pd
+
+from db_schema import Team, Player, Match, Competition
+
+def get_team_db(session: SQLSession, team_id: int) -> Optional[Team]:
+    '''get team by id in db'''
+    return session.query(Team).filter(Team.id == team_id).first()
+
+def save_team_db(session: SQLSession, team_Data: dict) -> Team:
+    '''save or update team in db'''
+    team = get_team_db(session, team_Data['id'])
+    
+    if team:
+        for key, value in team_Data.items():
+            if hasattr(team, key):
+                setattr(team, key, value)
+    else:
+        team = Team(**team_Data)
+        session.add(team)
+        
+    session.commit()
+    session.refresh(team)
+    return team
+
+def get_players_by_team_db(session: SQLSession, team_id: int) -> List[Player]:
+    """Get all players for a specific team"""
+    return session.query(Player).filter(Player.team_id == team_id).all()
+
+
+def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame):
+    """
+    Save players from DataFrame to database
+    Links them to the specified team
+    """
+    # Ensure team exists
+    team = get_team_db(session, team_id)
+    if not team:
+        # Create basic team record if it doesn't exist
+        team = Team(id=team_id, name=f"Team {team_id}")
+        session.add(team)
+        session.commit()
+    
+    for _, row in players_df.iterrows():
+        player_id = row.get('id')
+        
+        # Check if player already exists
+        player = session.query(Player).filter(Player.id == player_id).first()
+        
+        # Parse date of birth if present
+        dob = None
+        if 'dateOfBirth' in row and pd.notna(row['dateOfBirth']):
+            try:
+                dob = datetime.fromisoformat(row['dateOfBirth'].replace('Z', '+00:00')).date()
+            except:
+                dob = None
+        
+        if player:
+            player.name = row.get('name')
+            player.position = row.get('position')
+            player.nationality = row.get('nationality')
+            player.date_of_birth = dob
+            player.team_id = team_id
+        else:
+            player = Player(
+                id=player_id,
+                name=row.get('name'),
+                position=row.get('position'),
+                nationality=row.get('nationality'),
+                date_of_birth=dob,
+                team_id=team_id
+            )
+            session.add(player)
+    
+    session.commit()
+    print(f"Saved {len(players_df)} players for team {team_id}")
+
+
+def get_competition_standings_db(session: SQLSession, competition_code: str) -> Optional[List[Dict]]:
+    """
+    Get current standings for a competition from database
+    Returns list of dicts with team standings
+    """
+    competition = session.query(Competition).filter(
+        Competition.code == competition_code
+    ).first()
+    
+    if not competition or not competition.teams:
+        return None
+    
+    # Build standings from teams (simplified - you'd calculate from matches in real app)
+    standings = []
+    for team in competition.teams:
+        standings.append({
+            'position': 0,  # Would calculate from match results
+            'team': {'name': team.name, 'id': team.id},
+            'playedGames': 0,
+            'won': 0,
+            'draw': 0,
+            'lost': 0,
+            'points': 0,
+            'goalsFor': 0,
+            'goalsAgainst': 0,
+            'goalDifference': 0
+        })
+    
+    return standings if standings else None
+
+
+def save_competition_standings_db(session: SQLSession, competition_code: str, standings_df: pd.DataFrame):
+    """
+    Save competition standings to database
+    Creates/updates competition and team records
+    """
+    # Get or create competition
+    competition = session.query(Competition).filter(
+        Competition.code == competition_code
+    ).first()
+    
+    if not competition:
+        competition = Competition(
+            code=competition_code,
+            name=competition_code,
+            type="LEAGUE"
+        )
+        session.add(competition)
+        session.commit()
+    
+    # Save teams from standings
+    for _, row in standings_df.iterrows():
+        team_data = row.get('team', {})
+        
+        if isinstance(team_data, dict):
+            team_id = team_data.get('id')
+            team_name = team_data.get('name')
+        else:
+            # If team is already extracted
+            continue
+        
+        if team_id:
+            team = get_team_db(session, team_id)
+            
+            if team:
+                team.name = team_name
+                team.competition_id = competition.id
+            else:
+                team = Team(
+                    id=team_id,
+                    name=team_name,
+                    competition_id=competition.id
+                )
+                session.add(team)
+    
+    session.commit()
+    print(f"Saved standings for competition {competition_code}")
+
+
+def get_or_create_competition(session: SQLAlchemySession, competition_data: Dict) -> Competition:
+    """Get existing competition or create new one"""
+    comp_id = competition_data.get('id')
+    competition = session.query(Competition).filter(Competition.id == comp_id).first()
+    
+    if not competition:
+        competition = Competition(**competition_data)
+        session.add(competition)
+        session.commit()
+    
+    return competition
