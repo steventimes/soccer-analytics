@@ -2,9 +2,8 @@ from sqlalchemy.orm import Session as SQLSession
 from typing import Optional, List, Dict
 import pandas as pd
 from datetime import datetime
-
 from db_schema import Team, Player, Competition, Match
-from cache_management import get_cache, set_cache
+from cache_management import get_cache, set_cache, clear_all_pattern, TTL
 from fetcher import get_team_players as fetch_team_players_api
 from fetcher import get_competition_standings as fetch_standings_api
 from db_operations import (
@@ -34,14 +33,14 @@ class DataService:
         if players:
             print(f"db hit for team {team_id} players")
             df = pd.DataFrame([{
-                'id' = p.id,
+                'id': p.id,
                 'name': p.name,
                 'position': p.position,
-                'dateOfBirth': p.date_of_birth.isoformat() if p.date_of_birth else None,
+                'dateOfBirth': p.date_of_birth.isoformat() if bool(p.date_of_birth) else None,
                 'nationality': p.nationality
             } for p in players])
             
-            set_cache(cache_key, df.to_dict("records"))
+            set_cache(cache_key, df.to_dict("records"), TTL)
             return df
         
         print(f"db and cache not hit for team {team_id}, fetch from api")
@@ -49,7 +48,7 @@ class DataService:
         
         if df is not None and not df.empty:
             save_players_db(self.session, team_id, df)
-            set_cache(cache_key, df.to_dict('records'))
+            set_cache(cache_key, df.to_dict('records'), TTL)
             print(f"save team {team_id} players to cache and db")
             
         return df
@@ -69,7 +68,7 @@ class DataService:
         if standings:
             print(f"DB hit for {competition_code} standings")
             df = pd.DataFrame(standings)
-            set_cache(cache_key, df.to_dict('records'))
+            set_cache(cache_key, df.to_dict('records'), TTL)
             return df
         
         print(f"✗ Cache & DB miss for {competition_code}, fetching from API...")
@@ -77,7 +76,7 @@ class DataService:
         
         if df is not None and not df.empty:
             save_competition_standings_db(self.session, competition_code, df)
-            set_cache(cache_key, df.to_dict('records'))
+            set_cache(cache_key, df.to_dict('records'), TTL)
             print(f"Save {competition_code} standings to DB and cache")
         
         return df
@@ -86,9 +85,8 @@ class DataService:
         """Invalidate cache key pattern"""
         from cache_management import redis_client
         
-        keys = redis_client.keys(pattern)
+        keys = clear_all_pattern(pattern)
         if keys:
-            redis_client.delete(*keys)
-            print(f"✓ Invalidated {len(keys)} cache entries matching '{pattern}'")
+            print(f"Invalidated {keys} cache entries matching '{pattern}'")
         else:
             print(f"No cache entries found matching '{pattern}'")

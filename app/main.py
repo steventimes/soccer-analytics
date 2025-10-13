@@ -10,6 +10,9 @@ from data_service import DataService
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL is None:
+    print("DATABASE_URL environment variable is not set. Using a default SQLite database.")
+    DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(DATABASE_URL)
 session_local = sessionmaker(bind=engine)
 

@@ -1,7 +1,7 @@
 '''set and retrieve data in db'''
 from sqlalchemy import select
 from sqlalchemy.orm import Session as SQLSession
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, cast
 from datetime import datetime
 import pandas as pd
 
@@ -60,11 +60,11 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
                 dob = None
         
         if player:
-            player.name = row.get('name')
-            player.position = row.get('position')
-            player.nationality = row.get('nationality')
-            player.date_of_birth = dob
-            player.team_id = team_id
+            player.name = row.get('name') # type: ignore casting issue
+            player.position = row.get('position') # type: ignore
+            player.nationality = row.get('nationality') # type: ignore
+            player.date_of_birth = dob # type: ignore
+            player.team_id = team_id # type: ignore
         else:
             player = Player(
                 id=player_id,
@@ -145,7 +145,7 @@ def save_competition_standings_db(session: SQLSession, competition_code: str, st
             team = get_team_db(session, team_id)
             
             if team:
-                team.name = team_name
+                team.name = team_name # type: ignore
                 team.competition_id = competition.id
             else:
                 team = Team(
@@ -159,7 +159,7 @@ def save_competition_standings_db(session: SQLSession, competition_code: str, st
     print(f"Saved standings for competition {competition_code}")
 
 
-def get_or_create_competition(session: SQLAlchemySession, competition_data: Dict) -> Competition:
+def get_or_create_competition(session: SQLSession, competition_data: Dict) -> Competition:
     """Get existing competition or create new one"""
     comp_id = competition_data.get('id')
     competition = session.query(Competition).filter(Competition.id == comp_id).first()
