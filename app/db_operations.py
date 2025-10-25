@@ -65,6 +65,8 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
             player.nationality = row.get('nationality') # type: ignore
             player.date_of_birth = dob # type: ignore
             player.team_id = team_id # type: ignore
+            player.shirtNumber = row.get('shirtNumber') # type: ignore
+            player.marketValue = row.get('marketValue') # type: ignore
         else:
             player = Player(
                 id=player_id,
@@ -72,7 +74,9 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
                 position=row.get('position'),
                 nationality=row.get('nationality'),
                 date_of_birth=dob,
-                team_id=team_id
+                team_id=team_id,
+                shirtNumber = row.get('shirtNumber'),
+                marketValue = row.get('marketValue')
             )
             session.add(player)
     
@@ -92,20 +96,18 @@ def get_competition_standings_db(session: SQLSession, competition_code: str) -> 
     if not competition or not competition.teams:
         return None
     
-    # Build standings from teams (simplified - you'd calculate from matches in real app)
+    # Build standings from teams
     standings = []
     for team in competition.teams:
         standings.append({
-            'position': 0,  # Would calculate from match results
             'team': {'name': team.name, 'id': team.id},
-            'playedGames': 0,
-            'won': 0,
-            'draw': 0,
-            'lost': 0,
-            'points': 0,
-            'goalsFor': 0,
-            'goalsAgainst': 0,
-            'goalDifference': 0
+            'playedGames': team.playedGames,
+            'won': team.won,
+            'draw': team.draw,
+            'lost': team.lost,
+            'goalsFor': team.goalsFor,
+            'goalsAgainst': team.goalsAgainst,
+            'goalDifference': team.goalDifference
         })
     
     return standings if standings else None
@@ -132,11 +134,12 @@ def save_competition_standings_db(session: SQLSession, competition_code: str, st
     
     # Save teams from standings
     for _, row in standings_df.iterrows():
-        team_data = row.get('team', {})
-        
-        if isinstance(team_data, dict):
-            team_id = team_data.get('id')
-            team_name = team_data.get('name')
+        team_data = row.get('table', {})
+        team = row.get("team", {})
+        if isinstance(team, dict):
+            team_id = team.get('id')
+            team_name = team.get('name')
+            tla = team.get('tla')
         else:
             # If team is already extracted
             continue
@@ -147,11 +150,28 @@ def save_competition_standings_db(session: SQLSession, competition_code: str, st
             if team:
                 team.name = team_name # type: ignore
                 team.competition_id = competition.id
+                team.tla = tla # type: ignore
+                team.playedGames = team_data.get("playedGame")
+                team.won = team_data.get("won")
+                team.draw = team_data.get("draw")
+                team.lost = team_data.get("lost")
+                team.points = team_data.get("points")
+                team.goalsFor = team_data.get("goalsFor")
+                team.goalsAgainst = team_data.get("goalsAgainst")
+                team.goalDifference = team_data.get("goalDifference")
             else:
                 team = Team(
                     id=team_id,
                     name=team_name,
-                    competition_id=competition.id
+                    competition_id=competition.id,
+                    playedGames = team_data.get("playedGame"),
+                    won = team_data.get("won"),
+                    draw = team_data.get("draw"),
+                    lost = team_data.get("lost"),
+                    points = team_data.get("points"),
+                    goalsFor = team_data.get("goalsFor"),
+                    goalsAgainst = team_data.get("goalsAgainst"),
+                    goalDifference = team_data.get("goalDifference"),
                 )
                 session.add(team)
     

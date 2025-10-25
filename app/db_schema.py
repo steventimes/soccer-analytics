@@ -11,8 +11,6 @@ class Competition(Base):
     area_name = Column(String)
     code = Column(String)
     type = Column(String)
-    season_start = Column(Date)
-    season_end = Column(Date)
 
     teams = relationship("Team", back_populates="competition")
     matches = relationship("Match", back_populates="competition")
@@ -26,7 +24,14 @@ class Team(Base):
     tla = Column(String)
     short_name = Column(String)
     founded = Column(Integer)
-    venue = Column(String)
+    playedGames = Column(Integer)
+    won = Column(Integer)
+    draw = Column(Integer)
+    lost = Column(Integer)
+    points = Column(Integer)
+    goalsFor = Column(Integer)
+    goalsAgainst = Column(Integer)
+    goalDifference = Column(Integer)
     competition_id = Column(Integer, ForeignKey("competitions.id"))
 
     competition = relationship("Competition", back_populates="teams")
@@ -43,6 +48,8 @@ class Player(Base):
     position = Column(String)
     date_of_birth = Column(Date)
     nationality = Column(String)
+    shirtNumber = Column(Integer)
+    marketValue = Column(Integer)
     team_id = Column(Integer, ForeignKey("teams.id"))
 
     team = relationship("Team", back_populates="players")

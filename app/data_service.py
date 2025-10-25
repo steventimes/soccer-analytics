@@ -37,7 +37,9 @@ class DataService:
                 'name': p.name,
                 'position': p.position,
                 'dateOfBirth': p.date_of_birth.isoformat() if bool(p.date_of_birth) else None,
-                'nationality': p.nationality
+                'nationality': p.nationality,
+                'shirtNumber': p.shirtNumber,
+                'marketValue': p.marketValue
             } for p in players])
             
             set_cache(cache_key, df.to_dict("records"), TTL)
