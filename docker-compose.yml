@@ -11,8 +11,7 @@ services:
       - db
       - redis
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/football
-      - REDIS_URL=redis://redis:6379/0
+      - ./.env
     command: tail -f /dev/null  # Keeps the container alive for development
 
   db:
