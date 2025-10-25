@@ -64,5 +64,6 @@ coverage.xml
 # mypy
 .mypy_cache/
 
-
+# db files
+*.db
 data/*
