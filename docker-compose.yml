@@ -5,13 +5,17 @@ services:
     volumes:
       - py_files:/app          # Mount your app folder
       - ./requirements.txt:/app/requirements.txt  # Mount requirements for hot updates
+
+    env_file:
+      - path: .env
+        required: True
     ports:
       - "8000:8000"
     depends_on:
       - db
       - redis
-    environment:
-      - ./.env
+    # environment:
+    #   - FOOTBALL_DATA_API_KEY
     command: tail -f /dev/null  # Keeps the container alive for development
 
   db:
