@@ -1,12 +1,9 @@
 from sqlalchemy.orm import Session as SQLSession
-from typing import Optional, List, Dict
 import pandas as pd
-from datetime import datetime
-from db_schema import Team, Player, Competition, Match
-from cache_management import get_cache, set_cache, clear_all_pattern, TTL
-from fetcher import get_team_players as fetch_team_players_api
-from fetcher import get_competition_standings as fetch_standings_api
-from db_operations import (
+from app.db.data_type import type_db_data
+from app.db.cache.cache_management import get_cache, set_cache, clear_all_pattern, TTL
+from app.fetch.fetcher import api_get
+from app.db.database.db_operations import (
     get_team_db, 
     save_team_db,
     get_players_by_team_db,
@@ -20,9 +17,19 @@ class DataService:
     def __init__(self, session: SQLSession) -> None:
         self.session = session
         
+    def data_get(self, type, data) -> pd.DataFrame:
+        match type:
+            case type_db_data.TEAM_PLAYER:
+                return self.get_team_players(data)
+            case type_db_data.COMPETITION_STANDING:
+                return self.get_competition_standings(data)
+            case type_db_data.SINGLE_TEAM:
+                return pd.DataFrame() #TODO: implement single get team
+        return pd.DataFrame()
+    
+    #TODO: change all fetch to factorys
     def get_team_players(self, team_id: int) -> pd.DataFrame:
         cache_key = f"team:{team_id}:players"
-        
         cache_data = get_cache(cache_key)
         
         if cache_data:
@@ -46,7 +53,7 @@ class DataService:
             return df
         
         print(f"db and cache not hit for team {team_id}, fetch from api")
-        df = fetch_team_players_api(team_id)
+        df = api_get(type_db_data.TEAM_PLAYER ,team_id)
         
         if df is not None and not df.empty:
             save_players_db(self.session, team_id, df)
@@ -74,7 +81,7 @@ class DataService:
             return df
         
         print(f"✗ Cache & DB miss for {competition_code}, fetching from API...")
-        df = fetch_standings_api(competition_code)
+        df = api_get(type_db_data.COMPETITION_STANDING, competition_code)
         
         if df is not None and not df.empty:
             save_competition_standings_db(self.session, competition_code, df)
@@ -85,7 +92,6 @@ class DataService:
     
     def invalidate_cache(self, pattern: str):
         """Invalidate cache key pattern"""
-        from cache_management import redis_client
         
         keys = clear_all_pattern(pattern)
         if keys:

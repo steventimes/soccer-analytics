@@ -1,25 +1,33 @@
 import json
 import redis
+import os
+from dotenv import load_dotenv
 from datetime import timedelta
 from typing import Optional, Any, cast
-import asyncio
 
+load_dotenv()
 # Connect to Redis
+redis_host = os.getenv("REDIS_HOST", "localhost")
+redis_port = int(os.getenv("REDIS_PORT", 6379))
+redis_password = os.getenv("REDIS_PASSWORD")
+redis_db = int(os.getenv("REDIS_DB", 0))
 redis_client = redis.Redis(
-    host="redis",  # matches service name in docker-compose.yml
-    port=6379,
-    db=0,
-    decode_responses=True  # ensures we get strings instead of bytes
+    host=redis_host,  # matches service name in docker-compose.yml
+    port=redis_port,
+    password=redis_password,
+    db=redis_db,
+    decode_responses=True
 )
-
-TTL = timedelta(minutes=5).seconds  # 5-minute cache
+# Test the connection
+redis_client.ping()
+print("Successfully connected to Redis!")
+# 5-minute cache
+TTL = timedelta(minutes=5).seconds 
 
 def get_cache(key: str) -> Optional[Any]:
     """Retrieve JSON value from cache."""
     try: 
         value = redis_client.get(key)
-        # redis-py's type stubs use a generic ResponseT which can confuse static
-        # type checkers. Cast to str/bytes explicitly so json.loads accepts it.
         if value is not None:
             return json.loads(cast(str, value))
     except (redis.RedisError, json.JSONDecodeError) as e:
@@ -38,8 +46,6 @@ def set_cache(key: str, value, ttl: int = TTL) -> bool:
 def delete_cache(key: str) -> bool:
     '''delete a specific cache key'''
     try:
-        # redis_client.delete may return a ResponseT; cast to int first for
-        # predictable boolean conversion for the type checker.
         result = redis_client.delete(key)
         return bool(cast(int, result))
     except redis.RedisError as e:
@@ -50,7 +56,6 @@ def clear_all_pattern(pattern: str) -> int:
     '''delete all the keys matching the pattern'''
     try:
         keys = redis_client.keys(pattern)
-        # keys may be typed as a generic ResponseT; cast to list for iteration
         keys_list = cast(list, keys) or []
         if keys_list:
             result = redis_client.delete(*keys_list)
@@ -63,26 +68,8 @@ def clear_all_pattern(pattern: str) -> int:
 def cache_exist(key: str) -> bool:
     try:
         result = redis_client.exists(key)
-        # cast to int for the type checker
         return int(cast(int, result)) > 0
     except redis.RedisError as e:
         print(f"Cache exists check error for key '{key}': {e}")
         return False
-        
-def get_or_fetch_team_players(team_id: int, fetch_func):
-    """
-    Deprecated: use dataservice methods
-    Check cache first. If not found, call fetch_func(team_id),
-    store it, and return the result.
-    """
-    key = f"team:{team_id}:players"
-    cached = get_cache(key)
-    if cached:
-        print(f"Cache hit for {key}")
-        return cached
 
-    print(f"Cache miss for {key}, fetching from DB/API...")
-    data = fetch_func(team_id)
-    if data is not None:
-        set_cache(key, data, TTL)
-    return data

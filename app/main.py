@@ -2,20 +2,18 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
+from app.db.data_type import type_db_data
+from app.db.database.db_schema import Base
+from app.db.data_service import DataService
 
-from db_schema import Base
-from data_service import DataService
-
-
+#test if docker has correctly set up the env
 load_dotenv()
-
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL is None:
     print("DATABASE_URL environment variable is not set. Using a default SQLite database.")
     DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(DATABASE_URL)
 session_local = sessionmaker(bind=engine)
-
 Base.metadata.create_all(engine)
 
 def main():
@@ -30,14 +28,14 @@ def main():
         
         # First call - will hit API
         print("\nFirst call:")
-        players_df = service.get_team_players(66)
+        players_df = service.data_get(type_db_data.TEAM_PLAYER,66)
         print(f"\nRetrieved {len(players_df)} players")
         print(players_df[['name', 'position', 'nationality']].head())
         
         # Second call - will hit cache
         print("\n" + "-" * 60)
         print("Second call (should hit cache):")
-        players_df = service.get_team_players(66)
+        players_df = service.data_get(type_db_data.TEAM_PLAYER,66)
         print(f"Retrieved {len(players_df)} players")
         
         print("\n" + "=" * 60)
@@ -46,14 +44,14 @@ def main():
         
         # First call - will hit API
         print("\nFirst call:")
-        standings_df = service.get_competition_standings("PL")
+        standings_df = service.data_get(type_db_data.COMPETITION_STANDING,66)
         print(f"\nRetrieved {len(standings_df)} teams")
         print(standings_df[['position', 'team', 'points']].head())
         
         # Second call - will hit cache
         print("\n" + "-" * 60)
         print("Second call (should hit cache):")
-        standings_df = service.get_competition_standings("PL")
+        standings_df = service.data_get(type_db_data.COMPETITION_STANDING,66)
         print(f"Retrieved {len(standings_df)} teams")
         
         print("\n" + "=" * 60)
@@ -65,7 +63,7 @@ def main():
         
         # Third call - will hit DB (cache was cleared)
         print("\nThird call (should hit DB after cache invalidation):")
-        players_df = service.get_team_players(66)
+        players_df = service.data_get(type_db_data.TEAM_PLAYER,66)
         print(f"Retrieved {len(players_df)} players")
         
     finally:

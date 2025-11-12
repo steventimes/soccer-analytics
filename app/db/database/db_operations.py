@@ -2,10 +2,20 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session as SQLSession
 from typing import List, Optional, Dict, cast
-from datetime import datetime
 import pandas as pd
+from app.db.data_type import type_db_data
 
-from db_schema import Team, Player, Match, Competition
+from app.db.database.db_schema import Team, Player, Match, Competition
+
+def db_get(session: SQLSession, type, data):
+    match type:
+        case type_db_data.TEAM_PLAYER:
+            return get_players_by_team_db(session, data)
+        case type_db_data.COMPETITION_STANDING:
+            return get_competition_standings_db(session, data)
+        case type_db_data.SINGLE_TEAM:
+            return get_team_db(session, data)
+    return
 
 def get_team_db(session: SQLSession, team_id: int) -> Optional[Team]:
     '''get team by id in db'''
@@ -37,10 +47,8 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
     Save players from DataFrame to database
     Links them to the specified team
     """
-    # Ensure team exists
     team = get_team_db(session, team_id)
     if not team:
-        # Create basic team record if it doesn't exist
         team = Team(id=team_id, name=f"Team {team_id}")
         session.add(team)
         session.commit()
@@ -52,18 +60,14 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
         player = session.query(Player).filter(Player.id == player_id).first()
         
         # Parse date of birth if present
-        dob = None
-        if 'dateOfBirth' in row and pd.notna(row['dateOfBirth']):
-            try:
-                dob = datetime.fromisoformat(row['dateOfBirth'].replace('Z', '+00:00')).date()
-            except:
-                dob = None
+        dob = pd.to_datetime(row['dateOfBirth'], errors='coerce') if 'dateOfBirth' in row.index else None
         
         if player:
             player.name = row.get('name') # type: ignore casting issue
             player.position = row.get('position') # type: ignore
             player.nationality = row.get('nationality') # type: ignore
-            player.date_of_birth = dob # type: ignore
+            if pd.notna(dob):
+                player.date_of_birth = dob
             player.team_id = team_id # type: ignore
             player.shirtNumber = row.get('shirtNumber') # type: ignore
             player.marketValue = row.get('marketValue') # type: ignore
