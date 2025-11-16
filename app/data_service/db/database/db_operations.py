@@ -3,9 +3,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session as SQLSession
 from typing import List, Optional, Dict, cast
 import pandas as pd
-from app.db.data_type import type_db_data
+from app.data_service.data_type import type_db_data
 
-from app.db.database.db_schema import Team, Player, Match, Competition
+from app.data_service.db.database.db_schema import Team, Player, Match, Competition
 
 def db_get(session: SQLSession, type, data):
     match type:

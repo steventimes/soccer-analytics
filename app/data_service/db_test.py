@@ -2,9 +2,9 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
-from app.db.data_type import type_db_data
-from app.db.database.db_schema import Base
-from app.db.data_service import DataService
+from app.data_service.data_type import type_db_data
+from app.data_service.db.database.db_schema import Base
+from app.data_service.db.data_service import DataService
 
 #test if docker has correctly set up the env
 load_dotenv()

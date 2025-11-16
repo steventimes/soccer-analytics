@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session as SQLSession
 import pandas as pd
-from app.db.data_type import type_db_data
-from app.db.cache.cache_management import get_cache, set_cache, clear_all_pattern, TTL
-from app.fetch.fetcher import api_get
-from app.db.database.db_operations import (
+from app.data_service.data_type import type_db_data
+from app.data_service.db.cache.cache_management import get_cache, set_cache, clear_all_pattern, TTL
+from app.data_service.fetch.fetcher import api_get
+from app.data_service.db.database.db_operations import (
     get_team_db, 
     save_team_db,
     get_players_by_team_db,
@@ -90,6 +90,8 @@ class DataService:
         
         return df
     
+    
+    # right now is for test purpose, might call it when shut down the whole app
     def invalidate_cache(self, pattern: str):
         """Invalidate cache key pattern"""
         

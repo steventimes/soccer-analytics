@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 import pandas as pd
-from app.db.data_type import type_db_data
+from app.data_service.data_type import type_db_data
 
 # load API key and website
 load_dotenv()
