@@ -1,15 +1,24 @@
 from sqlalchemy.orm import Session as SQLSession
 import pandas as pd
-from app.data_service.data_type import type_db_data
+from typing import List, Dict, Optional
+from app.data_service.data_type import type_db_data, competitions
 from app.data_service.db.cache.cache_management import get_cache, set_cache, clear_all_pattern, TTL
 from app.data_service.fetch.fetcher import api_get
-from app.data_service.db.database.db_operations import (
-    get_team_db, 
+from app.data_service.db.database.db_save_operations import (
     save_team_db,
-    get_players_by_team_db,
     save_players_db,
-    get_competition_standings_db,
+    save_matches_bulk_db,
+    save_top_scorers_db,
     save_competition_standings_db
+)
+from app.data_service.db.database.db_get_operations import (
+    get_players_by_team_db,
+    get_competition_standings_db,
+    get_top_scorers_db,
+    get_team_recent_form_db,
+    get_head_to_head_db,
+    get_matches_db,
+    get_matches_for_ml_db,
 )
 
 class DataService:
@@ -24,10 +33,24 @@ class DataService:
             case type_db_data.COMPETITION_STANDING:
                 return self.get_competition_standings(data)
             case type_db_data.SINGLE_TEAM:
-                return pd.DataFrame() #TODO: implement single get team
+                return pd.DataFrame()  # TODO: implement single get team
+            case type_db_data.COMPETITION_MATCHES:
+                if isinstance(data, dict):
+                    return self.get_competition_matches(
+                        data.get('competition_code', 'PL'),
+                        data.get('season')
+                    )
+                return pd.DataFrame()
+            case type_db_data.TOP_SCORERS:
+                if isinstance(data, dict):
+                    return self.get_top_scorers(
+                        data.get('competition_code', 'PL'),
+                        data.get('season')
+                    )
+                return pd.DataFrame()
+        
         return pd.DataFrame()
     
-    #TODO: change all fetch to factorys
     def get_team_players(self, team_id: int) -> pd.DataFrame:
         cache_key = f"team:{team_id}:players"
         cache_data = get_cache(cache_key)
@@ -80,7 +103,7 @@ class DataService:
             set_cache(cache_key, df.to_dict('records'), TTL)
             return df
         
-        print(f"✗ Cache & DB miss for {competition_code}, fetching from API...")
+        print(f"Cache & DB miss for {competition_code}, fetching from API...")
         df = api_get(type_db_data.COMPETITION_STANDING, competition_code)
         
         if df is not None and not df.empty:
@@ -90,6 +113,203 @@ class DataService:
         
         return df
     
+    def get_competition_matches(
+        self,
+        competition_code: str = "PL",
+        season: Optional[str] = None,
+        force_refresh: bool = False
+    ) -> pd.DataFrame:
+        """
+        Get competition matches - Cache -> DB -> API
+        
+        Args:
+            competition_code: Competition code (e.g., 'PL')
+            season: Season year (e.g., '2023'), None for all
+            force_refresh: Skip cache and fetch from API
+            
+        Returns:
+            DataFrame of matches
+        """
+        cache_key = f"matches:{competition_code}:{season or 'all'}"
+        
+        if not force_refresh:
+            cached_data = get_cache(cache_key)
+            if cached_data:
+                print(f"Cache hit for {competition_code} {season} matches")
+                return pd.DataFrame(cached_data)
+        
+        comp_data = api_get(type_db_data.COMPETITION_STANDING, competition_code)
+        if not comp_data.empty:
+            matches = get_matches_db(
+                self.session,
+                competition_id=competitions.get(competition_code),
+                season_year=season,
+                status='FINISHED'
+            )
+            
+            if matches:
+                print(f"DB hit for {competition_code} {season} matches: {len(matches)} found")
+                df = pd.DataFrame([{
+                    'id': m.id,
+                    'competition_id': m.competition_id,
+                    'season_year': m.season_year,
+                    'match_date': m.utc_date.isoformat() if m.utc_date else None, # type: ignore
+                    'home_team': m.home_team.name if m.home_team else None,
+                    'away_team': m.away_team.name if m.away_team else None,
+                    'home_score': m.score_home,
+                    'away_score': m.score_away,
+                    'winner': m.winner,
+                    'status': m.status
+                } for m in matches])
+                
+                set_cache(cache_key, df.to_dict('records'), TTL)
+                return df
+        
+        print(f"Cache & DB miss for {competition_code} {season}, fetching from API...")
+        
+        if not season:
+            from datetime import datetime
+            season = str(datetime.now().year)
+        
+        matches_list = api_get(type_db_data.COMPETITION_MATCHES, (competition_code, season, 'FINISHED'))
+        
+        if not matches_list.empty:
+            saved = save_matches_bulk_db(self.session, matches_list)
+            print(f"Saved {saved} matches to DB")
+            
+            df = pd.DataFrame(matches_list)
+            set_cache(cache_key, df.to_dict('records'), TTL)
+            
+            return df
+        
+        return pd.DataFrame()
+    
+    def get_top_scorers(
+        self,
+        competition_code: str = "PL",
+        season: Optional[str] = None,
+        limit: int = 10
+    ) -> pd.DataFrame:
+
+        if not season:
+            from datetime import datetime
+            season = str(datetime.now().year)
+        
+        cache_key = f"scorers:{competition_code}:{season}:top{limit}"
+        
+        cached_data = get_cache(cache_key)
+        if cached_data:
+            print(f"Cache hit for {competition_code} {season} top scorers")
+            return pd.DataFrame(cached_data)
+
+        scorers = get_top_scorers_db(self.session, competitions.get(competition_code), season, limit)
+        
+        if scorers:
+            print(f"DB hit for {competition_code} {season} top scorers")
+            df = pd.DataFrame(scorers)
+            set_cache(cache_key, df.to_dict('records'), TTL)
+            return df
+        
+        print(f"Cache & DB miss for top scorers, fetching from API...")
+        scorers_list = api_get(type_db_data.TOP_SCORERS, (competition_code, season, limit))
+        
+        if not scorers_list.empty:
+            save_top_scorers_db(self.session, scorers_list, 2021, int(season), season)
+            
+            df = pd.DataFrame(scorers_list)
+            set_cache(cache_key, df.to_dict('records'), TTL)
+            print(f"Saved {len(scorers_list)} top scorers to DB and cache")
+            
+            return df
+        
+        return pd.DataFrame()
+    
+    def get_matches_for_ml(
+        self,
+        competition_code: str = "PL",
+        min_matches: int = 100
+    ) -> pd.DataFrame:
+        cache_key = f"ml:matches:{competition_code}"
+        
+        cached_data = get_cache(cache_key)
+        if cached_data:
+            df = pd.DataFrame(cached_data)
+            if len(df) >= min_matches:
+                print(f"Cache hit for ML dataset: {len(df)} matches")
+                return df
+        
+        df = get_matches_for_ml_db(self.session, competition_id=None, min_matches=min_matches)
+        
+        if not df.empty and len(df) >= min_matches:
+            print(f"DB hit for ML dataset: {len(df)} matches")
+            set_cache(cache_key, df.to_dict('records'), TTL * 2) 
+            return df
+        
+        print(f"Not enough matches in DB ({len(df)}/{min_matches})")
+        print(f"Run the match fetcher to populate the database")
+        
+        return df
+    
+    def get_team_form(self, team_id: int, num_matches: int = 5) -> Dict:
+        """
+        Get recent form for a team
+        
+        Args:
+            team_id: Team ID
+            num_matches: Number of recent matches to analyze
+            
+        Returns:
+            Dictionary with form statistics
+        """
+        cache_key = f"team:{team_id}:form:last{num_matches}"
+        
+        cached_data = get_cache(cache_key)
+        if cached_data:
+            print(f"Cache hit for team {team_id} form")
+            return cached_data
+        
+        form = get_team_recent_form_db(self.session, team_id, num_matches)
+        
+        if form:
+            set_cache(cache_key, form, TTL)
+            return form
+        
+        return {'wins': 0, 'draws': 0, 'losses': 0, 'goals_scored': 0, 'goals_conceded': 0}
+    
+    def get_head_to_head(self, team1_id: int, team2_id: int, limit: int = 10) -> Dict:
+        """
+        Get head-to-head record between two teams
+        
+        Args:
+            team1_id: First team ID
+            team2_id: Second team ID
+            limit: Number of recent matches
+            
+        Returns:
+            Dictionary with H2H statistics
+        """
+        cache_key = f"h2h:{min(team1_id, team2_id)}:{max(team1_id, team2_id)}:last{limit}"
+        
+        cached_data = get_cache(cache_key)
+        if cached_data:
+            print(f"Cache hit for H2H: {team1_id} vs {team2_id}")
+            return cached_data
+        
+        h2h = get_head_to_head_db(self.session, team1_id, team2_id, limit)
+        
+        if h2h:
+            set_cache(cache_key, h2h, TTL)
+            return h2h
+        
+        return {
+            'total_matches': 0,
+            'team1_wins': 0,
+            'draws': 0,
+            'team2_wins': 0,
+            'team1_goals': 0,
+            'team2_goals': 0
+        }
+        
     
     # right now is for test purpose, might call it when shut down the whole app
     def invalidate_cache(self, pattern: str):
