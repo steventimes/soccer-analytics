@@ -16,7 +16,7 @@ engine = create_engine(DATABASE_URL)
 session_local = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
-def main():
+def db_test():
     session = session_local()
     
     try:
@@ -71,4 +71,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    db_test()
