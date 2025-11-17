@@ -20,7 +20,8 @@ from app.data_service.db.database.db_get_operations import (
     get_head_to_head_db,
     get_matches_db,
     get_matches_for_ml_db,
-    get_team_db
+    get_team_db,
+    get_team_standing_at_matchday_db
 )
 
 class DataService:
@@ -59,6 +60,25 @@ class DataService:
                             data.get("match_date")
                     ))
                 return pd.DataFrame()
+            case type_db_data.HEAD_TO_HEAD:
+                if isinstance(data, dict):
+                    return pd.DataFrame(
+                        self.get_head_to_head(
+                            data.get('home_id'), # type: ignore
+                            data.get('away_id'), # type: ignore
+                            data.get('limit', 10)
+                    ))
+                return pd.DataFrame()
+            case type_db_data.STANDING_MATCHDAY:
+                if isinstance(data, dict):
+                    return pd.DataFrame(
+                        get_team_standing_at_matchday_db(
+                            self.session,
+                            data.get('team_id'), # type: ignore
+                            data.get('competition_id'), # type: ignore
+                            data.get('season_year') # type: ignore
+                        )
+                    )
         return pd.DataFrame()
     
     def get_team_players(self, team_id: int) -> pd.DataFrame:
