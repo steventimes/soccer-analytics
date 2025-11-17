@@ -8,6 +8,7 @@ class type_db_data(Enum):
     TOP_SCORERS = 5
     MATCH_DETAILS = 6
     TEAM_MATCHES = 7
+    TEAM_RECENT = 8
     
 def competitions():
     competitions = ["CL","PL", "PPL", "DED", "BL1", "FL1", "SA", "PD", "BSA", "ELC", "EC", "WC"]

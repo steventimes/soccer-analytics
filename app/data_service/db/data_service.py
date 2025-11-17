@@ -3,6 +3,7 @@ import pandas as pd
 from typing import List, Dict, Optional
 from app.data_service.data_type import type_db_data, competitions
 from app.data_service.db.cache.cache_management import get_cache, set_cache, clear_all_pattern, TTL
+from datetime import datetime
 from app.data_service.fetch.fetcher import api_get
 from app.data_service.db.database.db_save_operations import (
     save_team_db,
@@ -49,7 +50,15 @@ class DataService:
                         data.get('season')
                     )
                 return pd.DataFrame()
-        
+            case type_db_data.TEAM_RECENT:
+                if isinstance(data, dict):
+                    return pd.DataFrame(
+                        self.get_team_form(
+                            data.get('team_id'), # type: ignore
+                            data.get('num_matches', 5),
+                            data.get("match_date")
+                    ))
+                return pd.DataFrame()
         return pd.DataFrame()
     
     def get_team_players(self, team_id: int) -> pd.DataFrame:
@@ -313,7 +322,7 @@ class DataService:
         
         return df
     
-    def get_team_form(self, team_id: int, num_matches: int = 5) -> Dict:
+    def get_team_form(self, team_id: int, num_matches: int = 5, match_date: Optional[datetime] = None) -> Dict:
         """
         Get recent form for a team
         
@@ -331,7 +340,7 @@ class DataService:
             print(f"Cache hit for team {team_id} form")
             return cached_data
         
-        form = get_team_recent_form_db(self.session, team_id, num_matches)
+        form = get_team_recent_form_db(self.session, team_id, num_matches, match_date)
         
         if form:
             set_cache(cache_key, form, TTL)
