@@ -19,6 +19,7 @@ from app.data_service.db.database.db_get_operations import (
     get_head_to_head_db,
     get_matches_db,
     get_matches_for_ml_db,
+    get_team_db
 )
 
 class DataService:
@@ -33,7 +34,7 @@ class DataService:
             case type_db_data.COMPETITION_STANDING:
                 return self.get_competition_standings(data)
             case type_db_data.SINGLE_TEAM:
-                return pd.DataFrame()  # TODO: implement single get team
+                return self.get_single_team(data)
             case type_db_data.COMPETITION_MATCHES:
                 if isinstance(data, dict):
                     return self.get_competition_matches(
@@ -110,6 +111,68 @@ class DataService:
             save_competition_standings_db(self.session, competition_code, df)
             set_cache(cache_key, df.to_dict('records'), TTL)
             print(f"Save {competition_code} standings to DB and cache")
+        
+        return df
+    def get_single_team(self, team_id: int) -> pd.DataFrame:
+        """
+        Get single team information - Cache -> DB -> API
+        
+        Args:
+            team_id: Team ID
+            
+        Returns:
+            DataFrame with single row containing team info
+        """
+        cache_key = f"team:{team_id}:info"
+        
+        cached_data = get_cache(cache_key)
+        if cached_data:
+            print(f"✓ Cache hit for team {team_id} info")
+            return pd.DataFrame(cached_data)
+        
+        team = get_team_db(self.session, team_id)
+        if team:
+            print(f"✓ DB hit for team {team_id} info")
+            team_dict = {
+                'id': team.id,
+                'name': team.name,
+                'shortName': team.short_name,
+                'tla': team.tla,
+                'founded': team.founded,
+                'crest': team.crest,
+                'venue': team.venue,
+                'address': team.address,
+                'website': team.website,
+                'clubColors': team.club_colors,
+                'area_name': team.area_name,
+                'coach_name': team.coach_name,
+                'coach_nationality': team.coach_nationality,
+                'market_value': team.market_value,
+
+                'playedGames': team.playedGames,
+                'won': team.won,
+                'draw': team.draw,
+                'lost': team.lost,
+                'points': team.points,
+                'goalsFor': team.goalsFor,
+                'goalsAgainst': team.goalsAgainst,
+                'goalDifference': team.goalDifference
+            }
+            df = pd.DataFrame([team_dict])
+            set_cache(cache_key, df.to_dict('records'), TTL)
+            return df
+        
+        print(f"Cache & DB miss for team {team_id}, fetching from API...")
+        df = api_get(type_db_data.SINGLE_TEAM, team_id)
+        
+        if df is not None and not df.empty:
+            team_data = df.to_dict('records')[0] if not df.empty else {}
+            if team_data:
+                saved_team = save_team_db(self.session, team_data)
+                print(f"Saved team {team_id} to DB")
+            
+            set_cache(cache_key, df.to_dict('records'), TTL)
+            print(f"Cached team {team_id} info")
         
         return df
     

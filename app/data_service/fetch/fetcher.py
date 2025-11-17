@@ -53,7 +53,7 @@ def api_get(type, data) -> pd.DataFrame:
         case type_db_data.COMPETITION_STANDING:
             return get_competition_standings(data)
         case type_db_data.SINGLE_TEAM:
-            return pd.DataFrame()  # TODO: implement
+            return get_single_team(data)
         case type_db_data.COMPETITION_MATCHES:
             # data in tuple: (competition_code, season)
             if isinstance(data, tuple):
@@ -116,6 +116,46 @@ def get_team_players(team_id: int) -> pd.DataFrame:
     players = data.get("squad", [])
     return pd.DataFrame(players)
 
+def get_single_team(team_id: int) -> pd.DataFrame:
+    """
+    Fetch detailed information about a single team
+    
+    Args:
+        team_id: Team ID
+        
+    Returns:
+        DataFrame with team information (single row)
+    """
+    url = f"{BASE_URL}teams/{team_id}"
+    data = fetch(url)
+    if not data:
+        return pd.DataFrame()
+    
+    # Extract main team info (exclude squad, staff, etc.)
+    team_info = {
+        'id': data.get('id'),
+        'name': data.get('name'),
+        'shortName': data.get('shortName'),
+        'tla': data.get('tla'),
+        'founded': data.get('founded'),
+        'crest': data.get('crest'),
+        'venue': data.get('venue'),
+        'address': data.get('address'),
+        'website': data.get('website'),
+        'clubColors': data.get('clubColors'),
+        'area_name': data.get('area', {}).get('name'),
+        'area_id': data.get('area', {}).get('id'),
+        'market_value': data.get('marketValue'),
+    }
+    
+    # Add coach info if available
+    coach = data.get('coach', {})
+    if coach:
+        team_info['coach_id'] = coach.get('id')
+        team_info['coach_name'] = coach.get('name')
+        team_info['coach_nationality'] = coach.get('nationality')
+    
+    return pd.DataFrame([team_info])
 
 def get_competition_standings(competition_code="PL") -> pd.DataFrame:
     """Fetch competition standings"""
@@ -147,7 +187,7 @@ def get_competition_matches(competition_code: str, season: str, status: Optional
     
     data = fetch(url)
     if not data or 'matches' not in data:
-        logger.error(f"❌ No matches data for {competition_code} {season}")
+        logger.error(f"No matches data for {competition_code} {season}")
         return []
     
     matches = data['matches']
@@ -192,15 +232,15 @@ def get_competition_top_scorers(competition_code: str, season: str, limit: int =
     """
     url = f"{BASE_URL}competitions/{competition_code}/scorers?season={season}&limit={limit}"
     
-    logger.info(f"📥 Fetching top scorers: {competition_code} {season}")
+    logger.info(f"Fetching top scorers: {competition_code} {season}")
     
     data = fetch(url)
     if not data or 'scorers' not in data:
-        logger.error(f"❌ No scorers data for {competition_code} {season}")
+        logger.error(f"No scorers data for {competition_code} {season}")
         return []
     
     scorers = data['scorers']
-    logger.info(f"✅ Fetched {len(scorers)} scorers")
+    logger.info(f"Fetched {len(scorers)} scorers")
     
     return scorers
 
@@ -222,11 +262,11 @@ def get_team_matches(team_id: int, season: Optional[str] = None, status: str = '
     if season:
         url += f"&season={season}"
     
-    logger.info(f"📥 Fetching matches for team {team_id}")
+    logger.info(f"Fetching matches for team {team_id}")
     
     data = fetch(url)
     if not data or 'matches' not in data:
-        logger.error(f"❌ No matches data for team {team_id}")
+        logger.error(f"No matches data for team {team_id}")
         return []
     
     return data['matches']
@@ -251,21 +291,21 @@ def fetch_multiple_seasons(
     all_matches = {}
     total_matches = 0
     
-    logger.info(f"📦 Starting bulk fetch: {competition_code}, {len(seasons)} seasons")
+    logger.info(f"Starting bulk fetch: {competition_code}, {len(seasons)} seasons")
     start_time = time.time()
     
     for i, season in enumerate(seasons, 1):
-        logger.info(f"🔄 Progress: {i}/{len(seasons)} - Season {season}")
+        logger.info(f"Progress: {i}/{len(seasons)} - Season {season}")
         
         matches = get_competition_matches(competition_code, season, status)
         all_matches[season] = matches
         total_matches += len(matches)
         
-        logger.info(f"✅ Season {season}: {len(matches)} matches")
+        logger.info(f"Season {season}: {len(matches)} matches")
     
     elapsed = time.time() - start_time
-    logger.info(f"🎉 Bulk fetch complete!")
-    logger.info(f"📊 Total: {total_matches} matches in {elapsed:.1f} seconds")
+    logger.info(f"Bulk fetch complete!")
+    logger.info(f"Total: {total_matches} matches in {elapsed:.1f} seconds")
     
     return all_matches
 
