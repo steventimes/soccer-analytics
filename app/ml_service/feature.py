@@ -208,3 +208,24 @@ def create_simple_features(home_team_stats: Dict, away_team_stats: Dict) -> Dict
     }
     
     return features
+
+def get_feature_descriptions(self) -> Dict[str, str]:
+    """
+    Get descriptions for all features (useful for model interpretation)
+    """
+    return {
+        'home_wins_last5': 'Home team wins in last 5 matches',
+        'away_wins_last5': 'Away team wins in last 5 matches',
+        'home_win_rate': 'Home team win rate in recent matches',
+        'away_win_rate': 'Away team win rate in recent matches',
+        'form_diff_wins': 'Difference in recent wins between teams',
+        'form_diff_goals': 'Difference in recent goals scored',
+        'win_rate_diff': 'Difference in win rates',
+        'h2h_home_win_rate': 'Historical home win rate in head-to-head',
+        'home_position': 'Home team league position',
+        'away_position': 'Away team league position',
+        'position_diff': 'Difference in league positions',
+        'points_diff': 'Difference in league points',
+        'goal_diff_diff': 'Difference in goal differences',
+        'is_home': 'Home advantage indicator (always 1 for home team)'
+    }

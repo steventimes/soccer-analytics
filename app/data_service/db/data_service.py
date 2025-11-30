@@ -82,6 +82,10 @@ class DataService:
         return pd.DataFrame()
     
     def get_team_players(self, team_id: int) -> pd.DataFrame:
+        if not team_id <= 0:
+            print(f"Invalid team_id: {team_id}")
+            return pd.DataFrame()
+    
         cache_key = f"team:{team_id}:players"
         cache_data = get_cache(cache_key)
         

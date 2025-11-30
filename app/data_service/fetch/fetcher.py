@@ -75,7 +75,7 @@ def api_get(type, data) -> pd.DataFrame:
     
     return pd.DataFrame()
 
-def fetch(url: str, use_rate_limit: bool = True) -> Optional[Dict]:
+def fetch(url: str, use_rate_limit: bool = True, max_retry: int = 3) -> Optional[Dict]:
     """
     Enhanced fetch with rate limiting
     
@@ -91,20 +91,22 @@ def fetch(url: str, use_rate_limit: bool = True) -> Optional[Dict]:
     
     headers = {"X-Auth-Token": API_KEY}
     
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.HTTPError as e:
-        if response.status_code == 429:
-            logger.warning("Rate limit exceeded. Waiting 60 seconds...")
-            time.sleep(60)
-            return fetch(url, use_rate_limit=False)
-        logger.error(f"HTTP Error fetching {url}: {e}")
-        return None
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Request Error: {e}")
-        return None
+    for _ in range(max_retry):
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            if response.status_code == 429:
+                logger.warning("Rate limit exceeded. Waiting 60 seconds...")
+                time.sleep(60)
+                return fetch(url, use_rate_limit=False)
+            logger.error(f"HTTP Error fetching {url}: {e}")
+            return None
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request Error: {e}")
+            return None
+    return None
 
 
 def get_team_players(team_id: int) -> pd.DataFrame:

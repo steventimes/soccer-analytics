@@ -25,6 +25,10 @@ def save_team_db(session: SQLSession, team_Data: dict) -> Team:
 
 
 def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame):
+    if players_df.empty:
+        print(f"No players data for team {team_id}")
+        return
+    
     team = get_team_db(session, team_id)
     if not team:
         team = Team(id=team_id, name=f"Team {team_id}")
@@ -36,8 +40,12 @@ def save_players_db(session: SQLSession, team_id: int, players_df: pd.DataFrame)
         
         player = session.query(Player).filter(Player.id == player_id).first()
         
-        dob = pd.to_datetime(row['dateOfBirth'], errors='coerce') if 'dateOfBirth' in row.index else None
-        
+        dob = None
+        if 'dateOfBirth' in row and pd.notna(row['dateOfBirth']):
+            dob = pd.to_datetime(row['dateOfBirth'], errors='coerce')
+            if pd.isna(dob):
+                dob = None
+                    
         if player:
             player.name = row.get('name') # type: ignore
             player.position = row.get('position') # type: ignore

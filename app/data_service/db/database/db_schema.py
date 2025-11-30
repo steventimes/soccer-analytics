@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Float, DateTime, Text, DECIMAL
+from sqlalchemy import Column, Index, Integer, String, Date, ForeignKey, Float, DateTime, Text, DECIMAL
 from sqlalchemy.orm import declarative_base, relationship
 from datetime import datetime
 
@@ -147,6 +147,13 @@ class Match(Base):
     player_stats = relationship("PlayerStat", back_populates="match")
     goals = relationship("MatchGoal", back_populates="match")
 
+    __table_args__ = (
+        Index('ix_matches_competition_status', 'competition_id', 'status'),
+        Index('ix_matches_utc_date', 'utc_date'),
+        Index('ix_matches_team_dates', 'home_team_id', 'away_team_id', 'utc_date'),
+        Index('ix_matches_season_competition', 'season_year', 'competition_id'),
+    )
+    
 class MatchGoal(Base):
     """Goals scored in matches"""
     __tablename__ = "match_goals"
@@ -216,6 +223,11 @@ class TeamStanding(Base):
     competition = relationship("Competition", back_populates="standings")
     team = relationship("Team", back_populates="standings")
     
+    __table_args__ = (
+        Index('ix_standings_team_competition', 'team_id', 'competition_id'),
+        Index('ix_standings_matchday', 'matchday'),
+        Index('ix_standings_season_team', 'season_year', 'team_id'),
+    )
 
 class TopScorer(Base):
     """Top goal scorers per competition/season"""
@@ -268,7 +280,11 @@ class PlayerStat(Base):
     player = relationship("Player", back_populates="stats")
     match = relationship("Match", back_populates="player_stats")
     
-
+    __table_args__ = (
+        Index('ix_players_team', 'team_id'),
+        Index('ix_players_position', 'position'),
+    )
+    
 
 # Helper function to get ML-ready match result label
 def get_match_result_label(match: Match) -> str:
