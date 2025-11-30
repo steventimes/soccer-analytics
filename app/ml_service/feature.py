@@ -1,231 +1,125 @@
 import numpy as np
 import pandas as pd
-from typing import List, Dict, Optional
+from typing import Dict, Optional
 from datetime import datetime
 from app.data_service.data_service_factory import get
 from app.data_service.data_type import type_db_data as type
 
 class feature:
-    def __init__(self): # type: ignore
-        self.feature_name = []
+    def __init__(self): 
+        self.feature_name = [
+            'home_wins_last5', 'away_wins_last5', 
+            'goal_diff_diff', 'rest_days_diff',
+            'home_win_rate', 'away_win_rate'
+        ]
         
+    def _safe_div(self, n, d, default=0.0):
+        """Helper to prevent ZeroDivisionError"""
+        return n / d if d else default
+
+    def calculate_rest_days(self, team_id: int, current_match_date: datetime) -> int:
+        """
+        Calculate days since the team's last match.
+        Handles DataFrame output from the data service.
+        """
+        recent_df = get(type.TEAM_RECENT, {
+            'team_id': team_id, 
+            'num_matches': 1, 
+            'match_date': current_match_date
+        })
+
+        if recent_df is None or recent_df.empty:
+            return 7 
+
+        recent = recent_df.iloc[0]
+
+        if 'last_match_date' not in recent or pd.isna(recent['last_match_date']):
+            return 7
+
+        last_date_str = recent['last_match_date'] 
+        
+        try:
+            if isinstance(last_date_str, str):
+                last_date_str = last_date_str.replace('Z', '')
+                try:
+                    last_date = datetime.fromisoformat(last_date_str)
+                except ValueError:
+                    last_date = datetime.strptime(last_date_str, "%Y-%m-%dT%H:%M:%S")
+            else:
+                last_date = last_date_str
+
+            if last_date.tzinfo is None and current_match_date.tzinfo is not None:
+                current_match_date = current_match_date.replace(tzinfo=None)
+            
+            delta = (current_match_date - last_date).days
+            return max(0, delta)
+            
+        except Exception as e:
+            print(f"Error calculating rest days for team {team_id}: {e}")
+            return 7
+
     def create_match_feature(
         self,
         home_id: int,
-        away_id:int,
+        away_id: int,
         competition_id: int,
         season_yr: str,
         match_date: Optional[datetime] = None
     ) -> Dict:
         features = {}
-        home_form = get(type.TEAM_RECENT, {'team_id':home_id, 'num_matches':5, 'match_date':match_date})
-        away_form = get(type.TEAM_RECENT, {'team_id':away_id, 'num_matches':5, 'match_date':match_date})
         
-        features['home_wins_last5'] = home_form.get('wins', 0)
-        features['home_draws_last5'] = home_form.get('draws', 0)
-        features['home_losses_last5'] = home_form.get('losses', 0)
-        features['home_goals_scored_last5'] = home_form.get('goals_scored', 0)
-        features['home_goals_conceded_last5'] = home_form.get('goals_conceded', 0)
-        features['home_win_rate'] = home_form.get('win_rate', 0)
-        
-        features['away_wins_last5'] = away_form.get('wins', 0)
-        features['away_draws_last5'] = away_form.get('draws', 0)
-        features['away_losses_last5'] = away_form.get('losses', 0)
-        features['away_goals_scored_last5'] = away_form.get('goals_scored', 0)
-        features['away_goals_conceded_last5'] = away_form.get('goals_conceded', 0)
-        features['away_win_rate'] = away_form.get('win_rate', 0) 
-
-        features['form_diff_wins'] = features['home_wins_last5'] - features['away_wins_last5']
-        features['form_diff_goals'] = features['home_goals_scored_last5'] - features['away_goals_scored_last5']
-        features['win_rate_diff'] = features['home_win_rate'] - features['away_win_rate']
-        
-        h2h = get(type.HEAD_TO_HEAD, {'home_id': home_id, 'away_id': away_id,'limit': 10})
-        
-        features['h2h_total_matches'] = h2h.get('total_matches', 0)
-        features['h2h_home_wins'] = h2h.get('team1_wins', 0)
-        features['h2h_draws'] = h2h.get('draws', 0)
-        features['h2h_away_wins'] = h2h.get('team2_wins', 0)
-        features['h2h_home_goals'] = h2h.get('team1_goals', 0)
-        features['h2h_away_goals'] = h2h.get('team2_goals', 0)
-        
-        if features['h2h_total_matches'] > 0: # type: ignore
-            features['h2h_home_win_rate'] = features['h2h_home_wins'] / features['h2h_total_matches']
-        else:
-            features['h2h_home_win_rate'] = 0.33
-        
-        home_standing = get(
-            type.STANDING_MATCHDAY, {'team_id': home_id, 'competition_id': competition_id, 'season_year': season_yr}
-        )
-        away_standing = get(
-            type.STANDING_MATCHDAY, {'team_id': away_id, 'competition_id': competition_id, 'season_year': season_yr}
-        )
-        
-        if home_standing: # type: ignore
-            features['home_position'] = home_standing.get('position', 10)
-            features['home_points'] = home_standing.get('points', 0)
-            features['home_goal_diff'] = home_standing.get('goal_difference', 0)
-        else:
-            features['home_position'] = 10
-            features['home_points'] = 0
-            features['home_goal_diff'] = 0
-        
-        if away_standing: # type: ignore
-            features['away_position'] = away_standing.get('position', 10)
-            features['away_points'] = away_standing.get('points', 0)
-            features['away_goal_diff'] = away_standing.get('goal_difference', 0)
-        else:
-            features['away_position'] = 10
-            features['away_points'] = 0
-            features['away_goal_diff'] = 0
-        
-        features['position_diff'] = features['away_position'] - features['home_position']
-        features['points_diff'] = features['home_points'] - features['away_points']
-        features['goal_diff_diff'] = features['home_goal_diff'] - features['away_goal_diff']
-        
-        features['is_home'] = 1
-        
-        return features
-    
-    
-    def prepare_training_data(self, matches_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-        """
-        Prepare historical match data for training
-        
-        Args:
-            matches_df: DataFrame with columns:
-                - match_id
-                - home_team_id, away_team_id
-                - competition_id, season_year
-                - match_date
-                - result ('H', 'D', 'A')
-        
-        Returns:
-            X: Features DataFrame
-            y: Target Series (match results)
-        """
-        print(f"Preparing training data from {len(matches_df)} matches")
-        
-        feature_list = []
-        labels = []
-        valid_matches = 0
-        
-        for idx, row in matches_df.iterrows():
+        if isinstance(match_date, str):
             try:
-                features = self.create_match_feature(
-                    home_id=row['home_team_id'],
-                    away_id=row['away_team_id'],
-                    competition_id=row['competition_id'],
-                    season_yr=row['season_year'],
-                    match_date=row.get('match_date')
-                )
-                
-                feature_list.append(features)
-                labels.append(row['result'])
-                valid_matches += 1
-                
-            except Exception as e:
-                print(f"Skipping match {row.get('match_id')}: {e}")
-                continue
-        
-        print(f"Successfully prepared {valid_matches}/{len(matches_df)} matches")
-        
-        X = pd.DataFrame(feature_list)
-        y = pd.Series(labels)
-        
-        self.feature_names = X.columns.tolist()
-        
-        return X, y
-    
-    def get_feature_names(self) -> List[str]:
-        """Get list of feature names"""
-        return self.feature_names
-    
-    def validate_features(self, X: pd.DataFrame) -> tuple[pd.DataFrame, List[str]]:
-        """
-        Validate features and handle missing values
-        
-        Returns:
-            Cleaned DataFrame and list of warnings
-        """
-        warnings = []
-        
-        missing = X.isnull().sum()
-        if missing.any():
-            warnings.append(f"Missing values found: {missing[missing > 0].to_dict()}")
-            X = X.fillna(0)
-        
-        if np.isinf(X.select_dtypes(include=[np.number])).any().any():
-            warnings.append("Infinite values found, replacing with 0")
-            X = X.replace([np.inf, -np.inf], 0)
+                match_date = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
+            except ValueError:
+                match_date = datetime.strptime(match_date, "%Y-%m-%d")
 
-        low_variance = X.var() < 0.01
-        if low_variance.any():
-            low_var_features = X.columns[low_variance].tolist()
-            warnings.append(f"Low variance features: {low_var_features}")
+        home_df = get(type.TEAM_RECENT, {'team_id': home_id, 'num_matches': 5, 'match_date': match_date})
+        away_df = get(type.TEAM_RECENT, {'team_id': away_id, 'num_matches': 5, 'match_date': match_date})
         
-        return X, warnings
-
-
-def create_simple_features(home_team_stats: Dict, away_team_stats: Dict) -> Dict:
-    features = {
-        'home_position': home_team_stats.get('position', 10),
-        'away_position': away_team_stats.get('position', 10),
-        'home_points': home_team_stats.get('points', 0),
-        'away_points': away_team_stats.get('points', 0),
-        'home_goal_diff': home_team_stats.get('goal_difference', 0),
-        'away_goal_diff': away_team_stats.get('goal_difference', 0),
+        if home_df is not None and not home_df.empty:
+            h_stats = home_df.iloc[0]
+        else:
+            h_stats = {}
+            
+        if away_df is not None and not away_df.empty:
+            a_stats = away_df.iloc[0]
+        else:
+            a_stats = {}
         
-        'position_diff': away_team_stats.get('position', 10) - home_team_stats.get('position', 10),
-        'points_diff': home_team_stats.get('points', 0) - away_team_stats.get('points', 0),
-        'goal_diff_diff': home_team_stats.get('goal_difference', 0) - away_team_stats.get('goal_difference', 0),
+        # Basic Stats
+        features['home_wins_last5'] = h_stats.get('wins', 0)
+        features['away_wins_last5'] = a_stats.get('wins', 0)
+        
+        features['home_draws_last5'] = h_stats.get('draws', 0)
+        features['away_draws_last5'] = a_stats.get('draws', 0)
+        
+        features['home_losses_last5'] = h_stats.get('losses', 0)
+        features['away_losses_last5'] = a_stats.get('losses', 0)
+        
+        # Goal Differences
+        h_gd = h_stats.get('goals_scored', 0) - h_stats.get('goals_conceded', 0)
+        a_gd = a_stats.get('goals_scored', 0) - a_stats.get('goals_conceded', 0)
+        features['goal_diff_diff'] = h_gd - a_gd
 
-        'home_wins_last5': home_team_stats.get('wins_last5', 0),
-        'away_wins_last5': away_team_stats.get('wins_last5', 0),
-        'home_goals_scored_last5': home_team_stats.get('goals_scored_last5', 0),
-        'away_goals_scored_last5': away_team_stats.get('goals_scored_last5', 0),
-        'home_goals_conceded_last5': home_team_stats.get('goals_conceded_last5', 0),
-        'away_goals_conceded_last5': away_team_stats.get('goals_conceded_last5', 0),
+        # Win Rates
+        h_games = h_stats.get('total_games', 5)
+        a_games = a_stats.get('total_games', 5)
+        
+        features['home_win_rate'] = self._safe_div(h_stats.get('wins', 0), h_games)
+        features['away_win_rate'] = self._safe_div(a_stats.get('wins', 0), a_games)
+        features['win_rate_diff'] = features['home_win_rate'] - features['away_win_rate']
 
-        'home_win_rate': home_team_stats.get('win_rate', 0.33),
-        'away_win_rate': away_team_stats.get('win_rate', 0.33),
-        'win_rate_diff': home_team_stats.get('win_rate', 0.33) - away_team_stats.get('win_rate', 0.33),
+        # Rest Days Analysis
+        if match_date:
+            h_rest = self.calculate_rest_days(home_id, match_date)
+            a_rest = self.calculate_rest_days(away_id, match_date)
+            features['home_rest_days'] = h_rest
+            features['away_rest_days'] = a_rest
+            features['rest_days_diff'] = h_rest - a_rest
+        else:
+            features['home_rest_days'] = 7
+            features['away_rest_days'] = 7
+            features['rest_days_diff'] = 0
 
-        'form_diff_wins': home_team_stats.get('wins_last5', 0) - away_team_stats.get('wins_last5', 0),
-        'form_diff_goals': home_team_stats.get('goals_scored_last5', 0) - away_team_stats.get('goals_scored_last5', 0),
-
-        'home_draws_last5': 0,
-        'home_losses_last5': 0,
-        'away_draws_last5': 0,
-        'away_losses_last5': 0,
-        'h2h_total_matches': 0,
-        'h2h_home_wins': 0,
-        'h2h_draws': 0,
-        'h2h_away_wins': 0,
-        'h2h_home_goals': 0,
-        'h2h_away_goals': 0,
-        'h2h_home_win_rate': 0.33,
-        'is_home': 1
-    }
-    
-    return features
-
-def get_feature_descriptions(self) -> Dict[str, str]:
-    """
-    Get descriptions for all features (useful for model interpretation)
-    """
-    return {
-        'home_wins_last5': 'Home team wins in last 5 matches',
-        'away_wins_last5': 'Away team wins in last 5 matches',
-        'home_win_rate': 'Home team win rate in recent matches',
-        'away_win_rate': 'Away team win rate in recent matches',
-        'form_diff_wins': 'Difference in recent wins between teams',
-        'form_diff_goals': 'Difference in recent goals scored',
-        'win_rate_diff': 'Difference in win rates',
-        'h2h_home_win_rate': 'Historical home win rate in head-to-head',
-        'home_position': 'Home team league position',
-        'away_position': 'Away team league position',
-        'position_diff': 'Difference in league positions',
-        'points_diff': 'Difference in league points',
-        'goal_diff_diff': 'Difference in goal differences',
-        'is_home': 'Home advantage indicator (always 1 for home team)'
-    }
+        return features
