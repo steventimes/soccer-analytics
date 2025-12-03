@@ -1,6 +1,6 @@
 # Soccer Analytics
 
-This is a project that aims to get and analyze soccer performance, and potentially integrate machine learning to predict player performance
+This is a project that aims to get and analyze soccer performance, and potentially integrate machine learning to predict player performance. Right now require testing.
 
 ## The structure of the project (*planned*)
 
