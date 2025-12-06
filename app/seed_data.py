@@ -1,8 +1,8 @@
 import logging
 import time
-from app.data_service.fetch.fetcher import fetch_multiple_seasons
-from app.data_service.db.database.db_save_operations import save_matches_bulk_db
 from app.data_service.data_service_factory import session_local
+from app.data_service.fetch.fetcher import fetch_multiple_seasons, fetch_competition_details
+from app.data_service.db.database.db_save_operations import save_matches_bulk_db, save_competition_db
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,40 +22,41 @@ def seed_database():
     
     try:
         logger.info("Starting Database Seed Process...")
-        logger.info(f"Targeting {len(COMPETITIONS)} competitions over {len(SEASONS)} seasons.")
 
         for code, comp_id in COMPETITIONS.items():
             logger.info(f"\n{'='*40}")
             logger.info(f"Processing {code} (ID: {comp_id})")
             logger.info(f"{'='*40}")
 
-            season_data = fetch_multiple_seasons(code, SEASONS)
+            comp_details = fetch_competition_details(code)
+            if comp_details:
+                save_competition_db(session, comp_details)
+            else:
+                logger.error(f"Could not fetch details for {code}. Skipping...")
+                continue
 
+            season_data = fetch_multiple_seasons(code, SEASONS)
+            
             all_matches = []
             for season, matches in season_data.items():
                 if matches:
                     all_matches.extend(matches)
-                    logger.info(f"Queued {len(matches)} matches from season {season}")
 
             if not all_matches:
-                logger.warning(f"No data found for {code}. Moving next.")
                 continue
 
-            # Save to Database
             try:
-                logger.info(f"Saving {len(all_matches)} matches to DB...")
                 save_matches_bulk_db(session, all_matches)
                 total_saved += len(all_matches)
-                logger.info(f"Success! {code} is up to date.")
             except Exception as e:
-                logger.error(f"Failed to save {code}: {e}")
+                logger.error(f"  -> Failed to save matches for {code}: {e}")
                 session.rollback()
 
     except KeyboardInterrupt:
-        logger.warning("Process interrupted by user.")
+        logger.warning("Process interrupted.")
     finally:
         session.close()
-        logger.info(f"\nJob Complete. Total matches processed: {total_saved}")
+        logger.info(f"Job Complete. Total matches: {total_saved}")
 
 if __name__ == "__main__":
     seed_database()

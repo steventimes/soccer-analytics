@@ -67,3 +67,5 @@ coverage.xml
 # db files
 *.db
 data/*
+
+log/*

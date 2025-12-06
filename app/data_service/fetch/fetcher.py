@@ -130,3 +130,31 @@ def fetch_multiple_seasons(competition_code: str, seasons: List[str], status: st
             logger.warning(f"  -> No data found for {season} (likely older than plan allows).")
             
     return all_seasons_data
+
+def fetch_competition_details(competition_code: str) -> Optional[Dict]:
+    """
+    Fetch metadata for a specific competition (e.g., PL, CL).
+    """
+    logger.info(f"Fetching details for competition: {competition_code}")
+    return api_get(f"competitions/{competition_code}")
+
+def fetch_team_squad(team_id: int) -> Optional[Dict]:
+    """
+    Fetch full squad details for a specific team.
+    """
+    logger.info(f"Fetching squad for Team ID: {team_id}")
+    return api_get(f"teams/{team_id}")
+
+def fetch_standings(competition_code: str, season: str) -> Optional[Dict]:
+    """
+    Get the league table for a specific season.
+    """
+    logger.info(f"Fetching Standings: {competition_code} {season}")
+    return api_get(f"competitions/{competition_code}/standings", {'season': season})
+
+def fetch_top_scorers(competition_code: str, season: str) -> Optional[Dict]:
+    """
+    Get the top scorers list for a specific season.
+    """
+    logger.info(f"Fetching Top Scorers: {competition_code} {season}")
+    return api_get(f"competitions/{competition_code}/scorers", {'season': season})

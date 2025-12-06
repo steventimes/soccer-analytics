@@ -1,12 +1,16 @@
-from sqlalchemy.orm import Session as SQLSession
 from typing import List
 import pandas as pd
+from sqlalchemy.orm import Session as SQLSession
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 from app.data_service.db.database.db_schema import (
     Team, Player, Match, Competition, MatchGoal, 
     TeamStanding, TopScorer, get_match_result_label
 )
 from app.data_service.db.database.db_get_operations import get_team_db
+import logging
+
+logger = logging.getLogger(__name__)
 
 def save_team_db(session: SQLSession, team_Data: dict) -> Team:
     team = get_team_db(session, team_Data['id'])
@@ -202,28 +206,93 @@ def save_match_db(session: SQLSession, match_data: dict) -> Match:
     
     return match
 
-def save_matches_bulk_db(session: SQLSession, matches_list) -> int:
+def save_team_from_match_data(session: SQLSession, team_info: dict):
     """
-    Save multiple matches efficiently
+    Helper to ensure a team exists before saving a match.
+    Maps API camelCase keys to DB snake_case columns.
+    """
+    team_id = team_info.get('id')
+    if not team_id:
+        return
+
+    if get_team_db(session, team_id):
+        return
     
-    Args:
-        matches_list: List of match dictionaries from API
+    safe_data = {
+        'id': team_id,
+        'name': team_info.get('name'),
+        'short_name': team_info.get('shortName'),
+        'tla': team_info.get('tla'),
+    }
+
+    try:
+
+        existing = session.query(Team).filter(Team.id == team_id).first()
+        if not existing:
+            new_team = Team(**safe_data)
+            session.add(new_team)
+            session.commit()
+            logger.info(f"   -> Auto-created missing team: {safe_data['name']}")
+    except IntegrityError:
+        session.rollback()
+    except Exception as e:
+        session.rollback()
+        logger.warning(f"Failed to auto-create team {team_id}: {e}")
         
-    Returns:
-        Number of matches saved
+def save_matches_bulk_db(session: SQLSession, matches_data: list):
     """
-    saved_count = 0
-    
-    for match_data in matches_list:
+    Saves a list of matches, ensuring Competitions and Teams exist first.
+    """
+    count = 0
+    for match_data in matches_data:
         try:
-            if match_data['status'] == 'FINISHED' and match_data['score']['fullTime']['home'] is not None:
-                save_match_db(session, match_data)
-                saved_count += 1
+            if 'homeTeam' in match_data:
+                save_team_from_match_data(session, match_data['homeTeam'])
+            
+            if 'awayTeam' in match_data:
+                save_team_from_match_data(session, match_data['awayTeam'])
+
+            match_id = match_data['id']
+            score = match_data.get('score', {})
+            full_time = score.get('fullTime', {})
+            half_time = score.get('halfTime', {})
+            
+            match_db_data = {
+                'id': match_id,
+                'competition_id': match_data['competition']['id'],
+                'season_id': match_data['season']['id'],
+                'season_year': str(match_data['season'].get('startDate', ''))[:4], 
+                'utc_date': match_data.get('utcDate'),
+                'status': match_data.get('status'),
+                'matchday': match_data.get('matchday'),
+                'stage': match_data.get('stage'),
+                'home_team_id': match_data['homeTeam']['id'],
+                'away_team_id': match_data['awayTeam']['id'],
+                'score_home': full_time.get('home'),
+                'score_away': full_time.get('away'),
+                'halftime_home': half_time.get('home'),
+                'halftime_away': half_time.get('away'),
+                'winner': score.get('winner'),
+            }
+
+            existing_match = session.query(Match).filter(Match.id == match_id).first()
+            
+            if existing_match:
+                for key, val in match_db_data.items():
+                    setattr(existing_match, key, val)
+            else:
+                new_match = Match(**match_db_data)
+                session.add(new_match)
+
+            session.commit()
+            count += 1
+            
         except Exception as e:
-            print(f"Error saving match {match_data.get('id')}: {e}")
+            session.rollback()
+            logger.error(f"Error saving match {match_data.get('id')}: {e}")
             continue
-    
-    return saved_count
+            
+    logger.info(f"Successfully saved {count} matches.")
 
 def save_match_goals_db(session: SQLSession, match_id: int, goals_list: List[dict]):
     """Save goals for a match"""
@@ -295,39 +364,268 @@ def save_team_standing_db(session: SQLSession, standing_data: dict, competition_
     
     session.commit()
 
-def save_top_scorers_db(session: SQLSession, scorers_list, competition_id: int, season_id: int, season_year: str):
-    """Save top scorers for a competition/season"""
+def save_top_scorers_db(session: SQLSession, scorers_list: list, competition_id: int, season_id: int, season_year: str):
+    """
+    Save top scorers, auto-creating missing players if necessary.
+    """
     for scorer_data in scorers_list:
-        player_data = scorer_data.get('player', {})
-        team_data = scorer_data.get('team', {})
-        
-        player_id = player_data.get('id')
-        
-        existing = session.query(TopScorer).filter(
-            TopScorer.competition_id == competition_id,
-            TopScorer.season_id == season_id,
-            TopScorer.player_id == player_id
-        ).first()
-        
-        scorer_info = {
-            'competition_id': competition_id,
-            'season_id': season_id,
-            'season_year': season_year,
-            'player_id': player_id,
-            'player_name': player_data.get('name'),
-            'team_id': team_data.get('id'),
-            'team_name': team_data.get('name'),
-            'goals': scorer_data.get('goals', 0),
-            'assists': scorer_data.get('assists'),
-            'penalties': scorer_data.get('penalties')
-        }
-        
-        if existing:
-            for key, value in scorer_info.items():
-                if hasattr(existing, key):
-                    setattr(existing, key, value)
-        else:
-            scorer = TopScorer(**scorer_info)
-            session.add(scorer)
+        try:
+            player_data = scorer_data.get('player', {})
+            team_data = scorer_data.get('team', {})
+            
+            player_id = player_data.get('id')
+            team_id = team_data.get('id')
+
+            player_exists = session.query(Player).filter(Player.id == player_id).first()
+            
+            if not player_exists:
+                try:
+
+                    team_exists = session.query(Team).filter(Team.id == team_id).first()
+                    safe_team_id = team_id if team_exists else None
+
+                    new_player = Player(
+                        id=player_id,
+                        name=player_data.get('name'),
+                        team_id=safe_team_id, 
+                        updated_at=datetime.utcnow()
+                    )
+                    session.add(new_player)
+                    session.commit()
+                    logger.info(f"   -> Auto-created missing historical player: {player_data.get('name')}")
+                except Exception as e:
+                    session.rollback()
+                    logger.warning(f"Could not create placeholder for player {player_id}: {e}")
+                    continue
+
+            existing = session.query(TopScorer).filter(
+                TopScorer.competition_id == competition_id,
+                TopScorer.season_id == season_id,
+                TopScorer.player_id == player_id
+            ).first()
+            
+            scorer_info = {
+                'competition_id': competition_id,
+                'season_id': season_id,
+                'season_year': season_year,
+                'player_id': player_id,
+                'player_name': player_data.get('name'),
+                'team_id': team_id,
+                'team_name': team_data.get('name'),
+                'goals': scorer_data.get('goals', 0),
+                'assists': scorer_data.get('assists'),
+                'penalties': scorer_data.get('penalties')
+            }
+            
+            if existing:
+                for k, v in scorer_info.items():
+                    setattr(existing, k, v)
+            else:
+                session.add(TopScorer(**scorer_info))
+            
+            session.commit()
+
+        except Exception as e:
+            session.rollback()
+            logger.error(f"Error saving top scorer {scorer_data.get('player', {}).get('name')}: {e}")
+            continue
+            
+    logger.info(f"   -> Processed Top Scorers for {season_year}")
+
+def save_competition_db(session: SQLSession, comp_data: dict):
+    """
+    Upsert (Insert or Update) a Competition record.
+    """
+    comp_id = comp_data['id']
     
+    existing = session.query(Competition).filter(Competition.id == comp_id).first()
+
+    area = comp_data.get('area', {})
+    
+    data_map = {
+        'id': comp_id,
+        'name': comp_data.get('name'),
+        'code': comp_data.get('code'),
+        'type': comp_data.get('type'),
+        'emblem': comp_data.get('emblem'),
+        'area_id': area.get('id'),
+        'area_name': area.get('name'),
+        'area_code': area.get('code'),
+    }
+
+    if existing:
+        for key, value in data_map.items():
+            setattr(existing, key, value)
+    else:
+        new_comp = Competition(**data_map)
+        session.add(new_comp)
+    
+    try:
+        session.commit()
+        print(f"Competition saved: {data_map['name']}")
+    except Exception as e:
+        session.rollback()
+        print(f"Error saving competition {comp_id}: {e}")
+   
+        
+def save_squad_db(session: SQLSession, team_id: int, squad_list: list):
+    """
+    Save or Update players belonging to a team.
+    """
+    if not squad_list:
+        return
+
+    saved_count = 0
+    for p_data in squad_list:
+        try:
+            pid = p_data['id']
+
+            existing = session.query(Player).filter(Player.id == pid).first()
+            
+            player_data = {
+                'id': pid,
+                'name': p_data.get('name'),
+                'first_name': p_data.get('firstName'),
+                'last_name': p_data.get('lastName'),
+                'position': p_data.get('position'),
+                'date_of_birth': p_data.get('dateOfBirth'),
+                'nationality': p_data.get('nationality'),
+                'shirtNumber': p_data.get('shirtNumber'),
+                'team_id': team_id,
+            }
+            
+            if existing:
+                for k, v in player_data.items():
+                    setattr(existing, k, v)
+            else:
+                new_player = Player(**player_data)
+                session.add(new_player)
+                
+            saved_count += 1
+            
+        except Exception as e:
+            logger.error(f"Error saving player {p_data.get('name')}: {e}")
+            continue
+            
+    try:
+        session.commit()
+        logger.info(f"   -> Saved {saved_count} players for Team {team_id}")
+    except Exception as e:
+        session.rollback()
+        logger.error(f"Failed to commit squad for Team {team_id}: {e}")
+
+def save_standings_db(session: SQLSession, competition_id: int, season_year: str, standings_data: list):
+    """
+    Save the league table.
+    """
+    if not standings_data:
+        return
+
+    total_table = next((t for t in standings_data if t['type'] == 'TOTAL'), None)
+    if not total_table:
+        return
+
+    for row in total_table['table']:
+        try:
+            team_id = row['team']['id']
+            
+            existing = session.query(TeamStanding).filter(
+                TeamStanding.competition_id == competition_id,
+                TeamStanding.season_id == int(season_year),
+                TeamStanding.team_id == team_id
+            ).first()
+
+            data = {
+                'competition_id': competition_id,
+                'season_id': int(season_year), # ensure this matches your season logic
+                'team_id': team_id,
+                'position': row['position'],
+                'points': row['points'],
+                'won': row['won'],
+                'draw': row['draw'],
+                'lost': row['lost'],
+                'goals_for': row['goalsFor'],
+                'goals_against': row['goalsAgainst'],
+                'goal_difference': row['goalDifference'],
+            }
+
+            if existing:
+                for k, v in data.items():
+                    setattr(existing, k, v)
+            else:
+                session.add(TeamStanding(**data))
+                
+        except Exception as e:
+            logger.error(f"Error saving standing for team {team_id}: {e}")
+
     session.commit()
+    logger.info(f"   -> Saved Standings for {season_year}")
+
+def save_scorers_db(session: SQLSession, competition_id: int, season_year: str, scorers_list: list):
+    """
+    Save top scorers, auto-creating missing historical players if necessary.
+    """
+
+    season_id = int(season_year)
+
+    for scorer_data in scorers_list:
+        try:
+            player_data = scorer_data.get('player', {})
+            team_data = scorer_data.get('team', {})
+            
+            player_id = player_data.get('id')
+            team_id = team_data.get('id')
+
+            player_exists = session.query(Player).filter(Player.id == player_id).first()
+            
+            if not player_exists:
+                try:
+                    safe_team_id = team_id if session.query(Team).filter(Team.id == team_id).first() else None
+
+                    new_player = Player(
+                        id=player_id,
+                        name=player_data.get('name'),
+                        team_id=safe_team_id,
+                        updated_at=datetime.now()
+                    )
+                    session.add(new_player)
+                    session.commit()
+                    logger.info(f"   -> Auto-created missing historical player: {player_data.get('name')}")
+                except Exception as e:
+                    session.rollback()
+                    logger.warning(f"Could not create placeholder for player {player_id}: {e}")
+                    continue
+
+            existing = session.query(TopScorer).filter(
+                TopScorer.competition_id == competition_id,
+                TopScorer.season_id == season_id,
+                TopScorer.player_id == player_id
+            ).first()
+            
+            scorer_info = {
+                'competition_id': competition_id,
+                'season_id': season_id,
+                'season_year': season_year,
+                'player_id': player_id,
+                'player_name': player_data.get('name'),
+                'team_id': team_id,
+                'team_name': team_data.get('name'),
+                'goals': scorer_data.get('goals', 0),
+                'assists': scorer_data.get('assists'),
+                'penalties': scorer_data.get('penalties')
+            }
+            
+            if existing:
+                for k, v in scorer_info.items():
+                    setattr(existing, k, v)
+            else:
+                session.add(TopScorer(**scorer_info))
+
+            session.commit()
+
+        except Exception as e:
+            session.rollback()
+            logger.error(f"Error saving top scorer {scorer_data.get('player', {}).get('name')}: {e}")
+            continue
+            
+    logger.info(f"   -> Processed Top Scorers for {season_year}")

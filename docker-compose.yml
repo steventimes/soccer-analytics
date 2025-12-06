@@ -3,8 +3,8 @@ services:
     build: .
     container_name: football_app
     volumes:
-      - py_files:/app          # Mount your app folder
-      - ./requirements.txt:/app/requirements.txt  # Mount requirements for hot updates
+      - .:/app
+      - ./requirements.txt:/app/requirements.txt
 
     env_file:
       - path: .env
@@ -14,9 +14,8 @@ services:
     depends_on:
       - db
       - redis
-    # environment:
-    #   - FOOTBALL_DATA_API_KEY
-    command: tail -f /dev/null  # Keeps the container alive for development
+
+    command: tail -f /dev/null  # Keeps the container alive
 
   db:
     image: postgres:16

@@ -94,10 +94,10 @@ class Player(Base):
     # Relationships
     team = relationship("Team", back_populates="players")
     stats = relationship("PlayerStat", back_populates="player")
-    goals = relationship("MatchGoal", back_populates="scorer")
-    assists = relationship("MatchGoal", foreign_keys="MatchGoal.assist_id", back_populates="assister")
-    top_scorer_records = relationship("TopScorer", back_populates="player")
 
+    goals = relationship("MatchGoal", foreign_keys="[MatchGoal.scorer_id]", back_populates="scorer")
+    assists = relationship("MatchGoal", foreign_keys="[MatchGoal.assist_id]", back_populates="assister")
+    top_scorer_records = relationship("TopScorer", back_populates="player")
 
 class Match(Base):
     __tablename__ = "matches"
@@ -263,7 +263,8 @@ class PlayerStat(Base):
     id = Column(Integer, primary_key=True)
     match_id = Column(Integer, ForeignKey("matches.id"))
     player_id = Column(Integer, ForeignKey("players.id"))
-    
+    team_id = Column(Integer, ForeignKey("teams.id")) 
+
     minutes_played = Column(Integer)
     goals = Column(Integer)
     assists = Column(Integer)
@@ -280,11 +281,7 @@ class PlayerStat(Base):
     player = relationship("Player", back_populates="stats")
     match = relationship("Match", back_populates="player_stats")
     
-    __table_args__ = (
-        Index('ix_players_team', 'team_id'),
-        Index('ix_players_position', 'position'),
-    )
-    
+    team = relationship("Team")
 
 # Helper function to get ML-ready match result label
 def get_match_result_label(match: Match) -> str:

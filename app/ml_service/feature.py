@@ -14,25 +14,20 @@ class feature:
         ]
         
     def _safe_div(self, n, d, default=0.0):
-        """Helper to prevent ZeroDivisionError"""
         return n / d if d else default
 
     def calculate_rest_days(self, team_id: int, current_match_date: datetime) -> int:
-        """
-        Calculate days since the team's last match.
-        Handles DataFrame output from the data service.
-        """
         recent_df = get(type.TEAM_RECENT, {
             'team_id': team_id, 
             'num_matches': 1, 
             'match_date': current_match_date
         })
-
+        
         if recent_df is None or recent_df.empty:
             return 7 
-
+            
         recent = recent_df.iloc[0]
-
+        
         if 'last_match_date' not in recent or pd.isna(recent['last_match_date']):
             return 7
 
@@ -54,8 +49,7 @@ class feature:
             delta = (current_match_date - last_date).days
             return max(0, delta)
             
-        except Exception as e:
-            print(f"Error calculating rest days for team {team_id}: {e}")
+        except Exception:
             return 7
 
     def create_match_feature(
@@ -87,7 +81,6 @@ class feature:
         else:
             a_stats = {}
         
-        # Basic Stats
         features['home_wins_last5'] = h_stats.get('wins', 0)
         features['away_wins_last5'] = a_stats.get('wins', 0)
         
@@ -97,12 +90,10 @@ class feature:
         features['home_losses_last5'] = h_stats.get('losses', 0)
         features['away_losses_last5'] = a_stats.get('losses', 0)
         
-        # Goal Differences
         h_gd = h_stats.get('goals_scored', 0) - h_stats.get('goals_conceded', 0)
         a_gd = a_stats.get('goals_scored', 0) - a_stats.get('goals_conceded', 0)
         features['goal_diff_diff'] = h_gd - a_gd
 
-        # Win Rates
         h_games = h_stats.get('total_games', 5)
         a_games = a_stats.get('total_games', 5)
         
@@ -110,7 +101,6 @@ class feature:
         features['away_win_rate'] = self._safe_div(a_stats.get('wins', 0), a_games)
         features['win_rate_diff'] = features['home_win_rate'] - features['away_win_rate']
 
-        # Rest Days Analysis
         if match_date:
             h_rest = self.calculate_rest_days(home_id, match_date)
             a_rest = self.calculate_rest_days(away_id, match_date)

@@ -1,4 +1,3 @@
-# Use an official Python base image
 FROM ubuntu:24.04
 
 # Set working directory inside container
@@ -36,5 +35,4 @@ COPY . .
 
 EXPOSE 8000
 
-# CMD ["python", "app/main.py"]
 CMD ["tail", "-f", "/dev/null"]
