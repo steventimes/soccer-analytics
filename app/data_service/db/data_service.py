@@ -1,6 +1,3 @@
-print("FATAL ERROR: I AM THE NEW FILE!!!!!")
-exit()
-
 from sqlalchemy.orm import Session as SQLSession
 import pandas as pd
 from typing import List, Dict, Optional
