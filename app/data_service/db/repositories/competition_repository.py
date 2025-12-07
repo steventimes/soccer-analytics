@@ -66,12 +66,25 @@ class CompetitionRepository:
 
     def save_top_scorers(self, competition_id: int, season: str, scorers_data: List[Dict]):
         """Save top scorers list."""
+        from app.data_service.db.database.db_schema import Player, TopScorer
+
         try:
             self.session.query(TopScorer).filter_by(
                 competition_id=competition_id, season_year=season
             ).delete()
 
             for s in scorers_data:
+                player_id = s['player']['id']
+
+                if not self.session.query(Player).filter_by(id=player_id).first():
+                    placeholder = Player(
+                        id=player_id, 
+                        name=s['player']['name'], 
+                        team_id=s['team']['id']
+                    )
+                    self.session.add(placeholder)
+                    self.session.flush()
+                    
                 scorer = TopScorer(
                     competition_id=competition_id,
                     season_year=season,
@@ -82,8 +95,10 @@ class CompetitionRepository:
                     penalties=s.get('penalties')
                 )
                 self.session.add(scorer)
+            
             self.session.commit()
             logger.info(f"Top Scorers saved for Comp {competition_id} Season {season}")
+            
         except Exception as e:
             self.session.rollback()
             logger.error(f"Error saving scorers: {e}")

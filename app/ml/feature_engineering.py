@@ -1,73 +1,75 @@
 import pandas as pd
-from datetime import datetime
-from typing import Dict, Any
-
-from app.data_service.db.database.db_schema import Match
-from app.data_service.db.data_service import DataService
+import numpy as np
 
 class FeatureEngineer:
-    def __init__(self): 
-        self.feature_names = [
-            'home_wins_last5', 'away_wins_last5', 
-            'goal_diff_diff', 'rest_days_diff',
-            'home_win_rate', 'away_win_rate'
+    def __init__(self):
+        self.features = [
+            'rolling_xG', 
+            'rolling_xGA', 
+            'rolling_deep', 
+            'rolling_ppda',
+            'rolling_goals', 
+            'rolling_wins', 
+            'is_home',
+            'xG_diff', 
+            'ppda_diff', 
+            'deep_diff', 
+            'points_diff'
         ]
-        
-    def _safe_div(self, n, d, default=0.0):
-        return n / d if d else default
 
-    def calculate_rest_days(self, team_id: int, current_match_date: datetime, service: DataService) -> int:
-        """
-        Calculate days since the last match for a team.
-        """
+    def calculate_rolling_features(self, df: pd.DataFrame, window=5) -> pd.DataFrame:
+        df = df.sort_values(['teamID', 'date'])
         
-        last_match = service.matches.get_recent_form(team_id, current_match_date, limit=1)
+        if 'result' in df.columns:
+            result_map = {'L': 0, 'D': 1, 'W': 2}
+            df['target'] = df['result'].map(result_map)
         
-        from app.data_service.db.database.db_schema import Match as MatchModel
-        from sqlalchemy import or_
+        df['is_home'] = np.where(df['location'] == 'h', 1, 0)
         
-        last_match_obj = service.session.query(MatchModel).filter(
-            or_(MatchModel.home_team_id == team_id, MatchModel.away_team_id == team_id),
-            MatchModel.utc_date < current_match_date,
-            MatchModel.status == 'FINISHED'
-        ).order_by(MatchModel.utc_date.desc()).first()
+        for col in ['xGoals', 'deep', 'ppda', 'goals']:
+            if col not in df.columns: 
+                df[col] = 0
+
+        grouped = df.groupby('teamID')
         
-        if not last_match_obj:
-            return 7 
+        def roll_mean(col):
+            return grouped[col].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
+
+        df['rolling_xG']    = roll_mean('xGoals')
+        df['rolling_deep']  = roll_mean('deep')
+        df['rolling_ppda']  = roll_mean('ppda')
+        df['rolling_goals'] = roll_mean('goals')
+        
+        if 'opp_xGoals' in df.columns:
+            df['rolling_xGA'] = grouped['opp_xGoals'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
+        else:
+            df['rolling_xGA'] = 1.0 
+
+        df['win_numeric'] = np.where(df['result'] == 'W', 3, np.where(df['result'] == 'D', 1, 0))
+        df['rolling_points'] = grouped['win_numeric'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
+        df['rolling_wins'] = np.where(df['result'] == 'W', 1, 0)
+        df['rolling_wins'] = grouped['rolling_wins'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).sum())
+
+        if 'gameID' in df.columns:
+            opp_stats = df[['gameID', 'teamID', 'rolling_xG', 'rolling_ppda', 'rolling_deep', 'rolling_points']].copy()
+            opp_stats.rename(columns={
+                'teamID': 'oppID', 
+                'rolling_xG': 'opp_rolling_xG',
+                'rolling_ppda': 'opp_rolling_ppda',
+                'rolling_deep': 'opp_rolling_deep',
+                'rolling_points': 'opp_rolling_points'
+            }, inplace=True)
             
-        delta = (current_match_date - last_match_obj.utc_date).days
-        return max(0, delta)
+            df = df.merge(opp_stats, left_on=['gameID', 'opponentID'], right_on=['gameID', 'oppID'], how='left')
+            
+            df['xG_diff'] = (df['rolling_xG'] - df['opp_rolling_xG']).abs()
+            df['ppda_diff'] = (df['rolling_ppda'] - df['opp_rolling_ppda']).abs()
+            df['deep_diff'] = (df['rolling_deep'] - df['opp_rolling_deep']).abs()
+            df['points_diff'] = (df['rolling_points'] - df['opp_rolling_points']).abs()
+        else:
+            df['xG_diff'] = 0
+            df['ppda_diff'] = 0
+            df['deep_diff'] = 0
+            df['points_diff'] = 0
 
-    def calculate_features(self, match: Match, service: DataService) -> Dict[str, Any]:
-        """
-        Calculate features for a given Match object.
-        """
-        features = {}
-        
-        h_stats = service.matches.get_recent_form(match.home_team_id, match.utc_date, limit=5)
-        a_stats = service.matches.get_recent_form(match.away_team_id, match.utc_date, limit=5)
-        
-        features['home_wins_last5'] = h_stats.get('wins', 0)
-        features['away_wins_last5'] = a_stats.get('wins', 0)
-        
-        features['home_draws_last5'] = h_stats.get('draws', 0)
-        features['away_draws_last5'] = a_stats.get('draws', 0)
-        
-        features['home_losses_last5'] = h_stats.get('losses', 0)
-        features['away_losses_last5'] = a_stats.get('losses', 0)
-        
-        h_gd = h_stats.get('goals_scored', 0) - h_stats.get('goals_conceded', 0)
-        a_gd = a_stats.get('goals_scored', 0) - a_stats.get('goals_conceded', 0)
-        features['goal_diff_diff'] = h_gd - a_gd
-
-        h_games = h_stats.get('total_games', 5)
-        a_games = a_stats.get('total_games', 5)
-        
-        features['home_win_rate'] = self._safe_div(h_stats.get('wins', 0), h_games)
-        features['away_win_rate'] = self._safe_div(a_stats.get('wins', 0), a_games)
-        features['win_rate_diff'] = features['home_win_rate'] - features['away_win_rate']
-        
-        features['rest_days_diff'] = self.calculate_rest_days(match.home_team_id, match.utc_date, service) - \
-                                     self.calculate_rest_days(match.away_team_id, match.utc_date, service)
-                                     
-        return features
+        return df.fillna(0)

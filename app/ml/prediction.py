@@ -1,9 +1,6 @@
 import joblib
 import logging
 import pandas as pd
-from typing import Dict, Any
-
-from app.data_service.db_session import get_db_service
 from app.ml.feature_engineering import FeatureEngineer
 
 logger = logging.getLogger(__name__)

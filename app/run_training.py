@@ -30,7 +30,7 @@ def run():
                 fail_count += 1
                 continue
             
-            model = trainer.train(df)
+            model = trainer.train(df, tune=True)
             
             if model:
                 safe_name = f"{code.lower()}_model"
