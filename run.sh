@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# mkdir -p ./log
-# docker-compose down -v
-# docker-compose up --build -d
+mkdir -p ./log
+docker-compose down -v
+docker-compose up --build -d
 sleep 20
 echo "Running Seed Data..."
 docker exec -it football_app python3 -m app.seed_data > ./log/match_gather.log

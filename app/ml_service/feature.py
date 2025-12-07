@@ -35,52 +35,48 @@ class feature:
         
         try:
             if isinstance(last_date_str, str):
-                last_date_str = last_date_str.replace('Z', '')
-                try:
-                    last_date = datetime.fromisoformat(last_date_str)
-                except ValueError:
-                    last_date = datetime.strptime(last_date_str, "%Y-%m-%dT%H:%M:%S")
+                last_date = datetime.strptime(last_date_str, "%Y-%m-%dT%H:%M:%SZ")
             else:
                 last_date = last_date_str
-
-            if last_date.tzinfo is None and current_match_date.tzinfo is not None:
-                current_match_date = current_match_date.replace(tzinfo=None)
-            
-            delta = (current_match_date - last_date).days
+                
+            if isinstance(current_match_date, str):
+                current_date = datetime.strptime(current_match_date, "%Y-%m-%dT%H:%M:%SZ")
+            else:
+                current_date = current_match_date
+                
+            delta = (current_date - last_date).days
             return max(0, delta)
-            
         except Exception:
             return 7
 
-    def create_match_feature(
-        self,
-        home_id: int,
-        away_id: int,
-        competition_id: int,
-        season_yr: str,
-        match_date: Optional[datetime] = None
-    ) -> Dict:
+    def calculate_features(self, match: Dict) -> Dict:
         features = {}
         
-        if isinstance(match_date, str):
-            try:
-                match_date = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
-            except ValueError:
-                match_date = datetime.strptime(match_date, "%Y-%m-%d")
-
-        home_df = get(type.TEAM_RECENT, {'team_id': home_id, 'num_matches': 5, 'match_date': match_date})
-        away_df = get(type.TEAM_RECENT, {'team_id': away_id, 'num_matches': 5, 'match_date': match_date})
+        home_id = match['home_team']['id']
+        away_id = match['away_team']['id']
+        match_date = match['utc_date']
         
-        if home_df is not None and not home_df.empty:
-            h_stats = home_df.iloc[0]
-        else:
+        h_stats = get(type.TEAM_RECENT, {'team_id': home_id, 'match_date': match_date, 'num_matches': 5})
+        a_stats = get(type.TEAM_RECENT, {'team_id': away_id, 'match_date': match_date, 'num_matches': 5})
+        
+        if h_stats is None: h_stats = {}
+        if a_stats is None: a_stats = {}
+        
+        # Helper to extract stats from the aggregated dictionary returned by TEAM_RECENT
+        # Assuming TEAM_RECENT returns a DataFrame or Dict with aggregated stats
+        # If it returns a DataFrame of matches, we need to aggregate. 
+        # Based on snippet, it likely returns a summary dict or single row DataFrame.
+        
+        if isinstance(h_stats, pd.DataFrame) and not h_stats.empty:
+            h_stats = h_stats.iloc[0].to_dict()
+        elif isinstance(h_stats, pd.DataFrame):
             h_stats = {}
             
-        if away_df is not None and not away_df.empty:
-            a_stats = away_df.iloc[0]
-        else:
+        if isinstance(a_stats, pd.DataFrame) and not a_stats.empty:
+            a_stats = a_stats.iloc[0].to_dict()
+        elif isinstance(a_stats, pd.DataFrame):
             a_stats = {}
-        
+
         features['home_wins_last5'] = h_stats.get('wins', 0)
         features['away_wins_last5'] = a_stats.get('wins', 0)
         
@@ -100,16 +96,8 @@ class feature:
         features['home_win_rate'] = self._safe_div(h_stats.get('wins', 0), h_games)
         features['away_win_rate'] = self._safe_div(a_stats.get('wins', 0), a_games)
         features['win_rate_diff'] = features['home_win_rate'] - features['away_win_rate']
-
-        if match_date:
-            h_rest = self.calculate_rest_days(home_id, match_date)
-            a_rest = self.calculate_rest_days(away_id, match_date)
-            features['home_rest_days'] = h_rest
-            features['away_rest_days'] = a_rest
-            features['rest_days_diff'] = h_rest - a_rest
-        else:
-            features['home_rest_days'] = 7
-            features['away_rest_days'] = 7
-            features['rest_days_diff'] = 0
-
+        
+        features['rest_days_diff'] = self.calculate_rest_days(home_id, match_date) - \
+                                     self.calculate_rest_days(away_id, match_date)
+                                     
         return features

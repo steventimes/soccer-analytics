@@ -42,53 +42,42 @@ class ModelTrainer:
         for match in all_matches:
             if match['status'] != 'FINISHED':
                 continue
-            
-            home_id = match['home_team']['id']
-            away_id = match['away_team']['id']
-            match_date_str = match['utc_date']
-            season_yr = match['season']
-            
-            try:
-                features = self.feature_engine.create_match_feature(
-                    home_id=home_id,
-                    away_id=away_id,
-                    competition_id=competition_id,
-                    season_yr=season_yr,
-                    match_date=match_date_str
-                )
                 
-                winner = match['score']['winner']
-                
-                row = features.copy()
-                row['target'] = winner
-                row['date'] = match_date_str
-                row['home_team'] = match['home_team']['name']
-                row['away_team'] = match['away_team']['name']
-                
-                data.append(row)
-            except Exception as e:
-                logger.warning(f"Skipping match {match['id']} due to error: {e}")
+            features = self.feature_engine.calculate_features(match)
+            if not features:
+                continue
 
+            row = match.copy()
+            row.update(features)
+            row['target'] = match['score']['winner']
+            
+            data.append(row)
             count += 1
-            if count % 100 == 0:
-                logger.info(f"Processed {count} matches...")
-
-        df = pd.DataFrame(data)
-        
-        if not df.empty:
-            df = df.sort_values('date')
             
-        return df
+        logger.info(f"Processed {count} matches with features.")
+        return pd.DataFrame(data)
 
     def train(self, df: pd.DataFrame):
         if df.empty:
             logger.error("No data available to train!")
             return None
 
-        df['target_encoded'] = self.le.fit_transform(df['target'])
+        if 'target' not in df.columns or df['target'].isnull().all():
+            logger.error("No valid target data found.")
+            return None
+
+        df = df.dropna(subset=['target'])
+        df['target_encoded'] = self.le.fit_transform(df['target'].astype(str))
         
-        drop_cols = ['target', 'target_encoded', 'date', 'home_team', 'away_team']
+        drop_cols = [
+            'target', 'target_encoded', 'date', 'utc_date', 
+            'home_team', 'away_team', 'score', 
+            'status', 'stage', 'season', 'group', 
+            'lastUpdated', 'referees', 'id'
+        ]
+        
         X = df.drop(columns=drop_cols, errors='ignore')
+        X = X.select_dtypes(include=[np.number])
         y = df['target_encoded']
         
         logger.info(f"Training Features: {list(X.columns)}")
@@ -112,9 +101,11 @@ class ModelTrainer:
         
         return self.model
 
-    def save_model(self, filename="football_model.pkl"):
-        os.makedirs("app/models", exist_ok=True)
-        path = f"app/models/{filename}"
-        joblib.dump(self.model, path)
-        joblib.dump(self.le, path.replace(".pkl", "_label_encoder.pkl"))
+    def save_model(self, filename: str):
+        if not os.path.exists("models"):
+            os.makedirs("models")
+            
+        path = os.path.join("models", filename)
+        joblib.dump(self.model, f"{path}.joblib")
+        joblib.dump(self.le, f"{path}_le.joblib")
         logger.info(f"Model saved to {path}")

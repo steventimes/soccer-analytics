@@ -5,8 +5,6 @@ import logging
 from typing import List, Dict, Optional, Any
 from dotenv import load_dotenv
 
-# Import the shared Redis client from your cache module
-# This ensures we use the same connection defined in cache_management.py
 from app.data_service.db.cache.cache_management import get_redis_client
 
 logging.basicConfig(level=logging.INFO)
@@ -37,91 +35,69 @@ class RedisRateLimiter:
         
         # reset time window
         pipeline.zremrangebyscore(self.key, 0, now - self.window)
-        # Count requests in the current window
         pipeline.zcard(self.key)
-        # Get the timestamp of the oldest in the window
-        pipeline.zrange(self.key, 0, 0, withscores=True)
-        
-        _, current_count, oldest_request = pipeline.execute()
+        pipeline.zrange(self.key, 0, 0)
+        _, count, oldest_timestamp = pipeline.execute()
 
-        if current_count >= self.limit:
-            # Calculate sleep time
-            if oldest_request:
-                oldest_ts = oldest_request[0][1]
-                sleep_time = self.window - (now - oldest_ts) + 1
-            else:
-                sleep_time = 1
-            
-            logger.warning(f"Rate limit hit ({current_count}/{self.limit}). Sleeping {sleep_time:.2f}s...")
-            time.sleep(sleep_time)
-            
-            # Recursive check
-            self.wait_if_needed()
-        else:
-            # Add current request timestamp
-            redis_client.zadd(self.key, {str(now): now})
-            # Set key expiry to clean up
-            redis_client.expire(self.key, self.window + 10)
+        if count >= self.limit:
+            sleep_time = self.window - (now - float(oldest_timestamp[0])) + 0.5
+            if sleep_time > 0:
+                logger.warning(f"Rate limit hit ({self.limit}/{self.limit}). Sleeping {sleep_time:.2f}s...")
+                time.sleep(sleep_time)
 
-def api_get(endpoint: str, params: Dict = {}) -> Optional[Any]:
-    """
-    Centralized API requester with Error Handling and Redis Rate Limiting.
-    """
-    limiter = RedisRateLimiter()
-    url = f"{BASE_URL}{endpoint}"
-    headers = {'X-Auth-Token': API_KEY}
+    def add_request(self):
+        now = time.time()
+        pipeline = redis_client.pipeline()
+        pipeline.zadd(self.key, {str(now): now})
+        pipeline.expire(self.key, self.window)
+        pipeline.execute()
+
+limiter = RedisRateLimiter()
+
+def api_get(endpoint: str, params: Dict = None) -> Optional[Dict]:
+    limiter.wait_if_needed()
     
-    # Retry for server errors
-    max_retries = 3
-    for attempt in range(max_retries):
-        limiter.wait_if_needed()
+    headers = {'X-Auth-Token': API_KEY}
+    url = f"{BASE_URL}{endpoint}"
+    
+    try:
+        response = requests.get(url, headers=headers, params=params)
+        limiter.add_request()
         
-        try:
-            response = requests.get(url, headers=headers, params=params)
-            
-            if response.status_code == 200:
-                return response.json()
-          
-            # Too Many Requests: Retry 
-            elif response.status_code == 429:
-                retry_after = int(response.headers.get("Retry-After", 60))
-                logger.warning(f"429 Received. Waiting {retry_after}s before retry.")
-                time.sleep(retry_after)
-                continue
-                
-            # Don't retry 403
-            elif response.status_code == 403:
-                logger.warning(f"403 Forbidden: Plan restriction or invalid key for {url}")
-                return None
-                
-            else:
-                logger.error(f"API Error {response.status_code}: {url}")
-                return None
-                
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Network error on {url}: {e}")
-            time.sleep(2)
-            
-    return None
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 429:
+            logger.warning(f"API Rate Limit 429. Sleeping 60s...")
+            time.sleep(60)
+            return api_get(endpoint, params) # Retry
+        elif response.status_code in [403, 404]:
+            logger.warning(f"{response.status_code} Forbidden: Plan restriction or invalid key for {url}")
+            return None
+        else:
+            logger.error(f"API Error {response.status_code}: {url}")
+            return None
+    except Exception as e:
+        logger.error(f"Request failed: {e}")
+        return None
 
-def fetch_multiple_seasons(competition_code: str, seasons: List[str], status: str = 'FINISHED') -> Dict[str, List[Dict]]:
+def fetch_multiple_seasons(competition_code: str, seasons: List[str]) -> Dict:
     """
-    Fetch matches for multiple seasons with safe parsing.
+    Fetch matches for multiple seasons. 
+    Returns a dict keyed by season year.
     """
     all_seasons_data = {}
     
     for season in seasons:
         logger.info(f"Fetching {competition_code} season {season}...")
 
-        data = api_get(f"competitions/{competition_code}/matches", {'season': season, 'status': status})
-        
+        data = api_get(f"competitions/{competition_code}/matches", {'season': season})
+
         if data and 'matches' in data:
             matches = data['matches']
-            valid_matches = []
             
+            valid_matches = []
             for m in matches:
-                score = m.get('score', {}).get('fullTime', {})
-                if score.get('home') is not None and score.get('away') is not None:
+                if m['status'] == 'FINISHED' and m.get('score', {}).get('fullTime', {}).get('home') is not None:
                     valid_matches.append(m)
             
             all_seasons_data[season] = valid_matches
