@@ -4,18 +4,15 @@ services:
     container_name: football_app
     volumes:
       - .:/app
-      - ./requirements.txt:/app/requirements.txt
-
+      - ./models:/app/models
+      - ./log:/app/log
     env_file:
       - path: .env
         required: True
-    ports:
-      - "8000:8000"
     depends_on:
       - db
       - redis
-
-    command: tail -f /dev/null  # Keeps the container alive
+    command: tail -f /dev/null
 
   db:
     image: postgres:16
@@ -39,7 +36,5 @@ services:
       - football_redis_data:/data
 
 volumes:
-  py_files:
   football_db_data:
   football_redis_data:
-  

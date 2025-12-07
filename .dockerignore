@@ -1,8 +1,25 @@
-.venv/
-__pycache__/
+# Version Control
+.git
+.gitignore
+
+# Python Cache
+__pycache__
 *.pyc
 *.pyo
 *.pyd
-*.swp
+.Python
+env/
+venv/
+.venv/
+
+# Environment Variables
 .env
+
+# Generated Data
+log/
+models/
+*.joblib
+*.pkl
+
+# System
 .DS_Store
