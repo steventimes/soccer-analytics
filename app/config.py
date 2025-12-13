@@ -16,6 +16,16 @@ COMPETITIONS_MAP = {
     "WC": 2000   # World Cup
 }
 
+# Understat League Mapping
+UNDERSTAT_LEAGUE_MAP = {
+    "PL": "EPL",      # Premier League -> English Premier League
+    "PD": "La_liga",  # La Liga
+    "BL1": "Bundesliga",
+    "SA": "Serie_A",
+    "FL1": "Ligue_1",
+    "PPL": "RFPL"     # Russian Premier League
+}
+
 # Seasons
 SEASONS = [str(x) for x in range(2021, 2025)]
 TRAINING_SEASONS = [str(x) for x in range(2021, 2025)]

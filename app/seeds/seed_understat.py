@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from rapidfuzz import process
 from sqlalchemy import func
 
@@ -26,7 +26,8 @@ class UnderstatSeeder:
             team_names = list(team_map.keys())
 
             for code, understat_name in UNDERSTAT_LEAGUE_MAP.items():
-                if code not in COMPETITIONS_MAP: continue
+                if code not in COMPETITIONS_MAP: 
+                    continue
                 
                 db_comp_id = COMPETITIONS_MAP[code]
                 
@@ -34,11 +35,13 @@ class UnderstatSeeder:
                     logger.info(f"Syncing {code} {season}...")
                     
                     data = self.client.fetch_season_data(understat_name, season)
-                    if not data: continue
+                    if not data: 
+                        continue
                     
                     updates = 0
                     for m in data:                        
-                        if not m['isResult']: continue # Skip unplayed matches
+                        if not m['isResult']: 
+                            continue  # Skip unplayed matches
 
                         h_name = m['h']['title']
                         a_name = m['a']['title']
@@ -54,11 +57,14 @@ class UnderstatSeeder:
                         
                         match_date = datetime.strptime(m['datetime'], "%Y-%m-%d %H:%M:%S")
 
+
                         db_match = session.query(Match).filter(
                             Match.home_team_id == h_id,
                             Match.away_team_id == a_id,
                             Match.season_year == str(season),
-                            func.abs(func.date(Match.date) - match_date.date()) <= 1
+                            func.abs(
+                                func.extract('epoch', Match.utc_date - match_date)
+                            ) <= 86400  # Within 1 day (in seconds)
                         ).first()
                         
                         if db_match:
@@ -83,6 +89,9 @@ class UnderstatSeeder:
                 for season in SEASONS:
                     logger.info(f"Fetching Players: {code} {season}...")
                     data = self.client.fetch_player_season_data(understat_name, season)
+                    
+                    if not data:
+                        continue
                     
                     form_entries = []
                     for p in data:
@@ -109,7 +118,9 @@ class UnderstatSeeder:
                         )
                         form_entries.append(entry)
 
-                    session.query(PlayerForm).filter_by(period_label=f"{season}_season").delete()                    
+                    session.query(PlayerForm).filter_by(
+                        period_label=f"{season}_season"
+                    ).delete()                    
                     session.add_all(form_entries)
                     session.commit()
                     logger.info(f"  -> Saved {len(form_entries)} player records.")

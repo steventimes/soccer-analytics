@@ -76,6 +76,9 @@ class Match(Base):
     halftime_home = Column(Integer)
     halftime_away = Column(Integer)
     winner = Column(String(20))
+
+    home_xg = Column(Float, nullable=True)
+    away_xg = Column(Float, nullable=True)
     
     competition = relationship("Competition", back_populates="matches")
     home_team = relationship("Team", foreign_keys=[home_team_id])
@@ -131,3 +134,26 @@ class PlayerStat(Base):
     player = relationship("Player", back_populates="stats")
     match = relationship("Match", back_populates="player_stats")
     team = relationship("Team")
+
+class PlayerForm(Base):
+    __tablename__ = "player_form"
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    player_id = Column(Integer, ForeignKey("players.id"), nullable=True)
+    team_id = Column(Integer, ForeignKey("teams.id"))
+    period_label = Column(String(50))  # e.g., "2023_season"
+    
+    goals = Column(Integer, default=0)
+    xg = Column(Float, default=0.0)
+    assists = Column(Integer, default=0)
+    xa = Column(Float, default=0.0)
+    shots = Column(Integer, default=0)
+    key_passes = Column(Integer, default=0)
+    yellow_cards = Column(Integer, default=0)
+    red_cards = Column(Integer, default=0)
+    npg = Column(Float, default=0.0)
+    npxg = Column(Float, default=0.0)
+    xg_chain = Column(Float, default=0.0)
+    xg_buildup = Column(Float, default=0.0)
+    minutes_played = Column(Integer, default=0)
+    games_played = Column(Integer, default=0)
