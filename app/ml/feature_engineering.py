@@ -35,23 +35,21 @@ class FeatureEngineer:
         def roll_mean(col):
             return grouped[col].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
 
-        df['rolling_xG']    = roll_mean('xGoals')
-        df['rolling_deep']  = roll_mean('deep')
-        df['rolling_ppda']  = roll_mean('ppda')
+        df['rolling_xG'] = roll_mean('xGoals')
+        df['rolling_xGA'] = roll_mean('xGoals')
+        df['rolling_deep'] = roll_mean('deep')
+        df['rolling_ppda'] = roll_mean('ppda')
         df['rolling_goals'] = roll_mean('goals')
         
-        if 'opp_xGoals' in df.columns:
-            df['rolling_xGA'] = grouped['opp_xGoals'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
-        else:
-            df['rolling_xGA'] = 1.0 
-
         df['win_numeric'] = np.where(df['result'] == 'W', 3, np.where(df['result'] == 'D', 1, 0))
         df['rolling_points'] = grouped['win_numeric'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
         df['rolling_wins'] = np.where(df['result'] == 'W', 1, 0)
         df['rolling_wins'] = grouped['rolling_wins'].transform(lambda x: x.shift(1).rolling(window, min_periods=1).sum())
 
-        if 'gameID' in df.columns:
-            opp_stats = df[['gameID', 'teamID', 'rolling_xG', 'rolling_ppda', 'rolling_deep', 'rolling_points']].copy()
+        match_id_col = 'id' if 'id' in df.columns else 'gameID'
+
+        if match_id_col in df.columns:
+            opp_stats = df[[match_id_col, 'teamID', 'rolling_xG', 'rolling_ppda', 'rolling_deep', 'rolling_points']].copy()
             opp_stats.rename(columns={
                 'teamID': 'oppID', 
                 'rolling_xG': 'opp_rolling_xG',
@@ -60,16 +58,13 @@ class FeatureEngineer:
                 'rolling_points': 'opp_rolling_points'
             }, inplace=True)
             
-            df = df.merge(opp_stats, left_on=['gameID', 'opponentID'], right_on=['gameID', 'oppID'], how='left')
+            df = df.merge(opp_stats, left_on=[match_id_col, 'opponentID'], right_on=[match_id_col, 'oppID'], how='left')
             
-            df['xG_diff'] = (df['rolling_xG'] - df['opp_rolling_xG']).abs()
-            df['ppda_diff'] = (df['rolling_ppda'] - df['opp_rolling_ppda']).abs()
-            df['deep_diff'] = (df['rolling_deep'] - df['opp_rolling_deep']).abs()
-            df['points_diff'] = (df['rolling_points'] - df['opp_rolling_points']).abs()
-        else:
-            df['xG_diff'] = 0
-            df['ppda_diff'] = 0
-            df['deep_diff'] = 0
-            df['points_diff'] = 0
+            df['xG_diff'] = (df['rolling_xG'] - df['opp_rolling_xG'])
+            df['ppda_diff'] = (df['rolling_ppda'] - df['opp_rolling_ppda'])
+            df['deep_diff'] = (df['rolling_deep'] - df['opp_rolling_deep'])
+            df['points_diff'] = (df['rolling_points'] - df['opp_rolling_points'])
 
-        return df.fillna(0)
+            df = df.fillna(0)
+
+        return df

@@ -4,7 +4,6 @@ import joblib
 import logging
 from datetime import datetime, timedelta
 from app.data_service.fetch.fetcher import FootballDataClient
-from app.data_service.db_session import get_db_service
 from app.ml.feature_engineering import FeatureEngineer
 from app.config import COMPETITIONS_MAP
 
@@ -15,95 +14,71 @@ class UpcomingPredictor:
     def __init__(self):
         self.client = FootballDataClient()
         self.fe = FeatureEngineer()
-        self.model_path = "models/hybrid_model.joblib"
-        try:
-            self.model = joblib.load(self.model_path)
-        except FileNotFoundError:
-            logger.error("Model not found. Train it first!")
-            self.model = None
 
-    def get_upcoming_matches(self, days=3):
-        """Fetch scheduled matches for supported competitions."""
-        upcoming = []
+    def predict(self, days=3):
+        """Fetch scheduled matches and predict outcomes."""
         date_from = datetime.now().strftime("%Y-%m-%d")
         date_to = (datetime.now() + timedelta(days=days)).strftime("%Y-%m-%d")
         
+        logger.info(f"Fetching matches from {date_from} to {date_to}...")
+
         for code, comp_id in COMPETITIONS_MAP.items():
+            model_path = f"models/{code.lower()}_model.joblib"
             try:
-                matches = self.client._get(f"competitions/{code}/matches", {
-                    "status": "SCHEDULED",
-                    "dateFrom": date_from,
-                    "dateTo": date_to
-                })
+                model = joblib.load(model_path)
+            except FileNotFoundError:
+                logger.warning(f"No model found for {code} ({model_path}). Skipping.")
+                continue
+
+            matches_data = self.client._get(f"competitions/{code}/matches", {
+                "status": "SCHEDULED",
+                "dateFrom": date_from,
+                "dateTo": date_to
+            })
+            
+            if not matches_data or 'matches' not in matches_data:
+                continue
                 
-                if matches and 'matches' in matches:
-                    for m in matches['matches']:
-                        upcoming.append({
-                            'id': m['id'],
-                            'comp_code': code,
-                            'utc_date': m['utcDate'],
-                            'home_team': m['homeTeam']['name'],
-                            'home_id': m['homeTeam']['id'],
-                            'away_team': m['awayTeam']['name'],
-                            'away_id': m['awayTeam']['id']
-                        })
-            except Exception as e:
-                logger.error(f"Error fetching {code}: {e}")
-                
-        return upcoming
+            matches = matches_data['matches']
+            if not matches:
+                continue
 
-    def predict(self):
-        if not self.model: return
+            logger.info(f"--- Analyzing {code} ({len(matches)} games) ---")
 
-        matches = self.get_upcoming_matches()
-        if not matches:
-            logger.info("No upcoming matches found in the next 3 days.")
-            return
-
-        logger.info(f"--- PREDICTING {len(matches)} UPCOMING MATCHES ---")
-        
-        with get_db_service() as service:
             for m in matches:
-                h_history = service.matches.get_recent_form(m['home_id'], datetime.now(), limit=10)
-                a_history = service.matches.get_recent_form(m['away_id'], datetime.now(), limit=10)
-                
+                home_team = m['homeTeam']['name']
+                away_team = m['awayTeam']['name']
+
                 input_data = {
-                    'rolling_xG': 0,
-                    'rolling_xGA': 0,
-                    'rolling_deep': 0,
-                    'rolling_ppda': 20.0,
-                    'rolling_goals': h_history.get('goals_scored', 0) / 5, 
-                    'rolling_wins': h_history.get('wins', 0),
+                    'rolling_xG': 1.5,
+                    'rolling_xGA': 1.2,
+                    'rolling_deep': 5,
+                    'rolling_ppda': 10,
+                    'rolling_goals': 1.2,
+                    'rolling_wins': 0.5,
                     'is_home': 1,
-                    'xG_diff': 0,
-                    'ppda_diff': 0,
-                    'deep_diff': 0,
-                    'points_diff': abs((h_history.get('wins',0)*3 + h_history.get('draws',0)) - 
-                                       (a_history.get('wins',0)*3 + a_history.get('draws',0)))
+                    'xG_diff': 0.1,
+                    'ppda_diff': -2,
+                    'deep_diff': 1,
+                    'points_diff': 5
                 }
                 
                 df = pd.DataFrame([input_data])
                 
-                for feature in self.fe.features:
-                    if feature not in df.columns:
-                        df[feature] = 0
-  
                 X = df[self.fe.features]
 
-                probs = self.model.predict_proba(X)[0]
-
+                probs = model.predict_proba(X)[0]
                 p_loss, p_draw, p_win = probs[0], probs[1], probs[2]
 
-                if p_win > 0.45: prediction = "HOME WIN"
-                elif p_loss > 0.45: prediction = "AWAY WIN"
-                else: prediction = "DRAW (Risk)"
+                if p_win > 0.45: 
+                    prediction = "HOME WIN"
+                elif p_loss > 0.45: 
+                    prediction = "AWAY WIN"
+                else: 
+                    prediction = "DRAW (Risk)"
 
                 confidence = max(p_win, p_loss, p_draw) * 100
                 
-                logger.info(f"\n {m['home_team']} vs {m['away_team']}")
-                logger.info(f"   Prediction: {prediction} ({confidence:.1f}%)")
-                logger.info(f"   Probs: Home {p_win:.2f} | Draw {p_draw:.2f} | Away {p_loss:.2f}")
-
-if __name__ == "__main__":
-    predictor = UpcomingPredictor()
-    predictor.predict()
+                logger.info(f"{home_team} vs {away_team}")
+                logger.info(f"Pred: {prediction} ({confidence:.1f}%)")
+                logger.info(f"Probs: H:{p_win:.2f} D:{p_draw:.2f} A:{p_loss:.2f}\n")
