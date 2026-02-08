@@ -6,6 +6,7 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
+import os
 
 from app.data_service.db_session import get_db_service
 from app.ml.feature_engineering import FeatureEngineer
@@ -18,7 +19,6 @@ class ModelTrainer:
         self.fe = FeatureEngineer()
         self.le = LabelEncoder()
         
-        # XGBoost Configuration
         self.model = XGBClassifier(
             n_estimators=600,
             learning_rate=0.03,
@@ -42,45 +42,62 @@ class ModelTrainer:
             all_matches = []
             for season in seasons:
                 matches = service.matches.get_by_competition(competition_id, season)
-                for m in matches:
-                    all_matches.append(m.to_dict())
-
+                logger.info(f"Loaded {len(matches)} matches for season {season}")
+                all_matches.extend(matches)
+            
             if not all_matches:
-                logger.warning("No matches found in DB.")
                 return pd.DataFrame()
 
-            df = pd.DataFrame(all_matches)
+            data = []
+            for m in all_matches:
+
+                if m.status != 'FINISHED' or m.score_home is None:
+                    continue
+
+                row = {
+                    'id': m.id,
+                    'date': m.utc_date,
+                    'season': m.season_year,
+                    'home_team': m.home_team_id,
+                    'away_team': m.away_team_id,
+                    'teamID': m.home_team_id,
+                    'opponentID': m.away_team_id,
+                    'location': 'h',
+                    'result': 'W' if m.winner == 'HOME_TEAM' else ('L' if m.winner == 'AWAY_TEAM' else 'D'),
+                    'goals': m.score_home,
+                    'xGoals': m.home_xg if m.home_xg is not None else 0.0,
+                    
+                    'odds_home': m.odds_home,
+                    'odds_draw': m.odds_draw,
+                    'odds_away': m.odds_away
+                }
+
+                row_away = {
+                    'id': m.id,
+                    'date': m.utc_date,
+                    'season': m.season_year,
+                    'home_team': m.home_team_id,
+                    'away_team': m.away_team_id,
+                    'teamID': m.away_team_id,
+                    'opponentID': m.home_team_id,
+                    'location': 'a',
+                    'result': 'W' if m.winner == 'AWAY_TEAM' else ('L' if m.winner == 'HOME_TEAM' else 'D'),
+                    'goals': m.score_away,
+                    'xGoals': m.away_xg if m.away_xg is not None else 0.0,
+                    
+                    'odds_home': m.odds_home,
+                    'odds_draw': m.odds_draw,
+                    'odds_away': m.odds_away
+                }
+                
+                data.append(row)
+                data.append(row_away)
+
+            df = pd.DataFrame(data)
+
+            if df.empty: return df
             
-            if 'utc_date' in df.columns:
-                df['date'] = pd.to_datetime(df['utc_date'])
-            
-            
-            home_df = df.copy()
-            home_df['teamID'] = home_df['home_team_id']
-            home_df['opponentID'] = home_df['away_team_id']
-            home_df['location'] = 'h'
-            home_df['goals'] = home_df['score_home']
-            home_df['xGoals'] = 0 # Placeholder if not available in API data
-            
-            home_map = {'HOME_TEAM': 'W', 'AWAY_TEAM': 'L', 'DRAW': 'D'}
-            home_df['result'] = home_df['winner'].map(home_map)
-            
-            away_df = df.copy()
-            away_df['teamID'] = away_df['away_team_id']
-            away_df['opponentID'] = away_df['home_team_id']
-            away_df['location'] = 'a'
-            away_df['goals'] = away_df['score_away']
-            away_df['xGoals'] = 0 # Placeholder
-            
-            away_map = {'AWAY_TEAM': 'W', 'HOME_TEAM': 'L', 'DRAW': 'D'}
-            away_df['result'] = away_df['winner'].map(away_map)
-            
-            full_df = pd.concat([home_df, away_df], ignore_index=True)
-            
-            logger.info(f"Calculating rolling features for {len(full_df)} team-match rows...")
-            processed_df = self.fe.calculate_rolling_features(full_df)
-            
-            processed_df = processed_df.dropna()
+            processed_df = self.fe.calculate_rolling_features(df)
             
             return processed_df
 
@@ -90,7 +107,11 @@ class ModelTrainer:
             return None
 
         features = self.fe.features
-        
+        missing = [c for c in features if c not in df.columns]
+        if missing:
+            logger.error(f"Missing features in dataframe: {missing}")
+            return None
+
         X = df[features]
         y = df['target']
         
@@ -117,9 +138,7 @@ class ModelTrainer:
         return self.model
 
     def save_model(self, name: str):
-        import os
-        os.makedirs("models", exist_ok=True)
-        
-        path = f"models/{name}.joblib"
-        joblib.dump(self.model, path)
-        logger.info(f"Model saved to {path}")
+        if not os.path.exists("models"):
+            os.makedirs("models")
+        joblib.dump(self.model, f"models/{name}.joblib")
+        logger.info(f"Model saved to models/{name}.joblib")

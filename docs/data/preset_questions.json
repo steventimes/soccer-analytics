@@ -1,0 +1,18 @@
+{
+  "date": null,
+  "generated_at": null,
+  "questions": [
+    {
+      "id": "recommended_bets_today",
+      "title": "Recommended bettings today",
+      "answer": "High-confidence model picks generated in the morning.",
+      "items": []
+    },
+    {
+      "id": "matches_scanned",
+      "title": "How many matches were scanned?",
+      "answer": "0 upcoming fixtures were evaluated.",
+      "items": []
+    }
+  ]
+}

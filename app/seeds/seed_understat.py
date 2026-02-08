@@ -21,82 +21,53 @@ class UnderstatSeeder:
         """
         with get_db_service() as service:
             session = service.session
-            all_teams = session.query(Team).all()
-            team_map = {t.name: t.id for t in all_teams}
-            team_names = list(team_map.keys())
-
+            
             for code, understat_name in UNDERSTAT_LEAGUE_MAP.items():
                 if code not in COMPETITIONS_MAP: 
                     continue
                 
-                db_comp_id = COMPETITIONS_MAP[code]
-                
                 for season in SEASONS:
-                    logger.info(f"Syncing {code} {season}...")
-                    
+                    logger.info(f"Syncing Match xG for {code} {season}...")
+
                     data = self.client.fetch_season_data(understat_name, season)
-                    if not data: 
-                        continue
+                    if not data: continue
                     
-                    updates = 0
+                    count = 0
                     for m in data:                        
-                        if not m['isResult']: 
-                            continue  # Skip unplayed matches
-
-                        h_name = m['h']['title']
-                        a_name = m['a']['title']
-
-                        h_match = process.extractOne(h_name, team_names, score_cutoff=80)
-                        a_match = process.extractOne(a_name, team_names, score_cutoff=80)
-                        
-                        if not h_match or not a_match:
-                            continue
-                            
-                        h_id = team_map[h_match[0]]
-                        a_id = team_map[a_match[0]]
-                        
-                        match_date = datetime.strptime(m['datetime'], "%Y-%m-%d %H:%M:%S")
-
-
+                        m_date = m['datetime'][:10]
                         db_match = session.query(Match).filter(
-                            Match.home_team_id == h_id,
-                            Match.away_team_id == a_id,
-                            Match.season_year == str(season),
-                            func.abs(
-                                func.extract('epoch', Match.utc_date - match_date)
-                            ) <= 86400  # Within 1 day (in seconds)
+                            func.to_char(Match.utc_date, 'YYYY-MM-DD') == m_date,
+                            Match.status == 'FINISHED',
                         ).first()
                         
                         if db_match:
                             db_match.home_xg = float(m['xG']['h'])
                             db_match.away_xg = float(m['xG']['a'])
-                            updates += 1
-                    
+                            count += 1
+                            
                     session.commit()
-                    logger.info(f"  -> Updated {updates} matches with xG.")
+                    logger.info(f"  -> Updated {count} matches with xG.")
 
     def sync_players(self):
-        """
-        Fetches seasonal player stats (xG, xA) from Understat.
-        """
         with get_db_service() as service:
             session = service.session
-
-            teams_map = {t.name: t.id for t in session.query(Team).all()}
-            team_names = list(teams_map.keys())
+            all_teams = session.query(Team).all()
+            team_map = {t.name: t.id for t in all_teams}
 
             for code, understat_name in UNDERSTAT_LEAGUE_MAP.items():
+                if code not in COMPETITIONS_MAP: continue
+                
                 for season in SEASONS:
-                    logger.info(f"Fetching Players: {code} {season}...")
-                    data = self.client.fetch_player_season_data(understat_name, season)
-                    
-                    if not data:
-                        continue
+                    logger.info(f"Syncing Players for {code} {season}...")
+                    players_data = self.client.fetch_player_season_data(understat_name, season)
                     
                     form_entries = []
-                    for p in data:
-                        t_match = process.extractOne(p['team_title'], team_names, score_cutoff=80)
-                        t_id = teams_map[t_match[0]] if t_match else None
+                    for p in players_data:
+                        match = process.extractOne(p['team_title'], team_map.keys())
+                        if match and match[1] > 80:
+                            t_id = team_map[match[0]]
+                        else:
+                            continue
                         
                         entry = PlayerForm(
                             period_label=f"{season}_season",
@@ -118,12 +89,9 @@ class UnderstatSeeder:
                         )
                         form_entries.append(entry)
 
-                    session.query(PlayerForm).filter_by(
-                        period_label=f"{season}_season"
-                    ).delete()                    
+                    session.query(PlayerForm).filter_by(period_label=f"{season}_season").delete()                    
                     session.add_all(form_entries)
                     session.commit()
-                    logger.info(f"  -> Saved {len(form_entries)} player records.")
 
 if __name__ == "__main__":
     seeder = UnderstatSeeder()

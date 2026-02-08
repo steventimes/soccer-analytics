@@ -8,11 +8,12 @@ SQLAlchemy==2.0.45
 psycopg2-binary==2.9.11
 
 # Data Science & ML
-pandas==2.2.0
-numpy==2.3.5
+numpy==2.4.2
+pandas==3.0.0
 scikit-learn==1.8.0
 joblib==1.5.2
 xgboost==3.1.2
 
+# Utilities
 rapidfuzz==3.14.3
 beautifulsoup4==4.14.3
