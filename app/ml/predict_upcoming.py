@@ -49,7 +49,8 @@ class UpcomingPredictor:
                 home_team = m['homeTeam']['name']
                 away_team = m['awayTeam']['name']
 
-                input_data = {
+                input_data = {feature: 0 for feature in self.fe.features}
+                input_data.update({
                     'rolling_xG': 1.5,
                     'rolling_xGA': 1.2,
                     'rolling_deep': 5,
@@ -60,8 +61,12 @@ class UpcomingPredictor:
                     'xG_diff': 0.1,
                     'ppda_diff': -2,
                     'deep_diff': 1,
-                    'points_diff': 5
-                }
+                    'points_diff': 5,
+                    'team_elo': 1500,
+                    'opp_elo': 1500,
+                    'elo_diff': 0,
+                    'rest_days': 7
+                })
                 
                 df = pd.DataFrame([input_data])
                 
