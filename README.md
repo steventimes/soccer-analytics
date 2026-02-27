@@ -53,6 +53,22 @@ docker exec -it football_app python3 -m app.pipeline simulate
 docker exec -it football_app python3 -m app.pipeline all --days 3
 ```
 
+## GitHub Actions config secrets
+
+For CI/CD and scheduled jobs, add repository secrets in **GitHub → Settings → Secrets and variables → Actions**:
+
+- `FOOTBALL_DATA_API_KEY`
+- `DATABASE_URL`
+- `REDIS_URL`
+
+OR:
+
+```bash
+gh secret set FOOTBALL_DATA_API_KEY
+gh secret set DATABASE_URL
+gh secret set REDIS_URL
+```
+
 ## Deployment options
 
 ### Docker Compose (recommended)
