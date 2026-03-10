@@ -26,49 +26,80 @@ class FeatureEngineer:
 
     def _calculate_elo(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Iterates through matches chronologically to calculate ELO ratings.
+        Assign pre-match ELO ratings and update ratings once per match.
+
+        If both team/opponent viewpoints of the same match are present, both
+        rows get the same pre-match ratings and only one update is applied.
         """
-        current_elo = {} 
+        current_elo = {}
         k_factor = 20
         base_rating = 1500
 
-        df = df.sort_values('date').reset_index(drop=True)
-        
-        team_elo_list = []
-        opp_elo_list = []
-        processed_matches = set()
-        rows = df.to_dict('records')
+        working_df = df.copy()
+        working_df['_elo_row_order'] = np.arange(len(working_df))
 
-        for row in rows:
-            t_id = row['teamID']
-            o_id = row['opponentID']
-            m_id = row['id']
+        match_id_col = 'id' if 'id' in working_df.columns else ('gameID' if 'gameID' in working_df.columns else None)
 
-            if t_id not in current_elo: current_elo[t_id] = base_rating
-            if o_id not in current_elo: current_elo[o_id] = base_rating
+        sort_cols = ['date'] if 'date' in working_df.columns else []
+        if match_id_col:
+            sort_cols.append(match_id_col)
+        sort_cols.append('_elo_row_order')
+        working_df = working_df.sort_values(sort_cols, kind='mergesort').reset_index(drop=False)
+        working_df.rename(columns={'index': '_orig_order'}, inplace=True)
 
-            team_elo_list.append(current_elo[t_id])
-            opp_elo_list.append(current_elo[o_id])
+        rows = working_df.to_dict('records')
+        team_elo = np.zeros(len(rows), dtype=float)
+        opp_elo = np.zeros(len(rows), dtype=float)
 
-            if m_id in processed_matches:
-                continue
-            
-            if row['result'] == 'W': actual_score = 1.0
-            elif row['result'] == 'D': actual_score = 0.5
-            else: actual_score = 0.0
+        if match_id_col:
+            grouped_rows = []
+            previous_match = object()
+            for idx, row in enumerate(rows):
+                current_match = row[match_id_col]
+                if idx == 0 or current_match != previous_match:
+                    grouped_rows.append([idx])
+                    previous_match = current_match
+                else:
+                    grouped_rows[-1].append(idx)
+        else:
+            grouped_rows = [[idx] for idx in range(len(rows))]
 
-            ra = current_elo[t_id]
-            rb = current_elo[o_id]
+        for match_rows in grouped_rows:
+            for idx in match_rows:
+                row = rows[idx]
+                team_id = row['teamID']
+                opp_id = row['opponentID']
+                if team_id not in current_elo:
+                    current_elo[team_id] = base_rating
+                if opp_id not in current_elo:
+                    current_elo[opp_id] = base_rating
+                team_elo[idx] = current_elo[team_id]
+                opp_elo[idx] = current_elo[opp_id]
+
+            row0 = rows[match_rows[0]]
+            team_id = row0['teamID']
+            opp_id = row0['opponentID']
+            if row0['result'] == 'W':
+                actual_score = 1.0
+            elif row0['result'] == 'D':
+                actual_score = 0.5
+            else:
+                actual_score = 0.0
+
+            ra = current_elo[team_id]
+            rb = current_elo[opp_id]
             expected_score = 1 / (1 + 10 ** ((rb - ra) / 400))
-
             rating_change = k_factor * (actual_score - expected_score)
-            current_elo[t_id] += rating_change
-            current_elo[o_id] -= rating_change
-            processed_matches.add(m_id)
+            current_elo[team_id] += rating_change
+            current_elo[opp_id] -= rating_change
 
-        df['team_elo'] = team_elo_list
-        df['opp_elo'] = opp_elo_list
-        return df
+        working_df['team_elo'] = team_elo
+        working_df['opp_elo'] = opp_elo
+
+        working_df = working_df.sort_values('_orig_order', kind='mergesort').drop(
+            columns=['_elo_row_order', '_orig_order']
+        )
+        return working_df.reset_index(drop=True)
 
     def calculate_rolling_features(self, df: pd.DataFrame, window=5) -> pd.DataFrame:
         df = df.sort_values(['teamID', 'date'])
