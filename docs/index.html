@@ -11,21 +11,90 @@
       <header>
         <h1>Soccer Analytics Daily Hub</h1>
         <p class="subtitle">
-          Daily model updates, recommended bettings, and recent scores — powered by scheduled automation.
+          Daily model updates, recommended picks, and recent scores powered by scheduled automation.
         </p>
+        <div id="data-health" class="data-health" aria-live="polite"></div>
       </header>
 
-      <section class="card">
-        <h2>Recommended bettings today</h2>
+      <section class="metrics" aria-label="Daily summary">
+        <div class="metric">
+          <span class="metric-label">Fixtures scanned</span>
+          <strong id="metric-fixtures">0</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Recommended picks</span>
+          <strong id="metric-picks">0</strong>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Average confidence</span>
+          <strong id="metric-confidence">N/A</strong>
+        </div>
+      </section>
+
+      <section class="panel operations-panel" aria-label="Model operations summary">
+        <div class="section-heading">
+          <div>
+            <h2>Model operations</h2>
+            <p>Run health, confidence coverage, and data quality alerts for the latest export.</p>
+          </div>
+          <span id="operations-status" class="status-pill">Unknown</span>
+        </div>
+        <div id="operations-summary" class="operations-grid"></div>
+        <div id="operations-alerts" class="list operations-alerts"></div>
+      </section>
+
+
+      <section class="panel release-panel" aria-label="Prediction release governance">
+        <div class="section-heading">
+          <div>
+            <h2>Release governance</h2>
+            <p>Publishing decision, risk disclosure, and responsible-use guardrails for the latest export.</p>
+          </div>
+          <span id="release-status" class="status-pill">Unknown</span>
+        </div>
+        <div id="release-summary" class="operations-grid"></div>
+        <div id="release-blockers" class="list operations-alerts"></div>
+        <div id="risk-disclosure" class="risk-disclosure"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>Recommended picks today</h2>
+            <p>Highest-confidence outcomes generated from the latest model run.</p>
+          </div>
+        </div>
         <div id="recommended-bets" class="list"></div>
       </section>
 
-      <section class="card">
-        <h2>Upcoming predictions</h2>
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>Upcoming predictions</h2>
+            <p>Filter fixtures by competition and confidence band.</p>
+          </div>
+          <div class="controls">
+            <label>
+              Competition
+              <select id="competition-filter">
+                <option value="all">All</option>
+              </select>
+            </label>
+            <label>
+              Minimum confidence
+              <select id="confidence-filter">
+                <option value="0">Any</option>
+                <option value="0.5">50%+</option>
+                <option value="0.6">60%+</option>
+                <option value="0.7">70%+</option>
+              </select>
+            </label>
+          </div>
+        </div>
         <div id="predictions" class="list"></div>
       </section>
 
-      <section class="card">
+      <section class="panel">
         <h2>Latest scores</h2>
         <div id="scores" class="list"></div>
       </section>

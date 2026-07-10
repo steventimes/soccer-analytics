@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -8,7 +8,7 @@ import json
 
 
 def _today_key() -> str:
-    return datetime.utcnow().strftime("%Y-%m-%d")
+    return datetime.now(UTC).strftime("%Y-%m-%d")
 
 
 def load_cached_questions(cache_path: Path) -> dict[str, Any] | None:
@@ -76,6 +76,6 @@ def build_preset_questions(
 
     return {
         "date": _today_key(),
-        "generated_at": datetime.utcnow().isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "questions": questions,
     }

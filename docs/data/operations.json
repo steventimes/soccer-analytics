@@ -1,0 +1,27 @@
+{
+  "alerts": [
+    {
+      "code": "NO_PREDICTIONS",
+      "level": "critical",
+      "message": "No upcoming predictions were exported; check model artifacts and fixture ingestion."
+    },
+    {
+      "code": "NO_SCORES",
+      "level": "warning",
+      "message": "No latest scores were exported; verify the scores data source or cache."
+    }
+  ],
+  "average_confidence": null,
+  "competition_count": 0,
+  "coverage_by_competition": [],
+  "generated_at": null,
+  "high_confidence_count": 0,
+  "low_confidence_count": 0,
+  "prediction_count": 0,
+  "score_count": 0,
+  "status": "attention",
+  "thresholds": {
+    "high_confidence": 0.6,
+    "low_confidence": 0.5
+  }
+}

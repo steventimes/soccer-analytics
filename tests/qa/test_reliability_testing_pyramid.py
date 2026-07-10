@@ -20,7 +20,6 @@ try:
 except Exception:  # pragma: no cover - environment-dependent import guard
     pd = None  # type: ignore[assignment]
 
-from app.ml.feature_engineering import FeatureEngineer
 
 
 Version = Tuple[int, int, int]
@@ -170,6 +169,8 @@ def _build_random_fixture(seed: int, match_count: int = 24) -> pd.DataFrame:
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test01SmokeSanity(unittest.TestCase):
     def test_core_components_bootstrap(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         self.assertTrue(PAGES_WORKFLOW.exists())
         self.assertTrue(DAILY_WORKFLOW.exists())
@@ -202,6 +203,8 @@ class Test02UnitContracts(unittest.TestCase):
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test03Fuzzing(unittest.TestCase):
     def test_feature_engineering_fuzz_no_crash(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         for seed in range(10):
             with self.subTest(seed=seed):
@@ -215,6 +218,8 @@ class Test03Fuzzing(unittest.TestCase):
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test04PropertyBasedTesting(unittest.TestCase):
     def test_mirrored_rows_have_mirrored_pre_match_elo(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         for length in [2, 3, 4, 5]:
             for seq in product(RESULT_PAIRS, repeat=length):
@@ -233,6 +238,8 @@ class Test04PropertyBasedTesting(unittest.TestCase):
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test05Integration(unittest.TestCase):
     def test_pipeline_like_transformation_produces_training_ready_columns(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         df = _build_two_team_fixture([("W", "L"), ("D", "D"), ("L", "W"), ("W", "L"), ("D", "D")])
         out = fe.calculate_rolling_features(df)
@@ -246,6 +253,8 @@ class Test05Integration(unittest.TestCase):
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test06CoverageChecking(unittest.TestCase):
     def test_feature_engineering_core_path_has_minimum_line_coverage(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         df = _build_two_team_fixture([("W", "L"), ("D", "D"), ("L", "W"), ("W", "L"), ("D", "D")])
 
@@ -281,6 +290,8 @@ class Test07ModelChecking(unittest.TestCase):
 @unittest.skipIf(pd is None, "pandas is not installed")
 class Test08TheoremLikeInvariant(unittest.TestCase):
     def test_elo_system_is_zero_sum_over_all_three_match_outcomes(self) -> None:
+        from app.ml.feature_engineering import FeatureEngineer
+
         fe = FeatureEngineer()
         for length in [1, 2, 3, 4]:
             for seq in product(RESULT_PAIRS, repeat=length):

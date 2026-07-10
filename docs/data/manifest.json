@@ -1,0 +1,10 @@
+{
+  "files": {
+    "operations": "docs/data/operations.json",
+    "predictions": "docs/data/predictions.json",
+    "preset_questions": "docs/data/preset_questions.json",
+    "scores": "docs/data/scores.json"
+  },
+  "generated_at": null,
+  "prediction_count": 0
+}

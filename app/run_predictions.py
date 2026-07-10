@@ -1,7 +1,4 @@
-from app.ml.predict_upcoming import UpcomingPredictor
+from app.pipeline import run_predictions_pipeline
 
 if __name__ == "__main__":
-    print("Running Weekend Predictions...")
-    pred = UpcomingPredictor()
-    pred.predict()
-    print("Done.")
+    run_predictions_pipeline()
