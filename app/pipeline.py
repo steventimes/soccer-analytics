@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import argparse
 import logging
+from pathlib import Path
+from typing import Any, Sequence
 
 from app.config import load_settings, resolve_competitions
-from app.ml.predict_upcoming import UpcomingPredictor
-from app.ml.simulate_betting import BettingSimulator
+from app.ml.prediction import PredictionEngine, PredictionRun
 from app.ml.training import ModelTrainer
 from app.web.export_site import export_site_data
 
@@ -14,189 +17,246 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def run_training_pipeline(*, competition_codes: str | None = None, seasons: list[str] | None = None, tune: bool = True):
-    logger.info("Starting Training Pipeline...")
-    trainer = ModelTrainer()
+def run_training_pipeline(
+    *,
+    competition_codes: str | None = None,
+    seasons: Sequence[str] | None = None,
+    trainer: Any | None = None,
+) -> dict[str, Any]:
     settings = load_settings()
     competitions = resolve_competitions(competition_codes, settings)
-    active_seasons = seasons or settings.training_seasons
+    active_seasons = list(seasons or settings.training_seasons)
+    active_trainer = trainer or ModelTrainer(model_dir=settings.model_dir)
+    results: list[dict[str, Any]] = []
+    errors: list[dict[str, str]] = []
 
-    success_count = 0
-    fail_count = 0
-
-    for code, comp_id in competitions.items():
-        logger.info("\n%s", "=" * 40)
-        logger.info("Training Model for: %s (ID: %s)", code, comp_id)
-        logger.info("%s", "=" * 40)
-
+    for code, competition_id in competitions.items():
         try:
-            df = trainer.prepare_dataset(comp_id, active_seasons)
-
-            if df.empty:
-                logger.warning("SKIPPING %s - No data found.", code)
-                fail_count += 1
-                continue
-
-            model = trainer.train(df, tune=tune)
-
-            if model:
-                safe_name = f"{code.lower()}_model"
-                trainer.save_model(safe_name)
-                success_count += 1
+            bundle = active_trainer.train_competition(
+                code,
+                competition_id,
+                active_seasons,
+            )
+            result = {
+                "competition": code,
+                "training_rows": bundle.training_rows,
+                "validation_accuracy": bundle.metrics.get("validation_accuracy"),
+                "validation_log_loss": bundle.metrics.get("validation_log_loss"),
+                "validation_ranked_probability_score": bundle.metrics.get(
+                    "validation_ranked_probability_score"
+                ),
+                "baseline_accuracy": bundle.metrics.get("baseline_accuracy"),
+                "majority_baseline_accuracy": bundle.metrics.get(
+                    "majority_baseline_accuracy"
+                ),
+                "elo_baseline_accuracy": bundle.metrics.get("elo_baseline_accuracy"),
+                "backtest_folds": bundle.metrics.get("backtest_folds"),
+                "backtest_rows": bundle.metrics.get("backtest_rows"),
+                "backtest_accuracy": bundle.metrics.get("backtest_accuracy"),
+                "backtest_baseline_accuracy": bundle.metrics.get(
+                    "backtest_baseline_accuracy"
+                ),
+                "backtest_majority_baseline_accuracy": bundle.metrics.get(
+                    "backtest_majority_baseline_accuracy"
+                ),
+                "backtest_elo_baseline_accuracy": bundle.metrics.get(
+                    "backtest_elo_baseline_accuracy"
+                ),
+                "backtest_log_loss": bundle.metrics.get("backtest_log_loss"),
+                "backtest_brier_score": bundle.metrics.get(
+                    "backtest_brier_score"
+                ),
+                "backtest_calibration_error": bundle.metrics.get(
+                    "backtest_calibration_error"
+                ),
+                "backtest_ranked_probability_score": bundle.metrics.get(
+                    "backtest_ranked_probability_score"
+                ),
+                "backtest_classwise_calibration_error": bundle.metrics.get(
+                    "backtest_classwise_calibration_error"
+                ),
+                "backtest_max_class_calibration_error": bundle.metrics.get(
+                    "backtest_max_class_calibration_error"
+                ),
+                "backtest_sharpness": bundle.metrics.get("backtest_sharpness"),
+                "backtest_worst_fold_accuracy_lift": bundle.metrics.get(
+                    "backtest_worst_fold_accuracy_lift"
+                ),
+                "backtest_accuracy_lift_stddev": bundle.metrics.get(
+                    "backtest_accuracy_lift_stddev"
+                ),
+            }
+            results.append(result)
+            logger.info("%s 训练完成：%s 场", code, bundle.training_rows)
         except Exception as exc:
-            logger.error("Training failed for %s: %s", code, exc)
-            fail_count += 1
+            # 单联赛失败不抹掉其他已训练资产，但必须进入结构化结果。
+            errors.append(
+                {
+                    "competition": code,
+                    "code": type(exc).__name__,
+                    "message": str(exc),
+                }
+            )
+            logger.error("%s 训练失败：%s", code, exc)
 
-    logger.info(
-        "Pipeline Complete. Success: %s, Failed: %s",
-        success_count,
-        fail_count,
-    )
-
-
-def run_predictions_pipeline(days: int = 3):
-    logger.info("Running Weekend Predictions...")
-    predictor = UpcomingPredictor()
-    predictor.predict(days=days)
-    logger.info("Done.")
-
-
-def run_betting_simulation_pipeline():
-    logger.info("Starting Betting Simulation...")
-    simulator = BettingSimulator()
-    simulator.run_simulation()
-    logger.info("Simulation Complete.")
+    return {
+        "seasons": active_seasons,
+        "trained_count": len(results),
+        "failed_count": len(errors),
+        "results": results,
+        "errors": errors,
+    }
 
 
-def run_export_site_pipeline(days: int | None = None):
+def run_predictions_pipeline(
+    days: int | None = None,
+    *,
+    competition_codes: str | None = None,
+    engine: PredictionEngine | None = None,
+) -> PredictionRun:
     settings = load_settings()
-    export_days = days or settings.site_export_days
-    outputs = export_site_data(days=export_days)
+    competitions = resolve_competitions(competition_codes, settings)
+    active_engine = engine or PredictionEngine(models_dir=settings.model_dir)
+    prediction_days = settings.prediction_days if days is None else days
+    run = active_engine.predict_all(competitions, days=prediction_days)
+    logger.info(
+        "预测完成：%s 场，加载 %s/%s 个模型，错误 %s 个",
+        len(run.predictions),
+        run.models_loaded,
+        run.competitions_requested,
+        len(run.errors),
+    )
+    return run
+
+
+def run_export_site_pipeline(
+    days: int | None = None,
+    *,
+    competition_codes: str | None = None,
+    refresh_errors: Sequence[dict[str, str]] = (),
+) -> dict[str, Path]:
+    settings = load_settings()
+    export_days = settings.site_export_days if days is None else days
+    export_kwargs: dict[str, Any] = {
+        "days": export_days,
+        "models_dir": settings.model_dir,
+        "output_dir": settings.site_data_dir,
+    }
+    if competition_codes is not None:
+        export_kwargs["competitions"] = resolve_competitions(competition_codes, settings)
+    if refresh_errors:
+        export_kwargs["refresh_errors"] = list(refresh_errors)
+    outputs = export_site_data(
+        **export_kwargs,
+    )
     for label, path in outputs.items():
-        logger.info("Exported %s -> %s", label, path)
+        logger.info("导出 %s -> %s", label, path)
+    return outputs
 
 
-def run_full_pipeline(days: int = 3, *, competition_codes: str | None = None, seasons: list[str] | None = None, tune: bool = True, export_site: bool = False):
-    run_training_pipeline(competition_codes=competition_codes, seasons=seasons, tune=tune)
-    run_predictions_pipeline(days=days)
-    run_betting_simulation_pipeline()
-    if export_site:
-        run_export_site_pipeline(days=days)
+def run_full_pipeline(
+    days: int | None = None,
+    *,
+    competition_codes: str | None = None,
+    seasons: Sequence[str] | None = None,
+    trainer: Any | None = None,
+) -> dict[str, Any]:
+    training = run_training_pipeline(
+        competition_codes=competition_codes,
+        seasons=seasons,
+        trainer=trainer,
+    )
+    outputs = run_export_site_pipeline(
+        days=days,
+        competition_codes=competition_codes,
+        refresh_errors=training.get("errors", []),
+    )
+    return {"training": training, "outputs": outputs}
+
+
+def _positive_int(value: str) -> int:
+    parsed = int(value)
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("必须大于 0")
+    return parsed
+
+
+def _add_competition_argument(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--competitions",
+        help="逗号分隔的联赛代码，例如 PL,PD,SA。",
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Soccer analytics execution pipeline.")
+    parser = argparse.ArgumentParser(
+        description="Soccer Analytics：采集、训练、预测与静态站点导出。"
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("train", help="Train models for configured competitions.")
-    train_parser = subparsers.choices["train"]
-    train_parser.add_argument(
-        "--competitions",
-        help="Comma-separated competition codes (for example: PL,PD,SA).",
-    )
+    train_parser = subparsers.add_parser("train", help="训练并保存所选联赛模型。")
+    _add_competition_argument(train_parser)
     train_parser.add_argument(
         "--seasons",
-        help="Comma-separated seasons to train on (for example: 2022,2023,2024).",
-    )
-    train_parser.add_argument(
-        "--no-tune",
-        action="store_true",
-        help="Disable model tuning for faster iteration runs.",
+        help="逗号分隔的赛季起始年，例如 2022,2023,2024。",
     )
 
-    predict_parser = subparsers.add_parser(
-        "predict",
-        help="Predict upcoming matches using available models.",
-    )
-    predict_parser.add_argument(
-        "--days",
-        type=int,
-        default=3,
-        help="Number of days ahead to predict.",
-    )
-
-    subparsers.add_parser(
-        "simulate",
-        help="Run the betting simulation with trained models.",
-    )
+    predict_parser = subparsers.add_parser("predict", help="预测未来赛程。")
+    _add_competition_argument(predict_parser)
+    predict_parser.add_argument("--days", type=_positive_int)
 
     export_parser = subparsers.add_parser(
         "export-site",
-        help="Export static site data artifacts for the docs frontend.",
+        help="预测并原子导出静态仪表盘数据。",
     )
-    export_parser.add_argument(
-        "--days",
-        type=int,
-        default=None,
-        help="Number of days ahead to include in the exported prediction dataset.",
-    )
+    _add_competition_argument(export_parser)
+    export_parser.add_argument("--days", type=_positive_int, default=None)
 
     full_parser = subparsers.add_parser(
         "all",
-        help="Run training, predictions, and betting simulation.",
+        help="训练所选联赛并导出仪表盘。",
     )
-    full_parser.add_argument(
-        "--days",
-        type=int,
-        default=3,
-        help="Number of days ahead to predict.",
-    )
-    full_parser.add_argument(
-        "--competitions",
-        help="Comma-separated competition codes (for example: PL,PD,SA).",
-    )
-    full_parser.add_argument(
-        "--seasons",
-        help="Comma-separated seasons to train on (for example: 2022,2023,2024).",
-    )
-    full_parser.add_argument(
-        "--no-tune",
-        action="store_true",
-        help="Disable model tuning for faster iteration runs.",
-    )
-    full_parser.add_argument(
-        "--export-site",
-        action="store_true",
-        help="Also export docs/data payloads after the pipeline completes.",
-    )
-
+    _add_competition_argument(full_parser)
+    full_parser.add_argument("--seasons")
+    full_parser.add_argument("--days", type=_positive_int)
     return parser
 
 
-def main():
-    parser = build_parser()
-    args = parser.parse_args()
+def _seasons(raw: str | None) -> list[str] | None:
+    if not raw:
+        return None
+    return [part.strip() for part in raw.split(",") if part.strip()]
 
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
     if args.command == "train":
-        seasons = [part.strip() for part in args.seasons.split(",") if part.strip()] if args.seasons else None
-        run_training_pipeline(
+        result = run_training_pipeline(
             competition_codes=args.competitions,
-            seasons=seasons,
-            tune=not args.no_tune,
+            seasons=_seasons(args.seasons),
         )
-        return
+        return 0 if result["trained_count"] > 0 else 1
     if args.command == "predict":
-        run_predictions_pipeline(days=args.days)
-        return
-    if args.command == "simulate":
-        run_betting_simulation_pipeline()
-        return
-    if args.command == "export-site":
-        run_export_site_pipeline(days=args.days)
-        return
-    if args.command == "all":
-        seasons = [part.strip() for part in args.seasons.split(",") if part.strip()] if args.seasons else None
-        run_full_pipeline(
+        run = run_predictions_pipeline(
             days=args.days,
             competition_codes=args.competitions,
-            seasons=seasons,
-            tune=not args.no_tune,
-            export_site=args.export_site,
         )
-        return
-
-    parser.error("Unknown command")
+        return 0 if run.models_loaded > 0 else 1
+    if args.command == "export-site":
+        run_export_site_pipeline(
+            days=args.days,
+            competition_codes=args.competitions,
+        )
+        return 0
+    if args.command == "all":
+        result = run_full_pipeline(
+            days=args.days,
+            competition_codes=args.competitions,
+            seasons=_seasons(args.seasons),
+        )
+        return 0 if result["training"]["trained_count"] > 0 else 1
+    raise AssertionError("未知命令")
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

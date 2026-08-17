@@ -1,10 +1,49 @@
 {
+  "artifacts": {
+    "operations": {
+      "path": "docs/data/operations.json",
+      "sha256": "55435cfd254323b77b3ac7bc356ffe1f46c9ad2246233005112ca4b2378e7e70",
+      "size_bytes": 1922
+    },
+    "predictions": {
+      "path": "docs/data/predictions.json",
+      "sha256": "badceb95d05bffc8bea6e45fbeb49d8ba7149fea2333c4a7f0b99c0050e5f675",
+      "size_bytes": 2985
+    },
+    "preset_questions": {
+      "path": "docs/data/preset_questions.json",
+      "sha256": "ec92e327fad73c4eed0cb6166e65a900de3b82cae4a3596909ee46dfb2422bea",
+      "size_bytes": 554
+    },
+    "release_governance": {
+      "path": "docs/data/release.json",
+      "sha256": "f40a7e60175c2ff2fa3d6f1852d16e801e5c24fc06a4391c3e9efd2f67a95906",
+      "size_bytes": 3409
+    },
+    "scores": {
+      "path": "docs/data/scores.json",
+      "sha256": "1b5d2eaee622bace8d851bc2b90d2cb3a78e8e40c2668f1305db22b7100d1136",
+      "size_bytes": 839
+    }
+  },
+  "error_count": 12,
   "files": {
     "operations": "docs/data/operations.json",
     "predictions": "docs/data/predictions.json",
     "preset_questions": "docs/data/preset_questions.json",
+    "release_governance": "docs/data/release.json",
     "scores": "docs/data/scores.json"
   },
-  "generated_at": null,
-  "prediction_count": 0
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
+  "model_coverage": {
+    "loaded": 0,
+    "ratio": 0.0,
+    "requested": 12
+  },
+  "model_refresh_error_count": 0,
+  "prediction_count": 0,
+  "prediction_error_count": 12,
+  "run_id": "fdd711379eb240fa1832",
+  "schema": "SoccerAnalytics.SiteManifest.v3",
+  "score_error_count": 0
 }

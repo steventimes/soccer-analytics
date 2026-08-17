@@ -1,4 +1,34 @@
 {
-  "generated_at": null,
-  "scores": []
+  "errors": [],
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
+  "schema": "SoccerAnalytics.Scores.v2",
+  "scores": [
+    {
+      "away_score": "1",
+      "away_team": "Greenville Triumph",
+      "date": "2026-08-13",
+      "home_score": "1",
+      "home_team": "Forward Madison",
+      "league": "American USL League One",
+      "time": "00:00:00"
+    },
+    {
+      "away_score": "0",
+      "away_team": "Santiago Wanderers",
+      "date": "2026-08-13",
+      "home_score": "0",
+      "home_team": "Deportes Antofagasta",
+      "league": "Chile Primera B",
+      "time": "00:30:00"
+    },
+    {
+      "away_score": null,
+      "away_team": "Deportes Temuco",
+      "date": "2026-08-13",
+      "home_score": null,
+      "home_team": "San Luis de Quillota",
+      "league": "Chile Primera B",
+      "time": "22:00:00"
+    }
+  ]
 }

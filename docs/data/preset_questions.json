@@ -1,18 +1,20 @@
 {
-  "date": null,
-  "generated_at": null,
+  "can_publish_recommendations": false,
+  "date": "2026-08-13",
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
   "questions": [
     {
+      "answer": "Recommendations are withheld because the release gate is blocked.",
       "id": "recommended_bets_today",
-      "title": "Recommended bettings today",
-      "answer": "High-confidence model picks generated in the morning.",
-      "items": []
+      "items": [],
+      "title": "Recommended picks today"
     },
     {
-      "id": "matches_scanned",
-      "title": "How many matches were scanned?",
       "answer": "0 upcoming fixtures were evaluated.",
-      "items": []
+      "id": "matches_scanned",
+      "items": [],
+      "title": "How many matches were scanned?"
     }
-  ]
+  ],
+  "schema": "SoccerAnalytics.PresetQuestions.v2"
 }

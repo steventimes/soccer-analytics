@@ -1,0 +1,103 @@
+{
+  "audit": {
+    "alert_codes": [
+      "NO_PREDICTIONS",
+      "MODEL_COVERAGE_GAP",
+      "PREDICTION_ERRORS"
+    ],
+    "average_confidence": null,
+    "cold_start_ratio": 0.0,
+    "duplicate_forecast_count": 0,
+    "forecast_conflict_count": 0,
+    "high_confidence_count": 0,
+    "invalid_prediction_probability_count": 0,
+    "missing_forecast_identity_count": 0,
+    "model_coverage": {
+      "loaded": 0,
+      "ratio": 0.0,
+      "requested": 12
+    },
+    "model_refresh_error_count": 0,
+    "models_below_backtest_baseline": [],
+    "models_below_baseline": [],
+    "models_recovered_from_previous": [],
+    "models_stale": [],
+    "models_temporally_unstable": [],
+    "models_with_poor_calibration": [],
+    "models_with_poor_classwise_calibration": [],
+    "models_without_quality_metrics": [],
+    "operation_status": "critical",
+    "prediction_count": 0,
+    "unique_average_confidence": null,
+    "unique_high_confidence_count": 0,
+    "unique_prediction_count": 0
+  },
+  "blockers": [
+    {
+      "code": "INSUFFICIENT_FIXTURE_COVERAGE",
+      "message": "Only 0 predictions were exported; require at least 3 before publishing picks."
+    },
+    {
+      "code": "OPERATIONS_NOT_HEALTHY",
+      "message": "Latest operations summary is not healthy; resolve data quality alerts before publishing."
+    },
+    {
+      "code": "NO_PUBLISHABLE_PICKS",
+      "message": "Only 0 high-confidence picks cleared the threshold; require 1."
+    },
+    {
+      "code": "LOW_AVERAGE_CONFIDENCE",
+      "message": "Average confidence is unavailable; require at least 0.55."
+    },
+    {
+      "code": "OPERATIONS_PREDICTION_AUDIT_MISMATCH",
+      "message": "Operations counts do not match the unique release prediction set."
+    },
+    {
+      "code": "MODEL_COVERAGE_INCOMPLETE",
+      "message": "Only 0 of 12 requested models completed prediction."
+    },
+    {
+      "code": "MODEL_EVIDENCE_INCOMPLETE",
+      "message": "Quality evidence covers 0 of 0 loaded models."
+    },
+    {
+      "code": "CRITICAL_ALERT_NO_PREDICTIONS",
+      "message": "No upcoming predictions were exported; check model artifacts and fixture ingestion."
+    },
+    {
+      "code": "CRITICAL_ALERT_MODEL_COVERAGE_GAP",
+      "message": "Only 0 of 12 requested competition models completed prediction."
+    }
+  ],
+  "can_publish_recommendations": false,
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
+  "release_decision": "blocked",
+  "risk_disclosure": {
+    "responsible_use": [
+      "Do not publish picks when release_decision is blocked.",
+      "Do not present confidence as certainty.",
+      "Show bankroll and loss-limit guidance outside the model output.",
+      "Keep human review in the publishing workflow for paid or public recommendations."
+    ],
+    "summary": "Model picks are probabilistic decision support, not guaranteed outcomes or financial advice."
+  },
+  "schema": "SoccerAnalytics.ReleaseGovernance.v3",
+  "thresholds": {
+    "maximum_cold_start_ratio": 0.5,
+    "minimum_average_confidence": 0.55,
+    "minimum_high_confidence_picks": 1,
+    "minimum_predictions": 3
+  },
+  "verification_commands": [
+    "python3 -m unittest discover -s tests -v",
+    "python3 -m app.pipeline export-site --days 3",
+    "node --check docs/app.js"
+  ],
+  "warnings": [
+    {
+      "code": "PREDICTION_ERRORS",
+      "message": "12 competition prediction errors were exported for diagnosis."
+    }
+  ]
+}

@@ -1,105 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soccer Analytics Daily Hub</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#13232f" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2313232f'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23f4b942'/%3E%3C/svg%3E" />
+    <title>Touchline — Soccer model room</title>
+    <meta
+      name="description"
+      content="Daily soccer probabilities with model coverage, quality gates, and publishing controls."
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="container">
-      <header>
-        <h1>Soccer Analytics Daily Hub</h1>
-        <p class="subtitle">
-          Daily model updates, recommended picks, and recent scores powered by scheduled automation.
-        </p>
-        <div id="data-health" class="data-health" aria-live="polite"></div>
-      </header>
+    <a class="skip-link" href="#main-content">Skip to match intelligence</a>
 
-      <section class="metrics" aria-label="Daily summary">
-        <div class="metric">
-          <span class="metric-label">Fixtures scanned</span>
+    <header class="hero">
+      <div class="hero-inner">
+        <nav class="masthead" aria-label="Product">
+          <a class="wordmark" href="./" aria-label="Touchline home">
+            <span class="wordmark-mark" aria-hidden="true">T</span>
+            <span>Touchline</span>
+          </a>
+          <div id="data-health" class="data-health" aria-live="polite">
+            Reading the latest snapshot…
+          </div>
+        </nav>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Daily soccer model room</p>
+            <h1>Read the match.<br /><span>Read the model.</span></h1>
+            <p class="hero-summary">
+              Probabilities are only useful when their data is ready. Start with model coverage and release status, then inspect every fixture.
+            </p>
+          </div>
+
+          <aside id="release-command" class="release-command" aria-labelledby="release-command-title">
+            <div class="command-topline">
+              <span>Publishing control</span>
+              <span id="release-status" class="status-token status-unknown">Checking</span>
+            </div>
+            <h2 id="release-command-title">Hold recommendations</h2>
+            <p id="release-command-copy">Quality gates are loading.</p>
+            <div class="command-facts" id="release-command-facts"></div>
+          </aside>
+        </div>
+
+        <section class="coverage-board" aria-labelledby="coverage-title">
+          <div class="coverage-heading">
+            <div>
+              <span class="eyebrow" id="coverage-title">Model coverage</span>
+              <strong id="coverage-copy">Waiting for competition models</strong>
+            </div>
+            <span id="coverage-ratio" class="coverage-ratio">— / —</span>
+          </div>
+          <div
+            id="model-coverage-track"
+            class="coverage-track"
+            role="progressbar"
+            aria-label="Competition model coverage"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span id="coverage-fill"></span>
+          </div>
+          <div id="coverage-labels" class="coverage-labels"></div>
+        </section>
+      </div>
+    </header>
+
+    <main id="main-content" class="dashboard-shell">
+      <section class="scoreboard" aria-label="Latest run summary">
+        <article class="score-cell">
+          <span>Fixtures</span>
           <strong id="metric-fixtures">0</strong>
-        </div>
-        <div class="metric">
-          <span class="metric-label">Recommended picks</span>
+          <small>in this snapshot</small>
+        </article>
+        <article class="score-cell">
+          <span>Publishable</span>
           <strong id="metric-picks">0</strong>
-        </div>
-        <div class="metric">
-          <span class="metric-label">Average confidence</span>
-          <strong id="metric-confidence">N/A</strong>
-        </div>
+          <small>at 60%+ confidence</small>
+        </article>
+        <article class="score-cell">
+          <span>Avg confidence</span>
+          <strong id="metric-confidence">—</strong>
+          <small>across all fixtures</small>
+        </article>
+        <article class="score-cell">
+          <span>Cold starts</span>
+          <strong id="metric-cold-start">—</strong>
+          <small>limited team history</small>
+        </article>
       </section>
 
-      <section class="panel operations-panel" aria-label="Model operations summary">
-        <div class="section-heading">
-          <div>
-            <h2>Model operations</h2>
-            <p>Run health, confidence coverage, and data quality alerts for the latest export.</p>
+      <section class="quality-grid" aria-label="Quality and release controls">
+        <article class="surface quality-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Model watch</p>
+              <h2>Can this run be trusted?</h2>
+            </div>
+            <span id="operations-status" class="status-token status-unknown">Unknown</span>
           </div>
-          <span id="operations-status" class="status-pill">Unknown</span>
-        </div>
-        <div id="operations-summary" class="operations-grid"></div>
-        <div id="operations-alerts" class="list operations-alerts"></div>
+          <div id="operations-summary" class="quality-stats"></div>
+          <div id="operations-alerts" class="signal-list"></div>
+        </article>
+
+        <article class="surface gate-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Release gate</p>
+              <h2>What blocks publishing?</h2>
+            </div>
+          </div>
+          <div id="release-summary" class="quality-stats"></div>
+          <div id="release-blockers" class="signal-list"></div>
+        </article>
       </section>
 
-
-      <section class="panel release-panel" aria-label="Prediction release governance">
-        <div class="section-heading">
+      <section class="surface fixture-desk" aria-labelledby="fixtures-title">
+        <div class="fixture-heading">
           <div>
-            <h2>Release governance</h2>
-            <p>Publishing decision, risk disclosure, and responsible-use guardrails for the latest export.</p>
+            <p class="eyebrow">Fixture desk</p>
+            <h2 id="fixtures-title">Upcoming probabilities</h2>
+            <p id="fixture-result-count" class="section-note">Loading fixtures…</p>
           </div>
-          <span id="release-status" class="status-pill">Unknown</span>
-        </div>
-        <div id="release-summary" class="operations-grid"></div>
-        <div id="release-blockers" class="list operations-alerts"></div>
-        <div id="risk-disclosure" class="risk-disclosure"></div>
-      </section>
-
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <h2>Recommended picks today</h2>
-            <p>Highest-confidence outcomes generated from the latest model run.</p>
-          </div>
-        </div>
-        <div id="recommended-bets" class="list"></div>
-      </section>
-
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <h2>Upcoming predictions</h2>
-            <p>Filter fixtures by competition and confidence band.</p>
-          </div>
-          <div class="controls">
+          <div class="controls" aria-label="Prediction filters">
+            <label class="search-control">
+              <span>Find a team</span>
+              <input id="prediction-search" type="search" placeholder="Search fixtures" autocomplete="off" />
+            </label>
             <label>
-              Competition
+              <span>Competition</span>
               <select id="competition-filter">
-                <option value="all">All</option>
+                <option value="all">All competitions</option>
               </select>
             </label>
             <label>
-              Minimum confidence
+              <span>Confidence</span>
               <select id="confidence-filter">
-                <option value="0">Any</option>
-                <option value="0.5">50%+</option>
-                <option value="0.6">60%+</option>
-                <option value="0.7">70%+</option>
+                <option value="0">Any confidence</option>
+                <option value="0.5">50% and above</option>
+                <option value="0.6">60% and above</option>
+                <option value="0.7">70% and above</option>
+              </select>
+            </label>
+            <label>
+              <span>Order</span>
+              <select id="prediction-sort">
+                <option value="kickoff">Soonest kickoff</option>
+                <option value="confidence">Highest confidence</option>
+                <option value="uncertainty">Lowest uncertainty</option>
               </select>
             </label>
           </div>
         </div>
-        <div id="predictions" class="list"></div>
+        <div id="predictions" class="fixture-grid" aria-live="polite"></div>
       </section>
 
-      <section class="panel">
-        <h2>Latest scores</h2>
-        <div id="scores" class="list"></div>
+      <section class="support-grid">
+        <article class="surface support-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Shortlist</p>
+              <h2>Recommended picks</h2>
+            </div>
+          </div>
+          <div id="recommended-bets" class="compact-list"></div>
+        </article>
+        <article class="surface support-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Score wire</p>
+              <h2>Latest results</h2>
+            </div>
+          </div>
+          <div id="scores" class="compact-list"></div>
+        </article>
+      </section>
+
+      <section class="surface diagnostics" aria-labelledby="diagnostics-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Run diagnostics</p>
+            <h2 id="diagnostics-title">Partial failures</h2>
+          </div>
+        </div>
+        <div id="prediction-errors" class="signal-list"></div>
+      </section>
+
+      <section class="risk-band" aria-labelledby="risk-title">
+        <div>
+          <p class="eyebrow">Responsible use</p>
+          <h2 id="risk-title">Probability is not certainty.</h2>
+        </div>
+        <div id="risk-disclosure" class="risk-copy">
+          <p>Use this dashboard as decision support. Do not publish when the release gate is blocked.</p>
+        </div>
       </section>
     </main>
 
+    <footer>
+      <span>Touchline / Soccer Analytics</span>
+      <span id="footer-run-id">Snapshot not loaded</span>
+    </footer>
     <script src="./app.js"></script>
   </body>
 </html>

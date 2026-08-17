@@ -1,39 +1,18 @@
-#!/bin/bash
-
-if [ -z "${BASH_VERSION:-}" ]; then
-  echo "Please run this script with bash: bash run.sh" >&2
-  exit 1
-fi
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-mkdir -p ./log
-mkdir -p ./models
+mkdir -p ./models ./docs/data
 
-echo "Rebuilding Docker..."
-if command -v docker-compose >/dev/null 2>&1; then
-  DOCKER_COMPOSE="docker-compose"
+# 当前 compose 文件使用 v2 的可选 env_file 语法，优先选择 Docker 插件。
+if docker compose version >/dev/null 2>&1; then
+  compose=(docker compose)
+elif command -v docker-compose >/dev/null 2>&1; then
+  compose=(docker-compose)
 else
-  DOCKER_COMPOSE="docker compose"
+  echo "需要 Docker Compose v2 或 docker-compose" >&2
+  exit 127
 fi
 
-${DOCKER_COMPOSE} down -v
-${DOCKER_COMPOSE} up --build -d
-
-echo "Waiting for Database to initialize..."
-sleep 10
-
-echo "Running Seed Matches..."
-docker exec -it football_app python3 -m app.seeds.seed_matches > ./log/match_gather.log
-
-echo "Running Seed Players..."
-docker exec -it football_app python3 -m app.seeds.seed_players > ./log/player_gather.log
-
-echo "Running Seed Competitions..."
-docker exec -it football_app python3 -m app.seeds.seed_competitions > ./log/context_gather.log
-
-echo "Training Models..."
-
-docker exec -it football_app python3 -m app.pipeline train > ./log/ml.log
-
-echo "Pipeline Complete."
+"${compose[@]}" build app
+"${compose[@]}" run --rm app all "$@"

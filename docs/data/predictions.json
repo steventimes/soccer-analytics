@@ -1,4 +1,71 @@
 {
-  "generated_at": null,
-  "predictions": []
+  "competitions_requested": 12,
+  "errors": [
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "CL",
+      "message": "当前模型不可用 (模型包不存在: models/cl.bundle)；上一版也不可用 (模型包不存在: models/cl.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "PL",
+      "message": "当前模型不可用 (模型包不存在: models/pl.bundle)；上一版也不可用 (模型包不存在: models/pl.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "PPL",
+      "message": "当前模型不可用 (模型包不存在: models/ppl.bundle)；上一版也不可用 (模型包不存在: models/ppl.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "DED",
+      "message": "当前模型不可用 (模型包不存在: models/ded.bundle)；上一版也不可用 (模型包不存在: models/ded.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "BL1",
+      "message": "当前模型不可用 (模型包不存在: models/bl1.bundle)；上一版也不可用 (模型包不存在: models/bl1.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "FL1",
+      "message": "当前模型不可用 (模型包不存在: models/fl1.bundle)；上一版也不可用 (模型包不存在: models/fl1.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "SA",
+      "message": "当前模型不可用 (模型包不存在: models/sa.bundle)；上一版也不可用 (模型包不存在: models/sa.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "PD",
+      "message": "当前模型不可用 (模型包不存在: models/pd.bundle)；上一版也不可用 (模型包不存在: models/pd.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "BSA",
+      "message": "当前模型不可用 (模型包不存在: models/bsa.bundle)；上一版也不可用 (模型包不存在: models/bsa.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "ELC",
+      "message": "当前模型不可用 (模型包不存在: models/elc.bundle)；上一版也不可用 (模型包不存在: models/elc.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "EC",
+      "message": "当前模型不可用 (模型包不存在: models/ec.bundle)；上一版也不可用 (模型包不存在: models/ec.previous.bundle)"
+    },
+    {
+      "code": "MODEL_UNAVAILABLE",
+      "competition": "WC",
+      "message": "当前模型不可用 (模型包不存在: models/wc.bundle)；上一版也不可用 (模型包不存在: models/wc.previous.bundle)"
+    }
+  ],
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
+  "model_reports": [],
+  "models_loaded": 0,
+  "predictions": [],
+  "refresh_errors": [],
+  "schema": "SoccerAnalytics.Predictions.v3"
 }

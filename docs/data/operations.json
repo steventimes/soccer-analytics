@@ -6,22 +6,59 @@
       "message": "No upcoming predictions were exported; check model artifacts and fixture ingestion."
     },
     {
-      "code": "NO_SCORES",
+      "code": "MODEL_COVERAGE_GAP",
+      "level": "critical",
+      "message": "Only 0 of 12 requested competition models completed prediction."
+    },
+    {
+      "code": "PREDICTION_ERRORS",
       "level": "warning",
-      "message": "No latest scores were exported; verify the scores data source or cache."
+      "message": "12 competition prediction errors were exported for diagnosis."
     }
   ],
   "average_confidence": null,
+  "average_uncertainty": null,
+  "cold_start_count": 0,
+  "cold_start_ratio": 0.0,
   "competition_count": 0,
   "coverage_by_competition": [],
-  "generated_at": null,
+  "duplicate_forecast_count": 0,
+  "forecast_conflict_count": 0,
+  "generated_at": "2026-08-13T04:32:14.961737+00:00",
   "high_confidence_count": 0,
+  "invalid_prediction_identity_count": 0,
+  "invalid_prediction_probability_count": 0,
+  "invalid_prediction_quality_count": 0,
   "low_confidence_count": 0,
+  "model_coverage": {
+    "loaded": 0,
+    "ratio": 0.0,
+    "requested": 12
+  },
+  "model_quality_by_competition": [],
+  "model_refresh_error_count": 0,
+  "models_below_backtest_baseline": [],
+  "models_below_baseline": [],
+  "models_recovered_from_previous": [],
+  "models_stale": [],
+  "models_temporally_unstable": [],
+  "models_with_poor_calibration": [],
+  "models_with_poor_classwise_calibration": [],
+  "models_without_quality_metrics": [],
   "prediction_count": 0,
-  "score_count": 0,
-  "status": "attention",
+  "prediction_error_count": 12,
+  "raw_prediction_count": 0,
+  "schema": "SoccerAnalytics.Operations.v3",
+  "score_count": 3,
+  "score_error_count": 0,
+  "status": "critical",
   "thresholds": {
+    "cold_start_warning_ratio": 0.5,
     "high_confidence": 0.6,
-    "low_confidence": 0.5
+    "low_confidence": 0.5,
+    "maximum_calibration_error": 0.2,
+    "maximum_classwise_calibration_error": 0.2,
+    "maximum_model_age_hours": 72.0,
+    "minimum_worst_fold_accuracy_lift": -0.15
   }
 }

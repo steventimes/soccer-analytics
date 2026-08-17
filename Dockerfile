@@ -5,18 +5,13 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    gcc \
-    libpq-dev \
-    procps \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY app ./app
+COPY docs ./docs
+RUN mkdir -p /app/models /app/docs/data
 
-EXPOSE 8000
-
-CMD ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["python", "-m", "app.pipeline"]
+CMD ["--help"]

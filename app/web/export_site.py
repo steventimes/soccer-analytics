@@ -1,23 +1,73 @@
 from __future__ import annotations
 
+import hashlib
 import json
+import os
+import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping, Sequence
 
+from app.config import load_settings
+from app.ml.prediction import PredictionEngine, PredictionRun
 from app.web.operations import build_operations_summary
-from app.web.preset_questions import build_preset_questions, load_cached_questions
+from app.web.preset_questions import build_preset_questions
 from app.web.release_governance import build_release_governance
-from app.web.scores import fetch_daily_scores
-from app.web.site_paths import data_dir, repo_root
+from app.web.scores import fetch_daily_scores_with_diagnostics
+from app.web.site_paths import repo_root
 
 
-def _write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True))
+def _utc(now: datetime | None = None) -> datetime:
+    current = now or datetime.now(UTC)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=UTC)
+    return current.astimezone(UTC)
 
 
-def _timestamp() -> str:
-    return datetime.now(UTC).isoformat()
+def _json_bytes(payload: Mapping[str, Any]) -> bytes:
+    return (
+        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    ).encode("utf-8")
+
+
+def _atomic_write_json(path: Path, payload: Mapping[str, Any]) -> None:
+    """同目录落临时文件再替换；失败时旧制品保持原样。"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temporary_path = Path(handle.name)
+            handle.write(_json_bytes(payload))
+            handle.flush()
+            # 容器以不同 UID 写挂载卷时，让制品归属于输出目录所有者。
+            try:
+                parent = path.parent.stat()
+                os.fchown(handle.fileno(), parent.st_uid, parent.st_gid)
+            except (AttributeError, OSError):
+                pass
+            # 站点制品需要由容器外的静态服务器和审计进程读取。
+            os.fchmod(handle.fileno(), 0o644)
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, path)
+        temporary_path = None
+        # 目录 fsync 让 rename 在突然断电后也具备持久性；不支持时文件原子性仍成立。
+        try:
+            directory_fd = os.open(path.parent, os.O_RDONLY)
+            try:
+                os.fsync(directory_fd)
+            finally:
+                os.close(directory_fd)
+        except OSError:
+            pass
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
 
 
 def _artifact_path(path: Path) -> str:
@@ -27,84 +77,171 @@ def _artifact_path(path: Path) -> str:
         return path.as_posix()
 
 
-def _build_manifest(
-    predictions_path: Path,
-    preset_cache_path: Path,
-    scores_path: Path,
-    operations_path: Path,
-    release_path: Path,
+def _generate_prediction_run(
+    models_dir: Path,
+    days: int,
+    *,
+    now: datetime,
+    competitions: Mapping[str, int] | None = None,
+) -> PredictionRun:
+    return PredictionEngine(models_dir=models_dir).predict_all(
+        competitions,
+        days=days,
+        now=now,
+    )
+
+
+def _manifest(
+    *,
+    outputs: dict[str, Path],
+    generated_at: str,
     predictions: list[dict[str, Any]],
+    errors: list[dict[str, str]],
+    refresh_errors: list[dict[str, Any]],
+    score_errors: list[dict[str, Any]],
+    models_loaded: int,
+    competitions_requested: int,
 ) -> dict[str, Any]:
+    artifacts: dict[str, dict[str, Any]] = {}
+    for name, path in outputs.items():
+        raw = path.read_bytes()
+        artifacts[name] = {
+            "path": _artifact_path(path),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "size_bytes": len(raw),
+        }
+    ratio = None if competitions_requested == 0 else round(models_loaded / competitions_requested, 4)
+    run_seed = generated_at + "|" + "|".join(
+        artifacts[name]["sha256"] for name in sorted(artifacts)
+    )
     return {
-        "generated_at": _timestamp(),
+        "schema": "SoccerAnalytics.SiteManifest.v3",
+        "generated_at": generated_at,
+        "run_id": hashlib.sha256(run_seed.encode("utf-8")).hexdigest()[:20],
         "prediction_count": len(predictions),
-        "files": {
-            "predictions": _artifact_path(predictions_path),
-            "preset_questions": _artifact_path(preset_cache_path),
-            "scores": _artifact_path(scores_path),
-            "operations": _artifact_path(operations_path),
-            "release_governance": _artifact_path(release_path),
+        "error_count": len(errors) + len(refresh_errors) + len(score_errors),
+        "prediction_error_count": len(errors),
+        "model_refresh_error_count": len(refresh_errors),
+        "score_error_count": len(score_errors),
+        "model_coverage": {
+            "loaded": models_loaded,
+            "requested": competitions_requested,
+            "ratio": ratio,
         },
+        "files": {name: metadata["path"] for name, metadata in artifacts.items()},
+        "artifacts": artifacts,
     }
 
 
-def _generate_predictions(models_dir: Path, days: int) -> list[dict[str, Any]]:
-    from app.web.predictions import generate_predictions
+def export_site_data(
+    days: int = 1,
+    *,
+    prediction_run: PredictionRun | None = None,
+    scores: list[dict[str, Any]] | None = None,
+    models_dir: Path | None = None,
+    output_dir: Path | None = None,
+    competitions: Mapping[str, int] | None = None,
+    refresh_errors: Sequence[Mapping[str, Any]] = (),
+    now: datetime | None = None,
+) -> dict[str, Path]:
+    if days <= 0:
+        raise ValueError("导出预测天数必须大于 0")
+    settings = load_settings()
+    active_now = _utc(now)
+    active_models_dir = Path(models_dir or settings.model_dir)
+    active_output_dir = Path(output_dir or settings.site_data_dir)
+    active_output_dir.mkdir(parents=True, exist_ok=True)
 
-    return generate_predictions(models_dir=models_dir, days=days)
+    run = prediction_run or _generate_prediction_run(
+        active_models_dir,
+        days,
+        now=active_now,
+        competitions=competitions,
+    )
+    if prediction_run is not None and now is None:
+        try:
+            active_now = _utc(datetime.fromisoformat(run.generated_at.replace("Z", "+00:00")))
+        except ValueError:
+            pass
+    generated_at = active_now.isoformat()
+    predictions = list(run.predictions)
+    errors = list(run.errors)
+    model_refresh_errors = [dict(item) for item in refresh_errors]
+    if scores is None:
+        score_result = fetch_daily_scores_with_diagnostics(active_now)
+        score_rows = list(score_result.scores)
+        score_errors = list(score_result.errors)
+    else:
+        score_rows = list(scores)
+        score_errors = []
 
-
-def export_site_data(days: int = 1) -> dict[str, Path]:
-    data_path = data_dir()
-    data_path.mkdir(parents=True, exist_ok=True)
-
-    models_dir = repo_root() / "models"
-    predictions = _generate_predictions(models_dir=models_dir, days=days)
-    predictions_payload = {
-        "generated_at": _timestamp(),
+    prediction_payload = {
+        "schema": "SoccerAnalytics.Predictions.v3",
+        "generated_at": generated_at,
         "predictions": predictions,
+        "errors": errors,
+        "refresh_errors": model_refresh_errors,
+        "models_loaded": run.models_loaded,
+        "competitions_requested": run.competitions_requested,
+        "model_reports": list(run.model_reports),
     }
-    predictions_path = data_path / "predictions.json"
-    _write_json(predictions_path, predictions_payload)
-
-    preset_cache_path = data_path / "preset_questions.json"
-    cached = load_cached_questions(preset_cache_path)
-    if cached is None:
-        preset_payload = build_preset_questions(predictions)
-        _write_json(preset_cache_path, preset_payload)
-
     scores_payload = {
-        "generated_at": _timestamp(),
-        "scores": fetch_daily_scores(),
+        "schema": "SoccerAnalytics.Scores.v2",
+        "generated_at": generated_at,
+        "scores": score_rows,
+        "errors": score_errors,
     }
-    scores_path = data_path / "scores.json"
-    _write_json(scores_path, scores_payload)
-
-    operations_path = data_path / "operations.json"
-    operations_summary = build_operations_summary(predictions, scores_payload["scores"])
-    _write_json(operations_path, operations_summary)
-
-    release_path = data_path / "release.json"
-    _write_json(
-        release_path,
-        build_release_governance(predictions, operations_summary),
+    operations_payload = build_operations_summary(
+        predictions,
+        score_rows,
+        prediction_errors=errors,
+        score_errors=score_errors,
+        model_refresh_errors=model_refresh_errors,
+        model_reports=run.model_reports,
+        models_loaded=run.models_loaded,
+        competitions_requested=run.competitions_requested,
+        generated_at=generated_at,
+    )
+    release_payload = build_release_governance(
+        predictions,
+        operations_payload,
+        generated_at=generated_at,
+    )
+    preset_payload = build_preset_questions(
+        predictions,
+        now=active_now,
+        can_publish_recommendations=(
+            release_payload.get("can_publish_recommendations") is True
+        ),
     )
 
-    manifest_path = data_path / "manifest.json"
-    _write_json(
-        manifest_path,
-        _build_manifest(predictions_path, preset_cache_path, scores_path, operations_path, release_path, predictions),
-    )
-
-    return {
-        "manifest": manifest_path,
-        "predictions": predictions_path,
-        "preset_questions": preset_cache_path,
-        "scores": scores_path,
-        "operations": operations_path,
-        "release_governance": release_path,
+    outputs = {
+        "predictions": active_output_dir / "predictions.json",
+        "preset_questions": active_output_dir / "preset_questions.json",
+        "scores": active_output_dir / "scores.json",
+        "operations": active_output_dir / "operations.json",
+        "release_governance": active_output_dir / "release.json",
     }
+    for name, payload in (
+        ("predictions", prediction_payload),
+        ("preset_questions", preset_payload),
+        ("scores", scores_payload),
+        ("operations", operations_payload),
+        ("release_governance", release_payload),
+    ):
+        _atomic_write_json(outputs[name], payload)
 
-
-if __name__ == "__main__":
-    export_site_data()
+    manifest_path = active_output_dir / "manifest.json"
+    manifest_payload = _manifest(
+        outputs=outputs,
+        generated_at=generated_at,
+        predictions=predictions,
+        errors=errors,
+        refresh_errors=model_refresh_errors,
+        score_errors=score_errors,
+        models_loaded=run.models_loaded,
+        competitions_requested=run.competitions_requested,
+    )
+    # 清单是提交标记，必须在其余文件全部原子替换成功后最后写入。
+    _atomic_write_json(manifest_path, manifest_payload)
+    return {"manifest": manifest_path, **outputs}

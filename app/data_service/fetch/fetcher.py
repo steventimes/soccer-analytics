@@ -1,115 +1,243 @@
-import os
-import requests
-import time
+from __future__ import annotations
+
 import logging
-from typing import List, Dict, Optional
-from dotenv import load_dotenv
+from collections import deque
+from threading import Lock
+import math
+import os
+import time
+from typing import Any, Mapping
 
-from app.data_service.db.cache.cache_management import get_redis_client
+import requests
 
-logging.basicConfig(level=logging.INFO)
+from app.config import load_settings
+
 logger = logging.getLogger(__name__)
 
-load_dotenv()
 
-class RedisRateLimiter:
-    """
-    Persist rate limits in Redis using a Sliding Window algorithm.
-    """
-    def __init__(self, key_prefix: str = "rate_limit:football_api", limit: int = 10, window: int = 60):
-        self.redis = get_redis_client()
-        self.key = key_prefix
+class DataSourceError(RuntimeError):
+    """外部数据源失败，携带端点和可重试语义供上层决策。"""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        endpoint: str,
+        status_code: int | None = None,
+        retryable: bool = False,
+    ) -> None:
+        super().__init__(message)
+        self.endpoint = endpoint
+        self.status_code = status_code
+        self.retryable = retryable
+
+
+class SlidingWindowRateLimiter:
+    """进程内滑动窗口限流；单任务部署不再需要 Redis 基础设施。"""
+
+    def __init__(
+        self,
+        limit: int = 10,
+        window: float = 60.0,
+        *,
+        clock: Any = None,
+        sleep: Any = None,
+    ) -> None:
+        if limit <= 0 or window <= 0:
+            raise ValueError("限流参数必须大于 0")
         self.limit = limit
-        self.window = window
+        self.window = float(window)
+        self._clock = clock or time.monotonic
+        self._sleep = sleep or time.sleep
+        self._timestamps: deque[float] = deque()
+        self._lock = Lock()
 
-    def wait_if_needed(self):
-        try:
-            now = time.time()
-            pipeline = self.redis.pipeline()
-            pipeline.zremrangebyscore(self.key, 0, now - self.window)
-            pipeline.zcard(self.key)
-            pipeline.zrange(self.key, 0, 0)
-            _, count, oldest = pipeline.execute()
+    def _purge(self, now: float) -> None:
+        boundary = now - self.window
+        while self._timestamps and self._timestamps[0] <= boundary:
+            self._timestamps.popleft()
 
-            if count >= self.limit:
-                oldest_ts = float(oldest[0]) if oldest else now
-                sleep_time = self.window - (now - oldest_ts) + 0.5
-                if sleep_time > 0:
-                    logger.warning(f"Rate limit hit ({self.limit}/{self.limit}). Sleeping {sleep_time:.2f}s...")
-                    time.sleep(sleep_time)
-        except Exception as e:
-            logger.error(f"Rate Limiter Error: {e}. Proceeding without delay.")
+    def wait_if_needed(self) -> None:
+        while True:
+            now = self._clock()
+            with self._lock:
+                self._purge(now)
+                if len(self._timestamps) < self.limit:
+                    return
+                delay = max(0.001, self.window - (now - self._timestamps[0]))
+            self._sleep(delay)
 
-    def add_request(self):
-        try:
-            now = time.time()
-            pipeline = self.redis.pipeline()
-            pipeline.zadd(self.key, {str(now): now})
-            pipeline.expire(self.key, self.window)
-            pipeline.execute()
-        except Exception:
-            pass
+    def add_request(self) -> None:
+        now = self._clock()
+        with self._lock:
+            self._purge(now)
+            self._timestamps.append(now)
+
 
 class FootballDataClient:
-    def __init__(self):
-        self.api_key = os.getenv("FOOTBALL_DATA_API_KEY")
-        self.base_url = "https://api.football-data.org/v4/"
-        self.limiter = RedisRateLimiter()
-        
-        if not self.api_key:
-            logger.error("No API Key found! Set FOOTBALL_DATA_API_KEY in .env")
+    source_name = "football-data.org"
+    RETRYABLE_STATUS_CODES = frozenset({429, 500, 502, 503, 504})
 
-    def _get(self, endpoint: str, params: Dict = None) -> Optional[Dict]:
-        self.limiter.wait_if_needed()
-        
-        headers = {'X-Auth-Token': self.api_key}
-        url = f"{self.base_url}{endpoint}"
-        
+    def __init__(
+        self,
+        api_key: str | None = None,
+        *,
+        session: Any = None,
+        limiter: Any = None,
+        timeout: float | None = None,
+        max_retries: int | None = None,
+        backoff_factor: float = 0.25,
+        sleep: Any = None,
+    ) -> None:
+        settings = load_settings()
+        self.api_key = api_key if api_key is not None else os.getenv("FOOTBALL_DATA_API_KEY")
+        self.base_url = "https://api.football-data.org/v4"
+        self.session = session or requests.Session()
+        self.limiter = limiter or SlidingWindowRateLimiter()
+        self.timeout = timeout if timeout is not None else settings.request_timeout_seconds
+        self.max_retries = max_retries if max_retries is not None else settings.request_retries
+        self.backoff_factor = backoff_factor
+        self._sleep = sleep or time.sleep
+
+        if self.timeout <= 0:
+            raise ValueError("timeout 必须大于 0")
+        if self.max_retries < 0:
+            raise ValueError("max_retries 不能小于 0")
+        if self.backoff_factor < 0:
+            raise ValueError("backoff_factor 不能小于 0")
+
+    def _retry_delay(self, response: Any, retry_index: int) -> float:
+        retry_after = getattr(response, "headers", {}).get("Retry-After")
+        if retry_after is not None:
+            try:
+                parsed = float(retry_after)
+                if math.isfinite(parsed) and parsed >= 0:
+                    return parsed
+            except (TypeError, ValueError):
+                pass
+        return self.backoff_factor * (2**retry_index)
+
+    def _record_request(self) -> None:
         try:
-            response = requests.get(url, headers=headers, params=params)
             self.limiter.add_request()
-            
-            if response.status_code == 200:
-                return response.json()
-            elif response.status_code == 429:
-                logger.warning(f"API Rate Limit 429. Sleeping 60s...")
-                time.sleep(60)
-                return self._get(endpoint, params)
-            elif response.status_code in [403, 404]:
-                logger.warning(f"{response.status_code} Error: {url}")
-                return None
-            else:
-                logger.error(f"API Error {response.status_code}: {url}")
-                return None
-        except Exception as e:
-            logger.error(f"Request failed: {e}")
-            return None
+        except Exception as exc:
+            logger.warning("限流计数器失败，继续处理响应: %s", exc)
 
-    def fetch_multiple_seasons(self, competition_code: str, seasons: List[str]) -> Dict:
-        all_seasons_data = {}
-        for season in seasons:
-            logger.info(f"Fetching {competition_code} season {season}...")
-            data = self._get(f"competitions/{competition_code}/matches", {'season': season})
-            
-            if data and 'matches' in data:
-                valid = [
-                    m for m in data['matches'] 
-                    if m['status'] == 'FINISHED' and m.get('score', {}).get('fullTime', {}).get('home') is not None
-                ]
-                all_seasons_data[season] = valid
-                logger.info(f"  -> Retrieved {len(valid)} valid matches.")
-            else:
-                logger.warning(f"  -> No data found for {season}.")
-        return all_seasons_data
+    def get(self, endpoint: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
+        normalized_endpoint = endpoint.strip("/")
+        if not self.api_key:
+            raise DataSourceError(
+                "FOOTBALL_DATA_API_KEY 未配置",
+                endpoint=normalized_endpoint,
+                retryable=False,
+            )
 
-    def fetch_competition_details(self, code: str):
-        return self._get(f"competitions/{code}")
+        url = f"{self.base_url}/{normalized_endpoint}"
+        headers = {"X-Auth-Token": self.api_key}
 
-    def fetch_team_squad(self, team_id: int):
-        return self._get(f"teams/{team_id}")
+        for attempt in range(self.max_retries + 1):
+            try:
+                self.limiter.wait_if_needed()
+            except Exception as exc:
+                logger.warning("限流等待失败，继续请求: %s", exc)
 
-    def fetch_standings(self, code: str, season: str):
-        return self._get(f"competitions/{code}/standings", {'season': season})
+            try:
+                response = self.session.get(
+                    url,
+                    headers=headers,
+                    params=params,
+                    timeout=self.timeout,
+                )
+            except requests.RequestException as exc:
+                self._record_request()
+                if attempt < self.max_retries:
+                    self._sleep(self.backoff_factor * (2**attempt))
+                    continue
+                raise DataSourceError(
+                    f"请求失败: {type(exc).__name__}",
+                    endpoint=normalized_endpoint,
+                    retryable=True,
+                ) from exc
 
-    def fetch_top_scorers(self, code: str, season: str):
-        return self._get(f"competitions/{code}/scorers", {'season': season})
+            self._record_request()
+            status_code = int(response.status_code)
+            if 200 <= status_code < 300:
+                try:
+                    payload = response.json()
+                except (ValueError, TypeError) as exc:
+                    raise DataSourceError(
+                        "数据源返回了无效 JSON",
+                        endpoint=normalized_endpoint,
+                        status_code=status_code,
+                        retryable=False,
+                    ) from exc
+                if not isinstance(payload, dict):
+                    raise DataSourceError(
+                        "数据源 JSON 顶层必须是对象",
+                        endpoint=normalized_endpoint,
+                        status_code=status_code,
+                        retryable=False,
+                    )
+                return payload
+
+            retryable = status_code in self.RETRYABLE_STATUS_CODES
+            if retryable and attempt < self.max_retries:
+                self._sleep(self._retry_delay(response, attempt))
+                continue
+            raise DataSourceError(
+                f"football-data 返回 HTTP {status_code}",
+                endpoint=normalized_endpoint,
+                status_code=status_code,
+                retryable=retryable,
+            )
+
+        raise AssertionError("重试循环不应到达此处")
+
+    @staticmethod
+    def _matches(payload: Mapping[str, Any], *, endpoint: str) -> list[dict[str, Any]]:
+        matches = payload.get("matches")
+        if not isinstance(matches, list) or any(
+            not isinstance(match, dict) for match in matches
+        ):
+            raise DataSourceError(
+                "数据源 matches 字段必须是对象数组",
+                endpoint=endpoint,
+                retryable=False,
+            )
+        return matches
+
+    def fetch_matches(
+        self,
+        competition_code: str,
+        *,
+        season: str | None = None,
+        status: str | None = None,
+    ) -> list[dict[str, Any]]:
+        params: dict[str, Any] = {}
+        if season:
+            params["season"] = season
+        if status:
+            params["status"] = status
+        endpoint = f"competitions/{competition_code.upper()}/matches"
+        payload = self.get(
+            endpoint,
+            params or None,
+        )
+        return self._matches(payload, endpoint=endpoint)
+
+    def fetch_scheduled_matches(
+        self,
+        competition_code: str,
+        date_from: str,
+        date_to: str,
+    ) -> list[dict[str, Any]]:
+        endpoint = f"competitions/{competition_code.upper()}/matches"
+        payload = self.get(
+            endpoint,
+            {
+                "status": "SCHEDULED",
+                "dateFrom": date_from,
+                "dateTo": date_to,
+            },
+        )
+        return self._matches(payload, endpoint=endpoint)

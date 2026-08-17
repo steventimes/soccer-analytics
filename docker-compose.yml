@@ -1,40 +1,11 @@
 services:
   app:
     build: .
-    container_name: football_app
-    volumes:
-      - .:/app
-      - ./models:/app/models
-      - ./log:/app/log
+    container_name: soccer_analytics
     env_file:
       - path: .env
-        required: True
-    depends_on:
-      - db
-      - redis
-    command: tail -f /dev/null
-
-  db:
-    image: postgres:16
-    container_name: football_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: football
-    ports:
-      - "5432:5432"
+        required: false
     volumes:
-      - football_db_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7
-    container_name: football_redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - football_redis_data:/data
-
-volumes:
-  football_db_data:
-  football_redis_data:
+      - ./models:/app/models
+      - ./docs/data:/app/docs/data
+    command: ["all"]
