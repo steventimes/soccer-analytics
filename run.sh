@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+cd -- "$(dirname "${BASH_SOURCE[0]}")"
 mkdir -p ./models ./docs/data
 
 # 当前 compose 文件使用 v2 的可选 env_file 语法，优先选择 Docker 插件。

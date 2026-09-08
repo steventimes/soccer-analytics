@@ -90,11 +90,11 @@ class TestConfig(unittest.TestCase):
     def _check_default_training_seasons_tracks_latest_usable_european_season(self):
         self.assertEqual(
             default_training_seasons(date(2026, 8, 10)),
-            ["2022", "2023", "2024", "2025"],
+            ["2023", "2024", "2025", "2026"],
         )
         self.assertEqual(
             default_training_seasons(date(2026, 2, 1)),
-            ["2021", "2022", "2023", "2024"],
+            ["2022", "2023", "2024", "2025"],
         )
 
     def _check_training_seasons_are_validated_and_deduplicated(self):
@@ -745,13 +745,15 @@ class TestFootballDataClient(unittest.TestCase):
         self.assertFalse(context.exception.retryable)
 
     def _check_scheduled_matches_builds_complete_query(self):
-        client, session, _, _ = self.make_client([FakeResponse(200, {"matches": []})])
+        matches = [{"id": index, "status": status} for index, status in enumerate(
+            ("SCHEDULED", "TIMED", "FINISHED", "IN_PLAY", "POSTPONED", "CANCELLED")
+        )]
+        client, session, _, _ = self.make_client([FakeResponse(200, {"matches": matches})])
 
         result = client.fetch_scheduled_matches("pl", "2026-08-10", "2026-08-12")
 
-        self.assertEqual(result, [])
+        self.assertEqual(result, matches[:2])
         self.assertEqual(session.calls[0][1]["params"], {
-            "status": "SCHEDULED",
             "dateFrom": "2026-08-10",
             "dateTo": "2026-08-12",
         })

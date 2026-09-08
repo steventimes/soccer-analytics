@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any, Mapping
 
 from app.ml.forecast_identity import (
@@ -9,6 +9,7 @@ from app.ml.forecast_identity import (
     cold_start_evidence,
     forecast_id_matches,
 )
+from app.web.preset_questions import HIGH_CONFIDENCE_THRESHOLD
 
 
 def build_release_governance(
@@ -59,7 +60,7 @@ def build_release_governance(
         else None
     )
     if high_threshold is None:
-        high_threshold = 0.6
+        high_threshold = HIGH_CONFIDENCE_THRESHOLD
     unique_high_confidence_count = sum(
         value >= high_threshold for value in confidence_values
     )
@@ -68,14 +69,26 @@ def build_release_governance(
         if confidence_values
         else None
     )
+    snapshot_time = _timestamp(generated)
+    expires_at = None
+    if snapshot_time is not None:
+        # 日更许可最长保留一天；首场开赛后必须重新导出剩余赛程。
+        deadlines = [snapshot_time + timedelta(hours=24)]
+        deadlines.extend(
+            kickoff for item in unique_predictions
+            if (kickoff := _timestamp(item.get("utc_date"))) is not None
+        )
+        expires_at = min(deadlines).isoformat()
     return {
         "schema": "SoccerAnalytics.ReleaseGovernance.v3",
         "generated_at": generated,
+        "expires_at": expires_at,
         "release_decision": "approved" if approved else "blocked",
         "can_publish_recommendations": approved,
         "blockers": blockers,
         "warnings": warnings,
         "thresholds": {
+            "high_confidence": high_threshold,
             "minimum_predictions": minimum_predictions,
             "minimum_high_confidence_picks": minimum_high_confidence_picks,
             "minimum_average_confidence": minimum_average_confidence,
@@ -156,6 +169,14 @@ def _build_blockers(
     )
     if not snapshots_match:
         blockers.append({"code": "OPERATIONS_SNAPSHOT_MISMATCH", "message": "Operations and release governance must use the same valid snapshot timestamp."})
+    invalid_kickoffs = sum(
+        release_snapshot is None
+        or (kickoff := _timestamp(item.get("utc_date"))) is None
+        or kickoff <= release_snapshot
+        for item in predictions
+    )
+    if invalid_kickoffs:
+        blockers.append({"code": "PREDICTION_KICKOFF_INVALID", "message": f"{invalid_kickoffs} predictions have missing kickoff times or have already started at export time."})
     if forecast_conflict_count:
         blockers.append({"code": "FORECAST_ID_CONFLICT", "message": f"{forecast_conflict_count} forecast identifiers refer to conflicting payloads."})
     elif duplicate_forecast_count:
@@ -175,7 +196,7 @@ def _build_blockers(
         else None
     )
     if high_threshold is None:
-        high_threshold = 0.6
+        high_threshold = HIGH_CONFIDENCE_THRESHOLD
     confidence_values = [
         value
         for item in predictions

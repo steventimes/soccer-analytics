@@ -26,7 +26,7 @@ def _utc(now: datetime | None = None) -> datetime:
 
 def _json_bytes(payload: Mapping[str, Any]) -> bytes:
     return (
-        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
     ).encode("utf-8")
 
 
@@ -209,6 +209,7 @@ def export_site_data(
     )
     preset_payload = build_preset_questions(
         predictions,
+        threshold=operations_payload["thresholds"]["high_confidence"],
         now=active_now,
         can_publish_recommendations=(
             release_payload.get("can_publish_recommendations") is True

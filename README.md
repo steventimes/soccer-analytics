@@ -1,149 +1,104 @@
 # Soccer Analytics
 
-Soccer Analytics is a data + ML pipeline that collects football match data, stores it in Postgres/Redis, engineers rolling team features, trains prediction models per competition, exports a static daily dashboard, and publishes model operations plus release-governance artifacts for safer recommendation workflows.
+Soccer Analytics fetches football match data, builds rolling team and Elo features, trains a three-outcome XGBoost model for each competition, and exports the Touchline static dashboard. Model bundles contain the estimator, team history, feature schema and validation results.
 
 ## Project layout
 
 ```text
 app/
-  data_service/          # DB + cache access
-  ml/                    # Feature engineering + model training/prediction
-  run/                   # CLI script wrappers
-  web/                   # Static site export, operations, release governance
-
-docs/                    # Static dashboard and exported JSON payloads
-models/                  # Trained model artifacts
+  config.py             # Environment settings and competition selection
+  pipeline.py           # train, predict, export-site and all commands
+  data_service/fetch/   # football-data.org client and request rate limiting
+  ml/                   # Features, training, evaluation and model bundles
+  web/                  # Dashboard export and release checks
+docs/                   # Static dashboard and exported JSON
+models/                 # Local model bundles and previous versions
+tests/                  # Python tests and JavaScript runtime checks
 ```
 
-## Requirements
+## Run with Docker
 
-- Docker + Docker Compose for the normal app flow.
-- Python dependencies from `requirements.txt` for local runs.
-- A `.env` file with the following values:
-
-```text
-FOOTBALL_DATA_API_KEY
-DATABASE_URL
-REDIS_URL
-
-# Redis setup
-REDIS_HOST
-REDIS_PORT
-REDIS_PASSWORD
-REDIS_DB
-```
-
-## Quick start
-
-Run the full Docker-based flow:
+Use Docker Compose v2.24 or newer for the optional `.env` file syntax in `docker-compose.yml`. Set `FOOTBALL_DATA_API_KEY` in a local `.env` file, then run:
 
 ```bash
-bash run.sh
+bash run.sh --competitions PL --days 3
 ```
 
-Artifacts:
-- Logs are written to `./log`.
-- Models are saved to `./models`.
-- Static dashboard data is written to `docs/data` by the export step.
-
-## Pipeline commands
-
-Once containers are up, run individual steps via the CLI:
+The script builds the image, trains the selected models and exports the dashboard. `rebuild.sh` runs the same flow. Models persist in `models/`, dashboard data in `docs/data/`, and logs go to the terminal. Each command runs in a disposable container:
 
 ```bash
-docker exec -it football_app python3 -m app.pipeline train
-docker exec -it football_app python3 -m app.pipeline predict --days 3
-docker exec -it football_app python3 -m app.pipeline simulate
-docker exec -it football_app python3 -m app.pipeline all --days 3
-docker exec -it football_app python3 -m app.pipeline export-site --days 3
+docker compose run --rm app train --competitions PL
+docker compose run --rm app predict --competitions PL --days 3
+docker compose run --rm app export-site --competitions PL --days 3
+docker compose run --rm app all --competitions PL --days 3
 ```
 
-Local Python uses the same module commands when dependencies, Postgres, Redis, and `.env` are available.
+## Run locally
 
-## Daily dashboard
-
-`python3 -m app.pipeline export-site --days 3` writes dashboard payloads under `docs/data`:
-
-- `predictions.json`: upcoming model predictions.
-- `preset_questions.json`: cached daily recommended-picks answers.
-- `scores.json`: latest score payload.
-- `operations.json`: model run health and data quality summary.
-- `release.json`: recommendation publishing gate and risk disclosure.
-- `manifest.json`: generated-at timestamp, prediction count, and artifact paths.
-
-The static dashboard in `docs/index.html` reads these files directly, so it can be served through GitHub Pages or any static host.
-
-## Operations summary
-
-`docs/data/operations.json` includes run status, prediction count, competition coverage, average confidence, high-confidence pick count, and operational alerts for empty exports or weak confidence coverage. Operators should inspect this before using the latest picks.
-
-## Release governance
-
-`docs/data/release.json` uses the `SoccerAnalytics.ReleaseGovernance.v1` schema. It decides whether recommendations may be published, lists blockers, records thresholds, includes responsible-use risk disclosure, and publishes verification commands.
-
-Public or paid picks should stay blocked until `can_publish_recommendations` is `true` and the release blockers list is empty. Model picks are probabilistic decision support, not guaranteed outcomes or financial advice.
-
-## GitHub Actions config secrets
-
-For CI/CD and scheduled jobs, add repository secrets in **GitHub -> Settings -> Secrets and variables -> Actions**:
-
-- `FOOTBALL_DATA_API_KEY`
-- `DATABASE_URL`
-- `REDIS_URL`
-
-Or set them with `gh`:
+Use Python 3.12 or newer and install the dependencies in a virtual environment:
 
 ```bash
-gh secret set FOOTBALL_DATA_API_KEY
-gh secret set DATABASE_URL
-gh secret set REDIS_URL
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+export FOOTBALL_DATA_API_KEY='your-api-key'
+python -m app.pipeline all --competitions PL --days 3
 ```
 
-## Deployment options
+Local Python reads exported environment variables; Docker Compose loads `.env`. The pipeline uses in-process rate limiting and local model files. `predict` writes a JSON result to standard output, including any competition errors; logs go to standard error.
 
-### Docker Compose
+Choose competitions available to your API subscription. The default selection is all codes in `app/config.py`. Optional settings:
+
+| Variable | Default |
+| --- | --- |
+| `SOCCER_ANALYTICS_COMPETITIONS` | All configured competitions |
+| `SOCCER_ANALYTICS_TRAINING_SEASONS` | Four European season start years, including the current season |
+| `SOCCER_ANALYTICS_PREDICTION_DAYS` | `3` |
+| `SOCCER_ANALYTICS_SITE_EXPORT_DAYS` | `1` |
+| `SOCCER_ANALYTICS_REQUEST_TIMEOUT` | `15` seconds |
+| `SOCCER_ANALYTICS_REQUEST_RETRIES` | `3` |
+| `SOCCER_ANALYTICS_MODEL_DIR` | `models` |
+| `SOCCER_ANALYTICS_SITE_DATA_DIR` | `docs/data` |
+
+Use comma-separated values for competitions and season years. `--competitions` selects from enabled competitions; `--seasons` overrides training years. For calendar-year leagues and international tournaments, select the applicable seasons explicitly. Training uses only finished matches. `--days 1` covers the remainder of today in UTC; `--days 3` also includes the next two UTC dates. Predictions include future `SCHEDULED` and `TIMED` fixtures in that range.
+
+## Dashboard and release checks
+
+`export-site` writes six files under `docs/data/`:
+
+| File | Contents |
+| --- | --- |
+| `predictions.json` | Probabilities, explanations, model identities and partial errors |
+| `preset_questions.json` | Recommended picks permitted by the release gate |
+| `scores.json` | Daily scores and source errors |
+| `operations.json` | Model coverage, validation, backtests, calibration and freshness |
+| `release.json` | Release decision, blockers, thresholds, expiry and risk disclosure |
+| `manifest.json` | Snapshot timestamp, run ID, file sizes and SHA-256 hashes |
+
+Each file is replaced atomically, with the manifest written last. The dashboard verifies timestamps and hashes before showing the snapshot. Serve the site over localhost or HTTPS so browser SHA-256 verification is available:
 
 ```bash
-docker compose up --build -d
+python3 -m http.server 8000 --bind 127.0.0.1 --directory docs
 ```
 
-Then run seeding and training from the app container:
+Open `http://localhost:8000`. Search teams, filter competitions and confidence, sort fixtures, or expand a prediction to inspect its model evidence.
 
-```bash
-docker exec -it football_app python3 -m app.seeds.seed_matches
-docker exec -it football_app python3 -m app.seeds.seed_players
-docker exec -it football_app python3 -m app.seeds.seed_competitions
-docker exec -it football_app python3 -m app.pipeline train
-```
+`release.json` uses `SoccerAnalytics.ReleaseGovernance.v3`. Recommendations require an approved decision, `can_publish_recommendations: true`, no blockers, and an unexpired `expires_at`. Permission expires at the first fixture's kickoff or 24 hours after export, whichever comes first. Refresh the export to reassess remaining fixtures. The shortlist uses the operations high-confidence threshold, normally 60%.
 
-### Static dashboard
+Failed training leaves existing model files intact. Prediction can fall back to a previous bundle if the active file is missing or invalid; release checks block recommendations using a fallback, stale model, incomplete coverage or inadequate quality evidence. Model probabilities do not guarantee match outcomes.
 
-After the export step, serve `docs/` from GitHub Pages or another static host. Commit `docs/data/*.json` only when you intentionally want cached demo data in the repository.
+## GitHub Actions
+
+Set the repository Actions secret `FOOTBALL_DATA_API_KEY` and configure GitHub Pages to deploy through Actions. `daily_update.yml` runs at 07:00 UTC, trains models and commits exported site data. `pages.yml` deploys `docs/` after a successful daily refresh, a push to `main`, or a manual run. The completion trigger handles daily commits made with `GITHUB_TOKEN`, which do not trigger a second push workflow.
 
 ## Verification
 
+Node.js is required for the dashboard runtime tests.
+
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m py_compile app/web/release_governance.py app/web/export_site.py
 node --check docs/app.js
+bash -n run.sh rebuild.sh
 ```
 
-Full pipeline export requires the Python ML dependencies, including pandas:
-
-```bash
-python3 -m app.pipeline export-site --days 3
-```
-
-## Improving model accuracy
-
-The current model uses rolling team stats and ELO features. To improve accuracy, consider adding:
-
-- Recent form at different windows, such as 3/5/10 game rolling windows.
-- Home/away splits for xG, xGA, and points.
-- Opponent-adjusted strength of schedule.
-- Market features such as odds, implied probabilities, and line movement.
-- Player availability, minutes, lineup strength, injuries, and suspensions.
-- Match congestion, travel distance, and competition overlap.
-- Calibration and class weights to handle draw imbalance.
-
-Also consider time-series-aware cross-validation, separating domestic leagues from cups when distributions differ, and post-training probability calibration.
+Tests use controlled data and temporary model files. Live training and export additionally require API access. Training evaluates expanding time windows and a final chronological holdout against majority-class and Elo baselines before saving a model.

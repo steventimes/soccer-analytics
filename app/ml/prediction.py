@@ -265,6 +265,7 @@ class PredictionEngine:
         generated_at = generated_at.astimezone(UTC)
         date_from = generated_at.date().isoformat()
         date_to = (generated_at + timedelta(days=days)).date().isoformat()
+        range_end = datetime.fromisoformat(date_to).replace(tzinfo=UTC)
 
         try:
             fixtures = self.client.fetch_scheduled_matches(code, date_from, date_to)
@@ -275,6 +276,8 @@ class PredictionEngine:
         labels = ("AWAY_WIN", "DRAW", "HOME_WIN")
         seen_fixtures: dict[int, Any] = {}
         for payload in fixtures:
+            if payload.get("status") not in {"SCHEDULED", "TIMED"}:
+                continue
             try:
                 record = normalize_match(payload)
             except FeatureEngineeringError as exc:
@@ -282,6 +285,8 @@ class PredictionEngine:
                     f"{code} 含无法解析的赛程: {exc}",
                     code="INVALID_FIXTURE",
                 ) from exc
+            if not generated_at < record.kickoff < range_end:
+                continue
             existing = seen_fixtures.get(record.match_id)
             if existing is not None:
                 if existing == record:

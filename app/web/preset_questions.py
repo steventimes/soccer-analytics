@@ -6,6 +6,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+HIGH_CONFIDENCE_THRESHOLD = 0.6
+
 
 def _utc(now: datetime | None = None) -> datetime:
     current = now or datetime.now(UTC)
@@ -29,12 +31,12 @@ def load_cached_questions(
         payload = json.loads(cache_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return None
-    return payload if payload.get("date") == _today_key(now) else None
+    return payload if isinstance(payload, dict) and payload.get("date") == _today_key(now) else None
 
 
 def build_preset_questions(
     predictions: list[dict[str, Any]],
-    threshold: float = 0.55,
+    threshold: float = HIGH_CONFIDENCE_THRESHOLD,
     *,
     now: datetime | None = None,
     can_publish_recommendations: bool = False,

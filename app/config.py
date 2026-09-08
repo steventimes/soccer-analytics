@@ -27,9 +27,9 @@ class ConfigurationError(ValueError):
 
 
 def default_training_seasons(today: date | None = None) -> list[str]:
-    """返回最近四个可用于训练的欧洲赛季起始年，避免默认年份长期过期。"""
+    """包含正在进行的欧洲赛季，其已完赛比赛用于更新球队近期状态。"""
     current = today or date.today()
-    latest_start_year = current.year - 1 if current.month >= 7 else current.year - 2
+    latest_start_year = current.year if current.month >= 7 else current.year - 1
     return [str(year) for year in range(latest_start_year - 3, latest_start_year + 1)]
 
 
@@ -52,9 +52,9 @@ def _parts(raw: str) -> list[str]:
     return [part.strip() for part in raw.split(",") if part.strip()]
 
 
-def _parse_seasons(raw: str | None) -> list[str]:
+def parse_training_seasons(raw: str | None) -> list[str]:
     if raw is None or not raw.strip():
-        return list(DEFAULT_SEASONS)
+        return default_training_seasons()
 
     seasons = _parts(raw)
     invalid = [season for season in seasons if re.fullmatch(r"\d{4}", season) is None]
@@ -64,7 +64,7 @@ def _parse_seasons(raw: str | None) -> list[str]:
         )
 
     # dict 能去重且保持用户声明顺序，便于重现训练范围。
-    return list(dict.fromkeys(seasons)) or list(DEFAULT_SEASONS)
+    return list(dict.fromkeys(seasons)) or default_training_seasons()
 
 
 def _parse_competitions(raw: str | None) -> dict[str, int]:
@@ -115,7 +115,7 @@ def load_settings() -> PipelineSettings:
     """每次调用都读取环境变量，测试和多进程任务不会共享陈旧配置。"""
     return PipelineSettings(
         competitions_map=_parse_competitions(os.getenv("SOCCER_ANALYTICS_COMPETITIONS")),
-        training_seasons=_parse_seasons(os.getenv("SOCCER_ANALYTICS_TRAINING_SEASONS")),
+        training_seasons=parse_training_seasons(os.getenv("SOCCER_ANALYTICS_TRAINING_SEASONS")),
         prediction_days=_parse_positive_int(
             os.getenv("SOCCER_ANALYTICS_PREDICTION_DAYS"),
             3,

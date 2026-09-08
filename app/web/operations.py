@@ -10,6 +10,7 @@ from app.ml.forecast_identity import (
     cold_start_evidence,
     forecast_id_matches,
 )
+from app.web.preset_questions import HIGH_CONFIDENCE_THRESHOLD
 
 
 def build_operations_summary(
@@ -23,7 +24,7 @@ def build_operations_summary(
     model_refresh_errors: Sequence[Mapping[str, Any]] = (),
     model_reports: Sequence[Mapping[str, Any]] = (),
     generated_at: str | None = None,
-    high_confidence_threshold: float = 0.6,
+    high_confidence_threshold: float = HIGH_CONFIDENCE_THRESHOLD,
     low_confidence_threshold: float = 0.5,
     cold_start_warning_ratio: float = 0.5,
     maximum_calibration_error: float = 0.2,

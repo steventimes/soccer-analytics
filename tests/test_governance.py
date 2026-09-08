@@ -736,6 +736,25 @@ def _valid_release_inputs() -> tuple[list[dict], dict]:
 
 
 class TestReleaseGovernance(unittest.TestCase):
+    def test_release_expires_within_a_day_and_before_the_first_kickoff(self):
+        predictions, operations = _valid_release_inputs()
+        release = build_release_governance(predictions, operations, generated_at=operations["generated_at"])
+        self.assertTrue(release["can_publish_recommendations"])
+        self.assertEqual(release["expires_at"], "2026-07-10T00:00:00+00:00")
+        predictions[0]["utc_date"] = "2026-07-09T19:00:00+00:00"
+        predictions[0]["forecast_id"] = forecast_id_for_prediction(predictions[0])
+        release = build_release_governance(predictions, operations, generated_at=operations["generated_at"])
+        self.assertTrue(release["can_publish_recommendations"])
+        self.assertEqual(release["expires_at"], predictions[0]["utc_date"])
+
+    def test_started_fixture_cannot_be_released_even_with_valid_identity(self):
+        predictions, operations = _valid_release_inputs()
+        predictions[0]["utc_date"] = operations["generated_at"]
+        predictions[0]["forecast_id"] = forecast_id_for_prediction(predictions[0])
+        release = build_release_governance(predictions, operations, generated_at=operations["generated_at"])
+        self.assertFalse(release["can_publish_recommendations"])
+        self.assertIn("PREDICTION_KICKOFF_INVALID", {item["code"] for item in release["blockers"]})
+
     def _run_contracts(self, names: tuple[str, ...]) -> None:
         for name in names:
             with self.subTest(contract=name):

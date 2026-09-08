@@ -5,7 +5,16 @@ FRONTEND_RUNTIME_HARNESS = r'''"use strict";
 const { createHash } = require("node:crypto");
 const path = require("node:path");
 const scenario = process.argv[1];
+const newScenarios = ["approved-shortlist", "expired-shortlist", "inconsistent-approval", "malformed-predictions", "future-snapshot", "expiry-timer", "missing-expiry"];
 const elements = new Map();
+let now = Date.parse("2026-08-10T09:00:00Z");
+Date.now = () => now;
+let expireCallback;
+const nativeTimeout = global.setTimeout;
+global.setTimeout = (callback, delay) => {
+  if (delay > 1000) { expireCallback = callback; return 0; }
+  return nativeTimeout(callback, delay);
+};
 
 function element(id = "") {
   return {
@@ -175,8 +184,31 @@ if (scenario === "missing") {
       }],
     }],
   };
-} else {
+} else if (!newScenarios.includes(scenario)) {
   throw new Error(`unknown scenario: ${scenario}`);
+}
+
+if (newScenarios.includes(scenario)) {
+  common["operations.json"] = {
+    status: "healthy", prediction_count: 1, alerts: [],
+    model_coverage: { loaded: 1, requested: 1 },
+  };
+  Object.assign(common["release.json"], {
+    release_decision: "approved", can_publish_recommendations: true,
+    expires_at: "2026-08-10T10:00:00Z", thresholds: { high_confidence: 0.6 },
+  });
+  common["preset_questions.json"] = {
+    can_publish_recommendations: true,
+    questions: [{ id: "recommended_bets_today", items: [
+      { match: "Approved FC vs Safe FC", confidence: 0.72, prediction: "HOME_WIN" },
+      { match: "Below threshold FC", confidence: 0.56, prediction: "DRAW" },
+    ] }],
+  };
+  if (scenario === "expired-shortlist") common["release.json"].expires_at = "2026-08-10T08:45:00Z";
+  if (scenario === "inconsistent-approval") common["release.json"].can_publish_recommendations = false;
+  if (scenario === "missing-expiry") delete common["release.json"].expires_at;
+  if (scenario === "malformed-predictions") common["predictions.json"].predictions = { invalid: true };
+  if (scenario === "future-snapshot") common["manifest.json"].generated_at = "2026-08-11T08:30:00Z";
 }
 
 const snapshotTime = common["manifest.json"].generated_at;
@@ -291,6 +323,22 @@ setTimeout(() => {
     }
     if (!operations.includes("Operations artifact unavailable") || releaseTitle !== "Release status unavailable") {
       throw new Error("mixed snapshot did not fail closed across dependent panels");
+    }
+  } else if (newScenarios.includes(scenario)) {
+    if (scenario === "expiry-timer") {
+      if (typeof expireCallback !== "function") throw new Error("release expiry was not scheduled");
+      now = Date.parse("2026-08-10T10:00:01Z");
+      expireCallback();
+    }
+    const shortlist = elements.get("recommended-bets").innerHTML;
+    const status = elements.get("release-status").textContent;
+    if (scenario === "approved-shortlist") {
+      if (status !== "Publish" || !shortlist.includes("Approved FC") || shortlist.includes("Below threshold FC")) throw new Error("approved shortlist or threshold is incorrect");
+    } else {
+      if (status === "Publish" || shortlist.includes("Approved FC")) throw new Error(`${scenario} exposed recommendations`);
+      if (["expired-shortlist", "expiry-timer"].includes(scenario) && !elements.get("release-blockers").innerHTML.includes("RELEASE_EXPIRED")) throw new Error("expiry reason missing");
+      if (scenario === "malformed-predictions" && !elements.get("prediction-errors").innerHTML.includes("PREDICTIONS_ARTIFACT_UNAVAILABLE")) throw new Error("malformed data diagnosis missing");
+      if (scenario === "future-snapshot" && !elements.get("prediction-errors").innerHTML.includes("MANIFEST_SNAPSHOT_MISMATCH")) throw new Error("future snapshot diagnosis missing");
     }
   } else {
     const diagnostics = elements.get("prediction-errors").innerHTML;
@@ -434,6 +482,21 @@ from app.web.preset_questions import build_preset_questions
 
 
 class TestPresetQuestions(unittest.TestCase):
+    def test_default_shortlist_uses_the_operations_threshold(self):
+        payload = build_preset_questions([
+            {"home_team": "Home", "away_team": "Away", "confidence": confidence}
+            for confidence in (0.55, 0.59, 0.6, 0.7)
+        ], can_publish_recommendations=True)
+        self.assertEqual([item["confidence"] for item in payload["questions"][0]["items"]], [0.7, 0.6])
+
+    def test_non_object_cache_is_ignored(self):
+        from app.web.preset_questions import load_cached_questions
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "preset_questions.json"
+            for raw in ("[]", "null", "42"):
+                path.write_text(raw)
+                self.assertIsNone(load_cached_questions(path))
+
     def test_invalid_confidence_never_enters_recommendations(self) -> None:
         payload = build_preset_questions(
             [
@@ -467,6 +530,16 @@ from app.web.scores import ScoreFetchResult
 
 
 class TestExportSiteData(unittest.TestCase):
+    def test_non_finite_json_is_rejected_without_replacing_an_artifact(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "data.json"
+            path.write_text('{"old": true}\n')
+            for value in (float("nan"), float("inf")):
+                with self.assertRaises(ValueError):
+                    export_site._atomic_write_json(path, {"invalid": value})
+                self.assertEqual(path.read_text(), '{"old": true}\n')
+                self.assertEqual(list(Path(temp_dir).glob(".*.tmp")), [])
+
     def _run_contracts(self, names: tuple[str, ...]) -> None:
         for name in names:
             with self.subTest(contract=name):
@@ -838,6 +911,13 @@ class TestFrontendContract(unittest.TestCase):
             "blocked-shortlist",
             "mixed-snapshot",
             "tampered",
+            "approved-shortlist",
+            "expired-shortlist",
+            "inconsistent-approval",
+            "malformed-predictions",
+            "future-snapshot",
+            "expiry-timer",
+            "missing-expiry",
         ):
             result = subprocess.run(
                 ["node", "-e", FRONTEND_RUNTIME_HARNESS, scenario],

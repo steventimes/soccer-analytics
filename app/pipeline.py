@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 from pathlib import Path
 from typing import Any, Sequence
 
-from app.config import load_settings, resolve_competitions
+from app.config import load_settings, parse_training_seasons, resolve_competitions
 from app.ml.prediction import PredictionEngine, PredictionRun
 from app.ml.training import ModelTrainer
 from app.web.export_site import export_site_data
@@ -198,6 +199,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_competition_argument(train_parser)
     train_parser.add_argument(
         "--seasons",
+        type=parse_training_seasons,
         help="逗号分隔的赛季起始年，例如 2022,2023,2024。",
     )
 
@@ -217,15 +219,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="训练所选联赛并导出仪表盘。",
     )
     _add_competition_argument(full_parser)
-    full_parser.add_argument("--seasons")
+    full_parser.add_argument("--seasons", type=parse_training_seasons)
     full_parser.add_argument("--days", type=_positive_int)
     return parser
-
-
-def _seasons(raw: str | None) -> list[str] | None:
-    if not raw:
-        return None
-    return [part.strip() for part in raw.split(",") if part.strip()]
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -233,7 +229,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "train":
         result = run_training_pipeline(
             competition_codes=args.competitions,
-            seasons=_seasons(args.seasons),
+            seasons=args.seasons,
         )
         return 0 if result["trained_count"] > 0 else 1
     if args.command == "predict":
@@ -241,6 +237,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             days=args.days,
             competition_codes=args.competitions,
         )
+        print(json.dumps(run.to_dict(), ensure_ascii=False, allow_nan=False))
         return 0 if run.models_loaded > 0 else 1
     if args.command == "export-site":
         run_export_site_pipeline(
@@ -252,7 +249,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         result = run_full_pipeline(
             days=args.days,
             competition_codes=args.competitions,
-            seasons=_seasons(args.seasons),
+            seasons=args.seasons,
         )
         return 0 if result["training"]["trained_count"] > 0 else 1
     raise AssertionError("未知命令")

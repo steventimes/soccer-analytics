@@ -424,7 +424,7 @@ class TestModelArtifacts(unittest.TestCase):
 
 import tempfile
 import unittest
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path
 
 from app.ml.artifacts import ModelBundle, load_model_bundle, save_model_bundle
@@ -450,7 +450,7 @@ def historical_match(match_id, kickoff, home_id, away_id, outcome):
 def scheduled_match(match_id=900, home_id=1, away_id=99):
     return {
         "id": match_id,
-        "utcDate": "2026-08-11T18:00:00Z",
+        "utcDate": "2026-08-10T18:00:00Z",
         "status": "SCHEDULED",
         "homeTeam": {"id": home_id, "name": f"Home {home_id}"},
         "awayTeam": {"id": away_id, "name": f"Away {away_id}"},
@@ -702,6 +702,27 @@ class TestModelTrainer(unittest.TestCase):
 
 
 class TestPredictionEngine(unittest.TestCase):
+    def test_only_future_unstarted_fixtures_in_the_requested_utc_days_are_predicted(self):
+        fixtures = []
+        for index, (status, kickoff) in enumerate((
+            ("SCHEDULED", "2026-08-10T18:00:00Z"),
+            ("TIMED", "2026-08-10T20:00:00Z"),
+            ("TIMED", "2026-08-10T07:00:00Z"),
+            ("TIMED", "2026-08-10T06:00:00Z"),
+            ("TIMED", "2026-08-11T00:00:00Z"),
+            ("TIMED", "2026-08-12T18:00:00Z"),
+            ("IN_PLAY", "2026-08-10T18:00:00Z"),
+            ("CANCELLED", "2026-08-10T18:00:00Z"),
+        ), start=1):
+            fixtures.append({**scheduled_match(index), "status": status, "utcDate": kickoff})
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(), models_dir / "pl.bundle")
+            predictions = PredictionEngine(models_dir=models_dir, client=FakeClient(scheduled=fixtures)).predict_competition(
+                "PL", days=1, now=datetime(2026, 8, 10, 9, tzinfo=timezone(timedelta(hours=2)))
+            )
+        self.assertEqual([item["match_id"] for item in predictions], [1, 2])
+
     def _run_contracts(self, names: tuple[str, ...]) -> None:
         for name in names:
             with self.subTest(contract=name):
@@ -1085,6 +1106,24 @@ class FakeTrainer:
 
 
 class TestPipeline(unittest.TestCase):
+    def test_predict_command_emits_machine_readable_predictions(self):
+        import json
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from app.ml.prediction import PredictionRun
+
+        run = PredictionRun("2026-08-10T07:00:00+00:00", (), (), 1, 1)
+        output = StringIO()
+        with patch.object(pipeline, "run_predictions_pipeline", return_value=run), redirect_stdout(output):
+            self.assertEqual(pipeline.main(["predict", "--competitions", "PL"]), 0)
+        self.assertEqual(json.loads(output.getvalue()), run.to_dict())
+
+    def test_cli_seasons_use_the_validated_configuration_parser(self):
+        parser = pipeline.build_parser()
+        self.assertEqual(parser.parse_args(["train", "--seasons", "2025,2025,2026"]).seasons, ["2025", "2026"])
+        with self.assertRaises(SystemExit), patch("sys.stderr"):
+            parser.parse_args(["train", "--seasons", "2025,typo"])
+
     def test_training_pipeline_returns_structured_partial_result(self):
         trainer = FakeTrainer()
 

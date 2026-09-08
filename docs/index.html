@@ -31,10 +31,11 @@
         <div class="hero-grid">
           <div class="hero-copy">
             <p class="eyebrow">Daily soccer model room</p>
-            <h1>Read the match.<br /><span>Read the model.</span></h1>
+            <h1>Match probabilities<br /><span>and model health</span></h1>
             <p class="hero-summary">
-              Probabilities are only useful when their data is ready. Start with model coverage and release status, then inspect every fixture.
+              Check the latest forecast, model coverage and release status before publishing a pick.
             </p>
+            <a class="fixture-link" href="#fixtures-title">Browse fixtures ↓</a>
           </div>
 
           <aside id="release-command" class="release-command" aria-labelledby="release-command-title">
@@ -82,7 +83,7 @@
         <article class="score-cell">
           <span>Publishable</span>
           <strong id="metric-picks">0</strong>
-          <small>at 60%+ confidence</small>
+          <small id="metric-picks-threshold">at 60%+ confidence</small>
         </article>
         <article class="score-cell">
           <span>Avg confidence</span>
@@ -126,7 +127,7 @@
           <div>
             <p class="eyebrow">Fixture desk</p>
             <h2 id="fixtures-title">Upcoming probabilities</h2>
-            <p id="fixture-result-count" class="section-note">Loading fixtures…</p>
+            <p id="fixture-result-count" class="section-note" aria-live="polite">Loading fixtures…</p>
           </div>
           <div class="controls" aria-label="Prediction filters">
             <label class="search-control">

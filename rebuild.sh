@@ -1,7 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-docker-compose stop app
-
-docker-compose build app
-
-docker-compose up -d app
+exec bash "$(dirname "${BASH_SOURCE[0]}")/run.sh" "$@"

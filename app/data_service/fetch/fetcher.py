@@ -235,9 +235,12 @@ class FootballDataClient:
         payload = self.get(
             endpoint,
             {
-                "status": "SCHEDULED",
                 "dateFrom": date_from,
                 "dateTo": date_to,
             },
         )
-        return self._matches(payload, endpoint=endpoint)
+        # v4 将已确定开球时间的比赛标记为 TIMED；一次按日期抓取后筛选。
+        return [
+            match for match in self._matches(payload, endpoint=endpoint)
+            if match.get("status") in {"SCHEDULED", "TIMED"}
+        ]

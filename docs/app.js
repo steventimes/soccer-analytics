@@ -1,7 +1,10 @@
 const state = {
   predictions: [],
   predictionsAvailable: false,
+  releaseTimer: null,
 };
+
+const RELEASE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 async function loadJson(path) {
   const response = await fetch(path, { cache: "no-store" });
@@ -9,7 +12,28 @@ async function loadJson(path) {
     throw new Error(`${path} returned ${response.status}`);
   }
   const raw = await response.text();
-  return { payload: JSON.parse(raw), raw };
+  const payload = JSON.parse(raw);
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new Error(`${path} must contain a JSON object`);
+  }
+  const name = path.split("/").pop();
+  const requiredRows = {
+    "predictions.json": ["predictions"],
+    "preset_questions.json": ["questions"],
+    "scores.json": ["scores"],
+    "release.json": ["blockers", "warnings"],
+  }[name] || [];
+  const rowFields = [...new Set([
+    ...requiredRows, "errors", "refresh_errors", "alerts",
+    "model_quality_by_competition", "coverage_by_competition",
+  ])];
+  for (const field of rowFields) {
+    if (payload[field] === undefined && !requiredRows.includes(field)) continue;
+    if (!Array.isArray(payload[field]) || payload[field].some((row) => !row || typeof row !== "object" || Array.isArray(row))) {
+      throw new Error(`${path}: ${field} must be an array of objects`);
+    }
+  }
+  return { payload, raw };
 }
 
 function escapeHtml(value) {
@@ -97,7 +121,31 @@ function renderCoverage(manifest, operations) {
 
 function recommendationsApproved(release) {
   return release?.release_decision === "approved"
-    && release?.can_publish_recommendations === true;
+    && release?.can_publish_recommendations === true
+    && Array.isArray(release?.blockers)
+    && release.blockers.length === 0;
+}
+
+function currentRelease(release, now = Date.now()) {
+  if (!release) return null;
+  const generated = Date.parse(release.generated_at);
+  const expires = Date.parse(release.expires_at);
+  const invalidTime = !Number.isFinite(generated) || generated > now
+    || !Number.isFinite(expires) || expires <= generated
+    || expires > generated + RELEASE_MAX_AGE_MS;
+  const expired = Number.isFinite(generated)
+    && (now >= generated + RELEASE_MAX_AGE_MS || (Number.isFinite(expires) && now >= expires));
+  const inconsistent = release.release_decision === "approved" && !recommendationsApproved(release);
+  if (!expired && !inconsistent && (!invalidTime || release.release_decision !== "approved")) return release;
+  const blocker = expired
+    ? { code: "RELEASE_EXPIRED", message: "This release has expired. Refresh the snapshot before publishing picks." }
+    : { code: "RELEASE_INVALID", message: "Release approval or its validity period is incomplete. Refresh the snapshot before publishing picks." };
+  return {
+    ...release,
+    release_decision: "blocked",
+    can_publish_recommendations: false,
+    blockers: [...(release.blockers || []), blocker],
+  };
 }
 
 function renderMetrics(predictions, operations, predictionsAvailable, release) {
@@ -112,8 +160,10 @@ function renderMetrics(predictions, operations, predictionsAvailable, release) {
     ? confidences.reduce((sum, value) => sum + value, 0) / confidences.length
     : null;
   document.getElementById("metric-fixtures").textContent = String(predictions.length);
+  const threshold = finiteNumber(release?.thresholds?.high_confidence) ?? 0.6;
+  document.getElementById("metric-picks-threshold").textContent = `at ${percent(threshold)}+ confidence`;
   document.getElementById("metric-picks").textContent = recommendationsApproved(release)
-    ? String(confidences.filter((value) => value >= 0.6).length)
+    ? String(confidences.filter((value) => value >= threshold).length)
     : "0";
   document.getElementById("metric-confidence").textContent = percent(average, 1);
   document.getElementById("metric-cold-start").textContent = predictions.length
@@ -222,7 +272,8 @@ function renderOperations(operations) {
 
 function renderRelease(release) {
   const decision = release?.release_decision || "unknown";
-  const approved = decision === "approved";
+  const approved = recommendationsApproved(release);
+  const expired = release?.blockers?.some((item) => item.code === "RELEASE_EXPIRED");
   const status = document.getElementById("release-status");
   status.textContent = approved ? "Publish" : decision === "blocked" ? "Hold" : "Unknown";
   status.className = `status-token status-${approved ? "healthy" : decision === "blocked" ? "critical" : "unknown"}`;
@@ -232,7 +283,7 @@ function renderRelease(release) {
   document.getElementById("release-command-copy").textContent = approved
     ? "Coverage, model quality, and confidence gates passed."
     : decision === "blocked"
-      ? "At least one quality gate must be resolved before publishing."
+      ? expired ? "This release has expired. Refresh the snapshot before publishing picks." : "At least one quality gate must be resolved before publishing."
       : "Load the latest release snapshot before publishing any pick.";
 
   const audit = release?.audit || {};
@@ -243,7 +294,7 @@ function renderRelease(release) {
   `;
   document.getElementById("release-summary").innerHTML = `
     <div><span>Decision</span><strong>${escapeHtml(decision)}</strong></div>
-    <div><span>Publishable</span><strong>${release?.can_publish_recommendations ? "Yes" : "No"}</strong></div>
+    <div><span>Publishable</span><strong>${approved ? "Yes" : "No"}</strong></div>
     <div><span>Blockers</span><strong>${escapeHtml((release?.blockers || []).length)}</strong></div>
     <div><span>Warnings</span><strong>${escapeHtml((release?.warnings || []).length)}</strong></div>
   `;
@@ -364,7 +415,8 @@ function renderPredictions() {
   }
   document.getElementById("fixture-result-count").textContent = `${predictions.length} of ${state.predictions.length} fixtures shown`;
   if (!predictions.length) {
-    setEmpty(container, "No fixtures match", "Change a filter, or run the pipeline when new schedules are available.");
+    setEmpty(container, state.predictions.length ? "No fixtures match" : "No upcoming fixtures",
+      state.predictions.length ? "Change or clear a filter to see more fixtures." : "Check run diagnostics below, or refresh when new schedules are available.");
     return;
   }
   container.innerHTML = predictions.map((item) => {
@@ -388,7 +440,7 @@ function renderPredictions() {
         <div class="model-call">
           <span>Model call</span><strong>${escapeHtml(outcomeLabel(item.prediction))}</strong>
         </div>
-        ${probabilityMarkup(item.probabilities)}
+        ${probabilityMarkup(item.probabilities || {})}
         ${evidenceMarkup(item)}
         <div class="quality-flags">
           <span class="${coldStart ? "flag-warning" : ""}">${coldStart ? "Cold start" : "History ready"}</span>
@@ -402,16 +454,20 @@ function renderPredictions() {
 
 function renderRecommended(preset, release) {
   const container = document.getElementById("recommended-bets");
-  if (!recommendationsApproved(release) || preset?.can_publish_recommendations !== true) {
-    setEmpty(container, "Recommendations on hold", "The release gate is blocked or unavailable; raw probabilities remain visible for diagnosis only.");
-    return;
-  }
   if (!preset) {
     setEmpty(container, "Shortlist unavailable", "The preset questions artifact could not be loaded.");
     return;
   }
+  if (!recommendationsApproved(release) || preset?.can_publish_recommendations !== true) {
+    setEmpty(container, "Recommendations on hold", "The release gate is blocked or unavailable; raw probabilities remain visible for diagnosis only.");
+    return;
+  }
   const question = (preset?.questions || []).find((item) => item.id === "recommended_bets_today");
-  const items = (question?.items || []).filter((item) => finiteNumber(item.confidence) !== null);
+  const threshold = finiteNumber(release.thresholds?.high_confidence) ?? 0.6;
+  const items = (Array.isArray(question?.items) ? question.items : []).filter((item) => {
+    const confidence = finiteNumber(item?.confidence);
+    return confidence !== null && confidence >= threshold && confidence <= 1;
+  });
   if (!items.length) {
     setEmpty(container, "No shortlist yet", "Only verified picks above the recommendation threshold appear here.");
     return;
@@ -506,11 +562,11 @@ async function snapshotFailures(paths, values, rawValues) {
   const manifest = values[0];
   if (!manifest) return [];
   const expected = manifest.generated_at;
-  if (!expected) {
+  if (typeof expected !== "string" || !Number.isFinite(Date.parse(expected)) || Date.parse(expected) > Date.now()) {
     return [{
       level: "critical",
       code: "MANIFEST_SNAPSHOT_MISMATCH",
-      message: "manifest.json has no generated_at value; the snapshot cannot be verified.",
+      message: "manifest.json has an invalid or future generated_at value; the snapshot cannot be verified.",
     }];
   }
   const manifestKeys = {
@@ -574,22 +630,32 @@ async function init() {
   state.predictionsAvailable = Boolean(predictionPayload);
   state.predictions = predictionPayload?.predictions || [];
 
-  document.getElementById("data-health").textContent = manifest
+  const refreshPublishing = () => {
+    const activeRelease = currentRelease(release);
+    const stale = Date.now() >= Date.parse(manifest?.generated_at) + RELEASE_MAX_AGE_MS;
+    document.getElementById("data-health").textContent = manifest
     ? snapshotUsable
-      ? `Snapshot ${formatDateTime(manifest.generated_at)} · ${manifest.prediction_count ?? 0} fixtures`
+      ? `Snapshot ${formatDateTime(manifest.generated_at)} · ${stale ? "outdated · refresh required" : `${manifest.prediction_count ?? 0} fixtures`}`
       : `Snapshot ${formatDateTime(manifest.generated_at)} · integrity check failed`
     : "Manifest unavailable · cached panels may be out of sync";
+    renderMetrics(state.predictions, operations, state.predictionsAvailable, activeRelease);
+    renderRelease(activeRelease);
+    renderRecommended(preset, activeRelease);
+  };
   document.getElementById("footer-run-id").textContent = manifest?.run_id
     ? `Run ${manifest.run_id}`
     : "Legacy or incomplete snapshot";
 
-  renderCoverage(manifest, operations);
-  renderMetrics(state.predictions, operations, state.predictionsAvailable, release);
+  renderCoverage(snapshotUsable ? manifest : null, operations);
   renderOperations(operations);
-  renderRelease(release);
   populateCompetitionFilter(state.predictions);
   renderPredictions();
-  renderRecommended(preset, release);
+  refreshPublishing();
+  clearTimeout(state.releaseTimer);
+  const expires = Date.parse(release?.expires_at);
+  if (expires > Date.now() && expires <= Date.now() + RELEASE_MAX_AGE_MS) {
+    state.releaseTimer = setTimeout(refreshPublishing, expires - Date.now() + 1);
+  }
   renderScores(scores);
   renderErrors(predictionPayload, scores, failures);
   document.body.classList.add("is-ready");
