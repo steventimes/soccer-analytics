@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from app.config import load_settings
-from app.data_service.fetch.fetcher import DataSourceError, FootballDataClient
+from app.data_service.fetch.fetcher import DataSourceError
+from app.data_service.fetch.public import create_data_client
 from app.ml.artifacts import (
     LoadedModelBundle,
     ModelArtifactError,
@@ -63,7 +64,7 @@ class PredictionEngine:
     ) -> None:
         settings = load_settings()
         self.models_dir = Path(models_dir or settings.model_dir)
-        self.client = client or FootballDataClient()
+        self.client = client or create_data_client()
         self.feature_engineer = feature_engineer or FeatureEngineer()
 
     def _load_bundle(self, competition_code: str) -> LoadedModelBundle:
@@ -75,6 +76,13 @@ class PredictionEngine:
         except ModelArtifactError as exc:
             raise PredictionError(str(exc), code="MODEL_UNAVAILABLE") from exc
         bundle = loaded.bundle
+        training_source = bundle.metrics.get("data_source", "football-data.org")
+        fixture_source = getattr(self.client, "source_name", "football-data.org")
+        if training_source != fixture_source:
+            raise PredictionError(
+                f"模型数据源 {training_source} 与赛程源 {fixture_source} 不一致，请选择原数据源或重新训练",
+                code="DATA_SOURCE_MISMATCH",
+            )
         if bundle.competition_code != code:
             raise PredictionError("模型联赛代码与请求不一致", code="MODEL_MISMATCH")
         if bundle.feature_names != self.feature_engineer.features:
@@ -162,9 +170,10 @@ class PredictionEngine:
             predicted = int(raw["predicted_class_index"])
             runner_up = int(raw["runner_up_class_index"])
             logit_margin = float(raw["logit_margin"])
-            top_drivers = []
+            bias = float(raw["bias_contribution"])
+            drivers = []
             seen_features: set[str] = set()
-            for item in raw.get("top_drivers", []):
+            for item in raw["drivers"]:
                 feature = str(item["feature"])
                 contribution = float(item["contribution"])
                 raw_value = float(item["raw_value"])
@@ -176,11 +185,11 @@ class PredictionEngine:
                 ):
                     raise ValueError("解释特征非法")
                 seen_features.add(feature)
-                top_drivers.append(
+                drivers.append(
                     {
                         "feature": feature,
-                        "raw_value": round(raw_value, 6),
-                        "contribution": round(contribution, 6),
+                        "raw_value": raw_value,
+                        "contribution": contribution,
                         "direction": (
                             "supports_prediction"
                             if contribution >= 0.0
@@ -197,16 +206,29 @@ class PredictionEngine:
                 or runner_up != ranked_indices[1]
                 or not math.isfinite(logit_margin)
                 or logit_margin < 0.0
+                or not math.isfinite(bias)
+                or seen_features != set(bundle.feature_names)
+                or not math.isclose(bias + math.fsum(d['contribution'] for d in drivers),
+                                    logit_margin, abs_tol=1e-5, rel_tol=1e-5)
             ):
                 raise ValueError("解释类别非法")
+            top_drivers = sorted(drivers, key=lambda item: abs(item['contribution']), reverse=True)[:3]
+            displayed = {item['feature'] for item in top_drivers}
             return {
                 "available": True,
                 "method": method.strip(),
                 "predicted_vs_runner_up": (
                     f"{labels[predicted]} vs {labels[runner_up]}"
                 ),
-                "logit_margin": round(logit_margin, 6),
+                "logit_margin": logit_margin,
+                "bias_contribution": bias,
+                "omitted_contribution": math.fsum(item['contribution'] for item in drivers
+                                                   if item['feature'] not in displayed),
+                "drivers": drivers,
                 "top_drivers": top_drivers,
+                "output_scale": "raw_margin",
+                "feature_dependence": raw.get("feature_dependence", "unspecified"),
+                "reference": raw.get("reference", "unspecified"),
             }
         except Exception:
             # 解释是辅助证据；任何插件异常都降级为不可用，不能抹掉主概率。
@@ -363,6 +385,7 @@ class PredictionEngine:
                         "away_history_matches": away_history,
                     },
                     "data_provenance": {
+                        **{name: payload[name] for name in ("source_url", "time_precision", "time_zone_assumption") if name in payload},
                         "source": getattr(
                             self.client,
                             "source_name",

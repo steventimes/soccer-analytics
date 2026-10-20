@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2468A0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232468A0'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Touchline · 模型实验</title>
+<meta name="description" content="比较已有离线实验，检查概率、空间网格和模型解释。">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+<script src="./research.js" defer></script><script src="./table-export.js" defer></script><script src="./explore.js" defer></script><script src="./model-lab.js" defer></script><script src="./vaep-calibration.js" defer></script><script src="./xt-grid.js" defer></script><script src="./representation-comparison.js" defer></script>
+</head><body class="research-page workspace" data-page="models">
+<a class="skip-link" href="#main-content">跳到主要内容</a>
+<aside class="workspace-sidebar"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">T</span>Touchline</a><p class="workspace-edition">足球数据研究</p><nav class="workspace-nav" aria-label="主导航"><a href="./index.html">概览</a><a href="./matches.html">比赛</a><a href="./entities.html">球队与球员</a><a href="./models.html" aria-current="page">模型实验</a><a href="./library.html">数据与资料</a></nav><div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span>公开研究快照<p>每项分析保留样本与来源。</p></div></aside>
+<div class="workspace-body"><header class="workspace-topbar"><a href="./index.html" class="mobile-brand" aria-label="Touchline 概览">T</a><span>足球研究 <span aria-hidden="true">/</span> 模型实验</span><a href="./library.html#coverage">查看数据范围 ↗</a></header>
+<main id="main-content" class="workspace-main"><div class="workspace-heading"><div><p class="eyebrow">TOUCHLINE / 模型实验</p><h1>模型实验</h1><p>比较已有离线实验，检查概率、空间网格和模型解释。</p></div><a class="button-link" href="./predictions.html">预测与发布检查 ↗</a></div>
+<div class="workspace-tabs" role="tablist" aria-label="模型实验视图"><button type="button" role="tab" id="tab-model-lab" aria-controls="model-lab" aria-selected="true" tabindex="0">赛果模型</button><button type="button" role="tab" id="tab-representations" aria-controls="representations" aria-selected="false" tabindex="-1">事件表示</button><button type="button" role="tab" id="tab-vaep-calibration" aria-controls="vaep-calibration" aria-selected="false" tabindex="-1">动作概率</button><button type="button" role="tab" id="tab-xt-grid" aria-controls="xt-grid" aria-selected="false" tabindex="-1">xT 网格</button></div>
+<section role="tabpanel" aria-labelledby="tab-model-lab" tabindex="0" id="model-lab" class="research-panel" data-heading="lab-heading"><div class="panel-title"><div><p class="eyebrow">Football-Data · 英超 2025/26</p><h2 id="lab-heading">时间留出实验</h2></div><a href="./predictions.html">预测与发布检查 ↗</a></div>
+<p class="source-banner">各实验在开发期选择方案，最终留出集只用于评价。评级实验含预热排除，样本量与其他组不同；请在同一实验组内比较。</p>
+<div class="filters"><label>实验组<select id="lab-group" disabled></select></label><label>指标<select id="lab-metric"><option value="log_loss">Log loss · 越低越好</option><option value="brier_score">Brier · 越低越好</option><option value="rps">RPS · 越低越好</option><option value="accuracy">准确率 · 越高越好</option></select></label><label>评价阶段<select id="lab-stage"><option value="holdout">最终时间留出</option><option value="development">开发期选择</option></select></label></div>
+<p id="lab-status" class="context-note" role="status" aria-live="polite">正在读取实验汇总…</p><button id="lab-retry" type="button" hidden>重试实验汇总</button><div id="lab-cohort" class="cohort-strip"></div><div id="lab-chart" class="lab-chart"></div><div id="lab-table" class="table-scroll"></div><div class="model-reading-links"><span>继续检查</span><a href="./library.html?figure=paper-followup-20261019-score-counts-pl#figures">进球频数</a><a href="./library.html?figure=paper-followup-20261019-global-contributions#figures">特征贡献</a><a href="./library.html?figure=paper-followup-20261019-feature-dependence#figures">特征依赖</a><a href="./library.html?figure=paper-followup-20261019-feature-interactions#figures">显式交互</a></div><details class="reading-notes"><summary>实验选择与解释限制</summary><div id="lab-notes"></div><p>开发期标记不是按留出集排序选出的冠军。比分、校准、树与评级配方具有各自的窗口和输入；不据本页面宣布生产替换或未来优势。这里没有新增训练或当前赛季预测。</p></details><p><a href="./data/research/model-lab.json" download>下载公开实验汇总 JSON</a></p></section>
+<section role="tabpanel" aria-labelledby="tab-representations" tabindex="0" hidden id="representations" class="research-panel" data-heading="representation-heading">
+      <div class="panel-title"><div><p class="eyebrow">事件序列 · 自动学习表示</p><h2 id="representation-heading">跨联赛迁移、多任务与自监督</h2></div><span id="representation-date"></span></div>
+      <p id="representation-status" class="context-note section-status" role="status" aria-live="polite">正在读取表示学习汇总。</p><button id="representation-retry" type="button" hidden>重试表示学习汇总</button>
+      <p>GRU 从最近八个事件的类型、起点、时间与双方关系学习上下文。树模型与前馈 MLP 使用相同可观测历史的展开输入。两个任务是传球完成和记录到的向前位移，输入排除了当前传球的结果和终点。</p>
+      <p id="representation-scope" class="context-note" hidden></p>
+      <label class="experiment-control">结果指标<select id="experiment-metric" disabled><option value="completion_log_loss">完成概率 · log loss，越低越好</option><option value="forward_displacement_mae_pitch_pct">向前位移 · MAE，越低越好</option></select></label>
+      <p id="experiment-chart-label" class="chart-reading" hidden></p>
+      <p class="chart-scroll-hint">小屏幕可左右滑动图表，也可展开下方的数值表。</p>
+      <div id="experiment-chart" class="experiment-chart" tabindex="0" role="region" aria-label="实验结果图，可横向滚动" hidden></div>
+      <p class="context-note">误差范围是随机种子间的标准差，不是置信区间。预训练使用额外数据和计算量，单任务对照使用两个独立编码器。自监督对照使用同一批来源序列，没有额外未标注样本。本轮是历史单赛季实验，尚未验证跨赛季、小妖潜力或无球跑位。</p>
+      <details id="representation-paired" class="diagnostic-details"><summary>按整场测试比赛比较误差差值</summary>
+        <div class="filters exploration-filters"><label>误差指标<select id="representation-paired-metric" disabled><option value="completion_log_loss">完成概率 · log loss</option><option value="completion_brier">完成概率 · Brier</option><option value="forward_displacement_mae_pitch_pct">向前位移 · MAE</option></select></label><button id="representation-paired-export" type="button" disabled>下载当前图 SVG</button><a id="representation-paired-share" hidden>分享当前指标</a><button id="representation-paired-retry" type="button" hidden>重试读取</button></div>
+        <p id="representation-paired-status" class="context-note" role="status" aria-live="polite"></p><p id="representation-paired-scope" class="context-note"></p>
+        <p class="chart-scroll-hint">小屏幕可横向滑动图表；数值表与导出保留相同单位和显示精度。</p>
+        <div id="representation-paired-chart" class="interactive-chart" tabindex="0" role="region" aria-label="模型误差差值与整场重采样范围，可横向滚动"></div>
+        <div id="representation-paired-table" class="table-scroll"></div><div id="representation-paired-limits"></div>
+      </details>
+      <details class="diagnostic-details"><summary>SPADL 动作增量对照</summary><p>这个实验使用动作完成后的类型、结果、位置与上下文，分别预测进球和失球，再计算两次状态之间的概率变化。它与上方的传球前预测使用不同输入和目标。</p><p>英超、法甲按整场比赛和日历时间划分训练、验证、测试集。预测窗口含当前动作及后九个动作，半场末不足完整窗口的状态不参与评估。当前进球状态单独统计，主要对照排除这些状态。乌龙球、比分和重复门将记录按实际事件表示核对。</p><p class="context-note">转换器可能补出带球，这些是事件之间推断的动作，不是连续追踪观测。动作类型均值受样本组成和模型校准影响，不用于球员排名或因果判断。</p><p><a href="./data/research/vaep-spadl.json" download>下载动作增量实验汇总 JSON</a> · <a href="./library.html#figures">查看概率验证与动作贡献图</a></p></details>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-vaep-calibration" tabindex="0" hidden id="vaep-calibration" class="research-panel" data-heading="vaep-calibration-heading">
+      <div class="panel-title"><div><p class="eyebrow">动作价值实验 · 概率检查</p><h2 id="vaep-calibration-heading">预测概率与实际发生比例</h2></div><a href="https://doi.org/10.1073/pnas.2016191118" target="_blank" rel="noopener noreferrer">CORP 方法论文 ↗</a></div>
+      <details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">Wyscout 2017/18 英超、法甲的时间留出预测，用 PAV 曲线和不同等宽分箱检查校准。进球与失球是两个分别预测的事件，概率不要求相加为一。</p></details>
+      <div class="filters exploration-filters">
+        <label>联赛<select id="vaep-calibration-league" disabled><option value="England">英超</option><option value="France">法甲</option></select></label>
+        <label>模型<select id="vaep-calibration-model" disabled><option value="context">三动作</option><option value="single">单动作</option><option value="prior">训练频率</option></select></label>
+        <label>目标<select id="vaep-calibration-head" disabled><option value="score">进球</option><option value="concede">失球</option></select></label>
+        <label>等宽分箱<select id="vaep-calibration-bins" disabled><option value="10">10 箱</option><option value="9">9 箱</option><option value="11">11 箱</option></select></label>
+        <label>坐标范围<select id="vaep-calibration-range" disabled><option value="0.1">0–10% 细看</option><option value="1">0–100% 全部</option></select></label>
+        <button id="vaep-calibration-retry" type="button" hidden>重试读取校准数据</button>
+      </div>
+      <p id="vaep-calibration-status" class="context-note" role="status" aria-live="polite">正在读取校准诊断。</p>
+      <div id="vaep-calibration-summary" class="comparison-samples"></div>
+      <p id="vaep-calibration-crop" class="context-note"></p>
+
+      <div id="vaep-calibration-chart" class="interactive-chart" tabindex="0" role="region" aria-label="概率校准与预测分布，可横向滚动"></div>
+      <details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">蓝线为同样本 PAV 拟合，橙色方点为所选分箱，虚线为预测与实际比例相等。曲线没有置信带。下方柱形表示每个等宽分箱的样本占比。分箱左闭右开，最后一箱包含 100%。</p></details>
+      <details class="chart-data"><summary>查看分箱样本与概率</summary><div id="vaep-calibration-bin-table" class="table-scroll"></div></details>
+      <details class="chart-data"><summary>查看 PAV 分段与 Brier 分解</summary><div id="vaep-calibration-pav-table" class="table-scroll"></div><div id="vaep-calibration-score-table" class="table-scroll"></div></details>
+      <p><a id="vaep-calibration-share" hidden>打开当前筛选链接</a> · <a href="./data/research/vaep-calibration.json" download>下载校准诊断汇总 JSON</a></p>
+      <details class="diagnostic-details"><summary>方法与解释限制</summary><p id="vaep-calibration-scope" class="context-note"></p><p>原模型 Brier 分数等于误校准 MCB 减区分力 DSC 加不确定性 UNC。三项使用同一批样本，UNC 是该批样本事件频率的二项方差。ECE 会随分箱改变，不能单独用来挑选模型。</p><ul id="vaep-calibration-limits"></ul></details>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-xt-grid" tabindex="0" hidden id="xt-grid" class="research-panel" data-heading="xt-grid-heading">
+      <div class="panel-title"><div><p class="eyebrow">xT 网格检查</p><h2 id="xt-grid-heading">网格数值与比赛样本敏感性</h2></div><a href="https://arxiv.org/abs/2604.21087v4" target="_blank" rel="noopener noreferrer">xT 模型质量论文 ↗</a></div>
+      <p>每次有放回抽取整场训练比赛，再汇总传球和射门计数求解网格。保留场内动作关联，不将各场 xT 取平均。这里展示同一批历史比赛中的变化，不能据此验证未来比赛的准确性。</p>
+      <div class="filters exploration-filters"><label>网格指标<select id="xt-grid-view" disabled><option value="width">95% 重采样范围宽度</option><option value="value">拟合 xT</option><option value="shots">射门样本数</option><option value="goals">进球样本数</option></select></label><button id="xt-grid-export" type="button" disabled>下载当前网格 SVG</button><button id="xt-grid-retry" type="button" hidden>重试读取网格</button></div>
+      <p id="xt-grid-status" class="context-note" role="status" aria-live="polite">正在读取网格检查。</p>
+
+      <div id="xt-grid-chart" class="interactive-chart" tabindex="0" role="region" aria-label="xT 网格与重采样范围，可横向滚动"></div>
+      <details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">坐标由 Wyscout 百分比线性缩放为 120×80 单位，非米制。x 向右、y 向下。每格左闭右开，最右与最下格包含边界。原生口径含点球和直接任意球。xT 不是本项目固定动作窗口的校准概率。</p></details>
+      <details class="chart-data"><summary>查看全部 96 格的样本、数值和重采样范围</summary><details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">xT、分位数及范围宽度各自四舍五入至四位小数。表格保留全部格，不按上方颜色指标筛选。</p></details><div id="xt-grid-table" class="table-scroll"></div></details>
+      <p><a id="xt-grid-share" hidden>打开当前网格链接</a> · <a href="./data/research/xt-numerics.json" download>下载网格检查汇总 JSON</a> · <a href="https://doi.org/10.6084/m9.figshare.c.4415000" target="_blank" rel="noopener noreferrer">Wyscout 数据来源 ↗</a></p>
+      <details class="diagnostic-details"><summary>重采样方法与解释限制</summary><p id="xt-grid-scope" class="context-note"></p><ul id="xt-grid-limits"></ul><p><a href="https://journal.r-project.org/articles/RJ-2023-015/" target="_blank" rel="noopener noreferrer">整簇重采样方法说明 ↗</a></p></details>
+    </section>
+<p id="load-status" class="sr-only" role="status" aria-live="polite"></p><p id="snapshot-date" class="sr-only"></p></main><footer class="workspace-footer"><span>Touchline · 足球数据研究</span><span>公开汇总 · 原件与训练文件保留在本地</span></footer></div>
+</body></html>

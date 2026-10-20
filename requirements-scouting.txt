@@ -1,0 +1,5 @@
+-r requirements-experiments.txt
+kloppy==3.19.1
+orjson==3.13.0
+matplotlib==3.11.2
+CairoSVG==2.9.1

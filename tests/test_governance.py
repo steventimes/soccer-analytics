@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import math
 
-import unittest
-
-from app.web.operations import build_operations_summary
 from app.ml.forecast_identity import forecast_id_for_prediction
+from app.web.operations import build_operations_summary
+from app.web.release_governance import build_release_governance
+
+from tests.support import ContractTestCase
 
 
 def _quality_evidence(
@@ -96,11 +98,7 @@ def _valid_prediction(
     return prediction
 
 
-class TestOperationsSummary(unittest.TestCase):
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+class TestOperationsSummary(ContractTestCase):
 
     def test_prediction_integrity_contracts(self) -> None:
         self._run_contracts(
@@ -628,13 +626,6 @@ class TestOperationsSummary(unittest.TestCase):
         )
 
 
-import math
-import unittest
-
-from app.web.release_governance import build_release_governance
-from app.ml.forecast_identity import forecast_id_for_prediction
-
-
 MODEL_SHA = "a" * 64
 
 
@@ -735,7 +726,7 @@ def _valid_release_inputs() -> tuple[list[dict], dict]:
     return predictions, operations
 
 
-class TestReleaseGovernance(unittest.TestCase):
+class TestReleaseGovernance(ContractTestCase):
     def test_release_expires_within_a_day_and_before_the_first_kickoff(self):
         predictions, operations = _valid_release_inputs()
         release = build_release_governance(predictions, operations, generated_at=operations["generated_at"])
@@ -755,10 +746,6 @@ class TestReleaseGovernance(unittest.TestCase):
         self.assertFalse(release["can_publish_recommendations"])
         self.assertIn("PREDICTION_KICKOFF_INVALID", {item["code"] for item in release["blockers"]})
 
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
 
     def test_prediction_audit_contracts(self) -> None:
         self._run_contracts(

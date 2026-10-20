@@ -1,0 +1,2020 @@
+{
+  "schema": "SoccerAnalytics.OrdinalElo.v1",
+  "run_id": "f35a023aa5fbfda6",
+  "config": {
+    "source": "football-csv",
+    "seasons": [
+      "2022",
+      "2023",
+      "2024"
+    ],
+    "competitions": [
+      "PL",
+      "FL1",
+      "BL1",
+      "SA",
+      "PD"
+    ],
+    "ridge": 0.001,
+    "folds": 3,
+    "seed": 42,
+    "models": [
+      "elo_ordered_logit",
+      "elo_multinomial",
+      "logistic_l2",
+      "xgboost"
+    ],
+    "ordinal_x_scale": 400.0,
+    "ordinal_intercept": false,
+    "ordinal_bounds": [
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -30.0,
+        30.0
+      ],
+      [
+        -12.0,
+        6.0
+      ]
+    ],
+    "ordinal_penalty": "Mean log loss +ridge/2 * slope²; thresholds not penalized",
+    "feature_recipe": {
+      "window": 5,
+      "elo_k": 20.0,
+      "home_advantage": 80.0
+    },
+    "controls": "Elo-only scaled multinomial C1; full30feature L2 C1 and XGBoost default",
+    "native_thread_limit": 2
+  },
+  "code_sha256": {
+    "app/ml/ordinal.py": "c92b344344279dbac6421f165c8360d8b47898d0daff2d40e492a3fd2180e7f3",
+    "app/ml/alternatives.py": "16c00ad9940dc850021eb782095eefa7acd33b19ae6fd1b4a2c84540587f1be8",
+    "app/ml/evaluation.py": "52c253329ebf7a42a0ff98366a6e764aa7e8e3291c5204314a3eb59e24ca4119",
+    "app/ml/model.py": "2168142f0a8f2c996eba8d28186731830e87d11bdb83a7c458c862d5f8038483",
+    "app/ml/feature_engineering.py": "de4c7e2e20a3c4a6a2e7a71d6aa6e781792990f736a6771881f92f85f77e4b87",
+    "app/ml/experiments.py": "c782edd3eab84513f5ca18144291b3311dcf2f70c470f58c59ffc6c113e7a368",
+    "app/ml/score_models.py": "98aec0c1b7e432cbf8f50987fdd1a668ed1ca928edae314de1edaebfe56e51a0"
+  },
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost-cpu": "3.4.1"
+  },
+  "source_receipts": [
+    {
+      "competition": "PL",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:16.418773+00:00",
+          "sha256": "e4619858bf01645ecf92e230f5a6cec0730cb9fd4ebf153c2bf96d783a47876d"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:16.770405+00:00",
+          "sha256": "ab7a513b187ab7e8931d79b3de3b00333d43247acdbd3eca79592729c1724f16"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:17.130081+00:00",
+          "sha256": "97e1085e7a70650ab3e4deb91b6dd1a407b526c0db9e3c6e6094a3d6cd578cc1"
+        }
+      ]
+    },
+    {
+      "competition": "FL1",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:30.371780+00:00",
+          "sha256": "a24ce36662b01a437d7f91a83fd5defb7bd3cf21cb875e7b9acacd64fe02fb6a"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:30.698081+00:00",
+          "sha256": "9a4a09220a009a178a8043ae00befb4e9edffc292f5b1b0a8f77977b57ded3c5"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:31.028716+00:00",
+          "sha256": "b520b41cf37af11cd7f906319d194985f5a70f41b104e87f981b15849603eedc"
+        }
+      ]
+    },
+    {
+      "competition": "BL1",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:26.039918+00:00",
+          "sha256": "3b6d81ea8efc1c27fdd2c7ce5ae06df13847d0fb7f621a495500673c0d645868"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:26.366306+00:00",
+          "sha256": "302eb7e5624a2c34ba5f5175f50ffdd65a067aff2873e8c28081960c8b0afc2a"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:26.699996+00:00",
+          "sha256": "50272531804425504bb5e8d3db501b8d0e2efa33c84b8da13dbbaeb52d436225"
+        }
+      ]
+    },
+    {
+      "competition": "SA",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:33.638788+00:00",
+          "sha256": "9040d052d51f175617ab65a072859237853f2af97999cc299ea9fa645d3a4cef"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:33.986937+00:00",
+          "sha256": "99926562f8c6e6a7a4ac3625864f5417701a43f19ac3a7e1d62c9292ae581dc2"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:34.341747+00:00",
+          "sha256": "150d54f5460e40fc718d3d57648b8d7d4f4f1d32122eea6e9c25b6947a3f34a1"
+        }
+      ]
+    },
+    {
+      "competition": "PD",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:46:16.733397+00:00",
+          "sha256": "0289b067c024ef9a4a352e09d0e2dced95d317de6d91dd79c95402c036eb49dd"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:46:17.074396+00:00",
+          "sha256": "c3128d3ffda910b4b120fb64818820bf8524da59d5db763df3012c308ed44f49"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:46:17.421132+00:00",
+          "sha256": "a3daa09b015ac66526ee8929c65bc92adc331c98a06b70efd4b5570021473741"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "competition": "PL",
+      "seed": 42,
+      "counts": {
+        "input_rows": 1140,
+        "duplicate_rows": 0,
+        "unfinished_excluded": 0,
+        "completed_rows": 1140
+      },
+      "selection_rows": 909,
+      "holdout_rows": 231,
+      "selected": "elo_ordered_logit",
+      "selected_on": "development_expanding_window_log_loss",
+      "development_last_kickoff": "2024-12-09T20:00:00+00:00",
+      "holdout_first_kickoff": "2024-12-14T15:00:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T15:00:00+00:00",
+      "results": [
+        {
+          "model": "elo_ordered_logit",
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {
+            "ridge": 0.001
+          },
+          "selection_log_loss": 0.9688774635995621,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 451,
+              "validation_rows": 155,
+              "accuracy": 0.5290322580645161,
+              "baseline_accuracy": 0.49032258064516127,
+              "majority_baseline_accuracy": 0.49032258064516127,
+              "elo_baseline_accuracy": 0.49032258064516127,
+              "log_loss": 1.0033010801797642,
+              "brier_score": 0.5992859013508478,
+              "ranked_probability_score": 0.21197645310894356,
+              "calibration_error": 0.09391281685214711,
+              "classwise_calibration_error": 0.05886510810857439,
+              "sharpness": 0.5705801727391824
+            },
+            {
+              "fold": 2,
+              "training_rows": 606,
+              "validation_rows": 144,
+              "accuracy": 0.5555555555555556,
+              "baseline_accuracy": 0.5486111111111112,
+              "majority_baseline_accuracy": 0.4513888888888889,
+              "elo_baseline_accuracy": 0.5486111111111112,
+              "log_loss": 0.9237922355449429,
+              "brier_score": 0.5428783261461639,
+              "ranked_probability_score": 0.18322576022025322,
+              "calibration_error": 0.09001751994677355,
+              "classwise_calibration_error": 0.07160422477327587,
+              "sharpness": 0.5686959050728349
+            },
+            {
+              "fold": 3,
+              "training_rows": 750,
+              "validation_rows": 159,
+              "accuracy": 0.5283018867924528,
+              "baseline_accuracy": 0.5283018867924528,
+              "majority_baseline_accuracy": 0.44025157232704404,
+              "elo_baseline_accuracy": 0.5283018867924528,
+              "log_loss": 0.9761517546054351,
+              "brier_score": 0.5810515161260055,
+              "ranked_probability_score": 0.19777622571720868,
+              "calibration_error": 0.05799391024879881,
+              "classwise_calibration_error": 0.04692729341131744,
+              "sharpness": 0.5728493276877143
+            }
+          ],
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5411255411255411,
+          "holdout_log_loss": 1.003204695140836,
+          "holdout_brier_score": 0.6022387215495955,
+          "holdout_rps": 0.2102642645606564,
+          "fit_diagnostics": {
+            "iterations": 10,
+            "objective": 0.9790040261952013,
+            "max_abs_gradient": 8.810314640899848e-09,
+            "coefficient_per400elo": 3.009006452575924,
+            "thresholds": [
+              -0.9334116983440026,
+              0.15860219660559238
+            ],
+            "at_bound": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        {
+          "model": "elo_multinomial",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {},
+          "selection_log_loss": 0.9741672363708591,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 451,
+              "validation_rows": 155,
+              "accuracy": 0.5225806451612903,
+              "baseline_accuracy": 0.49032258064516127,
+              "majority_baseline_accuracy": 0.49032258064516127,
+              "elo_baseline_accuracy": 0.49032258064516127,
+              "log_loss": 1.0132705155234714,
+              "brier_score": 0.6049308134557884,
+              "ranked_probability_score": 0.2149137300320263,
+              "calibration_error": 0.10242137611694455,
+              "classwise_calibration_error": 0.0647484740374682,
+              "sharpness": 0.5889904633775666
+            },
+            {
+              "fold": 2,
+              "training_rows": 606,
+              "validation_rows": 144,
+              "accuracy": 0.5486111111111112,
+              "baseline_accuracy": 0.5486111111111112,
+              "majority_baseline_accuracy": 0.4513888888888889,
+              "elo_baseline_accuracy": 0.5486111111111112,
+              "log_loss": 0.9229541967250638,
+              "brier_score": 0.5425959079394521,
+              "ranked_probability_score": 0.18280829817752395,
+              "calibration_error": 0.08942903503136769,
+              "classwise_calibration_error": 0.05865252626062964,
+              "sharpness": 0.5817465258627473
+            },
+            {
+              "fold": 3,
+              "training_rows": 750,
+              "validation_rows": 159,
+              "accuracy": 0.5283018867924528,
+              "baseline_accuracy": 0.5283018867924528,
+              "majority_baseline_accuracy": 0.44025157232704404,
+              "elo_baseline_accuracy": 0.5283018867924528,
+              "log_loss": 0.9824293083226807,
+              "brier_score": 0.5829646321421716,
+              "ranked_probability_score": 0.1986417234962126,
+              "calibration_error": 0.08897327351553388,
+              "classwise_calibration_error": 0.05780502965086795,
+              "sharpness": 0.5836452092823161
+            }
+          ],
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5454545454545454,
+          "holdout_log_loss": 0.9995379687320052,
+          "holdout_brier_score": 0.601495007834799,
+          "holdout_rps": 0.21077930012447832
+        },
+        {
+          "model": "logistic_l2",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0101072013349146,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 451,
+              "validation_rows": 155,
+              "accuracy": 0.5161290322580645,
+              "baseline_accuracy": 0.49032258064516127,
+              "majority_baseline_accuracy": 0.49032258064516127,
+              "elo_baseline_accuracy": 0.49032258064516127,
+              "log_loss": 1.116814573016018,
+              "brier_score": 0.6423754361872963,
+              "ranked_probability_score": 0.2281739537705318,
+              "calibration_error": 0.15981636446035094,
+              "classwise_calibration_error": 0.1257984234476141,
+              "sharpness": 0.656919098072769
+            },
+            {
+              "fold": 2,
+              "training_rows": 606,
+              "validation_rows": 144,
+              "accuracy": 0.5694444444444444,
+              "baseline_accuracy": 0.5486111111111112,
+              "majority_baseline_accuracy": 0.4513888888888889,
+              "elo_baseline_accuracy": 0.5486111111111112,
+              "log_loss": 0.9547421908534184,
+              "brier_score": 0.5638072367494322,
+              "ranked_probability_score": 0.1878204137760193,
+              "calibration_error": 0.13304641903652628,
+              "classwise_calibration_error": 0.0907617567797514,
+              "sharpness": 0.6354125356996694
+            },
+            {
+              "fold": 3,
+              "training_rows": 750,
+              "validation_rows": 159,
+              "accuracy": 0.5723270440251572,
+              "baseline_accuracy": 0.5283018867924528,
+              "majority_baseline_accuracy": 0.44025157232704404,
+              "elo_baseline_accuracy": 0.5283018867924528,
+              "log_loss": 0.9562261881195968,
+              "brier_score": 0.570747351135292,
+              "ranked_probability_score": 0.19111101637837646,
+              "calibration_error": 0.09370806909014753,
+              "classwise_calibration_error": 0.07881967011860203,
+              "sharpness": 0.610573060331664
+            }
+          ],
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5194805194805194,
+          "holdout_log_loss": 1.0186609376060196,
+          "holdout_brier_score": 0.6080911305022744,
+          "holdout_rps": 0.21309025357618752
+        },
+        {
+          "model": "xgboost",
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0359772466017787,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 451,
+              "validation_rows": 155,
+              "accuracy": 0.4774193548387097,
+              "baseline_accuracy": 0.49032258064516127,
+              "majority_baseline_accuracy": 0.49032258064516127,
+              "elo_baseline_accuracy": 0.49032258064516127,
+              "log_loss": 1.05409186359253,
+              "brier_score": 0.6356323437862129,
+              "ranked_probability_score": 0.22483007487542495,
+              "calibration_error": 0.1144022810843683,
+              "classwise_calibration_error": 0.10898186918548358,
+              "sharpness": 0.49201234425267865
+            },
+            {
+              "fold": 2,
+              "training_rows": 606,
+              "validation_rows": 144,
+              "accuracy": 0.4722222222222222,
+              "baseline_accuracy": 0.5486111111111112,
+              "majority_baseline_accuracy": 0.4513888888888889,
+              "elo_baseline_accuracy": 0.5486111111111112,
+              "log_loss": 1.0460663105915469,
+              "brier_score": 0.6287376194312422,
+              "ranked_probability_score": 0.21869176352698186,
+              "calibration_error": 0.08925464169846642,
+              "classwise_calibration_error": 0.0874309911634083,
+              "sharpness": 0.42102788719866013
+            },
+            {
+              "fold": 3,
+              "training_rows": 750,
+              "validation_rows": 159,
+              "accuracy": 0.49056603773584906,
+              "baseline_accuracy": 0.5283018867924528,
+              "majority_baseline_accuracy": 0.44025157232704404,
+              "elo_baseline_accuracy": 0.5283018867924528,
+              "log_loss": 1.0091810777458474,
+              "brier_score": 0.6039746645332835,
+              "ranked_probability_score": 0.20443647185974057,
+              "calibration_error": 0.06370294731368056,
+              "classwise_calibration_error": 0.08113369392523977,
+              "sharpness": 0.46388442636285937
+            }
+          ],
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 1.0001838573932904,
+          "holdout_brier_score": 0.5966791933044117,
+          "holdout_rps": 0.2056669280884362
+        }
+      ],
+      "holdout_protocol": "Fixed model with advancing earlier-kickoff history; kickoff does not prove final-whistle/source-arrival availability.",
+      "comparison_scope": "Complete configurations: proportional odds versus multinomial, and one Elo feature versus30features. Scaling and regularization also differ; not an isolated causal effect of model family."
+    },
+    {
+      "competition": "FL1",
+      "seed": 42,
+      "counts": {
+        "input_rows": 992,
+        "duplicate_rows": 0,
+        "unfinished_excluded": 0,
+        "completed_rows": 992
+      },
+      "selection_rows": 794,
+      "holdout_rows": 198,
+      "selected": "elo_ordered_logit",
+      "selected_on": "development_expanding_window_log_loss",
+      "development_last_kickoff": "2024-11-24T19:45:00+00:00",
+      "holdout_first_kickoff": "2024-11-29T19:45:00+00:00",
+      "holdout_last_kickoff": "2025-05-17T19:00:00+00:00",
+      "results": [
+        {
+          "model": "elo_ordered_logit",
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {
+            "ridge": 0.001
+          },
+          "selection_log_loss": 1.021577259612044,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 397,
+              "validation_rows": 127,
+              "accuracy": 0.4645669291338583,
+              "baseline_accuracy": 0.4645669291338583,
+              "majority_baseline_accuracy": 0.4094488188976378,
+              "elo_baseline_accuracy": 0.4645669291338583,
+              "log_loss": 1.0413271721678912,
+              "brier_score": 0.6263731157839877,
+              "ranked_probability_score": 0.20614864473341515,
+              "calibration_error": 0.045787490704240014,
+              "classwise_calibration_error": 0.06232679808916641,
+              "sharpness": 0.4919730087428482
+            },
+            {
+              "fold": 2,
+              "training_rows": 524,
+              "validation_rows": 138,
+              "accuracy": 0.47101449275362317,
+              "baseline_accuracy": 0.463768115942029,
+              "majority_baseline_accuracy": 0.37681159420289856,
+              "elo_baseline_accuracy": 0.463768115942029,
+              "log_loss": 1.0606401246974382,
+              "brier_score": 0.6407608104358639,
+              "ranked_probability_score": 0.2298784169321098,
+              "calibration_error": 0.07163562375055053,
+              "classwise_calibration_error": 0.07422443392249477,
+              "sharpness": 0.5099026987667648
+            },
+            {
+              "fold": 3,
+              "training_rows": 662,
+              "validation_rows": 132,
+              "accuracy": 0.5454545454545454,
+              "baseline_accuracy": 0.5606060606060606,
+              "majority_baseline_accuracy": 0.44696969696969696,
+              "elo_baseline_accuracy": 0.5606060606060606,
+              "log_loss": 0.9617369999425212,
+              "brier_score": 0.5691253934525188,
+              "ranked_probability_score": 0.19892830461674474,
+              "calibration_error": 0.04075624129193875,
+              "classwise_calibration_error": 0.06025307703616037,
+              "sharpness": 0.5354134263063323
+            }
+          ],
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5606060606060606,
+          "holdout_log_loss": 0.9855068882148003,
+          "holdout_brier_score": 0.5848521244013453,
+          "holdout_rps": 0.21355855249348138,
+          "fit_diagnostics": {
+            "iterations": 9,
+            "objective": 1.0199657426755955,
+            "max_abs_gradient": 2.0559569496072644e-10,
+            "coefficient_per400elo": 2.8760637489260654,
+            "thresholds": [
+              -0.7493513175985149,
+              0.37033986265283114
+            ],
+            "at_bound": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        {
+          "model": "elo_multinomial",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0336024371710637,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 397,
+              "validation_rows": 127,
+              "accuracy": 0.4645669291338583,
+              "baseline_accuracy": 0.4645669291338583,
+              "majority_baseline_accuracy": 0.4094488188976378,
+              "elo_baseline_accuracy": 0.4645669291338583,
+              "log_loss": 1.0277083090611645,
+              "brier_score": 0.6186647653642476,
+              "ranked_probability_score": 0.2047815760916879,
+              "calibration_error": 0.06475191868149667,
+              "classwise_calibration_error": 0.05752942210518136,
+              "sharpness": 0.502413321162032
+            },
+            {
+              "fold": 2,
+              "training_rows": 524,
+              "validation_rows": 138,
+              "accuracy": 0.4492753623188406,
+              "baseline_accuracy": 0.463768115942029,
+              "majority_baseline_accuracy": 0.37681159420289856,
+              "elo_baseline_accuracy": 0.463768115942029,
+              "log_loss": 1.0980512734492278,
+              "brier_score": 0.6613464510170132,
+              "ranked_probability_score": 0.23482806005731635,
+              "calibration_error": 0.08198036255338867,
+              "classwise_calibration_error": 0.11643659462158705,
+              "sharpness": 0.5213413043414835
+            },
+            {
+              "fold": 3,
+              "training_rows": 662,
+              "validation_rows": 132,
+              "accuracy": 0.5303030303030303,
+              "baseline_accuracy": 0.5606060606060606,
+              "majority_baseline_accuracy": 0.44696969696969696,
+              "elo_baseline_accuracy": 0.5606060606060606,
+              "log_loss": 0.9718949740162954,
+              "brier_score": 0.5737678380601735,
+              "ranked_probability_score": 0.19970722261036844,
+              "calibration_error": 0.0865058519140364,
+              "classwise_calibration_error": 0.07515599093824961,
+              "sharpness": 0.5500927314824646
+            }
+          ],
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5606060606060606,
+          "holdout_log_loss": 0.9895585367817952,
+          "holdout_brier_score": 0.5866585439166074,
+          "holdout_rps": 0.21470973520672337
+        },
+        {
+          "model": "logistic_l2",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0791075013949158,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 397,
+              "validation_rows": 127,
+              "accuracy": 0.4645669291338583,
+              "baseline_accuracy": 0.4645669291338583,
+              "majority_baseline_accuracy": 0.4094488188976378,
+              "elo_baseline_accuracy": 0.4645669291338583,
+              "log_loss": 1.1050330313879015,
+              "brier_score": 0.6593905888312018,
+              "ranked_probability_score": 0.21569391088198497,
+              "calibration_error": 0.11830441507759241,
+              "classwise_calibration_error": 0.12227473878011126,
+              "sharpness": 0.5801669491606838
+            },
+            {
+              "fold": 2,
+              "training_rows": 524,
+              "validation_rows": 138,
+              "accuracy": 0.38405797101449274,
+              "baseline_accuracy": 0.463768115942029,
+              "majority_baseline_accuracy": 0.37681159420289856,
+              "elo_baseline_accuracy": 0.463768115942029,
+              "log_loss": 1.114838395454003,
+              "brier_score": 0.6765935143060687,
+              "ranked_probability_score": 0.2443443273299595,
+              "calibration_error": 0.17470208886288544,
+              "classwise_calibration_error": 0.12647066936870427,
+              "sharpness": 0.5504309582946841
+            },
+            {
+              "fold": 3,
+              "training_rows": 662,
+              "validation_rows": 132,
+              "accuracy": 0.5075757575757576,
+              "baseline_accuracy": 0.5606060606060606,
+              "majority_baseline_accuracy": 0.44696969696969696,
+              "elo_baseline_accuracy": 0.5606060606060606,
+              "log_loss": 1.0168089734459522,
+              "brier_score": 0.6112243912720609,
+              "ranked_probability_score": 0.2143043431003973,
+              "calibration_error": 0.09389745744275788,
+              "classwise_calibration_error": 0.1267854509805925,
+              "sharpness": 0.5856051535971365
+            }
+          ],
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.48484848484848486,
+          "holdout_log_loss": 1.0772053752072737,
+          "holdout_brier_score": 0.6411421167737414,
+          "holdout_rps": 0.229837163983712
+        },
+        {
+          "model": "xgboost",
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0689124205609881,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 397,
+              "validation_rows": 127,
+              "accuracy": 0.4094488188976378,
+              "baseline_accuracy": 0.4645669291338583,
+              "majority_baseline_accuracy": 0.4094488188976378,
+              "elo_baseline_accuracy": 0.4645669291338583,
+              "log_loss": 1.0698467182265634,
+              "brier_score": 0.646802235281381,
+              "ranked_probability_score": 0.2131130879600653,
+              "calibration_error": 0.06613580096425033,
+              "classwise_calibration_error": 0.07514114310265839,
+              "sharpness": 0.4736268550861539
+            },
+            {
+              "fold": 2,
+              "training_rows": 524,
+              "validation_rows": 138,
+              "accuracy": 0.4057971014492754,
+              "baseline_accuracy": 0.463768115942029,
+              "majority_baseline_accuracy": 0.37681159420289856,
+              "elo_baseline_accuracy": 0.463768115942029,
+              "log_loss": 1.0887999547532978,
+              "brier_score": 0.6598498940186973,
+              "ranked_probability_score": 0.23258672202703065,
+              "calibration_error": 0.0816871312217436,
+              "classwise_calibration_error": 0.10782680055801419,
+              "sharpness": 0.43890701255936554
+            },
+            {
+              "fold": 3,
+              "training_rows": 662,
+              "validation_rows": 132,
+              "accuracy": 0.49242424242424243,
+              "baseline_accuracy": 0.5606060606060606,
+              "majority_baseline_accuracy": 0.44696969696969696,
+              "elo_baseline_accuracy": 0.5606060606060606,
+              "log_loss": 1.0472219999392696,
+              "brier_score": 0.6290570713432174,
+              "ranked_probability_score": 0.22344703939949445,
+              "calibration_error": 0.08085003382328784,
+              "classwise_calibration_error": 0.09895185437617882,
+              "sharpness": 0.41157420860095456
+            }
+          ],
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.494949494949495,
+          "holdout_log_loss": 1.0571268058165606,
+          "holdout_brier_score": 0.6378836499013314,
+          "holdout_rps": 0.23283359706721307
+        }
+      ],
+      "holdout_protocol": "Fixed model with advancing earlier-kickoff history; kickoff does not prove final-whistle/source-arrival availability.",
+      "comparison_scope": "Complete configurations: proportional odds versus multinomial, and one Elo feature versus30features. Scaling and regularization also differ; not an isolated causal effect of model family."
+    },
+    {
+      "competition": "BL1",
+      "seed": 42,
+      "counts": {
+        "input_rows": 918,
+        "duplicate_rows": 0,
+        "unfinished_excluded": 0,
+        "completed_rows": 918
+      },
+      "selection_rows": 734,
+      "holdout_rows": 184,
+      "selected": "elo_ordered_logit",
+      "selected_on": "development_expanding_window_log_loss",
+      "development_last_kickoff": "2024-12-14T14:30:00+00:00",
+      "holdout_first_kickoff": "2024-12-14T17:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-17T13:30:00+00:00",
+      "results": [
+        {
+          "model": "elo_ordered_logit",
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {
+            "ridge": 0.001
+          },
+          "selection_log_loss": 0.9950865039891829,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 367,
+              "validation_rows": 120,
+              "accuracy": 0.44166666666666665,
+              "baseline_accuracy": 0.475,
+              "majority_baseline_accuracy": 0.45,
+              "elo_baseline_accuracy": 0.475,
+              "log_loss": 1.0140654528669644,
+              "brier_score": 0.6066448815996724,
+              "ranked_probability_score": 0.20248617354941773,
+              "calibration_error": 0.1710393521147955,
+              "classwise_calibration_error": 0.11714040015739358,
+              "sharpness": 0.536480573252128
+            },
+            {
+              "fold": 2,
+              "training_rows": 487,
+              "validation_rows": 125,
+              "accuracy": 0.528,
+              "baseline_accuracy": 0.464,
+              "majority_baseline_accuracy": 0.408,
+              "elo_baseline_accuracy": 0.464,
+              "log_loss": 0.9920967423669086,
+              "brier_score": 0.5950944509865868,
+              "ranked_probability_score": 0.19851627518440335,
+              "calibration_error": 0.07993870359642341,
+              "classwise_calibration_error": 0.056963265223849265,
+              "sharpness": 0.5317996076780165
+            },
+            {
+              "fold": 3,
+              "training_rows": 612,
+              "validation_rows": 122,
+              "accuracy": 0.5245901639344263,
+              "baseline_accuracy": 0.5,
+              "majority_baseline_accuracy": 0.45081967213114754,
+              "elo_baseline_accuracy": 0.5,
+              "log_loss": 0.9794819657715641,
+              "brier_score": 0.5848294661630667,
+              "ranked_probability_score": 0.2013943251604031,
+              "calibration_error": 0.04840380425123086,
+              "classwise_calibration_error": 0.056682710279363134,
+              "sharpness": 0.5429073113901168
+            }
+          ],
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.46195652173913043,
+          "holdout_log_loss": 1.0706947695307274,
+          "holdout_brier_score": 0.645799065910181,
+          "holdout_rps": 0.22580749185681465,
+          "fit_diagnostics": {
+            "iterations": 8,
+            "objective": 1.0079264097618983,
+            "max_abs_gradient": 5.046256271459319e-09,
+            "coefficient_per400elo": 2.811155364116244,
+            "thresholds": [
+              -0.9471074177829248,
+              0.21547016092878968
+            ],
+            "at_bound": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        {
+          "model": "elo_multinomial",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {},
+          "selection_log_loss": 0.9976293541164295,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 367,
+              "validation_rows": 120,
+              "accuracy": 0.44166666666666665,
+              "baseline_accuracy": 0.475,
+              "majority_baseline_accuracy": 0.45,
+              "elo_baseline_accuracy": 0.475,
+              "log_loss": 1.0259349292012065,
+              "brier_score": 0.6153256261448472,
+              "ranked_probability_score": 0.20620106824514525,
+              "calibration_error": 0.15612963183473963,
+              "classwise_calibration_error": 0.09349486170227726,
+              "sharpness": 0.5606111745878855
+            },
+            {
+              "fold": 2,
+              "training_rows": 487,
+              "validation_rows": 125,
+              "accuracy": 0.528,
+              "baseline_accuracy": 0.464,
+              "majority_baseline_accuracy": 0.408,
+              "elo_baseline_accuracy": 0.464,
+              "log_loss": 0.9836402001141533,
+              "brier_score": 0.5910761844797089,
+              "ranked_probability_score": 0.1977975828029714,
+              "calibration_error": 0.06949821435926973,
+              "classwise_calibration_error": 0.08370433662625006,
+              "sharpness": 0.5476501109550452
+            },
+            {
+              "fold": 3,
+              "training_rows": 612,
+              "validation_rows": 122,
+              "accuracy": 0.5245901639344263,
+              "baseline_accuracy": 0.5,
+              "majority_baseline_accuracy": 0.45081967213114754,
+              "elo_baseline_accuracy": 0.5,
+              "log_loss": 0.9841209544452104,
+              "brier_score": 0.5895098058494802,
+              "ranked_probability_score": 0.2031086233462419,
+              "calibration_error": 0.0622318877586237,
+              "classwise_calibration_error": 0.05266721085428674,
+              "sharpness": 0.5574398178635942
+            }
+          ],
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.46195652173913043,
+          "holdout_log_loss": 1.0858587111641251,
+          "holdout_brier_score": 0.6499758485103219,
+          "holdout_rps": 0.22752640066646848
+        },
+        {
+          "model": "logistic_l2",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0201474696358164,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 367,
+              "validation_rows": 120,
+              "accuracy": 0.475,
+              "baseline_accuracy": 0.475,
+              "majority_baseline_accuracy": 0.45,
+              "elo_baseline_accuracy": 0.475,
+              "log_loss": 1.0851129582596706,
+              "brier_score": 0.6469036752364805,
+              "ranked_probability_score": 0.21117772336242152,
+              "calibration_error": 0.11274549970977923,
+              "classwise_calibration_error": 0.09653016007233595,
+              "sharpness": 0.5868218130174143
+            },
+            {
+              "fold": 2,
+              "training_rows": 487,
+              "validation_rows": 125,
+              "accuracy": 0.512,
+              "baseline_accuracy": 0.464,
+              "majority_baseline_accuracy": 0.408,
+              "elo_baseline_accuracy": 0.464,
+              "log_loss": 0.9973025618357236,
+              "brier_score": 0.5986948919298272,
+              "ranked_probability_score": 0.19801149213783462,
+              "calibration_error": 0.1231608628237996,
+              "classwise_calibration_error": 0.09920933732304134,
+              "sharpness": 0.5521297814773612
+            },
+            {
+              "fold": 3,
+              "training_rows": 612,
+              "validation_rows": 122,
+              "accuracy": 0.5327868852459017,
+              "baseline_accuracy": 0.5,
+              "majority_baseline_accuracy": 0.45081967213114754,
+              "elo_baseline_accuracy": 0.5,
+              "log_loss": 0.9796536568501534,
+              "brier_score": 0.5711862441482537,
+              "ranked_probability_score": 0.18822853691690825,
+              "calibration_error": 0.12138210671302486,
+              "classwise_calibration_error": 0.10029371243747802,
+              "sharpness": 0.5720999258259554
+            }
+          ],
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4891304347826087,
+          "holdout_log_loss": 1.1341730794729867,
+          "holdout_brier_score": 0.6646636289413677,
+          "holdout_rps": 0.23442465612761046
+        },
+        {
+          "model": "xgboost",
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0502277904670043,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 367,
+              "validation_rows": 120,
+              "accuracy": 0.44166666666666665,
+              "baseline_accuracy": 0.475,
+              "majority_baseline_accuracy": 0.45,
+              "elo_baseline_accuracy": 0.475,
+              "log_loss": 1.079848104381172,
+              "brier_score": 0.6500266815500773,
+              "ranked_probability_score": 0.21872143931994206,
+              "calibration_error": 0.08499318783481914,
+              "classwise_calibration_error": 0.07071075094863773,
+              "sharpness": 0.5049350030720234
+            },
+            {
+              "fold": 2,
+              "training_rows": 487,
+              "validation_rows": 125,
+              "accuracy": 0.496,
+              "baseline_accuracy": 0.464,
+              "majority_baseline_accuracy": 0.408,
+              "elo_baseline_accuracy": 0.464,
+              "log_loss": 1.0443229876799538,
+              "brier_score": 0.6301254897108535,
+              "ranked_probability_score": 0.2132862024641607,
+              "calibration_error": 0.10265529751777651,
+              "classwise_calibration_error": 0.0911418656905492,
+              "sharpness": 0.39334470248222353
+            },
+            {
+              "fold": 3,
+              "training_rows": 612,
+              "validation_rows": 122,
+              "accuracy": 0.47540983606557374,
+              "baseline_accuracy": 0.5,
+              "majority_baseline_accuracy": 0.45081967213114754,
+              "elo_baseline_accuracy": 0.5,
+              "log_loss": 1.027143058325047,
+              "brier_score": 0.615623236780968,
+              "ranked_probability_score": 0.211527583915157,
+              "calibration_error": 0.11653842325093314,
+              "classwise_calibration_error": 0.09642138464447576,
+              "sharpness": 0.48670971808863467
+            }
+          ],
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4673913043478261,
+          "holdout_log_loss": 1.0582657178990715,
+          "holdout_brier_score": 0.6350280466110726,
+          "holdout_rps": 0.21711714175292646
+        }
+      ],
+      "holdout_protocol": "Fixed model with advancing earlier-kickoff history; kickoff does not prove final-whistle/source-arrival availability.",
+      "comparison_scope": "Complete configurations: proportional odds versus multinomial, and one Elo feature versus30features. Scaling and regularization also differ; not an isolated causal effect of model family."
+    },
+    {
+      "competition": "SA",
+      "seed": 42,
+      "counts": {
+        "input_rows": 1140,
+        "duplicate_rows": 0,
+        "unfinished_excluded": 0,
+        "completed_rows": 1140
+      },
+      "selection_rows": 912,
+      "holdout_rows": 228,
+      "selected": "elo_multinomial",
+      "selected_on": "development_expanding_window_log_loss",
+      "development_last_kickoff": "2024-12-14T19:45:00+00:00",
+      "holdout_first_kickoff": "2024-12-15T11:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T18:45:00+00:00",
+      "results": [
+        {
+          "model": "elo_ordered_logit",
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {
+            "ridge": 0.001
+          },
+          "selection_log_loss": 0.9955307834657553,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5855263157894737,
+              "baseline_accuracy": 0.5855263157894737,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5855263157894737,
+              "log_loss": 0.939157027796505,
+              "brier_score": 0.5534737356389852,
+              "ranked_probability_score": 0.1830738320177562,
+              "calibration_error": 0.07972072566384243,
+              "classwise_calibration_error": 0.07653522771485768,
+              "sharpness": 0.5291734607873009
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.48026315789473684,
+              "baseline_accuracy": 0.47368421052631576,
+              "majority_baseline_accuracy": 0.35526315789473684,
+              "elo_baseline_accuracy": 0.47368421052631576,
+              "log_loss": 1.0714285416161626,
+              "brier_score": 0.6523706097502233,
+              "ranked_probability_score": 0.20638784416380374,
+              "calibration_error": 0.11385892408182523,
+              "classwise_calibration_error": 0.09861247807463076,
+              "sharpness": 0.5640879689671973
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5197368421052632,
+              "baseline_accuracy": 0.5263157894736842,
+              "majority_baseline_accuracy": 0.39473684210526316,
+              "elo_baseline_accuracy": 0.5263157894736842,
+              "log_loss": 0.9760067809845981,
+              "brier_score": 0.5852708370147434,
+              "ranked_probability_score": 0.1899306379588906,
+              "calibration_error": 0.019031362654849872,
+              "classwise_calibration_error": 0.051662932458537925,
+              "sharpness": 0.5110753403967068
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5350877192982456,
+          "holdout_log_loss": 0.9737557797548331,
+          "holdout_brier_score": 0.5813572019892217,
+          "holdout_rps": 0.1911115170744537,
+          "fit_diagnostics": {
+            "iterations": 8,
+            "objective": 1.00974384083812,
+            "max_abs_gradient": 2.0842372029041548e-09,
+            "coefficient_per400elo": 3.0430469549134473,
+            "thresholds": [
+              -0.91605184285049,
+              0.4014057280361467
+            ],
+            "at_bound": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        {
+          "model": "elo_multinomial",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {},
+          "selection_log_loss": 0.9905650231365821,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5855263157894737,
+              "baseline_accuracy": 0.5855263157894737,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5855263157894737,
+              "log_loss": 0.9394757371404188,
+              "brier_score": 0.5525715108107229,
+              "ranked_probability_score": 0.18182256492473756,
+              "calibration_error": 0.05057169676023935,
+              "classwise_calibration_error": 0.06145637647826622,
+              "sharpness": 0.5448818729142658
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.48026315789473684,
+              "baseline_accuracy": 0.47368421052631576,
+              "majority_baseline_accuracy": 0.35526315789473684,
+              "elo_baseline_accuracy": 0.47368421052631576,
+              "log_loss": 1.0606033642722348,
+              "brier_score": 0.6495827602109698,
+              "ranked_probability_score": 0.20721169960024569,
+              "calibration_error": 0.11978954013182744,
+              "classwise_calibration_error": 0.10321732773264254,
+              "sharpness": 0.5758951672624875
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5263157894736842,
+              "baseline_accuracy": 0.5263157894736842,
+              "majority_baseline_accuracy": 0.39473684210526316,
+              "elo_baseline_accuracy": 0.5263157894736842,
+              "log_loss": 0.9716159679970927,
+              "brier_score": 0.5842185544918689,
+              "ranked_probability_score": 0.1895703111536879,
+              "calibration_error": 0.044991211938991076,
+              "classwise_calibration_error": 0.04788252241626847,
+              "sharpness": 0.5271851516069017
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5350877192982456,
+          "holdout_log_loss": 0.9753770394798329,
+          "holdout_brier_score": 0.5802092226678401,
+          "holdout_rps": 0.19107062772683214
+        },
+        {
+          "model": "logistic_l2",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0307600353922313,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5789473684210527,
+              "baseline_accuracy": 0.5855263157894737,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5855263157894737,
+              "log_loss": 0.9845141759431779,
+              "brier_score": 0.5793199467381934,
+              "ranked_probability_score": 0.1930279847531432,
+              "calibration_error": 0.11171182580916215,
+              "classwise_calibration_error": 0.09322428567852921,
+              "sharpness": 0.5430056138467337
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.4868421052631579,
+              "baseline_accuracy": 0.47368421052631576,
+              "majority_baseline_accuracy": 0.35526315789473684,
+              "elo_baseline_accuracy": 0.47368421052631576,
+              "log_loss": 1.1025680720149023,
+              "brier_score": 0.6714137261598507,
+              "ranked_probability_score": 0.21287250073845665,
+              "calibration_error": 0.16921754147319512,
+              "classwise_calibration_error": 0.13774103524169923,
+              "sharpness": 0.5990546446731233
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.506578947368421,
+              "baseline_accuracy": 0.5263157894736842,
+              "majority_baseline_accuracy": 0.39473684210526316,
+              "elo_baseline_accuracy": 0.5263157894736842,
+              "log_loss": 1.0051978582186138,
+              "brier_score": 0.6061972246099043,
+              "ranked_probability_score": 0.1965049496733887,
+              "calibration_error": 0.056056304969589736,
+              "classwise_calibration_error": 0.07919443114316274,
+              "sharpness": 0.5540236286486057
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5087719298245614,
+          "holdout_log_loss": 1.0088544711224945,
+          "holdout_brier_score": 0.5987668172737508,
+          "holdout_rps": 0.19537500897744142
+        },
+        {
+          "model": "xgboost",
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.0160500810584179,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5131578947368421,
+              "baseline_accuracy": 0.5855263157894737,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5855263157894737,
+              "log_loss": 0.9983270664448134,
+              "brier_score": 0.5989190536559849,
+              "ranked_probability_score": 0.20198505296070535,
+              "calibration_error": 0.050564360069601175,
+              "classwise_calibration_error": 0.11681691133989054,
+              "sharpness": 0.5188924325139899
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.48026315789473684,
+              "baseline_accuracy": 0.47368421052631576,
+              "majority_baseline_accuracy": 0.35526315789473684,
+              "elo_baseline_accuracy": 0.47368421052631576,
+              "log_loss": 1.0345114279785195,
+              "brier_score": 0.6245635547652101,
+              "ranked_probability_score": 0.19785121423353785,
+              "calibration_error": 0.034913407344567146,
+              "classwise_calibration_error": 0.059658059376504334,
+              "sharpness": 0.5022437109758979
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5,
+              "baseline_accuracy": 0.5263157894736842,
+              "majority_baseline_accuracy": 0.39473684210526316,
+              "elo_baseline_accuracy": 0.5263157894736842,
+              "log_loss": 1.0153117487519208,
+              "brier_score": 0.6122364884531608,
+              "ranked_probability_score": 0.20083823605381065,
+              "calibration_error": 0.07430850596804364,
+              "classwise_calibration_error": 0.08848395437132894,
+              "sharpness": 0.43836406657570287
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 1.0151934673281955,
+          "holdout_brier_score": 0.6102918252167833,
+          "holdout_rps": 0.2028758670049174
+        }
+      ],
+      "holdout_protocol": "Fixed model with advancing earlier-kickoff history; kickoff does not prove final-whistle/source-arrival availability.",
+      "comparison_scope": "Complete configurations: proportional odds versus multinomial, and one Elo feature versus30features. Scaling and regularization also differ; not an isolated causal effect of model family."
+    },
+    {
+      "competition": "PD",
+      "seed": 42,
+      "counts": {
+        "input_rows": 1140,
+        "duplicate_rows": 0,
+        "unfinished_excluded": 0,
+        "completed_rows": 1140
+      },
+      "selection_rows": 912,
+      "holdout_rows": 228,
+      "selected": "elo_multinomial",
+      "selected_on": "development_expanding_window_log_loss",
+      "development_last_kickoff": "2024-12-07T15:15:00+00:00",
+      "holdout_first_kickoff": "2024-12-07T17:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T19:00:00+00:00",
+      "results": [
+        {
+          "model": "elo_ordered_logit",
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {
+            "ridge": 0.001
+          },
+          "selection_log_loss": 0.967423482219967,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5460526315789473,
+              "baseline_accuracy": 0.5394736842105263,
+              "majority_baseline_accuracy": 0.4407894736842105,
+              "elo_baseline_accuracy": 0.5394736842105263,
+              "log_loss": 0.9460407982474024,
+              "brier_score": 0.559525625281967,
+              "ranked_probability_score": 0.17083217825627428,
+              "calibration_error": 0.07960756908600569,
+              "classwise_calibration_error": 0.09487172915117936,
+              "sharpness": 0.5464545932319458
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.5197368421052632,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.4473684210526316,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 0.998087315627305,
+              "brier_score": 0.5962850977476164,
+              "ranked_probability_score": 0.202700468397184,
+              "calibration_error": 0.0646807084479913,
+              "classwise_calibration_error": 0.05016472668529657,
+              "sharpness": 0.5657309777223696
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5526315789473685,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 0.9581423327851935,
+              "brier_score": 0.5667258512597142,
+              "ranked_probability_score": 0.1904426579356172,
+              "calibration_error": 0.0688003394941893,
+              "classwise_calibration_error": 0.059244308994321294,
+              "sharpness": 0.5436294532596092
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5307017543859649,
+          "holdout_log_loss": 0.9861861857988143,
+          "holdout_brier_score": 0.5881693254256924,
+          "holdout_rps": 0.20124247344590157,
+          "fit_diagnostics": {
+            "iterations": 9,
+            "objective": 0.9936396295501422,
+            "max_abs_gradient": 7.085499906099214e-10,
+            "coefficient_per400elo": 2.957594218015317,
+            "thresholds": [
+              -1.0548961900497273,
+              0.16660814287143166
+            ],
+            "at_bound": [
+              false,
+              false,
+              false
+            ]
+          }
+        },
+        {
+          "model": "elo_multinomial",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "params": {},
+          "selection_log_loss": 0.9670367078859256,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5460526315789473,
+              "baseline_accuracy": 0.5394736842105263,
+              "majority_baseline_accuracy": 0.4407894736842105,
+              "elo_baseline_accuracy": 0.5394736842105263,
+              "log_loss": 0.937114254351931,
+              "brier_score": 0.5559394956097305,
+              "ranked_probability_score": 0.16912475593869192,
+              "calibration_error": 0.07582143722574955,
+              "classwise_calibration_error": 0.0879588031093622,
+              "sharpness": 0.5579753274691003
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.5263157894736842,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.4473684210526316,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 1.0068542597424208,
+              "brier_score": 0.5999679881386079,
+              "ranked_probability_score": 0.2040810867137805,
+              "calibration_error": 0.05501642288263469,
+              "classwise_calibration_error": 0.06800109318313184,
+              "sharpness": 0.574238195743972
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5526315789473685,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 0.957141609563425,
+              "brier_score": 0.5649640703818622,
+              "ranked_probability_score": 0.19035938569039557,
+              "calibration_error": 0.050436009976702945,
+              "classwise_calibration_error": 0.05617995096428633,
+              "sharpness": 0.5511109592365248
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5394736842105263,
+          "holdout_log_loss": 0.9952037095387093,
+          "holdout_brier_score": 0.5917263187375013,
+          "holdout_rps": 0.20173813866939702
+        },
+        {
+          "model": "logistic_l2",
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.010465845791102,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.5263157894736842,
+              "baseline_accuracy": 0.5394736842105263,
+              "majority_baseline_accuracy": 0.4407894736842105,
+              "elo_baseline_accuracy": 0.5394736842105263,
+              "log_loss": 1.0220407895423267,
+              "brier_score": 0.6020602300739594,
+              "ranked_probability_score": 0.18957231641204594,
+              "calibration_error": 0.07963012437369218,
+              "classwise_calibration_error": 0.08170934632308134,
+              "sharpness": 0.6026655802517042
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.4868421052631579,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.4473684210526316,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 1.0212056270698864,
+              "brier_score": 0.6024440369336711,
+              "ranked_probability_score": 0.20206536589877575,
+              "calibration_error": 0.09748779598601504,
+              "classwise_calibration_error": 0.10035589895500414,
+              "sharpness": 0.5717214380933745
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.5197368421052632,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 0.9881511207610923,
+              "brier_score": 0.5815922818899003,
+              "ranked_probability_score": 0.19338744932373614,
+              "calibration_error": 0.09067781503947069,
+              "classwise_calibration_error": 0.08501829354155706,
+              "sharpness": 0.5805584281905272
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4956140350877193,
+          "holdout_log_loss": 1.049287153556332,
+          "holdout_brier_score": 0.6216273043296747,
+          "holdout_rps": 0.21181133329301952
+        },
+        {
+          "model": "xgboost",
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "params": {},
+          "selection_log_loss": 1.02248677595042,
+          "development_folds": [
+            {
+              "fold": 1,
+              "training_rows": 456,
+              "validation_rows": 152,
+              "accuracy": 0.4934210526315789,
+              "baseline_accuracy": 0.5394736842105263,
+              "majority_baseline_accuracy": 0.4407894736842105,
+              "elo_baseline_accuracy": 0.5394736842105263,
+              "log_loss": 0.9726377906116543,
+              "brier_score": 0.5854090868703935,
+              "ranked_probability_score": 0.19049863369170406,
+              "calibration_error": 0.0396384296840743,
+              "classwise_calibration_error": 0.07805920263196815,
+              "sharpness": 0.47057483835439934
+            },
+            {
+              "fold": 2,
+              "training_rows": 608,
+              "validation_rows": 152,
+              "accuracy": 0.4407894736842105,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.4473684210526316,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 1.057363638937869,
+              "brier_score": 0.632893570076416,
+              "ranked_probability_score": 0.2123755754163097,
+              "calibration_error": 0.1025997400283813,
+              "classwise_calibration_error": 0.10188962817355468,
+              "sharpness": 0.5077638555514185
+            },
+            {
+              "fold": 3,
+              "training_rows": 760,
+              "validation_rows": 152,
+              "accuracy": 0.4605263157894737,
+              "baseline_accuracy": 0.5328947368421053,
+              "majority_baseline_accuracy": 0.47368421052631576,
+              "elo_baseline_accuracy": 0.5328947368421053,
+              "log_loss": 1.0374588983017368,
+              "brier_score": 0.6229187155813933,
+              "ranked_probability_score": 0.2117504029644529,
+              "calibration_error": 0.05488170428495659,
+              "classwise_calibration_error": 0.09912683412824808,
+              "sharpness": 0.45099701281440885
+            }
+          ],
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5175438596491229,
+          "holdout_log_loss": 1.0094463888033591,
+          "holdout_brier_score": 0.602648358273611,
+          "holdout_rps": 0.20545921304519635
+        }
+      ],
+      "holdout_protocol": "Fixed model with advancing earlier-kickoff history; kickoff does not prove final-whistle/source-arrival availability.",
+      "comparison_scope": "Complete configurations: proportional odds versus multinomial, and one Elo feature versus30features. Scaling and regularization also differ; not an isolated causal effect of model family."
+    }
+  ],
+  "elapsed_seconds": 6.89,
+  "limits": [
+    "Previously reused2022/23-2024/25 historical snapshots fetched2026-10-08; not fresh unseen test or prospective performance.",
+    "Native proportional-odds implementation informed by official statsmodels formula docs. Original2010 full paper unavailable403; no original-model reproduction claim.",
+    "Fixed default Elo updates, cold-start1500 and no goal-margin multiplier or seasonal reset; no player ratings or uncertainty intervals.",
+    "Three development folds lock selection before heldout features; model fixed while earlier-kickoff results advance history, without final-whistle/source-arrival verification.",
+    "Comparisons involve full configurations, including different scaling/regularization and feature counts. One XGBoost seed and no hyperparameter tuning; no family superiority or calibrated significance claim.",
+    "Mean likelihood is ridge-penalized with bounded local coordinates; convergence does not establish an unbounded unpenalized likelihood estimate.",
+    "No production model, live forecast, input snapshot or main database is replaced. Statsmodels is neither installed nor executed."
+  ],
+  "counts": {
+    "completed_matches": 5330,
+    "unique_holdout_matches": 1069,
+    "candidate_evaluations": 20,
+    "development_selected_models": {
+      "elo_ordered_logit": 3,
+      "elo_multinomial": 2
+    },
+    "ordinal_lower_log_loss_than_elo_multinomial_leagues": 4,
+    "ordinal_lower_log_loss_than_full_l2_leagues": 5,
+    "ordinal_lower_log_loss_than_default_xgboost_leagues": 3
+  },
+  "method_reading": {
+    "original_source7": {
+      "url": "https://www.sciencedirect.com/science/article/pii/S0169207009001708",
+      "scope": "Publisher-preview metadata, abstract and introduction only. Direct full text403; original2010 ordered-logit procedure not read or reproduced."
+    },
+    "official_ordinal_model_docs": {
+      "url": "https://www.statsmodels.org/stable/generated/statsmodels.miscmodels.ordinal_model.OrderedModel.html",
+      "scope": "Read ordered logistic CDF-difference formula, ordered labels and threshold/intercept identifiability. Native NumPy/SciPy implementation; statsmodels neither installed nor executed."
+    },
+    "later_related_paper": {
+      "url": "https://www.statmod.org/smij/Vol21/Iss5/Arntzen/Abstract.html",
+      "scope": "Official abstract only, describes team/player ratings with ordered-logit outcomes. Institutional manuscript fetch502; no body-reading claim."
+    },
+    "later_related_supplement": {
+      "url": "https://www.statmod.org/smij/Vol21/Iss5/Arntzen/Supplement.pdf",
+      "scope": "Earlier selected A.1 physical PDF pages2-3 informed Elo review. This baseline retains existing fixed Elo updates; goal-margin updates, performance-rating initialization and player ratings remain unimplemented."
+    }
+  },
+  "adaptation": {
+    "classes": [
+      "away_win",
+      "draw",
+      "home_win"
+    ],
+    "cumulative_probability": "P(Y<=k|x)=sigmoid(threshold[k]-coefficient*x), x=elo_diff/400; no extra intercept.",
+    "fit": "Native bounded L-BFGS-B with ordered log-gap thresholds, stable draw log-likelihood and analytic gradient.",
+    "regularization": "Mean negative log-likelihood plus ridge/2 * coefficient²; thresholds unpenalized. Bounds and ridge are local choices.",
+    "search_integration": "General estimator factory and existing optimizers accept ridge. Joint Elo search excludes the unused recent-form window for this Elo-only model; K and home-advantage parameters remain eligible.",
+    "default_model": "XGBoost unchanged; research comparison writes aggregates only."
+  },
+  "verification": {
+    "numeric": {
+      "run_id": "f35a023aa5fbfda6",
+      "metric_values": 80,
+      "metric_max_abs_error": 2.220446049250313e-16,
+      "reference_fits": 20,
+      "reference": "SciPy SLSQP with direct ordered thresholds, numerical derivatives and hyperbolic probability identity; native L-BFGS-B uses log-gap coordinates and analytic gradients.",
+      "reference_metric_values": 80,
+      "reference_metric_max_abs_error": 4.8242537742382297e-08,
+      "reference_max_parameter_error": 2.612908538424108e-06,
+      "reference_max_probability_error": 4.3680587857863884e-07,
+      "reference_max_objective_gap": 1.1479706074624119e-13,
+      "frozen_control_series_exact": 10,
+      "frozen_control_probability_rows_exact": 2138,
+      "cli_matches_study": true,
+      "source": "Reused historical snapshots; shared pre-match features and canonicalization, independently reconstructed split/fold boundaries. No statsmodels runtime.",
+      "script_sha256": "3856357c87328d88707f44a1069d9f026404b0f7d6f53cc0d289d8f9c449996c"
+    },
+    "full_suite": {
+      "tests": 354,
+      "passed": 350,
+      "skipped": 4,
+      "seconds": 33.527,
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "log_sha256": "5eee85f5c96f376f3815247c7e2f92212fe6f03bf6378a66817241811af51480",
+      "existing_optional_skip_scope": [
+        "1 socceraction",
+        "2 soccerdata",
+        "1 pandas"
+      ]
+    },
+    "regressions": "Two consolidated cases in existing test_experiments: analytic gradient, known-parameter recovery, CDF ordering, cancellation extremes, pickle, invalid-refit invalidation, explicit nonconvergence, future-score invariance, forecast identity and exclusion of unused search parameter.",
+    "cli": {
+      "mode": "Actual offline rating-baselines CLI; PL2022/23-2024/25, all4fixed candidates,3folds.",
+      "result": "Passed; all candidate results exactly match study,3checksummed snapshot receipts,no errors.",
+      "report_sha256": "461a0137318bdecb72a9e1022c0681c971c697ca5a5b375356ff108dee3e91b0"
+    },
+    "independent_review": {
+      "status": "Passed; no actionable defects in source or final aggregate review.",
+      "scope": "Likelihood and gradient algebra, bounded optimization, lifecycle/factory/pickle/bundle compatibility, development-only selection and public identity exclusion; then report/summary/numeric-audit equality,20 table values, denominators, queue statuses and source-reading limits. Tiny synthetic checks only; no duplicate full suite/study, remote-source verification or main DB access."
+    },
+    "prose": "Chinese humanizer-zh and English stop-slop. Offline Harper found18 suggestions in the added English section: fixed one serial comma; retained16 technical name/term suggestions and the existing sentence-case heading style."
+  },
+  "execution_report_sha256": "17075326f54aedb095bf9d698c5bb15d2e3642a9cc5d65dbbbd8b78be1357e0e",
+  "execution_driver_sha256": "4e35f03a3e776f603d49b8b1d649a16fa066348133faa35603c8d8c394f02bc9",
+  "interface_sha256": {
+    "app/cli/arguments.py": "c0dee75acb209c2e5d745c3ef96ef8eedeb226bddeb4498e161768c1298dc5a7",
+    "app/cli/research.py": "6b16308ced203fdcb50ef2223a25c8765fec682e0c50740a39ddbc6472a01625",
+    "app/ml/feature_experiments.py": "6f6bf27b386782436857ca8734b90142477000a57766a7dd40ab93c375b4361b",
+    "tests/test_experiments.py": "41c39373bda668e3b52a8227794b98074deae8cde5b8669cc609d9f7eac6d181"
+  }
+}

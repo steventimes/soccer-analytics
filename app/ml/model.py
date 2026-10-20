@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from datetime import UTC, datetime
 from typing import Any, Mapping, Sequence
 
 import xgboost as xgb
@@ -176,25 +177,53 @@ class XGBoostClassifier:
         self,
         rows: Sequence[Mapping[str, float]],
         targets: Sequence[int],
+        *,
+        kickoffs: Sequence[str] = (),
     ) -> XGBoostClassifier:
+        """Fit ordered rows; supplied ISO timestamps keep early-stop groups whole."""
+        # A failed refit must never leave a previous booster available to callers.
+        self.is_fitted_ = False
+        self.booster_ = None
+        self.rounds_used_ = 0
+        self.training_loss_ = None
         if not rows or len(rows) != len(targets):
             raise ModelTrainingError("训练行与目标必须非空且长度一致")
         _validate_classes(targets, "目标")
-        weights = self._sample_weights(targets)
+        if isinstance(kickoffs, (str, bytes)) or not isinstance(kickoffs, Sequence):
+            raise ModelTrainingError("kickoffs 必须是时间字符串序列；无时间信息时用空序列")
+        times = []
+        if kickoffs:
+            if len(kickoffs) != len(rows):
+                raise ModelTrainingError("kickoffs 必须与训练行长度一致")
+            for value in kickoffs:
+                try:
+                    time = datetime.fromisoformat(value)
+                    if time.tzinfo is None or time.utcoffset() is None:
+                        raise ValueError("missing timezone")
+                    times.append(time.astimezone(UTC))
+                except (TypeError, ValueError, OverflowError) as exc:
+                    raise ModelTrainingError("kickoffs 必须是带时区的 ISO 时间") from exc
+            if times != sorted(times):
+                raise ModelTrainingError("kickoffs 必须按时间排序")
         rounds_used = self.rounds
 
         if len(rows) >= 15:
             validation_count = max(3, int(round(len(rows) * 0.2)))
             split = len(rows) - validation_count
+            if times:
+                while split > 0 and times[split - 1] == times[split]:
+                    split -= 1
+                if split == 0:
+                    raise ModelTrainingError("独立开球时间不足以形成早停训练与验证")
+            # 类别权重只估计训练前缀；早停后缀按未加权 log loss 选择轮数。
             training = self._dmatrix(
                 rows[:split],
                 targets[:split],
-                weights[:split],
+                self._sample_weights(targets[:split]),
             )
             validation = self._dmatrix(
                 rows[split:],
                 targets[split:],
-                weights[split:],
             )
             probe = xgb.train(
                 self._parameters(),
@@ -207,7 +236,7 @@ class XGBoostClassifier:
             rounds_used = min(self.rounds, int(probe.best_iteration) + 1)
 
         evaluations: dict[str, dict[str, list[float]]] = {}
-        full = self._dmatrix(rows, targets, weights)
+        full = self._dmatrix(rows, targets, self._sample_weights(targets))
         self.booster_ = xgb.train(
             self._parameters(),
             full,
@@ -290,15 +319,22 @@ class XGBoostClassifier:
                 else "opposes_prediction"
             )
         bias_contribution = float(winner[-1] - challenger[-1])
-        logit_margin = bias_contribution + math.fsum(
+        reconstructed_margin = bias_contribution + math.fsum(
             float(item["contribution"]) for item in drivers
         )
+        margins = self._booster().predict(sample, output_margin=True, strict_shape=True)[0]
+        logit_margin = float(margins[predicted] - margins[runner_up])
+        if not math.isclose(reconstructed_margin, logit_margin, rel_tol=1e-5, abs_tol=1e-5):
+            raise ModelTrainingError("TreeSHAP 贡献不能还原原始 margin")
         return {
             "method": self.explanation_method,
             "predicted_class_index": predicted,
             "runner_up_class_index": runner_up,
             "logit_margin": logit_margin,
             "bias_contribution": bias_contribution,
+            "output_scale": "raw_margin",
+            "feature_dependence": "native_tree_path_dependent",
+            "reference": "Tree path cover statistics of this fitted model; not an interventional background or causal effect.",
             "drivers": drivers,
             "top_drivers": sorted(
                 drivers,
@@ -306,6 +342,31 @@ class XGBoostClassifier:
                 reverse=True,
             )[:top_n],
         }
+
+
+def fit_estimator(
+    estimator: Any,
+    rows: Sequence[Mapping[str, float]],
+    targets: Sequence[int],
+    *,
+    kickoffs: Sequence[str] = (),
+) -> Any:
+    """Route time metadata to XGBoost's inner split; preserve two-argument estimators."""
+    if isinstance(estimator, XGBoostClassifier) or getattr(estimator, "requires_kickoffs", False):
+        return estimator.fit(rows, targets, kickoffs=kickoffs)
+    return estimator.fit(rows, targets)
+
+
+def estimator_runtime(estimator: Any) -> dict[str, Any]:
+    """Describe actual engine settings; elapsed time never determines selection."""
+    return {"engine": getattr(estimator, "technology", type(estimator).__name__),
+            "version": getattr(estimator, "technology_version", "unknown"),
+            "seed": getattr(estimator, "seed", None),
+            "execution_policy": getattr(estimator, "execution_policy", {
+                "threads": 1 if isinstance(estimator, XGBoostClassifier) else "library_default",
+                "configured_iteration_cap": getattr(estimator, "rounds", None),
+                "early_stopping_rounds": getattr(estimator, "early_stopping_rounds", None)}),
+            "clock": "time.perf_counter", "timing_used_for_selection": False}
 
 
 def _validate_classes(values: Sequence[int], label: str) -> None:

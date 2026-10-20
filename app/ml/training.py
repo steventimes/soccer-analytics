@@ -8,13 +8,14 @@ from statistics import pstdev
 from typing import Any, Callable, Sequence
 
 from app.config import load_settings
-from app.data_service.fetch.fetcher import FootballDataClient
+from app.data_service.fetch.public import create_data_client
 from app.ml.artifacts import ModelBundle, save_model_bundle
-from app.ml.evaluation import elo_baseline_predictions, evaluate_expanding_window
+from app.ml.evaluation import EvaluationError, elo_baseline_predictions, evaluate_expanding_window
 from app.ml.feature_engineering import FeatureDataset, FeatureEngineer
 from app.ml.model import (
     XGBoostClassifier,
     accuracy_score,
+    fit_estimator,
     multiclass_brier_score,
     multiclass_log_loss,
     ranked_probability_score,
@@ -76,7 +77,7 @@ class ModelTrainer:
         ):
             raise TrainingError("minimum_worst_fold_accuracy_lift 必须在 -1 到 1 之间")
         settings = load_settings()
-        self.client = client or FootballDataClient()
+        self.client = client or create_data_client()
         self.feature_engineer = feature_engineer or FeatureEngineer()
         self.model_factory = model_factory or (
             lambda feature_names: XGBoostClassifier(feature_names)
@@ -132,14 +133,31 @@ class ModelTrainer:
                 f"{code} 只有 {row_count} 场有效比赛，至少需要 {self.minimum_matches} 场"
             )
 
-        # 扩展窗口覆盖历史后半段，防止单一时间切点偶然掩盖模型退化。
-        backtest = evaluate_expanding_window(
-            dataset.rows,
-            dataset.targets,
-            self.feature_engineer.features,
-            self.model_factory,
-            folds=self.backtest_folds,
-        )
+        # 先封存最终留出集；回测和放行前置检查只使用更早的开发数据。
+        holdout_count = max(1, int(round(row_count * self.holdout_fraction)))
+        split_index = row_count - holdout_count
+        if dataset.kickoffs:
+            while split_index > 0 and dataset.kickoffs[split_index - 1] == dataset.kickoffs[split_index]:
+                split_index -= 1
+            if split_index == 0:
+                raise TrainingError("独立开球时间不足以形成时间留出集")
+        train_rows = dataset.rows[:split_index]
+        train_targets = dataset.targets[:split_index]
+        validation_rows = dataset.rows[split_index:]
+        validation_targets = dataset.targets[split_index:]
+
+        # 扩展窗口覆盖开发集后半段，防止单一时间切点偶然掩盖模型退化。
+        try:
+            backtest = evaluate_expanding_window(
+                train_rows,
+                train_targets,
+                self.feature_engineer.features,
+                self.model_factory,
+                folds=self.backtest_folds,
+                kickoffs=dataset.kickoffs[:split_index],
+            )
+        except EvaluationError as exc:
+            raise TrainingError(f"{code} 留出集之前的开发集无法完成回测：{exc}") from exc
         if backtest.calibration_error > self.maximum_calibration_error:
             raise TrainingError(
                 f"{code} 扩展窗口回测校准误差 {backtest.calibration_error:.4f} "
@@ -174,16 +192,10 @@ class ModelTrainer:
                 f"低于多数类/Elo 强基线 {backtest.baseline_accuracy:.4f}；拒绝发布模型"
             )
 
-        holdout_count = max(1, int(round(row_count * self.holdout_fraction)))
-        split_index = row_count - holdout_count
-        train_rows = dataset.rows[:split_index]
-        train_targets = dataset.targets[:split_index]
-        validation_rows = dataset.rows[split_index:]
-        validation_targets = dataset.targets[split_index:]
-
         # 验证模型只看时间切点之前的数据；验证完成后再单独创建最终模型。
         validation_model = self.model_factory(self.feature_engineer.features)
-        validation_model.fit(train_rows, train_targets)
+        fit_estimator(validation_model, train_rows, train_targets,
+                      kickoffs=dataset.kickoffs[:split_index])
         probabilities = validation_model.predict_proba(validation_rows)
         predictions = validation_model.predict(validation_rows)
 
@@ -205,6 +217,7 @@ class ModelTrainer:
             elo_baseline_accuracy,
         )
         metrics: dict[str, Any] = {
+            "evaluation_protocol": "development_backtest_then_temporal_holdout_v1",
             "fit_rows": len(train_rows),
             "validation_rows": len(validation_rows),
             "validation_accuracy": round(validation_accuracy, 6),
@@ -286,7 +299,7 @@ class ModelTrainer:
             "backtest_fold_metrics": [
                 {
                     name: value
-                    if isinstance(value, int)
+                    if not isinstance(value, float)
                     else round(float(value), 6)
                     for name, value in item.items()
                 }
@@ -304,9 +317,12 @@ class ModelTrainer:
             )
 
         final_model = self.model_factory(self.feature_engineer.features)
-        final_model.fit(dataset.rows, dataset.targets)
+        fit_estimator(final_model, dataset.rows, dataset.targets,
+                      kickoffs=dataset.kickoffs)
         metrics.update(
             {
+                "data_source": getattr(self.client, "source_name", "football-data.org"),
+                "training_seasons": list(seasons),
                 "estimator": str(
                     getattr(final_model, "technology", type(final_model).__name__)
                 ),

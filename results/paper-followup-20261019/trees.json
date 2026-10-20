@@ -1,0 +1,2643 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "competition": "PL",
+      "counts": {
+        "completed_rows": 380,
+        "duplicate_rows": 0,
+        "input_rows": 380,
+        "unfinished_excluded": 0
+      },
+      "development_first_kickoff": "2025-08-15T19:00:00+00:00",
+      "development_last_kickoff": "2026-03-21T15:00:00+00:00",
+      "elo_only_window_policy": "elo_ordered_logit ignores recent-form features; its recent-match window stays5 and is excluded from joint search.",
+      "feature_semantics": "window counts the last N matches, not N seasons; elo_k is update magnitude; home_advantage offsets the Elo expectation, not a probability.",
+      "feature_space": {
+        "elo_k": [
+          5.0,
+          50.0
+        ],
+        "home_advantage": [
+          0.0,
+          150.0
+        ],
+        "window": [
+          2,
+          12
+        ]
+      },
+      "folds": [
+        {
+          "training_last_kickoff": "2025-12-13T15:00:00+00:00",
+          "training_rows": 152,
+          "validation_first_kickoff": "2025-12-13T17:30:00+00:00",
+          "validation_last_kickoff": "2026-01-25T14:00:00+00:00",
+          "validation_rows": 76
+        },
+        {
+          "training_last_kickoff": "2026-01-25T14:00:00+00:00",
+          "training_rows": 228,
+          "validation_first_kickoff": "2026-01-25T16:30:00+00:00",
+          "validation_last_kickoff": "2026-03-21T15:00:00+00:00",
+          "validation_rows": 76
+        }
+      ],
+      "holdout_first_kickoff": "2026-03-21T17:30:00+00:00",
+      "holdout_last_kickoff": "2026-05-24T15:00:00+00:00",
+      "holdout_protocol": "Fixed model; pre-match features advance after earlier kickoff results. Earlier kickoff does not prove final-whistle or source-arrival availability.",
+      "holdout_rows": 76,
+      "optimizer": "genetic",
+      "results": [
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.3684210526315789,
+              "baseline_accuracy": 0.40789473684210525,
+              "brier_score": 0.7720587201159314,
+              "calibration_error": 0.2359654335328289,
+              "classwise_calibration_error": 0.19121999286495592,
+              "elo_baseline_accuracy": 0.40789473684210525,
+              "fold": 1,
+              "log_loss": 1.337960393104828,
+              "majority_baseline_accuracy": 0.3684210526315789,
+              "ranked_probability_score": 0.2437380940544803,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "lightgbm",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "data_sample_strategy": "bagging",
+                  "deterministic": true,
+                  "force_col_wise": true,
+                  "input": "existing_numeric_features_only",
+                  "threads": 1
+                },
+                "fit_seconds": 0.05528945196419954,
+                "inference_seconds": 0.0025780610740184784,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "4.7.0"
+              },
+              "sharpness": 0.6020875934829347,
+              "training_rows": 152,
+              "validation_rows": 76
+            },
+            {
+              "accuracy": 0.27631578947368424,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.7914276817967992,
+              "calibration_error": 0.28234219265073734,
+              "classwise_calibration_error": 0.19405290479056816,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.3102351706272601,
+              "majority_baseline_accuracy": 0.3157894736842105,
+              "ranked_probability_score": 0.2591206881464711,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "lightgbm",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "data_sample_strategy": "bagging",
+                  "deterministic": true,
+                  "force_col_wise": true,
+                  "input": "existing_numeric_features_only",
+                  "threads": 1
+                },
+                "fit_seconds": 0.08273084892425686,
+                "inference_seconds": 0.002817320986650884,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "4.7.0"
+              },
+              "sharpness": 0.5586579821244214,
+              "training_rows": 228,
+              "validation_rows": 76
+            }
+          ],
+          "development_objective_seconds": 0.18197742302436382,
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.3684210526315789,
+          "holdout_brier_score": 0.7848017102479301,
+          "holdout_log_loss": 1.2934301019853431,
+          "holdout_rows": 76,
+          "holdout_rps": 0.26988046289710377,
+          "model": "lightgbm",
+          "params": {},
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "bagging",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.11548026697710156,
+            "holdout_inference_seconds": 0.003050133935175836,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "default",
+          "selection_log_loss": 1.3240977818660442
+        },
+        {
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.39473684210526316,
+          "holdout_brier_score": 0.6722831805546169,
+          "holdout_log_loss": 1.1118588637007365,
+          "holdout_rows": 76,
+          "holdout_rps": 0.22762682016695845,
+          "model": "lightgbm",
+          "params": {
+            "learning_rate": 0.010778038801831716,
+            "num_leaves": 21,
+            "reg_lambda": 0.35486129798045063
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "bagging",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.10871431301347911,
+            "holdout_inference_seconds": 0.0025020529283210635,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "model",
+          "search": {
+            "best_loss": 1.1769563537774563,
+            "best_params": {
+              "learning_rate": 0.010778038801831716,
+              "num_leaves": 21,
+              "reg_lambda": 0.35486129798045063
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 0.580075190984644,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7093522771408326,
+                    "calibration_error": 0.1539100779277899,
+                    "classwise_calibration_error": 0.14532072777381164,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1933777502741165,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.21879049829744057,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.053437574999406934,
+                      "inference_seconds": 0.0022698669927194715,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.524935514599958,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7105157265987848,
+                    "calibration_error": 0.1363567069671686,
+                    "classwise_calibration_error": 0.12561169218775312,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.160534957280796,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.24088645010427903,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.08059706597123295,
+                      "inference_seconds": 0.002424826961942017,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.47710644546925446,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1769563537774563,
+                "objective_seconds": 0.1524543350096792,
+                "params": {
+                  "learning_rate": 0.010778038801831716,
+                  "num_leaves": 21,
+                  "reg_lambda": 0.35486129798045063
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.42105263157894735,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.8171818356128747,
+                    "calibration_error": 0.2456865896917881,
+                    "classwise_calibration_error": 0.23121572032459992,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.4817371488376976,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.26067365107742363,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.05368071002885699,
+                      "inference_seconds": 0.0025751760695129633,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.6608471891852802,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.8553399191061173,
+                    "calibration_error": 0.28216538758438214,
+                    "classwise_calibration_error": 0.23163025284734107,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.496586934671565,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.2782089724455886,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.07836870499886572,
+                      "inference_seconds": 0.0028282490093261003,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.6083644004199908,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.4891620417546314,
+                "objective_seconds": 0.15138773899525404,
+                "params": {
+                  "learning_rate": 0.09081783416307722,
+                  "num_leaves": 10,
+                  "reg_lambda": 2.2563110735889107
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.40789473684210525,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.709942499282095,
+                    "calibration_error": 0.12529056873999783,
+                    "classwise_calibration_error": 0.1428875621100351,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.197327535504624,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2189704263705247,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.053822908899746835,
+                      "inference_seconds": 0.0023176369722932577,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5331853055821031,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.35526315789473684,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7141284279651327,
+                    "calibration_error": 0.19836041993718248,
+                    "classwise_calibration_error": 0.1412623209118107,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1668761261976706,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.24126546703301543,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.07998199807479978,
+                      "inference_seconds": 0.0025094940792769194,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.48683141611085184,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1821018308511473,
+                "objective_seconds": 0.15249768900685012,
+                "params": {
+                  "learning_rate": 0.01297507954575384,
+                  "num_leaves": 28,
+                  "reg_lambda": 0.697981062161514
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.42105263157894735,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7129021447231353,
+                    "calibration_error": 0.13064342334014117,
+                    "classwise_calibration_error": 0.13991551053705978,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.207816423691563,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.21909171448052267,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.04839053691830486,
+                      "inference_seconds": 0.0023188990307971835,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5471699846440519,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.32894736842105265,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7223159037556091,
+                    "calibration_error": 0.1945076282717274,
+                    "classwise_calibration_error": 0.16371186172064833,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1822302634614301,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.24038090134361026,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.056926502962596714,
+                      "inference_seconds": 0.0022735130041837692,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.48929940641151787,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1950233435764963,
+                "objective_seconds": 0.12368911108933389,
+                "params": {
+                  "learning_rate": 0.019251056268853182,
+                  "num_leaves": 5,
+                  "reg_lambda": 1.0249686360134889
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.1769563537774563
+        },
+        {
+          "features": {
+            "elo_k": 10.94511983392716,
+            "home_advantage": 23.32192497176723,
+            "window": 9
+          },
+          "holdout_accuracy": 0.4342105263157895,
+          "holdout_brier_score": 0.647080336700434,
+          "holdout_log_loss": 1.0687043557995526,
+          "holdout_rows": 76,
+          "holdout_rps": 0.2234567286773674,
+          "model": "lightgbm",
+          "params": {
+            "learning_rate": 0.01019659292061215,
+            "num_leaves": 26,
+            "reg_lambda": 4.0892014268894155
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "bagging",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.10757977899629623,
+            "holdout_inference_seconds": 0.0023757799062877893,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "joint",
+          "search": {
+            "best_loss": 1.1453516504236578,
+            "best_params": {
+              "feature_elo_k": 10.94511983392716,
+              "feature_home_advantage": 23.32192497176723,
+              "feature_window": 9,
+              "learning_rate": 0.01019659292061215,
+              "num_leaves": 26,
+              "reg_lambda": 4.0892014268894155
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 0.6681323100347072,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.709127058619053,
+                    "calibration_error": 0.16331547742924582,
+                    "classwise_calibration_error": 0.12738063156462734,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1916933331050181,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2167796858075992,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.111473951023072,
+                      "inference_seconds": 0.002283582929521799,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5317365300608248,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7068130951725797,
+                    "calibration_error": 0.16810736970667273,
+                    "classwise_calibration_error": 0.12214153078315783,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1616382361174056,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.242019508886812,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.07901319803204387,
+                      "inference_seconds": 0.0024335419293493032,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.4895833311531285,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1766657846112119,
+                "objective_seconds": 0.2175930100493133,
+                "params": {
+                  "feature_elo_k": 27.254688233776967,
+                  "feature_home_advantage": 101.50492311343669,
+                  "feature_window": 4,
+                  "learning_rate": 0.010778038801831716,
+                  "num_leaves": 21,
+                  "reg_lambda": 0.35486129798045063
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.7453692782723217,
+                    "calibration_error": 0.19310564999152371,
+                    "classwise_calibration_error": 0.15692953082708536,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.2335516183714506,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.23940352944199872,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.048795769922435284,
+                      "inference_seconds": 0.00219888798892498,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5302032356017834,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6771385535442809,
+                    "calibration_error": 0.12097063203050502,
+                    "classwise_calibration_error": 0.1337998707630436,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.124700897713213,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22993568647993276,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.07723719091154635,
+                      "inference_seconds": 0.002469882951118052,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.49779953556017853,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1791262580423316,
+                "objective_seconds": 0.1524041830562055,
+                "params": {
+                  "feature_elo_k": 8.271951494897902,
+                  "feature_home_advantage": 75.80329321550435,
+                  "feature_window": 2,
+                  "learning_rate": 0.01297507954575384,
+                  "num_leaves": 28,
+                  "reg_lambda": 0.697981062161514
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.7282777221934202,
+                    "calibration_error": 0.1501152814025219,
+                    "classwise_calibration_error": 0.12862290851930816,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.2134652921238946,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.23180411662448724,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.04971172590740025,
+                      "inference_seconds": 0.0021938340505585074,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5185363340341008,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.40789473684210525,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6706472850259906,
+                    "calibration_error": 0.08445170253125492,
+                    "classwise_calibration_error": 0.10396404982887054,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.115280994470771,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.2246316424794623,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.05933130602352321,
+                      "inference_seconds": 0.0021736000198870897,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.49234643937336015,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.164373143297333,
+                "objective_seconds": 0.136674938024953,
+                "params": {
+                  "feature_elo_k": 8.30635764268638,
+                  "feature_home_advantage": 88.38985258138631,
+                  "feature_window": 7,
+                  "learning_rate": 0.018142358637520593,
+                  "num_leaves": 5,
+                  "reg_lambda": 1.9942007514013254
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.40789473684210525,
+                    "baseline_accuracy": 0.3815789473684211,
+                    "brier_score": 0.7017243529767169,
+                    "calibration_error": 0.11206813720267653,
+                    "classwise_calibration_error": 0.12387245719303495,
+                    "elo_baseline_accuracy": 0.3815789473684211,
+                    "fold": 1,
+                    "log_loss": 1.1703677149764913,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2196914902033662,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.05293885001447052,
+                      "inference_seconds": 0.0020737570011988282,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5144610023924313,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6773168257285974,
+                    "calibration_error": 0.08748048557084268,
+                    "classwise_calibration_error": 0.094556694924326,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1203355858708242,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.23022699558354187,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "bagging",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.08024905505590141,
+                      "inference_seconds": 0.002317180042155087,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.4690594329392637,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1453516504236578,
+                "objective_seconds": 0.16141195502132177,
+                "params": {
+                  "feature_elo_k": 10.94511983392716,
+                  "feature_home_advantage": 23.32192497176723,
+                  "feature_window": 9,
+                  "learning_rate": 0.01019659292061215,
+                  "num_leaves": 26,
+                  "reg_lambda": 4.0892014268894155
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.1453516504236578
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.3684210526315789,
+              "baseline_accuracy": 0.40789473684210525,
+              "brier_score": 0.7174940368496149,
+              "calibration_error": 0.17391850515315274,
+              "classwise_calibration_error": 0.1791867410894292,
+              "elo_baseline_accuracy": 0.40789473684210525,
+              "fold": 1,
+              "log_loss": 1.1916487790173074,
+              "majority_baseline_accuracy": 0.3684210526315789,
+              "ranked_probability_score": 0.22353499446885122,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "lightgbm_goss",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "data_sample_strategy": "goss",
+                  "deterministic": true,
+                  "force_col_wise": true,
+                  "input": "existing_numeric_features_only",
+                  "threads": 1
+                },
+                "fit_seconds": 0.027388636022806168,
+                "inference_seconds": 0.0018019599374383688,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "4.7.0"
+              },
+              "sharpness": 0.5347588203936388,
+              "training_rows": 152,
+              "validation_rows": 76
+            },
+            {
+              "accuracy": 0.39473684210526316,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6905185839827461,
+              "calibration_error": 0.1285386498599482,
+              "classwise_calibration_error": 0.12081232537271978,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1415215623911301,
+              "majority_baseline_accuracy": 0.3157894736842105,
+              "ranked_probability_score": 0.22918912545331818,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "lightgbm_goss",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "data_sample_strategy": "goss",
+                  "deterministic": true,
+                  "force_col_wise": true,
+                  "input": "existing_numeric_features_only",
+                  "threads": 1
+                },
+                "fit_seconds": 0.04026281100232154,
+                "inference_seconds": 0.0021104110637679696,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "4.7.0"
+              },
+              "sharpness": 0.48255987298108627,
+              "training_rows": 228,
+              "validation_rows": 76
+            }
+          ],
+          "development_objective_seconds": 0.08526281197555363,
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.4473684210526316,
+          "holdout_brier_score": 0.6956720224564938,
+          "holdout_log_loss": 1.1349157562851264,
+          "holdout_rows": 76,
+          "holdout_rps": 0.23803894144217932,
+          "model": "lightgbm_goss",
+          "params": {},
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm_goss",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "goss",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.05603972601238638,
+            "holdout_inference_seconds": 0.0022908480605110526,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "default",
+          "selection_log_loss": 1.1665851707042187
+        },
+        {
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.4342105263157895,
+          "holdout_brier_score": 0.6598649934607316,
+          "holdout_log_loss": 1.084865127213579,
+          "holdout_rows": 76,
+          "holdout_rps": 0.22456421612147864,
+          "model": "lightgbm_goss",
+          "params": {
+            "learning_rate": 0.019251056268853182,
+            "num_leaves": 5,
+            "reg_lambda": 1.0249686360134889
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm_goss",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "goss",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.05336187605280429,
+            "holdout_inference_seconds": 0.0022331109503284097,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "model",
+          "search": {
+            "best_loss": 1.1457326870249198,
+            "best_params": {
+              "learning_rate": 0.019251056268853182,
+              "num_leaves": 5,
+              "reg_lambda": 1.0249686360134889
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 0.4045330670196563,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.35526315789473684,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7067508586173696,
+                    "calibration_error": 0.16373313976920456,
+                    "classwise_calibration_error": 0.11920984180931388,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1763920905352938,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.22006930168167357,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.04130956903100014,
+                      "inference_seconds": 0.001983105903491378,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5189962976639414,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.35526315789473684,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6927846610145872,
+                    "calibration_error": 0.10574317973127423,
+                    "classwise_calibration_error": 0.1296413119215805,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1379765425100998,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.23601664609003611,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.06254073092713952,
+                      "inference_seconds": 0.00219835399184376,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.4610063376260111,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.157184316522697,
+                "objective_seconds": 0.1217353999381885,
+                "params": {
+                  "learning_rate": 0.010778038801831716,
+                  "num_leaves": 21,
+                  "reg_lambda": 0.35486129798045063
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7714770249658399,
+                    "calibration_error": 0.25069425449313804,
+                    "classwise_calibration_error": 0.18394830206386692,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.3441038123475275,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.23917293937050038,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.024312556954100728,
+                      "inference_seconds": 0.0017415729817003012,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.6235637916762102,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7668146388916425,
+                    "calibration_error": 0.22246548007793737,
+                    "classwise_calibration_error": 0.19847841611130615,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.2436929856708634,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.2447428633588186,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.03610509098507464,
+                      "inference_seconds": 0.0020934150088578463,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5257160140893249,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.2938983990091955,
+                "objective_seconds": 0.07807828800287098,
+                "params": {
+                  "learning_rate": 0.09081783416307722,
+                  "num_leaves": 10,
+                  "reg_lambda": 2.2563110735889107
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7041166943569315,
+                    "calibration_error": 0.18932945271053128,
+                    "classwise_calibration_error": 0.12174569305400869,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.17325171814501,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.218183337182228,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.03853058104868978,
+                      "inference_seconds": 0.0019489359110593796,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.523561788330503,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.32894736842105265,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6864399263768288,
+                    "calibration_error": 0.13684635997284988,
+                    "classwise_calibration_error": 0.11532464907872386,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1247439349141886,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.23253766630581732,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.05796119605656713,
+                      "inference_seconds": 0.002183739095926285,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.44918341325041855,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1489978265295993,
+                "objective_seconds": 0.11451595602557063,
+                "params": {
+                  "learning_rate": 0.01297507954575384,
+                  "num_leaves": 28,
+                  "reg_lambda": 0.697981062161514
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.32894736842105265,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7037855009905374,
+                    "calibration_error": 0.19945025526378785,
+                    "classwise_calibration_error": 0.14718813167682196,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.163060179738176,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2202127450677834,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.03118228993844241,
+                      "inference_seconds": 0.0018456929828971624,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5208237759917052,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6852311620378417,
+                    "calibration_error": 0.1022620152960661,
+                    "classwise_calibration_error": 0.09755046965072985,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1284051943116635,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22827958150320904,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.04136050399392843,
+                      "inference_seconds": 0.0020702460315078497,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.454515722533134,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1457326870249198,
+                "objective_seconds": 0.09016774501651525,
+                "params": {
+                  "learning_rate": 0.019251056268853182,
+                  "num_leaves": 5,
+                  "reg_lambda": 1.0249686360134889
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.1457326870249198
+        },
+        {
+          "features": {
+            "elo_k": 8.30635764268638,
+            "home_advantage": 88.38985258138631,
+            "window": 7
+          },
+          "holdout_accuracy": 0.4605263157894737,
+          "holdout_brier_score": 0.6222395604204273,
+          "holdout_log_loss": 1.0232256264218462,
+          "holdout_rows": 76,
+          "holdout_rps": 0.21310970866336887,
+          "model": "lightgbm_goss",
+          "params": {
+            "learning_rate": 0.018142358637520593,
+            "num_leaves": 5,
+            "reg_lambda": 1.9942007514013254
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "lightgbm_goss",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "data_sample_strategy": "goss",
+              "deterministic": true,
+              "force_col_wise": true,
+              "input": "existing_numeric_features_only",
+              "threads": 1
+            },
+            "final_fit_seconds": 0.055964448023587465,
+            "holdout_inference_seconds": 0.002174949971958995,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "4.7.0"
+          },
+          "scope": "joint",
+          "search": {
+            "best_loss": 1.1247010410218137,
+            "best_params": {
+              "feature_elo_k": 8.30635764268638,
+              "feature_home_advantage": 88.38985258138631,
+              "feature_window": 7,
+              "learning_rate": 0.018142358637520593,
+              "num_leaves": 5,
+              "reg_lambda": 1.9942007514013254
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 0.44610346702393144,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7021365594016595,
+                    "calibration_error": 0.18890702159631825,
+                    "classwise_calibration_error": 0.14603507242016378,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1728171467043833,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.215097418956862,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.040406410000286996,
+                      "inference_seconds": 0.0019301889697089791,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5109734327242135,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6903065187982788,
+                    "calibration_error": 0.09324974478887522,
+                    "classwise_calibration_error": 0.09431769672171929,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1348353769483943,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.23802606077225655,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.06181972392369062,
+                      "inference_seconds": 0.002199901035055518,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.46167079742045414,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1538262618263888,
+                "objective_seconds": 0.12000317999627441,
+                "params": {
+                  "feature_elo_k": 27.254688233776967,
+                  "feature_home_advantage": 101.50492311343669,
+                  "feature_window": 4,
+                  "learning_rate": 0.010778038801831716,
+                  "num_leaves": 21,
+                  "reg_lambda": 0.35486129798045063
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.7125037584448792,
+                    "calibration_error": 0.1408613512810914,
+                    "classwise_calibration_error": 0.1080798645562633,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.1791233281883056,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.225680216331748,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.035822979058139026,
+                      "inference_seconds": 0.0018891840009018779,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5092824039126703,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6741875865064247,
+                    "calibration_error": 0.14783015518985854,
+                    "classwise_calibration_error": 0.1347504128572521,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1192210305986614,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.23059548058185853,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.05606477300170809,
+                      "inference_seconds": 0.0021857719402760267,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.46863361808545534,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1491721793934835,
+                "objective_seconds": 0.10979654907714576,
+                "params": {
+                  "feature_elo_k": 8.271951494897902,
+                  "feature_home_advantage": 75.80329321550435,
+                  "feature_window": 2,
+                  "learning_rate": 0.01297507954575384,
+                  "num_leaves": 28,
+                  "reg_lambda": 0.697981062161514
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.4473684210526316,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.6947996703932505,
+                    "calibration_error": 0.16398450730153158,
+                    "classwise_calibration_error": 0.127795749691795,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.1541682391748669,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.21776752779361236,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.0319783870363608,
+                      "inference_seconds": 0.001823479076847434,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5213848972087194,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6596251651697713,
+                    "calibration_error": 0.09376186078447951,
+                    "classwise_calibration_error": 0.0917423173894047,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.0952338428687605,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.21976298545106784,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.043795341975055635,
+                      "inference_seconds": 0.002017208025790751,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.4531423952104133,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1247010410218137,
+                "objective_seconds": 0.09347771410830319,
+                "params": {
+                  "feature_elo_k": 8.30635764268638,
+                  "feature_home_advantage": 88.38985258138631,
+                  "feature_window": 7,
+                  "learning_rate": 0.018142358637520593,
+                  "num_leaves": 5,
+                  "reg_lambda": 1.9942007514013254
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.3815789473684211,
+                    "brier_score": 0.6946827781481558,
+                    "calibration_error": 0.12395237335355462,
+                    "classwise_calibration_error": 0.11450553720255723,
+                    "elo_baseline_accuracy": 0.3815789473684211,
+                    "fold": 1,
+                    "log_loss": 1.1532460757388165,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2165355328351989,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.041650437051430345,
+                      "inference_seconds": 0.0018998601008206606,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.5186892154588177,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6679781065814727,
+                    "calibration_error": 0.053626956928066336,
+                    "classwise_calibration_error": 0.08605669728838188,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.106262855121393,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22726662671207298,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "lightgbm_goss",
+                      "execution_policy": {
+                        "configured_iteration_cap": 160,
+                        "data_sample_strategy": "goss",
+                        "deterministic": true,
+                        "force_col_wise": true,
+                        "input": "existing_numeric_features_only",
+                        "threads": 1
+                      },
+                      "fit_seconds": 0.06339099502656609,
+                      "inference_seconds": 0.002157259965315461,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "4.7.0"
+                    },
+                    "sharpness": 0.44836379903332946,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.129754465430105,
+                "objective_seconds": 0.12278325005900115,
+                "params": {
+                  "feature_elo_k": 10.94511983392716,
+                  "feature_home_advantage": 23.32192497176723,
+                  "feature_window": 9,
+                  "learning_rate": 0.01019659292061215,
+                  "num_leaves": 26,
+                  "reg_lambda": 4.0892014268894155
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.1247010410218137
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.39473684210526316,
+              "baseline_accuracy": 0.40789473684210525,
+              "brier_score": 0.6819538297411243,
+              "calibration_error": 0.13744410163509174,
+              "classwise_calibration_error": 0.11037704582487505,
+              "elo_baseline_accuracy": 0.40789473684210525,
+              "fold": 1,
+              "log_loss": 1.1215140695526704,
+              "majority_baseline_accuracy": 0.3684210526315789,
+              "ranked_probability_score": 0.21349943680585912,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "catboost",
+                "execution_policy": {
+                  "allow_writing_files": false,
+                  "boosting_type": "Ordered",
+                  "categorical_features_used": false,
+                  "configured_iteration_cap": 160,
+                  "has_time": true,
+                  "input": "existing_numeric_features_only",
+                  "prediction_threads": 1,
+                  "threads": 1,
+                  "training_order": "validated_nondecreasing_UTC_kickoff"
+                },
+                "fit_seconds": 0.7758477899478748,
+                "inference_seconds": 0.0023626809706911445,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.2.10"
+              },
+              "sharpness": 0.51768109288238,
+              "training_rows": 152,
+              "validation_rows": 76
+            },
+            {
+              "accuracy": 0.39473684210526316,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6919851403532975,
+              "calibration_error": 0.07909257494156142,
+              "classwise_calibration_error": 0.13712760898834528,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1381511714736063,
+              "majority_baseline_accuracy": 0.3157894736842105,
+              "ranked_probability_score": 0.23525415054100163,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "catboost",
+                "execution_policy": {
+                  "allow_writing_files": false,
+                  "boosting_type": "Ordered",
+                  "categorical_features_used": false,
+                  "configured_iteration_cap": 160,
+                  "has_time": true,
+                  "input": "existing_numeric_features_only",
+                  "prediction_threads": 1,
+                  "threads": 1,
+                  "training_order": "validated_nondecreasing_UTC_kickoff"
+                },
+                "fit_seconds": 0.937826576991938,
+                "inference_seconds": 0.0022383349714800715,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.2.10"
+              },
+              "sharpness": 0.4537656012628073,
+              "training_rows": 228,
+              "validation_rows": 76
+            }
+          ],
+          "development_objective_seconds": 1.7439369790954515,
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.40789473684210525,
+          "holdout_brier_score": 0.6488835005423967,
+          "holdout_log_loss": 1.0704544938555849,
+          "holdout_rows": 76,
+          "holdout_rps": 0.2217429396415035,
+          "model": "catboost",
+          "params": {},
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "catboost",
+            "execution_policy": {
+              "allow_writing_files": false,
+              "boosting_type": "Ordered",
+              "categorical_features_used": false,
+              "configured_iteration_cap": 160,
+              "has_time": true,
+              "input": "existing_numeric_features_only",
+              "prediction_threads": 1,
+              "threads": 1,
+              "training_order": "validated_nondecreasing_UTC_kickoff"
+            },
+            "final_fit_seconds": 1.204463166068308,
+            "holdout_inference_seconds": 0.0023033659672364593,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "1.2.10"
+          },
+          "scope": "default",
+          "selection_log_loss": 1.1298326205131384
+        },
+        {
+          "features": {
+            "elo_k": 20.0,
+            "home_advantage": 80.0,
+            "window": 5
+          },
+          "holdout_accuracy": 0.5263157894736842,
+          "holdout_brier_score": 0.6365861234068382,
+          "holdout_log_loss": 1.0543126239199916,
+          "holdout_rows": 76,
+          "holdout_rps": 0.2186197163159981,
+          "model": "catboost",
+          "params": {
+            "depth": 5,
+            "l2_leaf_reg": 0.35486129798045063,
+            "learning_rate": 0.010778038801831716
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "catboost",
+            "execution_policy": {
+              "allow_writing_files": false,
+              "boosting_type": "Ordered",
+              "categorical_features_used": false,
+              "configured_iteration_cap": 160,
+              "has_time": true,
+              "input": "existing_numeric_features_only",
+              "prediction_threads": 1,
+              "threads": 1,
+              "training_order": "validated_nondecreasing_UTC_kickoff"
+            },
+            "final_fit_seconds": 2.1792564559727907,
+            "holdout_inference_seconds": 0.0022856820141896605,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "1.2.10"
+          },
+          "scope": "model",
+          "search": {
+            "best_loss": 1.0986736886132187,
+            "best_params": {
+              "depth": 5,
+              "l2_leaf_reg": 0.35486129798045063,
+              "learning_rate": 0.010778038801831716
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 10.270453953067772,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.6646080297090401,
+                    "calibration_error": 0.08192902725688729,
+                    "classwise_calibration_error": 0.0991198868000417,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.0956904879712788,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.20820152837849495,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.2895880050491542,
+                      "inference_seconds": 0.002162500051781535,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.47666586936215044,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6698702028540834,
+                    "calibration_error": 0.048141557079166696,
+                    "classwise_calibration_error": 0.10329282932781703,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1016568892551586,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22692248722283137,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.6996975239599124,
+                      "inference_seconds": 0.0019302050350233912,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4347700749681328,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.0986736886132187,
+                "objective_seconds": 3.007116809953004,
+                "params": {
+                  "depth": 5,
+                  "l2_leaf_reg": 0.35486129798045063,
+                  "learning_rate": 0.010778038801831716
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.42105263157894735,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.7065410023787858,
+                    "calibration_error": 0.1774137726794486,
+                    "classwise_calibration_error": 0.142612119704038,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1736622196189612,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.22245824350786522,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.38361340505070984,
+                      "inference_seconds": 0.0021657500183209777,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.578185894919667,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.7243390610625593,
+                    "calibration_error": 0.144314644481563,
+                    "classwise_calibration_error": 0.16869866426941527,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.190280088986383,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.24514216025366983,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.4871876109391451,
+                      "inference_seconds": 0.002072972012683749,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.5127356971131419,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.181971154302672,
+                "objective_seconds": 0.8885831059888005,
+                "params": {
+                  "depth": 3,
+                  "l2_leaf_reg": 2.2563110735889107,
+                  "learning_rate": 0.09081783416307722
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.4342105263157895,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.6650202608824795,
+                    "calibration_error": 0.125376250001974,
+                    "classwise_calibration_error": 0.10997506513894477,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.0972756527529137,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.20911609461494945,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 2.566046979976818,
+                      "inference_seconds": 0.001178691047243774,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.47564210402412305,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6686150504630459,
+                    "calibration_error": 0.044929936578805035,
+                    "classwise_calibration_error": 0.13271134614195548,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1005991500242451,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22703621611496033,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 3.3286828940035775,
+                      "inference_seconds": 0.0023552420316264033,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4265088839472261,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.0989374013885795,
+                "objective_seconds": 5.911977216019295,
+                "params": {
+                  "depth": 6,
+                  "l2_leaf_reg": 0.697981062161514,
+                  "learning_rate": 0.01297507954575384
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.6831974327466194,
+                    "calibration_error": 0.11156035749340278,
+                    "classwise_calibration_error": 0.11795629698630762,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.121647251424292,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2137434449619754,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.19605362392030656,
+                      "inference_seconds": 0.00207859103102237,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.5062971995986659,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.39473684210526316,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6691002448188618,
+                    "calibration_error": 0.05725562152423757,
+                    "classwise_calibration_error": 0.1302907656669923,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1008010591298236,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22775292627958782,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.2497132639400661,
+                      "inference_seconds": 0.0012210840359330177,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4519924636295007,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1112241552770576,
+                "objective_seconds": 0.46272492804564536,
+                "params": {
+                  "depth": 2,
+                  "l2_leaf_reg": 1.0249686360134889,
+                  "learning_rate": 0.019251056268853182
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.0986736886132187
+        },
+        {
+          "features": {
+            "elo_k": 10.94511983392716,
+            "home_advantage": 23.32192497176723,
+            "window": 9
+          },
+          "holdout_accuracy": 0.4868421052631579,
+          "holdout_brier_score": 0.6383834991700078,
+          "holdout_log_loss": 1.057138571294035,
+          "holdout_rows": 76,
+          "holdout_rps": 0.21930567069235044,
+          "model": "catboost",
+          "params": {
+            "depth": 5,
+            "l2_leaf_reg": 4.0892014268894155,
+            "learning_rate": 0.01019659292061215
+          },
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "catboost",
+            "execution_policy": {
+              "allow_writing_files": false,
+              "boosting_type": "Ordered",
+              "categorical_features_used": false,
+              "configured_iteration_cap": 160,
+              "has_time": true,
+              "input": "existing_numeric_features_only",
+              "prediction_threads": 1,
+              "threads": 1,
+              "training_order": "validated_nondecreasing_UTC_kickoff"
+            },
+            "final_fit_seconds": 2.7678244221024215,
+            "holdout_inference_seconds": 0.002869730000384152,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "1.2.10"
+          },
+          "scope": "joint",
+          "search": {
+            "best_loss": 1.094609053117381,
+            "best_params": {
+              "depth": 5,
+              "feature_elo_k": 10.94511983392716,
+              "feature_home_advantage": 23.32192497176723,
+              "feature_window": 9,
+              "l2_leaf_reg": 4.0892014268894155,
+              "learning_rate": 0.01019659292061215
+            },
+            "budget": {
+              "attempted_trials": 4,
+              "parallel_trials": 1,
+              "pruning": "none",
+              "requested_trials": 4,
+              "seed": 42
+            },
+            "completed_trials": 4,
+            "elapsed_seconds": 11.393662658985704,
+            "failed_trials": 0,
+            "timing_used_for_selection": false,
+            "trials": [
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.40789473684210525,
+                    "brier_score": 0.6702918491517876,
+                    "calibration_error": 0.09739823429787317,
+                    "classwise_calibration_error": 0.09009181284382269,
+                    "elo_baseline_accuracy": 0.40789473684210525,
+                    "fold": 1,
+                    "log_loss": 1.1071975367733693,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2091850114299415,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.1155476639978588,
+                      "inference_seconds": 0.0023637369740754366,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.47461873052067,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.32894736842105265,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6711628669998211,
+                    "calibration_error": 0.10052197338881733,
+                    "classwise_calibration_error": 0.09651500564141542,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.104425493173546,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22954869467266076,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.507677281042561,
+                      "inference_seconds": 0.0021262739319354296,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.42946934180987,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1058115149734575,
+                "objective_seconds": 2.6414836880285293,
+                "params": {
+                  "depth": 5,
+                  "feature_elo_k": 27.254688233776967,
+                  "feature_home_advantage": 101.50492311343669,
+                  "feature_window": 4,
+                  "l2_leaf_reg": 0.35486129798045063,
+                  "learning_rate": 0.010778038801831716
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.6843359519064394,
+                    "calibration_error": 0.09606913806082489,
+                    "classwise_calibration_error": 0.10415646665799334,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.1234178542631448,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.2171233476552484,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.7745579249458387,
+                      "inference_seconds": 0.0011558369733393192,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4776480854292459,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.3684210526315789,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6681307817117049,
+                    "calibration_error": 0.06036699182886797,
+                    "classwise_calibration_error": 0.07649420126468161,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1026888848689445,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22910012843441516,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 2.5249765930930153,
+                      "inference_seconds": 0.001596175949089229,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.42878804446044694,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1130533695660445,
+                "objective_seconds": 4.316214425023645,
+                "params": {
+                  "depth": 6,
+                  "feature_elo_k": 8.271951494897902,
+                  "feature_home_advantage": 75.80329321550435,
+                  "feature_window": 2,
+                  "l2_leaf_reg": 0.697981062161514,
+                  "learning_rate": 0.01297507954575384
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.39473684210526316,
+                    "brier_score": 0.6804927257408909,
+                    "calibration_error": 0.11096395442189201,
+                    "classwise_calibration_error": 0.10499840157979418,
+                    "elo_baseline_accuracy": 0.39473684210526316,
+                    "fold": 1,
+                    "log_loss": 1.1187105661183077,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.21389740225656564,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.22574417991563678,
+                      "inference_seconds": 0.001530496054328978,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.49254290179031307,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6696236739207846,
+                    "calibration_error": 0.14624002666117503,
+                    "classwise_calibration_error": 0.10618532010567144,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.1033960413887527,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22909583713087187,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 0.281385759008117,
+                      "inference_seconds": 0.0012671879958361387,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4510432085593781,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.1110533037535302,
+                "objective_seconds": 0.5235162780154496,
+                "params": {
+                  "depth": 2,
+                  "feature_elo_k": 8.30635764268638,
+                  "feature_home_advantage": 88.38985258138631,
+                  "feature_window": 7,
+                  "l2_leaf_reg": 1.9942007514013254,
+                  "learning_rate": 0.018142358637520593
+                }
+              },
+              {
+                "development_folds": [
+                  {
+                    "accuracy": 0.3815789473684211,
+                    "baseline_accuracy": 0.3815789473684211,
+                    "brier_score": 0.6648643598714478,
+                    "calibration_error": 0.06994220404215984,
+                    "classwise_calibration_error": 0.07900477979719615,
+                    "elo_baseline_accuracy": 0.3815789473684211,
+                    "fold": 1,
+                    "log_loss": 1.095451783510945,
+                    "majority_baseline_accuracy": 0.3684210526315789,
+                    "ranked_probability_score": 0.21084109028061962,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 1.7239554419647902,
+                      "inference_seconds": 0.0011813710443675518,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.4393227511263358,
+                    "training_rows": 152,
+                    "validation_rows": 76
+                  },
+                  {
+                    "accuracy": 0.34210526315789475,
+                    "baseline_accuracy": 0.5,
+                    "brier_score": 0.6630486424269282,
+                    "calibration_error": 0.06937567841017768,
+                    "classwise_calibration_error": 0.07447710132635448,
+                    "elo_baseline_accuracy": 0.5,
+                    "fold": 2,
+                    "log_loss": 1.0937663227238168,
+                    "majority_baseline_accuracy": 0.3157894736842105,
+                    "ranked_probability_score": 0.22623808086458427,
+                    "runtime": {
+                      "clock": "time.perf_counter",
+                      "engine": "catboost",
+                      "execution_policy": {
+                        "allow_writing_files": false,
+                        "boosting_type": "Ordered",
+                        "categorical_features_used": false,
+                        "configured_iteration_cap": 160,
+                        "has_time": true,
+                        "input": "existing_numeric_features_only",
+                        "prediction_threads": 1,
+                        "threads": 1,
+                        "training_order": "validated_nondecreasing_UTC_kickoff"
+                      },
+                      "fit_seconds": 2.1710587589768693,
+                      "inference_seconds": 0.0024444280425086617,
+                      "seed": 42,
+                      "timing_used_for_selection": false,
+                      "version": "1.2.10"
+                    },
+                    "sharpness": 0.41148094156807247,
+                    "training_rows": 228,
+                    "validation_rows": 76
+                  }
+                ],
+                "log_loss": 1.094609053117381,
+                "objective_seconds": 3.9123813279438764,
+                "params": {
+                  "depth": 5,
+                  "feature_elo_k": 10.94511983392716,
+                  "feature_home_advantage": 23.32192497176723,
+                  "feature_window": 9,
+                  "l2_leaf_reg": 4.0892014268894155,
+                  "learning_rate": 0.01019659292061215
+                }
+              }
+            ]
+          },
+          "selection_log_loss": 1.094609053117381
+        }
+      ],
+      "seed": 42,
+      "selected": {
+        "features": {
+          "elo_k": 10.94511983392716,
+          "home_advantage": 23.32192497176723,
+          "window": 9
+        },
+        "model": "catboost",
+        "params": {
+          "depth": 5,
+          "l2_leaf_reg": 4.0892014268894155,
+          "learning_rate": 0.01019659292061215
+        },
+        "scope": "joint"
+      },
+      "selected_on": "development_expanding_window_log_loss",
+      "selection_rows": 304,
+      "source_snapshots": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ],
+      "trials_per_search": 4
+    }
+  ],
+  "seasons": [
+    "2025"
+  ],
+  "source": "football-csv"
+}

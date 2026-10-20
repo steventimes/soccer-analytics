@@ -1,0 +1,5 @@
+-r requirements.txt
+scikit-learn==1.9.1
+scikit-optimize==0.10.2
+optuna==5.0.0
+fpstreams==2.4.1

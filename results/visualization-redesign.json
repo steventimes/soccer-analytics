@@ -1,0 +1,499 @@
+{
+  "scope": "All project-owned figure generators and public charts; original provider assets remain unchanged.",
+  "primary_design_references": [
+    {
+      "title": "Stanford CS448B visualization design",
+      "url": "https://magrawala.github.io/cs448b-fa21/a1",
+      "applied": "One explicit analytical question, readable labels, purposeful encoding."
+    },
+    {
+      "title": "Datawrapper bar chart refinement",
+      "url": "https://www.datawrapper.de/academy/customizing-your-bar-chart",
+      "applied": "Direct labels, meaningful sorting, scopes/units and mobile checks."
+    },
+    {
+      "title": "mplsoccer pass plot gallery",
+      "url": "https://mplsoccer.readthedocs.io/en/latest/gallery/pitch_plots/plot_lines.html",
+      "applied": "Football geometry, layered marks, separated title/source areas."
+    }
+  ],
+  "baseline_public_pngs": 14,
+  "validation": {
+    "status": "passed",
+    "unittest": {
+      "tests": 262,
+      "passed": 259,
+      "skipped": 3
+    },
+    "static_review": {
+      "verdict": "follow-up reviewed; no open findings",
+      "open_findings": 0,
+      "public_figures": 18,
+      "private_validation_figures": 1,
+      "parsed_svgs": 19,
+      "inspection": "All 19 PNGs checked at 300 DPI and viewed in contact sheets; updated shot map individually inspected. All 19 SVG title/description references verified. Eight cached research figure layouts passed bounding-box checks.",
+      "prior_independent_review": "Retained in historical_validation_before_follow_up."
+    },
+    "browser": {
+      "desktop_and_390px_mobile": "passed",
+      "page_errors": 0,
+      "public_figure_http_200": 18,
+      "gallery_search_topic_empty_zoom_escape_focus_restore_downloads": "passed",
+      "team_metric_and_seed_sd_displays": "passed",
+      "real_prediction_snapshot": "empty, stale release held",
+      "probability_card_cases": "browser-only fixtures, not persisted in published data",
+      "phone_dialog": {
+        "open": true,
+        "mode": "actual",
+        "scrollWidth": 1037,
+        "viewportWidth": 334,
+        "naturalWidth": 1037,
+        "displayWidth": 1037,
+        "pageWidth": 390,
+        "viewport": 390
+      },
+      "phone_dialog_close": {
+        "dialogClosed": true,
+        "focusReturned": "放大查看：同一帧下的三种空间控制模型",
+        "viewport": 390,
+        "documentWidth": 390
+      },
+      "reader_width_px": 877,
+      "tab_and_shift_tab_wrap": "passed",
+      "image_failure_retry_focus": "passed",
+      "missing_percentages_no_directional_claims": "passed with browser-only fixtures"
+    },
+    "model_artifacts": {
+      "numeric_npz_loaded_without_pickle": 42,
+      "prediction_replays": 24,
+      "current_code_digests": "passed"
+    },
+    "current_four_run_archive": {
+      "lossless_hash_and_bytes": "passed",
+      "archived_versions": 65,
+      "orphaned_run_assets": 0,
+      "scope": "Current four analysis runs only; full source warehouse integrity not rerun."
+    },
+    "public_catalog_matches_source_svgs_byte_for_byte": true,
+    "all_original_public_pngs_redesigned": true,
+    "other_baseline_public_analytical_json_unchanged": true,
+    "python_compile_javascript_syntax_diff_whitespace": "passed"
+  },
+  "date": "2026-10-15",
+  "public_figures": 18,
+  "public_image_exports": 39,
+  "private_validation_figures_redesigned": 1,
+  "surfaces": [
+    "all existing static figure generators",
+    "prediction page probability bars and diagnostic hierarchy",
+    "research page team comparisons and experiment uncertainty",
+    "searchable figure gallery with zoom and downloads"
+  ],
+  "public_figure_stems": [
+    "analysis-upgrades",
+    "analysis-upgrades/pressing",
+    "analysis-upgrades/goal-probability",
+    "analysis-upgrades/space-control",
+    "analysis-upgrades/buildup",
+    "chance-ablations",
+    "chelsea-psg-final",
+    "external-load",
+    "football/shot-map",
+    "football/passing-network",
+    "football/visible-space",
+    "football/running-position",
+    "player-assessment",
+    "representation/Figure_1",
+    "representation/Figure_2",
+    "scouting-observations",
+    "switch-context",
+    "team-assessment"
+  ],
+  "analytical_preservation": {
+    "value_previous_run": "2893551946909e5e",
+    "value_current_run": "4661e994a9ea44ed",
+    "metrics_and_intervals_exactly_equal": true,
+    "configuration_and_splits_exactly_equal": true,
+    "native_payloads_sha256_unchanged": true,
+    "model_code_change": "representation/experiment.py figures() only",
+    "bundle_id": "6df8e8e8b6b5cdda10c3"
+  },
+  "source_sha256": {
+    "app/analytics/visualization/style.py": "3757f9d62e395f17f3d52a4b80c7531dfaa73d89fdb9cb0f8dcad65187d4ca05",
+    "app/analytics/visualization/upgrades.py": "0ef8da70fc17096de8599dc86d8fffc458e319b7bbd5f35335bd74972d5db070",
+    "app/analytics/visualization/pitch.py": "6cb4aa412b14e56616056075c83411562770a4baf4db8afd052bb244def960c4",
+    "app/analytics/visualization/football.py": "2fdff6671ce0b3651f2643576b925ebdd0b1d418db1abe9f287235b907805414",
+    "app/analytics/research_figures.py": "2dc92e67c822580787f34cb2492b4ebd11631265f212adc874b078f509204287",
+    "app/analytics/validation_figures.py": "0097f69776d2acd3750bb6978e2147b9f3776ddb1c86305e27db0cc27d30b81e",
+    "app/analytics/representation/experiment.py": "5899cb3f1e5cd4a720dae35da87466ee8497675734afb1f0c477fca8aa9dbe07",
+    "app/analytics/elite_tactics.py": "09c50ca6780b2aa9100c6a7fc04aeb8b207fa735cb21090bdb81b3e7349f30e0",
+    "app/analytics/switch_context.py": "ee2a9501881e381e3758ef0cc0ed582c789199eca5c901dd955bcd1eb5455d83",
+    "app/analytics/figures.py": "af11138cadf198e4b6776327d8cdb6dec141580e1dd7c2dc1840822ca88ddb17",
+    "app/file_io.py": "feb3d5b037108a52351ce2ffd3eea84be1ec36e1ee71f2428a0efab9aa35cc51",
+    "app/web/research.py": "71937aea77785fe8bb8d1b3c3fe363fa53c4251b84aeea6fefc03a6efa2902b3",
+    "docs/research.html": "28109fe91530838d4365c3e9a2b462b93d09733e550784efc339b72e02e458f1",
+    "docs/research.js": "e96f48096a28a4bb74511acc2cb831dda3ba9442206b8cf084c932772533ba64",
+    "docs/research.css": "fe27eea3b7878d015592875446e10d7d15605f8c9fe3881b0246e4ea4b41ec99",
+    "tests/test_research_export.py": "e6f9451620fc850e8025624a64ddfd9b656d00f9bb9c562476c91de944ab1626",
+    "tests/test_refactor_contracts.py": "76809694d61c0bcb93e1e45ab387e04d8ff4ddf0e671dd88203f694fd8581e55"
+  },
+  "publication": "Local working tree only; no commit, push or deployment.",
+  "historical_validation_before_follow_up": {
+    "status": "passed",
+    "unittest": {
+      "tests": 260,
+      "passed": 257,
+      "skipped": 3
+    },
+    "static_review": {
+      "verdict": "approved",
+      "open_findings": 0,
+      "resolved_label_and_provenance_findings": 5,
+      "individually_viewed_pngs": 19,
+      "parsed_svgs": 19,
+      "pdf_text_checks": 3
+    },
+    "browser": {
+      "desktop_and_390px_mobile": "passed",
+      "page_errors": 0,
+      "public_figure_http_200": 18,
+      "gallery_search_topic_empty_zoom_escape_focus_restore_downloads": "passed",
+      "team_metric_and_seed_sd_displays": "passed",
+      "real_prediction_snapshot": "empty, stale release held",
+      "probability_card_cases": "browser-only fixtures, not persisted in published data",
+      "phone_dialog": {
+        "open": true,
+        "viewport": 390,
+        "documentWidth": 390,
+        "dialogWidth": 370,
+        "imageWidth": 1248,
+        "regionWidth": 334,
+        "regionScroll": 1248,
+        "caption": "战术与空间同一帧下的三种空间控制模型关闭 ×\n    显示大小适合窗口原图大小，可横向滚动放大至 150%，可横向滚动下载 SVG 原图新窗口打开 ↗\n    \n    同一公开追踪帧和网格上的模型差异，没有空间控制真值。来源：Metrica Sports 开放追踪数据"
+      },
+      "phone_dialog_close": {
+        "dialogClosed": true,
+        "focusReturned": "放大查看：同一帧下的三种空间控制模型",
+        "viewport": 390,
+        "documentWidth": 390
+      }
+    },
+    "model_artifacts": {
+      "numeric_npz_loaded_without_pickle": 42,
+      "prediction_replays": 24,
+      "current_code_digests": "passed"
+    },
+    "current_four_run_archive": {
+      "lossless_hash_and_bytes": "passed",
+      "archived_versions": 65,
+      "orphaned_run_assets": 0,
+      "scope": "Current four analysis runs only; full source warehouse integrity not rerun."
+    },
+    "public_catalog_matches_source_svgs_byte_for_byte": true,
+    "all_original_public_pngs_redesigned": true,
+    "other_baseline_public_analytical_json_unchanged": true,
+    "python_compile_javascript_syntax_diff_whitespace": "passed"
+  },
+  "follow_up_review": {
+    "date": "2026-10-15",
+    "skills_applied": [
+      "api-and-interface-design",
+      "codebase-design",
+      "frontend-design",
+      "frontend-a11y",
+      "diagram-design",
+      "figure-generation",
+      "ponytail"
+    ],
+    "design": {
+      "gallery": "Topic-filtered directory with one large figure reader; native mobile selector; no framework change.",
+      "desktop_figure_width_px": 877,
+      "previous_thumbnail_width_px": 379,
+      "static_png_dpi": 300,
+      "accessible_static_svgs": 19,
+      "shot_map": "Shared attacking-half view when every located shot is in that half; full-pitch fallback otherwise. Native points and clocks retained."
+    },
+    "resolved_findings": [
+      "Image export could truncate a published file on an interrupted write.",
+      "Direct image writes followed destination file symlinks; original targets are now preserved.",
+      "Three-column thumbnails made plot text too small to read.",
+      "Missing or invalid percentages could imply a decrease.",
+      "Modal Tab navigation did not cycle between its last and first controls.",
+      "Standalone scientific SVGs lacked accessible titles and descriptions."
+    ],
+    "atomic_export": "Shared write_bytes_atomic helper preserves existing file ownership/readability/cleanup and JSON writing policy. New failure and destination-link tests passed.",
+    "validation": {
+      "unittest": {
+        "tests": 262,
+        "passed": 259,
+        "skipped": 3
+      },
+      "reader": {
+        "viewport": 1440,
+        "publicFigures": 18,
+        "assets": [
+          {
+            "id": "analysis-upgrades",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "analysis-upgrades-pressing",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "analysis-upgrades-goal-probability",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "analysis-upgrades-space-control",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "analysis-upgrades-buildup",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "chance-ablations",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "chelsea-psg-final",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "external-load",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "football-shot-map",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "football-passing-network",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "football-visible-space",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "football-running-position",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "player-assessment",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "representation-figure-1",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "representation-figure-2",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "scouting-observations",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "switch-context",
+            "http": 200,
+            "accessibleSvg": true
+          },
+          {
+            "id": "team-assessment",
+            "http": 200,
+            "accessibleSvg": true
+          }
+        ],
+        "reader": [
+          "18 selections and image decodes",
+          "title/scope/provider/download match selection",
+          "current selection semantics"
+        ],
+        "filters": [
+          "search",
+          "topic",
+          "empty state hides previous image",
+          "recovery",
+          "previous/next boundaries"
+        ],
+        "failure": [
+          "real 404 notice",
+          "retry loads selected original",
+          "retry focus returns to enlarge"
+        ],
+        "missingCaseValues": "browser-only null/negative/above-100 fixtures; no false directional claims",
+        "readerWidth": 877,
+        "documentWidth": 1440
+      },
+      "keyboard": {
+        "tabWrap": true,
+        "shiftTabWrap": true,
+        "escapeCloses": true,
+        "focusRestoredTo": "figure-enlarge"
+      },
+      "research_semantics": {
+        "unlabeledControls": [],
+        "duplicateIds": [],
+        "missingAriaTargets": [],
+        "positiveTabindex": 0
+      },
+      "mobile_reader": {
+        "viewport": 390,
+        "pageWidth": 390,
+        "selectorVisible": true,
+        "desktopListHidden": true,
+        "selectedTitle": "射门来自哪里",
+        "readerWidth": 324
+      },
+      "mobile_zoom": {
+        "open": true,
+        "mode": "actual",
+        "scrollWidth": 1037,
+        "viewportWidth": 334,
+        "naturalWidth": 1037,
+        "displayWidth": 1037,
+        "pageWidth": 390,
+        "viewport": 390
+      },
+      "prediction_mobile": {
+        "ready": true,
+        "viewport": 390,
+        "pageWidth": 390,
+        "unlabeledControls": [],
+        "duplicateIds": [],
+        "release": "Hold recommendations",
+        "emptySnapshot": true,
+        "collapsedDiagnostics": true
+      },
+      "prediction_desktop": {
+        "viewport": 1440,
+        "pageWidth": 1440,
+        "release": "Hold recommendations",
+        "diagnosticsCollapsed": true
+      },
+      "shot_map": {
+        "source_match_id": 3942226,
+        "checks": [
+          {
+            "team": "Spain",
+            "shots": 19,
+            "x_limits": [
+              60.0,
+              122.5
+            ],
+            "positions_exactly_native": true,
+            "all_shots_visible": true
+          },
+          {
+            "team": "Germany",
+            "shots": 23,
+            "x_limits": [
+              60.0,
+              122.5
+            ],
+            "positions_exactly_native": true,
+            "all_shots_visible": true
+          }
+        ],
+        "text_outside_canvas": [],
+        "native_clock_labels_unchanged": true,
+        "source_data_modified": false
+      },
+      "png_and_svg_artifacts": "All 19 PNGs checked at 300 DPI and viewed in contact sheets; updated shot map individually inspected. All 19 SVG title/description references verified. Eight cached research figure layouts passed bounding-box checks.",
+      "catalog_source_svg_byte_identity": true,
+      "quantitative_json_unchanged": 16,
+      "model_source_hashes_still_current": 6,
+      "javascript_syntax_python_compile_diff_whitespace": "passed"
+    },
+    "source_sha256": {
+      "app/file_io.py": "feb3d5b037108a52351ce2ffd3eea84be1ec36e1ee71f2428a0efab9aa35cc51",
+      "app/web/research.py": "71937aea77785fe8bb8d1b3c3fe363fa53c4251b84aeea6fefc03a6efa2902b3",
+      "app/analytics/visualization/style.py": "3757f9d62e395f17f3d52a4b80c7531dfaa73d89fdb9cb0f8dcad65187d4ca05",
+      "app/analytics/visualization/football.py": "2fdff6671ce0b3651f2643576b925ebdd0b1d418db1abe9f287235b907805414",
+      "docs/research.html": "28109fe91530838d4365c3e9a2b462b93d09733e550784efc339b72e02e458f1",
+      "docs/research.js": "e96f48096a28a4bb74511acc2cb831dda3ba9442206b8cf084c932772533ba64",
+      "docs/research.css": "fe27eea3b7878d015592875446e10d7d15605f8c9fe3881b0246e4ea4b41ec99",
+      "tests/test_research_export.py": "e6f9451620fc850e8025624a64ddfd9b656d00f9bb9c562476c91de944ab1626",
+      "tests/test_refactor_contracts.py": "76809694d61c0bcb93e1e45ab387e04d8ff4ddf0e671dd88203f694fd8581e55"
+    },
+    "publication": "Local working tree only; no commit, push or deployment."
+  },
+  "interactive_exploration": {
+    "date": "2026-10-15",
+    "scope": [
+      "Match/team/half/15-minute selection with stoppage and extra-time semantics",
+      "Same-source league-season team and player comparisons with units, sample counts and minute filters",
+      "Historical probability calibration and monthly backtest, league/date/outcome filters",
+      "Chinese navigation and interface terminology on both pages"
+    ],
+    "data_audit": {
+      "matches_verified_against_checksummed_raw": 51,
+      "shots": 1316,
+      "passes": 53888,
+      "heldout_matches": 3504,
+      "chronology_and_calibration_counts": "passed",
+      "published_derivative_equality": 54,
+      "code_and_input_hashes": "passed"
+    },
+    "browser": {
+      "matches": 51,
+      "chart_states": 612,
+      "calibration_states": 20,
+      "invalid_validation_ranges": 5,
+      "screen_widths": [
+        1440,
+        390
+      ],
+      "exports": [
+        "Selected SVG with source, sample and network roster",
+        "Selected-month CSV"
+      ],
+      "request_failure_recovery": "Browser-only injected 404 plus real localhost recovery",
+      "out_of_order_requests": "Browser-only delay with real local responses; latest selection retained",
+      "fixtures": "Failure/delay interception was browser-only; all quantitative charts use real source data."
+    },
+    "tests": {
+      "total": 265,
+      "passed": 262,
+      "skipped": 3,
+      "result": "OK; existing optional dependency skips"
+    },
+    "checks": [
+      "Python compileall",
+      "JavaScript syntax for app/research/explore/validation and frontend fixture",
+      "git diff --check"
+    ],
+    "warehouse": {
+      "run_id": "c5f92c596b5cd6fc5486",
+      "derived_jsons_losslessly_verified": 55,
+      "run_asset_foreign_key_errors": 0,
+      "scope": "New derived assets only; no full warehouse integrity check."
+    },
+    "limitations": [
+      "Match explorer currently publishes all 51 games of the 2024 mens Euros, not all archived competitions",
+      "Player profiles are historical Wyscout 2017/18 observations",
+      "Historical validation is retrospective with frozen parameters, not a record of then-published forecasts",
+      "Calibration bins have no confidence intervals; empty bins remain unavailable"
+    ],
+    "publication": "Local working tree and loopback preview only; no commit, push or deployment."
+  }
+}

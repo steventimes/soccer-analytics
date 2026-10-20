@@ -1,0 +1,494 @@
+{
+  "groups": [
+    {
+      "candidates": [
+        {
+          "holdout": {
+            "accuracy": 0.4605263157894737,
+            "brier_score": 0.6460958484749467,
+            "log_loss": 1.0699001466129543,
+            "rps": 0.22279957791131988
+          },
+          "id": "poisson_constant",
+          "model": "poisson_constant",
+          "scope": "",
+          "selection_log_loss": 1.1287192683219238
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4605263157894737,
+            "brier_score": 0.6100264629560609,
+            "log_loss": 1.0248746472247807,
+            "rps": 0.2076700279405681
+          },
+          "id": "poisson",
+          "model": "poisson",
+          "scope": "",
+          "selection_log_loss": 1.1112324192651963
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4605263157894737,
+            "brier_score": 0.6094019647303163,
+            "log_loss": 1.0239368148122587,
+            "rps": 0.20750200032591654
+          },
+          "id": "poisson_decay",
+          "model": "poisson_decay",
+          "scope": "",
+          "selection_log_loss": 1.1089630424727646
+        },
+        {
+          "holdout": {
+            "accuracy": 0.47368421052631576,
+            "brier_score": 0.6075929316165731,
+            "log_loss": 1.0224556016315791,
+            "rps": 0.20723436837015966
+          },
+          "id": "dixon_coles",
+          "model": "dixon_coles",
+          "scope": "",
+          "selection_log_loss": 1.1023595611823331
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4605263157894737,
+            "brier_score": 0.6094152997663496,
+            "log_loss": 1.0240785344633727,
+            "rps": 0.2075423059253475
+          },
+          "id": "bivariate_poisson",
+          "model": "bivariate_poisson",
+          "scope": "",
+          "selection_log_loss": 1.1112332430008982
+        }
+      ],
+      "competition": "PL",
+      "holdout_end": "2026-05-24T15:00:00+00:00",
+      "holdout_rows": 76,
+      "holdout_start": "2026-03-21T17:30:00+00:00",
+      "id": "scores-PL",
+      "kind": "scores",
+      "label": "比分模型",
+      "seasons": [
+        "2025"
+      ],
+      "selected": "dixon_coles",
+      "selected_on": "expanding_window_log_loss",
+      "sources": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "candidates": [
+        {
+          "holdout": {
+            "accuracy": 0.5142857142857142,
+            "brier_score": 0.5963052082710627,
+            "log_loss": 1.001087516229299,
+            "rps": 0.19850191755640942
+          },
+          "id": "elo_ordered_logit",
+          "model": "elo_ordered_logit",
+          "scope": "",
+          "selection_log_loss": 1.1302964919286171
+        },
+        {
+          "holdout": {
+            "accuracy": 0.5142857142857142,
+            "brier_score": 0.5959374115341105,
+            "log_loss": 1.0007224650863342,
+            "rps": 0.19781917252052675
+          },
+          "id": "elo_multinomial",
+          "model": "elo_multinomial",
+          "scope": "",
+          "selection_log_loss": 1.1805666301992808
+        },
+        {
+          "holdout": {
+            "accuracy": 0.32857142857142857,
+            "brier_score": 0.7716791152299096,
+            "log_loss": 1.3268760510604303,
+            "rps": 0.26852406566706305
+          },
+          "id": "logistic_l2",
+          "model": "logistic_l2",
+          "scope": "",
+          "selection_log_loss": 1.2287334737953874
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4142857142857143,
+            "brier_score": 0.6440807452777269,
+            "log_loss": 1.061183405891486,
+            "rps": 0.2159591882935996
+          },
+          "id": "xgboost",
+          "model": "xgboost",
+          "scope": "",
+          "selection_log_loss": 1.0964329469677345
+        },
+        {
+          "holdout": {
+            "accuracy": 0.5,
+            "brier_score": 0.5975620526979579,
+            "log_loss": 1.0027989925311855,
+            "rps": 0.19918729500191276
+          },
+          "id": "goal_elo_k10_p0.5",
+          "model": "goal_elo_k10_p0.5",
+          "scope": "",
+          "selection_log_loss": 1.1247595518365443
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4714285714285714,
+            "brier_score": 0.5979751046224677,
+            "log_loss": 1.003291711706812,
+            "rps": 0.19970259048658714
+          },
+          "id": "goal_elo_k10_p1",
+          "model": "goal_elo_k10_p1",
+          "scope": "",
+          "selection_log_loss": 1.134037868470477
+        },
+        {
+          "holdout": {
+            "accuracy": 0.5142857142857142,
+            "brier_score": 0.5962834481717532,
+            "log_loss": 1.001010551364228,
+            "rps": 0.1987595945357637
+          },
+          "id": "goal_elo_k20_p0.5",
+          "model": "goal_elo_k20_p0.5",
+          "scope": "",
+          "selection_log_loss": 1.136342978587674
+        },
+        {
+          "holdout": {
+            "accuracy": 0.5142857142857142,
+            "brier_score": 0.5979290883668299,
+            "log_loss": 1.003530771082646,
+            "rps": 0.19971366159997989
+          },
+          "id": "goal_elo_k20_p1",
+          "model": "goal_elo_k20_p1",
+          "scope": "",
+          "selection_log_loss": 1.131234061241273
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4857142857142857,
+            "brier_score": 0.5968719301636631,
+            "log_loss": 1.0034308173456479,
+            "rps": 0.1997789010509936
+          },
+          "id": "pi_lr0.035_catchup0.5",
+          "model": "pi_lr0.035_catchup0.5",
+          "scope": "",
+          "selection_log_loss": 1.1606208670754583
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4857142857142857,
+            "brier_score": 0.5958348219961849,
+            "log_loss": 1.0010117898933437,
+            "rps": 0.19915241220850757
+          },
+          "id": "pi_lr0.035_catchup0.7",
+          "model": "pi_lr0.035_catchup0.7",
+          "scope": "",
+          "selection_log_loss": 1.1616677538278002
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4857142857142857,
+            "brier_score": 0.5997518682397337,
+            "log_loss": 1.0080718348491502,
+            "rps": 0.20117881980954852
+          },
+          "id": "pi_lr0.07_catchup0.5",
+          "model": "pi_lr0.07_catchup0.5",
+          "scope": "",
+          "selection_log_loss": 1.1727442234909669
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4857142857142857,
+            "brier_score": 0.5979009066602283,
+            "log_loss": 1.0045765262738768,
+            "rps": 0.20018701006313394
+          },
+          "id": "pi_lr0.07_catchup0.7",
+          "model": "pi_lr0.07_catchup0.7",
+          "scope": "",
+          "selection_log_loss": 1.1674026851158308
+        }
+      ],
+      "competition": "PL",
+      "holdout_end": "2026-05-24T15:00:00+00:00",
+      "holdout_rows": 70,
+      "holdout_start": "2026-04-11T11:30:00+00:00",
+      "id": "ratings-PL",
+      "kind": "ratings",
+      "label": "实力评级",
+      "seasons": [
+        "2025"
+      ],
+      "selected": "xgboost",
+      "selected_on": "development_expanding_window_log_loss",
+      "sources": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "candidates": [
+        {
+          "holdout": {
+            "accuracy": 0.3157894736842105,
+            "brier_score": 0.6656265893061201,
+            "log_loss": 1.097042005446041,
+            "rps": 0.2311405344298885
+          },
+          "id": "identity",
+          "model": "identity",
+          "scope": "",
+          "selection_log_loss": 1.095279635444058
+        },
+        {
+          "holdout": {
+            "accuracy": 0.3157894736842105,
+            "brier_score": 0.6660445319349876,
+            "log_loss": 1.0976759356119832,
+            "rps": 0.23138055429609639
+          },
+          "id": "temperature",
+          "model": "temperature",
+          "scope": "",
+          "selection_log_loss": 1.0879094089933894
+        },
+        {
+          "holdout": {
+            "accuracy": 0.27631578947368424,
+            "brier_score": 0.7052428900416915,
+            "log_loss": 1.1523269456296998,
+            "rps": 0.2536155507674987
+          },
+          "id": "dirichlet_odir",
+          "model": "dirichlet_odir",
+          "scope": "",
+          "selection_log_loss": 1.1670449592969667
+        },
+        {
+          "holdout": {
+            "accuracy": 0.40789473684210525,
+            "brier_score": 0.6618676838201182,
+            "log_loss": 1.0913886324646038,
+            "rps": 0.23049707100256142
+          },
+          "id": "draw_constant",
+          "model": "draw_constant",
+          "scope": "",
+          "selection_log_loss": 1.1205984034507783
+        },
+        {
+          "holdout": {
+            "accuracy": 0.40789473684210525,
+            "brier_score": 0.6618676838200234,
+            "log_loss": 1.0913886324644582,
+            "rps": 0.230497071002545
+          },
+          "id": "draw_logistic",
+          "model": "draw_logistic",
+          "scope": "",
+          "selection_log_loss": 1.1205488115078044
+        },
+        {
+          "holdout": {
+            "accuracy": 0.40789473684210525,
+            "brier_score": 0.6618676838202089,
+            "log_loss": 1.0913886324647435,
+            "rps": 0.2304970710025771
+          },
+          "id": "draw_beta",
+          "model": "draw_beta",
+          "scope": "",
+          "selection_log_loss": 1.120516349676325
+        }
+      ],
+      "competition": "PL",
+      "holdout_end": "2026-05-24T15:00:00+00:00",
+      "holdout_rows": 76,
+      "holdout_start": "2026-03-21T17:30:00+00:00",
+      "id": "calibration-PL",
+      "kind": "calibration",
+      "label": "概率校准",
+      "seasons": [
+        "2025"
+      ],
+      "selected": "temperature",
+      "selected_on": "nested_expanding_window_log_loss",
+      "sources": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "candidates": [
+        {
+          "holdout": {
+            "accuracy": 0.3684210526315789,
+            "brier_score": 0.7848017102479301,
+            "log_loss": 1.2934301019853431,
+            "rps": 0.26988046289710377
+          },
+          "id": "lightgbm:default",
+          "model": "lightgbm",
+          "scope": "default",
+          "selection_log_loss": 1.3240977818660442
+        },
+        {
+          "holdout": {
+            "accuracy": 0.39473684210526316,
+            "brier_score": 0.6722831805546169,
+            "log_loss": 1.1118588637007365,
+            "rps": 0.22762682016695845
+          },
+          "id": "lightgbm:model",
+          "model": "lightgbm",
+          "scope": "model",
+          "selection_log_loss": 1.1769563537774563
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4342105263157895,
+            "brier_score": 0.647080336700434,
+            "log_loss": 1.0687043557995526,
+            "rps": 0.2234567286773674
+          },
+          "id": "lightgbm:joint",
+          "model": "lightgbm",
+          "scope": "joint",
+          "selection_log_loss": 1.1453516504236578
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4473684210526316,
+            "brier_score": 0.6956720224564938,
+            "log_loss": 1.1349157562851264,
+            "rps": 0.23803894144217932
+          },
+          "id": "lightgbm_goss:default",
+          "model": "lightgbm_goss",
+          "scope": "default",
+          "selection_log_loss": 1.1665851707042187
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4342105263157895,
+            "brier_score": 0.6598649934607316,
+            "log_loss": 1.084865127213579,
+            "rps": 0.22456421612147864
+          },
+          "id": "lightgbm_goss:model",
+          "model": "lightgbm_goss",
+          "scope": "model",
+          "selection_log_loss": 1.1457326870249198
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4605263157894737,
+            "brier_score": 0.6222395604204273,
+            "log_loss": 1.0232256264218462,
+            "rps": 0.21310970866336887
+          },
+          "id": "lightgbm_goss:joint",
+          "model": "lightgbm_goss",
+          "scope": "joint",
+          "selection_log_loss": 1.1247010410218137
+        },
+        {
+          "holdout": {
+            "accuracy": 0.40789473684210525,
+            "brier_score": 0.6488835005423967,
+            "log_loss": 1.0704544938555849,
+            "rps": 0.2217429396415035
+          },
+          "id": "catboost:default",
+          "model": "catboost",
+          "scope": "default",
+          "selection_log_loss": 1.1298326205131384
+        },
+        {
+          "holdout": {
+            "accuracy": 0.5263157894736842,
+            "brier_score": 0.6365861234068382,
+            "log_loss": 1.0543126239199916,
+            "rps": 0.2186197163159981
+          },
+          "id": "catboost:model",
+          "model": "catboost",
+          "scope": "model",
+          "selection_log_loss": 1.0986736886132187
+        },
+        {
+          "holdout": {
+            "accuracy": 0.4868421052631579,
+            "brier_score": 0.6383834991700078,
+            "log_loss": 1.057138571294035,
+            "rps": 0.21930567069235044
+          },
+          "id": "catboost:joint",
+          "model": "catboost",
+          "scope": "joint",
+          "selection_log_loss": 1.094609053117381
+        }
+      ],
+      "competition": "PL",
+      "holdout_end": "2026-05-24T15:00:00+00:00",
+      "holdout_rows": 76,
+      "holdout_start": "2026-03-21T17:30:00+00:00",
+      "id": "trees-PL",
+      "kind": "trees",
+      "label": "树与特征搜索",
+      "seasons": [
+        "2025"
+      ],
+      "selected": "catboost:joint",
+      "selected_on": "development_expanding_window_log_loss",
+      "sources": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ]
+    }
+  ],
+  "schema": "Touchline.ModelLab.v1",
+  "scope": "Historical offline experiments; development-selected candidates, frozen mappings, chronological holdouts. Groups have distinct input and warmup policies; do not pool their rows or rank across groups."
+}

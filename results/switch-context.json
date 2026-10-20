@@ -1,0 +1,835 @@
+{
+  "matches": 20,
+  "cross_field_attempts": 198,
+  "pressure_groups": [
+    {
+      "vendor_pressure": "high_pressure",
+      "attempts": 22,
+      "known_outcomes": 22,
+      "successful": 14,
+      "observed_movement_cases": 17
+    },
+    {
+      "vendor_pressure": "low_pressure",
+      "attempts": 40,
+      "known_outcomes": 40,
+      "successful": 30,
+      "observed_movement_cases": 39
+    },
+    {
+      "vendor_pressure": "medium_pressure",
+      "attempts": 59,
+      "known_outcomes": 59,
+      "successful": 42,
+      "observed_movement_cases": 56
+    },
+    {
+      "vendor_pressure": "no_pressure",
+      "attempts": 68,
+      "known_outcomes": 68,
+      "successful": 59,
+      "observed_movement_cases": 63
+    },
+    {
+      "vendor_pressure": "unknown",
+      "attempts": 6,
+      "known_outcomes": 6,
+      "successful": 2,
+      "observed_movement_cases": 3
+    },
+    {
+      "vendor_pressure": "very_high_pressure",
+      "attempts": 3,
+      "known_outcomes": 3,
+      "successful": 3,
+      "observed_movement_cases": 3
+    }
+  ],
+  "defensive_context_groups": [
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "343",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 2,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "chaotic",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "no_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "532",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_direct",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_quick_break",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_quick_break",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_set_play",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_transition",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "defending_transition",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_transition",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "defending_transition",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "very_high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "4132",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "4132",
+      "vendor_pressure": "no_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "4141",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "4231",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "no_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "4312",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "no_pressure",
+      "attempts": 4,
+      "successful": 4,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "532",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "no_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 3,
+      "successful": 2,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "high_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "352",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "4321",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "4321",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "4411",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "4411",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "no_pressure",
+      "attempts": 4,
+      "successful": 2,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "523",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "523",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "532",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "532",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 3,
+      "successful": 2,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "low_pressure",
+      "attempts": 4,
+      "successful": 2,
+      "far_side_motion_observed": 4
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "no_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 10,
+      "successful": 7,
+      "far_side_motion_observed": 4
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "low_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "very_high_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "343",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4132",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4132",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4141",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 0,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4141",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4231",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4231",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 3,
+      "successful": 2,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "424",
+      "vendor_pressure": "no_pressure",
+      "attempts": 6,
+      "successful": 5,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4321",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4321",
+      "vendor_pressure": "low_pressure",
+      "attempts": 3,
+      "successful": 3,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4321",
+      "vendor_pressure": "no_pressure",
+      "attempts": 3,
+      "successful": 3,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 2,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "433",
+      "vendor_pressure": "unknown",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "4411",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "low_pressure",
+      "attempts": 8,
+      "successful": 6,
+      "far_side_motion_observed": 5
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 7,
+      "successful": 5,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "442",
+      "vendor_pressure": "no_pressure",
+      "attempts": 17,
+      "successful": 15,
+      "far_side_motion_observed": 13
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "451",
+      "vendor_pressure": "low_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "451",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "451",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "523",
+      "vendor_pressure": "no_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "532",
+      "vendor_pressure": "no_pressure",
+      "attempts": 5,
+      "successful": 5,
+      "far_side_motion_observed": 3
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "high_pressure",
+      "attempts": 1,
+      "successful": 1,
+      "far_side_motion_observed": 0
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 2
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "541",
+      "vendor_pressure": "no_pressure",
+      "attempts": 10,
+      "successful": 10,
+      "far_side_motion_observed": 8
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "high_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "low_pressure",
+      "attempts": 2,
+      "successful": 1,
+      "far_side_motion_observed": 1
+    },
+    {
+      "opponent_phase": "medium_block",
+      "vendor_defensive_structure": "unknown",
+      "vendor_pressure": "medium_pressure",
+      "attempts": 7,
+      "successful": 6,
+      "far_side_motion_observed": 3
+    }
+  ],
+  "coach_metadata_cases": 0,
+  "tracked_anchor_usable": 188,
+  "cases_with_continuous_teammate_motion": 185,
+  "cases_with_observed_far_side_movement": 111,
+  "cases_with_opponent_closing": 185,
+  "movement_window_contexts": {
+    "own_or_unassigned": 179,
+    "possession_changed": 19
+  },
+  "far_side_movement_without_observed_team_change": 105,
+  "provider_active_run_cases": 46,
+  "source_fingerprint": "db9433c46917533539563a4e1a956a9f563ae9ca65fd565fdbecf481c06c6e82",
+  "extractor_sha256": "93f99010943fbdf84fb46afdce21b62601a306986043bd551460bbdd97e14096",
+  "references": [
+    "https://github.com/SkillCorner/opendata",
+    "https://skillcorner.com/us/articles/introducing-skillcorners-new-pressure-metrics"
+  ],
+  "method": "Attempted passes ending a player possession, ball holder and targeted player on opposite outer pitch thirds at release. Dynamic coordinates are attacker-normalized; raw tracking is rotated by attacking_side. Movement requires21 consecutive detected frames from1s before to1s after release, gap<=0.15s, speed<=12m/s. Forward/lateral displacement>=2m is a movement candidate. Opponent closing uses11 detected pre-release frames and relative distance to the detected ball.",
+  "limits": [
+    "Ball side and far side are spatial proxies; observed counts do not prove a tactical overload or coach intent.",
+    "Broadcast visibility can omit far-side players; absent continuous motion means unavailable observation, not no run.",
+    "Vendor pressure is a multi-component label, not interchangeable with StatsBomb binary under_pressure or this project's constant-closing-speed proxy.",
+    "Shape spans include only detected outfield players; provider defensive structure may use extrapolated coordinates.",
+    "Dynamic event IDs are unique only within a match. SkillCorner and Euro2024 cohorts are separate; no fixture/player cross-provider merge is attempted.",
+    "Post-release motion is descriptive evidence and cannot be used as a pre-release prediction feature.",
+    "Movement before/after release is stored separately. A possession change can turn support movement into defensive recovery; observed motion is not automatically an attacking run.",
+    "Identified targets condition inclusion; these attempts are not all attempted switches, so success rates can have selection bias."
+  ],
+  "example_case": {
+    "match_id": "1899585",
+    "event_id": "8_865",
+    "selection": "most detected outfield players among usable cases with observed far-side movement; illustrative, not an outcome-based sample"
+  }
+}

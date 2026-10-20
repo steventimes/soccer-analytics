@@ -1,0 +1,1807 @@
+{
+  "class_order": [
+    "away",
+    "draw",
+    "home"
+  ],
+  "limits": "普通列是收盘前报价，不代表开盘价。没有逐场报价发布时间，两个阶段均只作回顾性参考。归一化不保证真实概率。平均赔率不能视为可成交报价，超额倒数和不等于实际利润。各来源样本可能不同，不作跨来源排名，也不与其他样本上的模型直接排名。当前赛季只是归档覆盖的部分比赛。",
+  "method": "三项赔率的倒数按总和归一化。频率基线逐赛季冻结，只用更早赛季且早于测试首场的赛果，每类加 1。Brier 为三类误差平方之和，范围 0–2。",
+  "pinnacle_warning_from": "2025-07-23",
+  "results": [
+    {
+      "book": "bet365",
+      "cohort_sha256": "ea1ab2d8161f225f4e2a329d6ca817719209ac2d9f5ddb8e73abef9b2e25c2fa",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5526315789473685,
+          "brier": 0.575774788970925,
+          "log_loss": 0.9677686847968537,
+          "mean_overround": 0.05551846765117168
+        },
+        "pre_close": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.5786638026588308,
+          "log_loss": 0.9707576734366714,
+          "mean_overround": 0.05532682048449087
+        },
+        "prior": {
+          "accuracy": 0.40789473684210525,
+          "brier": 0.6546942625748271,
+          "log_loss": 1.0798299145011794,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33158171308460327,
+        0.2275354703100368,
+        0.44088281660535994
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1900
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "ea1ab2d8161f225f4e2a329d6ca817719209ac2d9f5ddb8e73abef9b2e25c2fa",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5552631578947368,
+          "brier": 0.5751877511794847,
+          "log_loss": 0.9667334134817074,
+          "mean_overround": 0.041945248758288534
+        },
+        "pre_close": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.5788986039373658,
+          "log_loss": 0.9705521250110707,
+          "mean_overround": 0.044946895796898825
+        },
+        "prior": {
+          "accuracy": 0.40789473684210525,
+          "brier": 0.6546942625748271,
+          "log_loss": 1.0798299145011794,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33158171308460327,
+        0.2275354703100368,
+        0.44088281660535994
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1900
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "ea1ab2d8161f225f4e2a329d6ca817719209ac2d9f5ddb8e73abef9b2e25c2fa",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5526315789473685,
+          "brier": 0.5750793021671526,
+          "log_loss": 0.9664121027623124,
+          "mean_overround": 0.02992404962199096
+        },
+        "pre_close": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.578771073917252,
+          "log_loss": 0.9703039994694266,
+          "mean_overround": 0.036020567805387
+        },
+        "prior": {
+          "accuracy": 0.40789473684210525,
+          "brier": 0.6546942625748271,
+          "log_loss": 1.0798299145011794,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33158171308460327,
+        0.2275354703100368,
+        0.44088281660535994
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1900
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "2d519f6c261b2f54836c1774f687fff127700fc911f3f1281466dbb886c86983",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.4921052631578947,
+          "brier": 0.608242745873826,
+          "log_loss": 1.013128138181448,
+          "mean_overround": 0.05593227834287615
+        },
+        "pre_close": {
+          "accuracy": 0.48947368421052634,
+          "brier": 0.6115122077213379,
+          "log_loss": 1.018547433594444,
+          "mean_overround": 0.055150813806402486
+        },
+        "prior": {
+          "accuracy": 0.4263157894736842,
+          "brier": 0.6564781041273773,
+          "log_loss": 1.0850346750310722,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.334209373631187,
+        0.23039859833552342,
+        0.4353920280332895
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "2d519f6c261b2f54836c1774f687fff127700fc911f3f1281466dbb886c86983",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.49473684210526314,
+          "brier": 0.6077370146246498,
+          "log_loss": 1.0117668726695337,
+          "mean_overround": 0.05673050979803363
+        },
+        "pre_close": {
+          "accuracy": 0.49473684210526314,
+          "brier": 0.610024736352888,
+          "log_loss": 1.0152523829672504,
+          "mean_overround": 0.05806041875569179
+        },
+        "prior": {
+          "accuracy": 0.4263157894736842,
+          "brier": 0.6564781041273773,
+          "log_loss": 1.0850346750310722,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.334209373631187,
+        0.23039859833552342,
+        0.4353920280332895
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 380
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 380,
+      "prior_probabilities": [
+        0.334209373631187,
+        0.23039859833552342,
+        0.4353920280332895
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "a780e1c4616a6bd89276ba749a80710888a96f4fba952128aa5912a1acfa8be8",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.46,
+          "brier": 0.6341120528669113,
+          "log_loss": 1.053136830204953,
+          "mean_overround": 0.05642715067704837
+        },
+        "pre_close": {
+          "accuracy": 0.44,
+          "brier": 0.6342868411889419,
+          "log_loss": 1.0523292920743956,
+          "mean_overround": 0.05554342206474459
+        },
+        "prior": {
+          "accuracy": 0.36,
+          "brier": 0.678137038503045,
+          "log_loss": 1.1171164283278123,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 50,
+      "population": 50,
+      "prior_probabilities": [
+        0.3293278257604206,
+        0.2365752910251596,
+        0.4340968832144198
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "a780e1c4616a6bd89276ba749a80710888a96f4fba952128aa5912a1acfa8be8",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.46,
+          "brier": 0.6356658018235176,
+          "log_loss": 1.0549155425963241,
+          "mean_overround": 0.0590993986966601
+        },
+        "pre_close": {
+          "accuracy": 0.44,
+          "brier": 0.6340207245793101,
+          "log_loss": 1.0522256005312678,
+          "mean_overround": 0.061271825559263166
+        },
+        "prior": {
+          "accuracy": 0.36,
+          "brier": 0.678137038503045,
+          "log_loss": 1.1171164283278123,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 50,
+      "population": 50,
+      "prior_probabilities": [
+        0.3293278257604206,
+        0.2365752910251596,
+        0.4340968832144198
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "PL",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 50
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 50,
+      "prior_probabilities": [
+        0.3293278257604206,
+        0.2365752910251596,
+        0.4340968832144198
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "c9bb911bc37a4d6079b2dfb1720a9f8ea4c5f2420682889ada57eec583efb92f",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5552631578947368,
+          "brier": 0.559939793128142,
+          "log_loss": 0.947043352957654,
+          "mean_overround": 0.05650802086143378
+        },
+        "pre_close": {
+          "accuracy": 0.5447368421052632,
+          "brier": 0.564041498230718,
+          "log_loss": 0.9534095113153104,
+          "mean_overround": 0.056540277120982335
+        },
+        "prior": {
+          "accuracy": 0.44473684210526315,
+          "brier": 0.6477885163365681,
+          "log_loss": 1.0714334487112143,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.28060956384655805,
+        0.2743037309511298,
+        0.44508670520231214
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-15",
+      "training_end": "2024-05-26",
+      "training_rows": 1900
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "c9bb911bc37a4d6079b2dfb1720a9f8ea4c5f2420682889ada57eec583efb92f",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5578947368421052,
+          "brier": 0.5594457362129283,
+          "log_loss": 0.9462354847536852,
+          "mean_overround": 0.0459272764960628
+        },
+        "pre_close": {
+          "accuracy": 0.55,
+          "brier": 0.5639079805601994,
+          "log_loss": 0.9531990849104892,
+          "mean_overround": 0.04749067140020974
+        },
+        "prior": {
+          "accuracy": 0.44473684210526315,
+          "brier": 0.6477885163365681,
+          "log_loss": 1.0714334487112143,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.28060956384655805,
+        0.2743037309511298,
+        0.44508670520231214
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-15",
+      "training_end": "2024-05-26",
+      "training_rows": 1900
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "c9bb911bc37a4d6079b2dfb1720a9f8ea4c5f2420682889ada57eec583efb92f",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5605263157894737,
+          "brier": 0.5592576855618531,
+          "log_loss": 0.9463248901518555,
+          "mean_overround": 0.029978418151168734
+        },
+        "pre_close": {
+          "accuracy": 0.5473684210526316,
+          "brier": 0.5634924987517526,
+          "log_loss": 0.9524429015862611,
+          "mean_overround": 0.03541361369830007
+        },
+        "prior": {
+          "accuracy": 0.44473684210526315,
+          "brier": 0.6477885163365681,
+          "log_loss": 1.0714334487112143,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.28060956384655805,
+        0.2743037309511298,
+        0.44508670520231214
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-15",
+      "training_end": "2024-05-26",
+      "training_rows": 1900
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "c923ba05cc3ea6d2ac2e6d34a21c6eb7f664fade069192ee11c33db77493d2a4",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5368421052631579,
+          "brier": 0.5715920742796781,
+          "log_loss": 0.9646863341942526,
+          "mean_overround": 0.056385454104116384
+        },
+        "pre_close": {
+          "accuracy": 0.5447368421052632,
+          "brier": 0.5710378212308005,
+          "log_loss": 0.9636644004887207,
+          "mean_overround": 0.05614624082850714
+        },
+        "prior": {
+          "accuracy": 0.48947368421052634,
+          "brier": 0.6328732733297129,
+          "log_loss": 1.0504254477798096,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.28383705650459923,
+        0.27113447218572057,
+        0.44502847130968026
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "c923ba05cc3ea6d2ac2e6d34a21c6eb7f664fade069192ee11c33db77493d2a4",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5447368421052632,
+          "brier": 0.5716509492588124,
+          "log_loss": 0.9649804790839723,
+          "mean_overround": 0.06129101634632499
+        },
+        "pre_close": {
+          "accuracy": 0.5447368421052632,
+          "brier": 0.5714649828539332,
+          "log_loss": 0.964103415733941,
+          "mean_overround": 0.06461268272095261
+        },
+        "prior": {
+          "accuracy": 0.48947368421052634,
+          "brier": 0.6328732733297129,
+          "log_loss": 1.0504254477798096,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.28383705650459923,
+        0.27113447218572057,
+        0.44502847130968026
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 380
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 380,
+      "prior_probabilities": [
+        0.28383705650459923,
+        0.27113447218572057,
+        0.44502847130968026
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "026bd911a9ab05340c5aae79ca280fd60d89bd8cf053c15d067a59bc2bf6c3de",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5652173913043478,
+          "brier": 0.5533377805572981,
+          "log_loss": 0.9342291648650399,
+          "mean_overround": 0.05454961895465543
+        },
+        "pre_close": {
+          "accuracy": 0.5507246376811594,
+          "brier": 0.561188234478012,
+          "log_loss": 0.9471931141902588,
+          "mean_overround": 0.05528910023495709
+        },
+        "prior": {
+          "accuracy": 0.4492753623188406,
+          "brier": 0.6458004885290802,
+          "log_loss": 1.0684426623963246,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 69,
+      "population": 69,
+      "prior_probabilities": [
+        0.2812617348854675,
+        0.2673676304919264,
+        0.45137063462260607
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-15",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "026bd911a9ab05340c5aae79ca280fd60d89bd8cf053c15d067a59bc2bf6c3de",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5507246376811594,
+          "brier": 0.5509582721746682,
+          "log_loss": 0.9299041621837922,
+          "mean_overround": 0.06064684820011122
+        },
+        "pre_close": {
+          "accuracy": 0.5507246376811594,
+          "brier": 0.5592162616453482,
+          "log_loss": 0.9434128487619563,
+          "mean_overround": 0.06479907313169297
+        },
+        "prior": {
+          "accuracy": 0.4492753623188406,
+          "brier": 0.6458004885290802,
+          "log_loss": 1.0684426623963246,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 69,
+      "population": 69,
+      "prior_probabilities": [
+        0.2812617348854675,
+        0.2673676304919264,
+        0.45137063462260607
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-15",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "PD",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 69
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 69,
+      "prior_probabilities": [
+        0.2812617348854675,
+        0.2673676304919264,
+        0.45137063462260607
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-15",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "5597d9cabbed39dc770fd8c5d55dd79f0009c709b847aadec725bcab1e8ea4bb",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5261437908496732,
+          "brier": 0.5896095996821606,
+          "log_loss": 0.9873543822840559,
+          "mean_overround": 0.05609675662264188
+        },
+        "pre_close": {
+          "accuracy": 0.5228758169934641,
+          "brier": 0.590236616955592,
+          "log_loss": 0.988265166527395,
+          "mean_overround": 0.05556250265505974
+        },
+        "prior": {
+          "accuracy": 0.38562091503267976,
+          "brier": 0.6619321609505336,
+          "log_loss": 1.0899323637511706,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.31245923026744943,
+        0.24722765818656228,
+        0.44031311154598823
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-23",
+      "training_end": "2024-05-18",
+      "training_rows": 1530
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "5597d9cabbed39dc770fd8c5d55dd79f0009c709b847aadec725bcab1e8ea4bb",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5294117647058824,
+          "brier": 0.589455118847883,
+          "log_loss": 0.987021443197487,
+          "mean_overround": 0.04586416708874754
+        },
+        "pre_close": {
+          "accuracy": 0.5228758169934641,
+          "brier": 0.5912994385243137,
+          "log_loss": 0.9900288585781899,
+          "mean_overround": 0.04690652115747457
+        },
+        "prior": {
+          "accuracy": 0.38562091503267976,
+          "brier": 0.6619321609505336,
+          "log_loss": 1.0899323637511706,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.31245923026744943,
+        0.24722765818656228,
+        0.44031311154598823
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-23",
+      "training_end": "2024-05-18",
+      "training_rows": 1530
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "5597d9cabbed39dc770fd8c5d55dd79f0009c709b847aadec725bcab1e8ea4bb",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5294117647058824,
+          "brier": 0.5901287759990307,
+          "log_loss": 0.9881589305677712,
+          "mean_overround": 0.030316440402831053
+        },
+        "pre_close": {
+          "accuracy": 0.5228758169934641,
+          "brier": 0.5912966787937567,
+          "log_loss": 0.9898089153762826,
+          "mean_overround": 0.036033959402931325
+        },
+        "prior": {
+          "accuracy": 0.38562091503267976,
+          "brier": 0.6619321609505336,
+          "log_loss": 1.0899323637511706,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.31245923026744943,
+        0.24722765818656228,
+        0.44031311154598823
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-23",
+      "training_end": "2024-05-18",
+      "training_rows": 1530
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "a193ab906c287dc88127e4aab2547e013ef753705a7c5d3374211694f14e3cf5",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.565359477124183,
+          "brier": 0.5633307641456691,
+          "log_loss": 0.9535362219405049,
+          "mean_overround": 0.056587577073685516
+        },
+        "pre_close": {
+          "accuracy": 0.545751633986928,
+          "brier": 0.5621449479463795,
+          "log_loss": 0.9513731562857881,
+          "mean_overround": 0.055284945599874964
+        },
+        "prior": {
+          "accuracy": 0.43790849673202614,
+          "brier": 0.6477459663530017,
+          "log_loss": 1.0705093863954132,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.320826536160957,
+        0.24796084828711257,
+        0.4312126155519304
+      ],
+      "season": 2025,
+      "test_end": "2026-05-16",
+      "test_start": "2025-08-22",
+      "training_end": "2025-05-17",
+      "training_rows": 1836
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "a193ab906c287dc88127e4aab2547e013ef753705a7c5d3374211694f14e3cf5",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.565359477124183,
+          "brier": 0.5618184045532181,
+          "log_loss": 0.9510054747507789,
+          "mean_overround": 0.06338350858301556
+        },
+        "pre_close": {
+          "accuracy": 0.5490196078431373,
+          "brier": 0.5629483930576981,
+          "log_loss": 0.953253844154854,
+          "mean_overround": 0.06792254778688434
+        },
+        "prior": {
+          "accuracy": 0.43790849673202614,
+          "brier": 0.6477459663530017,
+          "log_loss": 1.0705093863954132,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.320826536160957,
+        0.24796084828711257,
+        0.4312126155519304
+      ],
+      "season": 2025,
+      "test_end": "2026-05-16",
+      "test_start": "2025-08-22",
+      "training_end": "2025-05-17",
+      "training_rows": 1836
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 306
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 306,
+      "prior_probabilities": [
+        0.320826536160957,
+        0.24796084828711257,
+        0.4312126155519304
+      ],
+      "season": 2025,
+      "test_end": "2026-05-16",
+      "test_start": "2025-08-22",
+      "training_end": "2025-05-17",
+      "training_rows": 1836
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "2f76a29369c05d4dbc5881110c57ee35bd50b7b2503abb84f93cc12e6079c22c",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5,
+          "brier": 0.5723378779852047,
+          "log_loss": 0.9567243984267768,
+          "mean_overround": 0.055713729121751
+        },
+        "pre_close": {
+          "accuracy": 0.5277777777777778,
+          "brier": 0.5689382101103023,
+          "log_loss": 0.9525317671849294,
+          "mean_overround": 0.054929030669832075
+        },
+        "prior": {
+          "accuracy": 0.5277777777777778,
+          "brier": 0.6202496182915763,
+          "log_loss": 1.0305116420102198,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 36,
+      "population": 36,
+      "prior_probabilities": [
+        0.3202797202797203,
+        0.24755244755244754,
+        0.43216783216783217
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-28",
+      "training_end": "2026-05-16",
+      "training_rows": 2142
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "2f76a29369c05d4dbc5881110c57ee35bd50b7b2503abb84f93cc12e6079c22c",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5,
+          "brier": 0.5709537852019482,
+          "log_loss": 0.9561620625850534,
+          "mean_overround": 0.062341842068585854
+        },
+        "pre_close": {
+          "accuracy": 0.5277777777777778,
+          "brier": 0.569759442931977,
+          "log_loss": 0.9554906790825459,
+          "mean_overround": 0.06769227728639987
+        },
+        "prior": {
+          "accuracy": 0.5277777777777778,
+          "brier": 0.6202496182915763,
+          "log_loss": 1.0305116420102198,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 36,
+      "population": 36,
+      "prior_probabilities": [
+        0.3202797202797203,
+        0.24755244755244754,
+        0.43216783216783217
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-28",
+      "training_end": "2026-05-16",
+      "training_rows": 2142
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "BL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 36
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 36,
+      "prior_probabilities": [
+        0.3202797202797203,
+        0.24755244755244754,
+        0.43216783216783217
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-28",
+      "training_end": "2026-05-16",
+      "training_rows": 2142
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "2cf6568ee2b2a20adde584a614e83d28b0fdb8143348e3dc0a63b2696af46177",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5394736842105263,
+          "brier": 0.5686791260778989,
+          "log_loss": 0.9548040161680259,
+          "mean_overround": 0.056256082397971904
+        },
+        "pre_close": {
+          "accuracy": 0.5263157894736842,
+          "brier": 0.5684435318856402,
+          "log_loss": 0.9547660500390202,
+          "mean_overround": 0.055164406286222364
+        },
+        "prior": {
+          "accuracy": 0.3973684210526316,
+          "brier": 0.6608811769411472,
+          "log_loss": 1.090285770555085,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33000525486074617,
+        0.2590646347871781,
+        0.41093011035207566
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-17",
+      "training_end": "2024-06-02",
+      "training_rows": 1900
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "2cf6568ee2b2a20adde584a614e83d28b0fdb8143348e3dc0a63b2696af46177",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.5672451088681021,
+          "log_loss": 0.952327126469621,
+          "mean_overround": 0.047089431034000956
+        },
+        "pre_close": {
+          "accuracy": 0.5263157894736842,
+          "brier": 0.5668732127788481,
+          "log_loss": 0.9518761273427528,
+          "mean_overround": 0.04895485034588031
+        },
+        "prior": {
+          "accuracy": 0.3973684210526316,
+          "brier": 0.6608811769411472,
+          "log_loss": 1.090285770555085,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33000525486074617,
+        0.2590646347871781,
+        0.41093011035207566
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-17",
+      "training_end": "2024-06-02",
+      "training_rows": 1900
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "2cf6568ee2b2a20adde584a614e83d28b0fdb8143348e3dc0a63b2696af46177",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5394736842105263,
+          "brier": 0.5668947198773275,
+          "log_loss": 0.9513473208245976,
+          "mean_overround": 0.030044497294367065
+        },
+        "pre_close": {
+          "accuracy": 0.531578947368421,
+          "brier": 0.5660305079339106,
+          "log_loss": 0.9505582392924415,
+          "mean_overround": 0.03589883256600587
+        },
+        "prior": {
+          "accuracy": 0.3973684210526316,
+          "brier": 0.6608811769411472,
+          "log_loss": 1.090285770555085,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.33000525486074617,
+        0.2590646347871781,
+        0.41093011035207566
+      ],
+      "season": 2024,
+      "test_end": "2025-05-25",
+      "test_start": "2024-08-17",
+      "training_end": "2024-06-02",
+      "training_rows": 1900
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "bd5b5d4f5c5d1d4f813a9ce1dd460c4d37f95605119cd45826ba304d4dfab09f",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5394736842105263,
+          "brier": 0.5827649935348799,
+          "log_loss": 0.977442144813098,
+          "mean_overround": 0.05693961827352418
+        },
+        "pre_close": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.5844386772649285,
+          "log_loss": 0.9821022022096544,
+          "mean_overround": 0.0550864783437556
+        },
+        "prior": {
+          "accuracy": 0.3894736842105263,
+          "brier": 0.6587929270626524,
+          "log_loss": 1.0863057700766834,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.3280770915462111,
+        0.26325010950503724,
+        0.40867279894875164
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-23",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "bd5b5d4f5c5d1d4f813a9ce1dd460c4d37f95605119cd45826ba304d4dfab09f",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5368421052631579,
+          "brier": 0.5830348133469447,
+          "log_loss": 0.9784381328582252,
+          "mean_overround": 0.06278465312592926
+        },
+        "pre_close": {
+          "accuracy": 0.5421052631578948,
+          "brier": 0.5836994178911536,
+          "log_loss": 0.9801567303059233,
+          "mean_overround": 0.06444218596806038
+        },
+        "prior": {
+          "accuracy": 0.3894736842105263,
+          "brier": 0.6587929270626524,
+          "log_loss": 1.0863057700766834,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 380,
+      "population": 380,
+      "prior_probabilities": [
+        0.3280770915462111,
+        0.26325010950503724,
+        0.40867279894875164
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-23",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 380
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 380,
+      "prior_probabilities": [
+        0.3280770915462111,
+        0.26325010950503724,
+        0.40867279894875164
+      ],
+      "season": 2025,
+      "test_end": "2026-05-24",
+      "test_start": "2025-08-23",
+      "training_end": "2025-05-25",
+      "training_rows": 2280
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "a49d541a991ec7437b854251cb4c981407e7999736231e608a41912fa5306f36",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.58,
+          "brier": 0.5367873429333823,
+          "log_loss": 0.9174985179007371,
+          "mean_overround": 0.05665968842416925
+        },
+        "pre_close": {
+          "accuracy": 0.56,
+          "brier": 0.5371726739343092,
+          "log_loss": 0.9210572811686137,
+          "mean_overround": 0.05427649875087255
+        },
+        "prior": {
+          "accuracy": 0.44,
+          "brier": 0.6400074793039452,
+          "log_loss": 1.057098744462287,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 50,
+      "population": 50,
+      "prior_probabilities": [
+        0.3312054074352234,
+        0.26286143447239957,
+        0.405933158092377
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-22",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "a49d541a991ec7437b854251cb4c981407e7999736231e608a41912fa5306f36",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.58,
+          "brier": 0.5370092139613049,
+          "log_loss": 0.9178430385092533,
+          "mean_overround": 0.06206889518015856
+        },
+        "pre_close": {
+          "accuracy": 0.56,
+          "brier": 0.5353850459555798,
+          "log_loss": 0.9181058677107083,
+          "mean_overround": 0.06398021329480427
+        },
+        "prior": {
+          "accuracy": 0.44,
+          "brier": 0.6400074793039452,
+          "log_loss": 1.057098744462287,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 50,
+      "population": 50,
+      "prior_probabilities": [
+        0.3312054074352234,
+        0.26286143447239957,
+        0.405933158092377
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-22",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "SA",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 50
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 50,
+      "prior_probabilities": [
+        0.3312054074352234,
+        0.26286143447239957,
+        0.405933158092377
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-22",
+      "training_end": "2026-05-24",
+      "training_rows": 2660
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "2d56cf5d3e10878a301b5228cfbfa20f673880333b883990dce10cb678b0caa8",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5522875816993464,
+          "brier": 0.5654975578940552,
+          "log_loss": 0.9570114156041375,
+          "mean_overround": 0.056475860641505775
+        },
+        "pre_close": {
+          "accuracy": 0.5424836601307189,
+          "brier": 0.5676081516310449,
+          "log_loss": 0.960105547359905,
+          "mean_overround": 0.05512303664390079
+        },
+        "prior": {
+          "accuracy": 0.4673202614379085,
+          "brier": 0.6368416378575608,
+          "log_loss": 1.0535115311118142,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.3269675925925926,
+        0.2552083333333333,
+        0.41782407407407407
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1725
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "2d56cf5d3e10878a301b5228cfbfa20f673880333b883990dce10cb678b0caa8",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5522875816993464,
+          "brier": 0.5646912452876773,
+          "log_loss": 0.9555950823587812,
+          "mean_overround": 0.04815963115502561
+        },
+        "pre_close": {
+          "accuracy": 0.5392156862745098,
+          "brier": 0.5667764097039989,
+          "log_loss": 0.958421196888598,
+          "mean_overround": 0.05050100725733437
+        },
+        "prior": {
+          "accuracy": 0.4673202614379085,
+          "brier": 0.6368416378575608,
+          "log_loss": 1.0535115311118142,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.3269675925925926,
+        0.2552083333333333,
+        0.41782407407407407
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1725
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "2d56cf5d3e10878a301b5228cfbfa20f673880333b883990dce10cb678b0caa8",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5555555555555556,
+          "brier": 0.5643022103636061,
+          "log_loss": 0.9550431645121881,
+          "mean_overround": 0.03043929229415303
+        },
+        "pre_close": {
+          "accuracy": 0.5424836601307189,
+          "brier": 0.5668060343646937,
+          "log_loss": 0.9584908428799831,
+          "mean_overround": 0.03687891352694086
+        },
+        "prior": {
+          "accuracy": 0.4673202614379085,
+          "brier": 0.6368416378575608,
+          "log_loss": 1.0535115311118142,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.3269675925925926,
+        0.2552083333333333,
+        0.41782407407407407
+      ],
+      "season": 2024,
+      "test_end": "2025-05-17",
+      "test_start": "2024-08-16",
+      "training_end": "2024-05-19",
+      "training_rows": 1725
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "50320a3f5cf67aa32f14b79d24b19df5c6da203d6953fa59ef9bc4e24af8acd5",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5424836601307189,
+          "brier": 0.5820163215835285,
+          "log_loss": 0.9755853570772123,
+          "mean_overround": 0.056196417200541984
+        },
+        "pre_close": {
+          "accuracy": 0.5392156862745098,
+          "brier": 0.5800228777624866,
+          "log_loss": 0.9729173931408357,
+          "mean_overround": 0.05630472153142585
+        },
+        "prior": {
+          "accuracy": 0.46078431372549017,
+          "brier": 0.6434756004309411,
+          "log_loss": 1.0648014276427848,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.3274336283185841,
+        0.2472959685349066,
+        0.4252704031465093
+      ],
+      "season": 2025,
+      "test_end": "2026-05-17",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-17",
+      "training_rows": 2031
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "50320a3f5cf67aa32f14b79d24b19df5c6da203d6953fa59ef9bc4e24af8acd5",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.5392156862745098,
+          "brier": 0.5820444303123221,
+          "log_loss": 0.975483157916777,
+          "mean_overround": 0.06264328858524582
+        },
+        "pre_close": {
+          "accuracy": 0.5392156862745098,
+          "brier": 0.5803075005007479,
+          "log_loss": 0.9732055818421839,
+          "mean_overround": 0.06688492272879308
+        },
+        "prior": {
+          "accuracy": 0.46078431372549017,
+          "brier": 0.6434756004309411,
+          "log_loss": 1.0648014276427848,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 306,
+      "population": 306,
+      "prior_probabilities": [
+        0.3274336283185841,
+        0.2472959685349066,
+        0.4252704031465093
+      ],
+      "season": 2025,
+      "test_end": "2026-05-17",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-17",
+      "training_rows": 2031
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 306
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 306,
+      "prior_probabilities": [
+        0.3274336283185841,
+        0.2472959685349066,
+        0.4252704031465093
+      ],
+      "season": 2025,
+      "test_end": "2026-05-17",
+      "test_start": "2025-08-15",
+      "training_end": "2025-05-17",
+      "training_rows": 2031
+    },
+    {
+      "book": "bet365",
+      "cohort_sha256": "808deeade9b49737ec97d5ebf9f9573c4d5fc15b9d082e9ac0066861c08c6abd",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.4666666666666667,
+          "brier": 0.6194369112193706,
+          "log_loss": 1.0344157263957827,
+          "mean_overround": 0.05656953666716673
+        },
+        "pre_close": {
+          "accuracy": 0.4888888888888889,
+          "brier": 0.6255191433616928,
+          "log_loss": 1.0437099117942947,
+          "mean_overround": 0.05469448434248057
+        },
+        "prior": {
+          "accuracy": 0.4,
+          "brier": 0.6625451092117759,
+          "log_loss": 1.0931437223266651,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 45,
+      "population": 45,
+      "prior_probabilities": [
+        0.3230769230769231,
+        0.24700854700854702,
+        0.42991452991452994
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-17",
+      "training_rows": 2337
+    },
+    {
+      "book": "average",
+      "cohort_sha256": "808deeade9b49737ec97d5ebf9f9573c4d5fc15b9d082e9ac0066861c08c6abd",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 0
+      },
+      "metrics": {
+        "closing": {
+          "accuracy": 0.4666666666666667,
+          "brier": 0.6176148080224503,
+          "log_loss": 1.0309863275014461,
+          "mean_overround": 0.06210114109822482
+        },
+        "pre_close": {
+          "accuracy": 0.4888888888888889,
+          "brier": 0.6240086086627211,
+          "log_loss": 1.0405711217140523,
+          "mean_overround": 0.06678042652798347
+        },
+        "prior": {
+          "accuracy": 0.4,
+          "brier": 0.6625451092117759,
+          "log_loss": 1.0931437223266651,
+          "mean_overround": null
+        }
+      },
+      "paired_matches": 45,
+      "population": 45,
+      "prior_probabilities": [
+        0.3230769230769231,
+        0.24700854700854702,
+        0.42991452991452994
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-17",
+      "training_rows": 2337
+    },
+    {
+      "book": "pinnacle",
+      "cohort_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "competition": "FL1",
+      "excluded": {
+        "incomplete_both": 0,
+        "incomplete_closing": 0,
+        "incomplete_pre_close": 0,
+        "provider_stale_warning": 45
+      },
+      "metrics": {
+        "closing": null,
+        "pre_close": null,
+        "prior": null
+      },
+      "paired_matches": 0,
+      "population": 45,
+      "prior_probabilities": [
+        0.3230769230769231,
+        0.24700854700854702,
+        0.42991452991452994
+      ],
+      "season": 2026,
+      "test_end": "2026-09-20",
+      "test_start": "2026-08-21",
+      "training_end": "2026-05-17",
+      "training_rows": 2337
+    }
+  ],
+  "run_id": "3b195f19ca87b4f7af6e",
+  "schema": "SoccerAnalytics.MarketReference.v1",
+  "scope": "五大联赛 2024/25、2025/26 与归档中已有的 2026/27 比赛。每个联赛、赛季、报价来源使用同时具备两个阶段完整主平客赔率的相同比赛。",
+  "source": {
+    "input_sha256": "b0c19fd98b282e16690016672eaf21b2bcd040dcdcab7c33e8db81078fcdc826",
+    "notes_url": "https://www.football-data.co.uk/notes.txt",
+    "provider": "football-data.co.uk",
+    "snapshot_retrieved_at": "2026-10-09T00:47:27.087307+00:00",
+    "warning_url": "https://www.football-data.co.uk/data.php"
+  }
+}

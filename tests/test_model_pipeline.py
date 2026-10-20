@@ -1,14 +1,19 @@
 from __future__ import annotations
 
-
-import pickle
 import hashlib
+import pickle
 import stat
+import subprocess
+import sys
 import tempfile
 import unittest
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import patch
+from types import SimpleNamespace
+from unittest.mock import patch, Mock
 
+from app import pipeline
 from app.ml import artifacts
 from app.ml.artifacts import (
     MODEL_SCHEMA_VERSION,
@@ -20,7 +25,13 @@ from app.ml.artifacts import (
     save_model_bundle,
     validate_model_bundle,
 )
+from app.ml.feature_engineering import FeatureDataset, FeatureEngineer
+from app.ml.forecast_identity import forecast_id_for_prediction
 from app.ml.model import XGBoostClassifier
+from app.ml.prediction import PredictionEngine, PredictionError
+from app.ml.training import ModelTrainer, TrainingError
+
+from tests.support import ContractTestCase
 
 
 class ExplodingEstimator:
@@ -75,23 +86,60 @@ def valid_bundle(**overrides):
     return ModelBundle(**values)
 
 
-class TestModelArtifacts(unittest.TestCase):
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+class TestModelArtifacts(ContractTestCase):
+    def test_foreign_owned_file_is_rejected_before_unpickling(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pl.bundle"
+            save_model_bundle(valid_bundle(), path)
+            status = path.stat()
+            foreign = SimpleNamespace(st_mode=status.st_mode, st_uid=status.st_uid + 1)
+            with patch.object(artifacts.os, "fstat", return_value=foreign), patch.object(artifacts.pickle, "loads") as loads:
+                with self.assertRaises(ModelArtifactError):
+                    load_model_bundle(path)
+                loads.assert_not_called()
+
+    def test_unsafe_storage_is_rejected_before_unpickling(self):
+        for unsafe in ["file_permissions", "directory_permissions", "symlink", "fifo"]:
+            with self.subTest(unsafe=unsafe), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / "pl.bundle"
+                save_model_bundle(valid_bundle(), path)
+                if unsafe == "file_permissions":
+                    path.chmod(0o666)
+                elif unsafe == "directory_permissions":
+                    path.parent.chmod(0o777)
+                elif unsafe == "symlink":
+                    original = path.with_suffix(".original")
+                    path.rename(original)
+                    path.symlink_to(original)
+                else:
+                    path.unlink()
+                    artifacts.os.mkfifo(path)
+                try:
+                    with patch.object(artifacts.pickle, "loads") as loads:
+                        with self.assertRaises(ModelArtifactError):
+                            load_model_bundle(path)
+                        loads.assert_not_called()
+                finally:
+                    path.parent.chmod(0o700)
+
+    def test_unsafe_active_bundle_still_recovers_from_private_previous(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pl.bundle"
+            save_model_bundle(valid_bundle(training_rows=100), path)
+            save_model_bundle(valid_bundle(training_rows=120), path)
+            path.chmod(0o666)
+            result = load_model_bundle_with_fallback(path)
+            self.assertTrue(result.recovered_from_previous)
+            self.assertEqual(result.bundle.training_rows, 100)
+
 
     def test_fallback_and_versioning_contracts(self):
         self._run_contracts(
             (
                 "_check_team_state_after_training_time_is_rejected_and_recovers",
-                "_check_invalid_team_state_in_active_bundle_recovers_from_previous",
+                "_check_invalid_active_bundles_recover_from_previous",
                 "_check_inference_invalid_active_xgboost_recovers_from_previous",
                 "_check_second_save_keeps_first_valid_bundle_as_previous_version",
-                "_check_corrupt_active_bundle_recovers_explicitly_from_previous_version",
-                "_check_semantically_malformed_active_bundle_also_recovers_from_previous",
-                "_check_invalid_default_keys_in_active_bundle_trigger_previous_fallback",
-                "_check_runtime_error_during_unpickle_triggers_previous_fallback",
             )
         )
 
@@ -144,36 +192,6 @@ class TestModelArtifacts(unittest.TestCase):
                     Path(temp_dir) / "invalid.bundle",
                 )
 
-    def _check_invalid_team_state_in_active_bundle_recovers_from_previous(self):
-        corruptions = (
-            {"57": {"elo": "bad"}},
-            {"57": {"recent": "bad"}},
-            {"57": {"matches_played": True}},
-            {
-                "57": {
-                    "elo": 1500.0,
-                    "matches_played": 1,
-                    "last_match_at": 0,
-                    "recent": [],
-                }
-            },
-            {"not-a-team-id": {}},
-        )
-        for team_states in corruptions:
-            with self.subTest(team_states=team_states), tempfile.TemporaryDirectory() as temp_dir:
-                path = Path(temp_dir) / "pl.bundle"
-                save_model_bundle(valid_bundle(training_rows=100), path)
-                save_model_bundle(valid_bundle(training_rows=120), path)
-                path.write_bytes(
-                    pickle.dumps(
-                        valid_bundle(team_states=team_states, training_rows=140)
-                    )
-                )
-
-                loaded = load_model_bundle_with_fallback(path)
-
-                self.assertTrue(loaded.recovered_from_previous)
-                self.assertEqual(loaded.bundle.training_rows, 100)
 
     def _check_inference_invalid_active_xgboost_recovers_from_previous(self):
         rows = [
@@ -226,89 +244,6 @@ class TestModelArtifacts(unittest.TestCase):
         self.assertEqual(active.training_rows, 120)
         self.assertEqual(previous.training_rows, 100)
 
-    def _check_corrupt_active_bundle_recovers_explicitly_from_previous_version(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "pl.bundle"
-            save_model_bundle(
-                valid_bundle(
-                    trained_at="2026-08-09T07:00:00+00:00",
-                    training_rows=100,
-                ),
-                path,
-            )
-            save_model_bundle(
-                valid_bundle(
-                    trained_at="2026-08-10T07:00:00+00:00",
-                    training_rows=120,
-                ),
-                path,
-            )
-            path.write_bytes(b"corrupt-active")
-
-            loaded = load_model_bundle_with_fallback(path)
-            expected_digest = hashlib.sha256(
-                loaded.source_path.read_bytes()
-            ).hexdigest()
-
-        self.assertTrue(loaded.recovered_from_previous)
-        self.assertEqual(loaded.bundle.training_rows, 100)
-        self.assertEqual(loaded.source_path.name, "pl.previous.bundle")
-        self.assertEqual(
-            loaded.artifact_sha256,
-            expected_digest,
-        )
-
-    def _check_semantically_malformed_active_bundle_also_recovers_from_previous(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "pl.bundle"
-            save_model_bundle(
-                valid_bundle(training_rows=100),
-                path,
-            )
-            save_model_bundle(
-                valid_bundle(training_rows=120),
-                path,
-            )
-            path.write_bytes(
-                pickle.dumps(
-                    valid_bundle(
-                        feature_names=42,
-                        feature_defaults={},
-                        training_rows=140,
-                    )
-                )
-            )
-
-            loaded = load_model_bundle_with_fallback(path)
-
-        self.assertTrue(loaded.recovered_from_previous)
-        self.assertEqual(loaded.bundle.training_rows, 100)
-
-    def _check_invalid_default_keys_in_active_bundle_trigger_previous_fallback(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "pl.bundle"
-            save_model_bundle(valid_bundle(training_rows=100), path)
-            save_model_bundle(valid_bundle(training_rows=120), path)
-            malformed = valid_bundle(training_rows=140)
-            malformed.feature_defaults[7] = 0.0
-            path.write_bytes(pickle.dumps(malformed))
-
-            loaded = load_model_bundle_with_fallback(path)
-
-        self.assertTrue(loaded.recovered_from_previous)
-        self.assertEqual(loaded.bundle.training_rows, 100)
-
-    def _check_runtime_error_during_unpickle_triggers_previous_fallback(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "pl.bundle"
-            save_model_bundle(valid_bundle(training_rows=100), path)
-            save_model_bundle(valid_bundle(training_rows=120), path)
-            path.write_bytes(pickle.dumps(ExplodingUnpicklePayload()))
-
-            loaded = load_model_bundle_with_fallback(path)
-
-        self.assertTrue(loaded.recovered_from_previous)
-        self.assertEqual(loaded.bundle.training_rows, 100)
 
     def _check_round_trip_preserves_self_describing_bundle(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -384,6 +319,7 @@ class TestModelArtifacts(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "incomplete.bundle"
             path.write_bytes(pickle.dumps(bundle))
+            path.chmod(0o600)
             with self.assertRaises(ModelArtifactError) as context:
                 load_model_bundle(path)
         self.assertIn("不兼容", str(context.exception))
@@ -401,6 +337,7 @@ class TestModelArtifacts(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "legacy.bundle"
             path.write_bytes(pickle.dumps(FakeEstimator()))
+            path.chmod(0o600)
 
             with self.assertRaises(ModelArtifactError) as context:
                 load_model_bundle(path)
@@ -412,6 +349,7 @@ class TestModelArtifacts(unittest.TestCase):
             missing = Path(temp_dir) / "missing.bundle"
             corrupt = Path(temp_dir) / "corrupt.bundle"
             corrupt.write_bytes(b"not-a-pickle")
+            corrupt.chmod(0o600)
 
             with self.assertRaises(ModelArtifactError) as missing_context:
                 load_model_bundle(missing)
@@ -421,17 +359,52 @@ class TestModelArtifacts(unittest.TestCase):
         self.assertIn("不存在", str(missing_context.exception))
         self.assertIn("无法读取", str(corrupt_context.exception))
 
-
-import tempfile
-import unittest
-from datetime import UTC, datetime, timedelta, timezone
-from pathlib import Path
-
-from app.ml.artifacts import ModelBundle, load_model_bundle, save_model_bundle
-from app.ml.feature_engineering import FeatureEngineer
-from app.ml.forecast_identity import forecast_id_for_prediction
-from app.ml.prediction import PredictionEngine, PredictionError
-from app.ml.training import ModelTrainer, TrainingError
+    def _check_invalid_active_bundles_recover_from_previous(self):
+        invalid_defaults = valid_bundle(training_rows=140)
+        invalid_defaults.feature_defaults[7] = 0.0
+        cases = [
+            ("corrupt bytes", b"corrupt-active"),
+            (
+                "invalid feature schema",
+                pickle.dumps(valid_bundle(
+                    feature_names=42, feature_defaults={}, training_rows=140,
+                )),
+            ),
+            ("non-string default key", pickle.dumps(invalid_defaults)),
+            ("unpickle hook failure", pickle.dumps(ExplodingUnpicklePayload())),
+        ]
+        for label, team_states in (
+            ("non-numeric elo", {"57": {"elo": "bad"}}),
+            ("invalid recent form", {"57": {"recent": "bad"}}),
+            ("boolean appearance count", {"57": {"matches_played": True}}),
+            (
+                "invalid timestamp",
+                {"57": {
+                    "elo": 1500.0, "matches_played": 1,
+                    "last_match_at": 0, "recent": [],
+                }},
+            ),
+            ("invalid team id", {"not-a-team-id": {}}),
+        ):
+            cases.append((label, pickle.dumps(valid_bundle(
+                team_states=team_states, training_rows=140,
+            ))))
+        for label, content in cases:
+            with self.subTest(corruption=label), tempfile.TemporaryDirectory() as temporary:
+                path = Path(temporary) / "pl.bundle"
+                save_model_bundle(valid_bundle(
+                    trained_at="2026-08-09T07:00:00+00:00", training_rows=100,
+                ), path)
+                save_model_bundle(valid_bundle(training_rows=120), path)
+                path.write_bytes(content)
+                loaded = load_model_bundle_with_fallback(path)
+                self.assertTrue(loaded.recovered_from_previous)
+                self.assertEqual(loaded.bundle.training_rows, 100)
+                self.assertEqual(loaded.source_path.name, "pl.previous.bundle")
+                self.assertEqual(
+                    loaded.artifact_sha256,
+                    hashlib.sha256(loaded.source_path.read_bytes()).hexdigest(),
+                )
 
 
 def historical_match(match_id, kickoff, home_id, away_id, outcome):
@@ -520,9 +493,9 @@ class TrackingXGBoostEstimator(XGBoostClassifier):
     def __init__(self, feature_names):
         super().__init__(feature_names)
 
-    def fit(self, rows, targets):
+    def fit(self, rows, targets, *, kickoffs=()):
         type(self).fit_sizes.append(len(rows))
-        return super().fit(rows, targets)
+        return super().fit(rows, targets, kickoffs=kickoffs)
 
 
 class FixedEstimator:
@@ -586,17 +559,70 @@ class ShiftedFeatureEngineer(FeatureEngineer):
         return values
 
 
-class TestModelTrainer(unittest.TestCase):
+class TestModelTrainer(ContractTestCase):
+    def test_final_holdout_is_never_read_by_development_backtests(self):
+        rows = tuple({"audit_row": float(index)} for index in range(30))
+        # Nominal split 24 falls inside the four-fixture kickoff bucket 22..25.
+        kickoffs = tuple(
+            f"2025-01-{(12 if 22 <= index <= 25 else index // 2 + 1):02d}T12:00:00+00:00"
+            for index in range(30)
+        )
+        dataset = FeatureDataset(rows, (2,) * 30, tuple(range(1, 31)), {}, {"audit_row": 14.5}, kickoffs)
+        phases = []
+
+        class StaticFeatures:
+            features = ("audit_row",)
+
+            def build_training_dataset(self, matches):
+                return dataset
+
+        class ObservableEstimator(XGBoostClassifier):
+            def __init__(self, features):
+                super().__init__(features, rounds=2)
+                self.fitted = set()
+                self.scored = set()
+                phases.append(self)
+
+            def fit(self, examples, targets, *, kickoffs=()):
+                self.fitted = {int(row["audit_row"]) for row in examples}
+                self.kickoffs = tuple(kickoffs)
+                return self
+
+            def predict_proba(self, examples):
+                self.scored.update(int(row["audit_row"]) for row in examples)
+                return [[0.05, 0.05, 0.9] for _ in examples]
+
+            def predict(self, examples):
+                self.scored.update(int(row["audit_row"]) for row in examples)
+                return [2 for _ in examples]
+
+        trainer = ModelTrainer(
+            client=FakeClient(), feature_engineer=StaticFeatures(),
+            model_factory=ObservableEstimator, minimum_matches=12,
+        )
+        bundle = trainer.train_competition("PL", 2021, ["2025"], save=False)
+        self.assertEqual(len(phases), 5)
+        for fold in phases[:3]:
+            self.assertTrue(fold.fitted | fold.scored <= set(range(22)))
+            self.assertLess(max(fold.fitted), min(fold.scored))
+        self.assertEqual(set.union(*(fold.scored for fold in phases[:3])), set(range(10, 22)))
+        self.assertEqual(phases[3].fitted, set(range(22)))
+        self.assertEqual(phases[3].scored, set(range(22, 30)))
+        self.assertEqual(phases[4].fitted, set(range(30)))
+        for phase in phases:
+            self.assertEqual(phase.kickoffs, tuple(kickoffs[i] for i in sorted(phase.fitted)))
+        self.assertEqual(bundle.metrics["validation_rows"], 8)
+
     def test_training_lifecycle_and_quality_gates(self):
-        for name in (
-            "_check_training_rejects_worst_class_calibration",
-            "_check_training_rejects_temporally_unstable_fold",
-            "_check_training_uses_temporal_holdout_then_refits_all_rows",
-            "_check_real_training_saves_loadable_self_describing_bundle",
-            "_check_training_rejects_insufficient_history",
-        ):
-            with self.subTest(contract=name):
-                getattr(self, name)()
+        self._run_contracts(
+            (
+                '_check_training_rejects_worst_class_calibration',
+                '_check_training_rejects_temporally_unstable_fold',
+                '_check_training_uses_temporal_holdout_then_refits_all_rows',
+                '_check_real_training_saves_loadable_self_describing_bundle',
+                '_check_training_rejects_insufficient_history',
+            )
+        )
 
     def _check_training_rejects_worst_class_calibration(self):
         trainer = ModelTrainer(
@@ -640,7 +666,7 @@ class TestModelTrainer(unittest.TestCase):
 
         bundle = trainer.train_competition("pl", 2021, ["2025"], save=False)
 
-        self.assertEqual(TrackingXGBoostEstimator.fit_sizes, [22, 30, 38, 36, 45])
+        self.assertEqual(TrackingXGBoostEstimator.fit_sizes, [18, 24, 30, 36, 45])
         self.assertEqual(bundle.competition_code, "PL")
         self.assertEqual(bundle.training_rows, 45)
         self.assertEqual(bundle.classes, ("L", "D", "W"))
@@ -650,7 +676,7 @@ class TestModelTrainer(unittest.TestCase):
         self.assertIn("elo_baseline_accuracy", bundle.metrics)
         self.assertIn("majority_baseline_accuracy", bundle.metrics)
         self.assertEqual(bundle.metrics["backtest_folds"], 3)
-        self.assertEqual(bundle.metrics["backtest_rows"], 23)
+        self.assertEqual(bundle.metrics["backtest_rows"], 18)
         self.assertIn("backtest_calibration_error", bundle.metrics)
         self.assertGreaterEqual(
             bundle.metrics["backtest_baseline_accuracy"],
@@ -668,6 +694,9 @@ class TestModelTrainer(unittest.TestCase):
         self.assertIn("backtest_accuracy_lift_stddev", bundle.metrics)
         self.assertEqual(len(bundle.metrics["backtest_reliability"]), 3)
         self.assertEqual(len(bundle.metrics["backtest_fold_metrics"]), 3)
+        for fold in bundle.metrics['backtest_fold_metrics']:
+            self.assertIsInstance(fold['runtime'], dict)
+            self.assertGreaterEqual(fold['runtime']['fit_seconds'], 0)
         self.assertEqual(client.history_calls, [("PL", "2025", "FINISHED")])
 
     def _check_real_training_saves_loadable_self_describing_bundle(self):
@@ -700,8 +729,29 @@ class TestModelTrainer(unittest.TestCase):
             trainer.train_competition("PL", 2021, ["2025"], save=False)
         self.assertIn("至少", str(context.exception))
 
+        trainer = ModelTrainer(
+            client=FakeClient({"2025": season_matches(12)}), minimum_matches=12,
+            holdout_fraction=0.5, backtest_folds=5,
+        )
+        with self.assertRaises(TrainingError) as context:
+            trainer.train_competition("PL", 2021, ["2025"], save=False)
+        self.assertIn("开发集", str(context.exception))
 
-class TestPredictionEngine(unittest.TestCase):
+
+class TestPredictionEngine(ContractTestCase):
+    def test_provider_mismatch_rejects_predictions(self):
+        client = FakeClient(scheduled=[scheduled_match()])
+        client.source_name = "openfootball"
+        bundle = self.make_bundle()
+        bundle.metrics["data_source"] = "football-data.co.uk"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(bundle, models_dir / "pl.bundle")
+            engine = PredictionEngine(models_dir=models_dir, client=client)
+            with self.assertRaises(PredictionError) as context:
+                engine.predict_competition("PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC))
+        self.assertEqual(context.exception.code, "DATA_SOURCE_MISMATCH")
+
     def test_only_future_unstarted_fixtures_in_the_requested_utc_days_are_predicted(self):
         fixtures = []
         for index, (status, kickoff) in enumerate((
@@ -723,10 +773,6 @@ class TestPredictionEngine(unittest.TestCase):
             )
         self.assertEqual([item["match_id"] for item in predictions], [1, 2])
 
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
 
     def test_prediction_integrity_and_explanation_contracts(self):
         self._run_contracts(
@@ -1001,6 +1047,15 @@ class TestPredictionEngine(unittest.TestCase):
         self.assertEqual(explanation["predicted_vs_runner_up"], "HOME_WIN vs DRAW")
         self.assertEqual(explanation["top_drivers"][0]["feature"], "home_advantage")
         self.assertEqual(explanation["top_drivers"][0]["direction"], "supports_prediction")
+        self.assertEqual(len(explanation['drivers']), len(engineer.features))
+        self.assertEqual(explanation['output_scale'], 'raw_margin')
+        self.assertEqual(explanation['feature_dependence'], 'native_tree_path_dependent')
+        self.assertAlmostEqual(explanation['bias_contribution']
+                               + sum(r['contribution'] for r in explanation['top_drivers'])
+                               + explanation['omitted_contribution'], explanation['logit_margin'], places=5)
+        self.assertAlmostEqual(explanation['bias_contribution']
+                               + sum(r['contribution'] for r in explanation['drivers']),
+                               explanation['logit_margin'], places=5)
 
     def _check_prediction_rejects_feature_schema_mismatch(self):
         client = FakeClient(scheduled=[scheduled_match()])
@@ -1059,17 +1114,6 @@ class TestPredictionEngine(unittest.TestCase):
         self.assertEqual(run.predictions[0]["competition"], "SA")
         self.assertEqual(run.errors[0]["competition"], "PL")
         self.assertEqual(run.errors[0]["code"], "UNEXPECTED_PREDICTION_ERROR")
-
-
-import subprocess
-import sys
-import unittest
-from dataclasses import dataclass
-from pathlib import Path
-from types import SimpleNamespace
-from unittest.mock import Mock, patch
-
-from app import pipeline
 
 
 @dataclass

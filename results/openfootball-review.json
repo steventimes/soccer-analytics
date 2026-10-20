@@ -1,0 +1,347 @@
+{
+  "code_sha256": {
+    "app/data_service/fetch/public.py": "851adad4a2b6690af0c6721cc1bc6fadd3367182cd584186acdbcb3a342e9124",
+    "app/data_service/history.py": "19f27fddf85c6657a1e8e78a0db55184f60a8ef47ccb7380ee0b29505d21a195"
+  },
+  "committed_at": "2026-09-22T09:33:49Z",
+  "comparison_aliases": [
+    {
+      "football_csv": "Troyes",
+      "openfootball": "ES Troyes AC"
+    },
+    {
+      "football_csv": "Elversberg",
+      "openfootball": "SV 07 Elversberg"
+    },
+    {
+      "football_csv": "Frosinone",
+      "openfootball": "Frosinone Calcio"
+    },
+    {
+      "football_csv": "Santander",
+      "openfootball": "Real Racing Club de Santander"
+    },
+    {
+      "football_csv": "La Coruna",
+      "openfootball": "RC Deportivo La Coruña"
+    }
+  ],
+  "counts": {
+    "completed": 470,
+    "fixtures": 2916,
+    "half_time_pairs": 441,
+    "rounds_preserved": 2916
+  },
+  "coverage": {
+    "champions_league_source": {
+      "2026_27_directory_present": false,
+      "committed_at": "2026-07-02T15:56:11Z",
+      "repository": "https://github.com/openfootball/champions-league",
+      "revision": "abfaeddc2ee3d14f99ecc163c9ddb46cb4d67cef",
+      "season_directories": [
+        "2011-12",
+        "2012-13",
+        "2013-14",
+        "2014-15",
+        "2015-16",
+        "2016-17",
+        "2017-18",
+        "2018-19",
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26"
+      ]
+    },
+    "football_json": {
+      "champions_league_json_present": false,
+      "current_season_files": [
+        "de.1.json",
+        "en.1.json",
+        "en.2.json",
+        "es.1.json",
+        "fr.1.json",
+        "it.1.json",
+        "nl.1.json",
+        "pt.1.json"
+      ],
+      "revision": "e6744429ee395bc86f247348c6184bb08d4eb361"
+    },
+    "receipts": [
+      {
+        "bytes": 36034,
+        "observed_at": "2026-10-18T00:26:23.924319+00:00",
+        "sha256": "1c846bd7d2492d835fcc006a4fa051ce00d6d5339d7d37c5e062fc63f5136b9e",
+        "url": "https://api.github.com/repos/openfootball/champions-league/commits/master"
+      },
+      {
+        "bytes": 8169,
+        "observed_at": "2026-10-18T00:26:24.148844+00:00",
+        "sha256": "24cf343eaa2bf2f7de4a4f4a5463fd581b18796cd3ef092561aaadaa8769bfb8",
+        "url": "https://api.github.com/repos/openfootball/football.json/contents/2026-27?ref=e6744429ee395bc86f247348c6184bb08d4eb361"
+      },
+      {
+        "bytes": 16954,
+        "observed_at": "2026-10-18T00:26:24.430822+00:00",
+        "sha256": "d4f69d2343c3a99848ec90d6c66e512755da8924898d97b0e6b4f4ce427e9030",
+        "url": "https://api.github.com/repos/openfootball/champions-league/contents?ref=abfaeddc2ee3d14f99ecc163c9ddb46cb4d67cef"
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "bytes": 55359,
+      "observed_at": "2026-10-18T00:31:17.983015+00:00",
+      "sha256": "bb91f0ab3e8359df163bb9ec98549bfed85e200dd4c32f3bd606b5890d932dd2",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/en.1.json"
+    },
+    {
+      "bytes": 39943,
+      "observed_at": "2026-10-18T00:31:18.088183+00:00",
+      "sha256": "f875275f835e378fc8c4e7d48c7a2f327e7d426237bd057fe652fd47f30b5a4f",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/fr.1.json"
+    },
+    {
+      "bytes": 40409,
+      "observed_at": "2026-10-18T00:31:18.217862+00:00",
+      "sha256": "07fab65d4a1de8ce4c8472da9ccf4d1d2b145ecd5abdc5b6d4250a5c119d7681",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/de.1.json"
+    },
+    {
+      "bytes": 47608,
+      "observed_at": "2026-10-18T00:31:18.320870+00:00",
+      "sha256": "721a6c220fecb8208287e41401fa2fce652cd23765ce58a39bf98cdaa3d528ad",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/it.1.json"
+    },
+    {
+      "bytes": 50771,
+      "observed_at": "2026-10-18T00:31:18.473723+00:00",
+      "sha256": "4b1a9906e3f2b279a1f25497a38f2f58e21ec19ea726b882fa646da7c07bc0e0",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/es.1.json"
+    },
+    {
+      "bytes": 77132,
+      "observed_at": "2026-10-18T00:31:18.665271+00:00",
+      "sha256": "869f91d6f0c3d48e50c3a7c05d5a220e309077c47ff48a15f3848b78bc346d45",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/en.2.json"
+    },
+    {
+      "bytes": 41499,
+      "observed_at": "2026-10-18T00:31:18.866225+00:00",
+      "sha256": "970507a228aa4ccd2968d52a9862b0d2844148bc548bc7ffe5e83d1c0d8f0517",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/nl.1.json"
+    },
+    {
+      "bytes": 41380,
+      "observed_at": "2026-10-18T00:31:18.989882+00:00",
+      "sha256": "57cac2d6caab5a303d0b846ce523462b4571da10766a128ac0a5102bd0182e7e",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/pt.1.json"
+    }
+  ],
+  "leagues": [
+    {
+      "competition": "PL",
+      "cross_provider_comparison": {
+        "date_conflicts": 0,
+        "left_rows": 60,
+        "matched": 50,
+        "only_left": 10,
+        "only_right": 0,
+        "right_rows": 50,
+        "score_conflicts": 0
+      },
+      "date_only_unscored": 0,
+      "fixtures": 380,
+      "half_time_pairs": 45,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 380,
+      "statuses": {
+        "FINISHED": 50,
+        "TIMED": 330
+      },
+      "unscored_source_dates_before_observation": 15
+    },
+    {
+      "competition": "FL1",
+      "cross_provider_comparison": {
+        "date_conflicts": 0,
+        "left_rows": 54,
+        "matched": 45,
+        "only_left": 9,
+        "only_right": 0,
+        "right_rows": 45,
+        "score_conflicts": 0
+      },
+      "date_only_unscored": 192,
+      "fixtures": 306,
+      "half_time_pairs": 41,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 306,
+      "statuses": {
+        "FINISHED": 45,
+        "SCHEDULED": 192,
+        "TIMED": 69
+      },
+      "unscored_source_dates_before_observation": 13
+    },
+    {
+      "competition": "BL1",
+      "cross_provider_comparison": {
+        "date_conflicts": 0,
+        "left_rows": 45,
+        "matched": 36,
+        "only_left": 9,
+        "only_right": 0,
+        "right_rows": 36,
+        "score_conflicts": 0
+      },
+      "date_only_unscored": 198,
+      "fixtures": 306,
+      "half_time_pairs": 33,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 306,
+      "statuses": {
+        "FINISHED": 36,
+        "SCHEDULED": 198,
+        "TIMED": 72
+      },
+      "unscored_source_dates_before_observation": 16
+    },
+    {
+      "competition": "SA",
+      "cross_provider_comparison": {
+        "date_conflicts": 0,
+        "left_rows": 60,
+        "matched": 50,
+        "only_left": 10,
+        "only_right": 0,
+        "right_rows": 50,
+        "score_conflicts": 0
+      },
+      "date_only_unscored": 260,
+      "fixtures": 380,
+      "half_time_pairs": 50,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 380,
+      "statuses": {
+        "FINISHED": 50,
+        "SCHEDULED": 260,
+        "TIMED": 70
+      },
+      "unscored_source_dates_before_observation": 14
+    },
+    {
+      "competition": "PD",
+      "cross_provider_comparison": {
+        "date_conflicts": 0,
+        "left_rows": 78,
+        "matched": 69,
+        "only_left": 9,
+        "only_right": 0,
+        "right_rows": 69,
+        "score_conflicts": 0
+      },
+      "date_only_unscored": 290,
+      "fixtures": 380,
+      "half_time_pairs": 64,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 380,
+      "statuses": {
+        "FINISHED": 69,
+        "SCHEDULED": 290,
+        "TIMED": 21
+      },
+      "unscored_source_dates_before_observation": 15
+    },
+    {
+      "competition": "ELC",
+      "cross_provider_comparison": null,
+      "date_only_unscored": 264,
+      "fixtures": 552,
+      "half_time_pairs": 88,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 552,
+      "statuses": {
+        "FINISHED": 95,
+        "SCHEDULED": 264,
+        "TIMED": 193
+      },
+      "unscored_source_dates_before_observation": 36
+    },
+    {
+      "competition": "DED",
+      "cross_provider_comparison": null,
+      "date_only_unscored": 100,
+      "fixtures": 306,
+      "half_time_pairs": 62,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 306,
+      "statuses": {
+        "FINISHED": 63,
+        "SCHEDULED": 100,
+        "TIMED": 143
+      },
+      "unscored_source_dates_before_observation": 13
+    },
+    {
+      "competition": "PPL",
+      "cross_provider_comparison": null,
+      "date_only_unscored": 199,
+      "fixtures": 306,
+      "half_time_pairs": 58,
+      "latest_recorded_result_date": "2026-09-20",
+      "rounds_preserved": 306,
+      "statuses": {
+        "FINISHED": 62,
+        "SCHEDULED": 199,
+        "TIMED": 45
+      },
+      "unscored_source_dates_before_observation": 10
+    }
+  ],
+  "limits": [
+    "Fresh retrieval and daily JSON generation do not establish result freshness or current-day completeness. Latest recorded result dates are reported per league.",
+    "Missing scores do not establish a future or postponed fixture. Unscored past dates are reported; date-only fixtures remain SCHEDULED and excluded from timed-only scheduling.",
+    "OpenFootball JSON 2026/27 catalogue and Champions League source coverage are recorded separately. No current Champions League data is inferred or fabricated.",
+    "Round labels and additional score codes remain provider data. Optional bad half-time values retain full-time fixtures and raw codes with quality flags.",
+    "Season range enumeration uses the existing European July starting-year convention, not a provider-independent calendar guarantee.",
+    "Explicit team aliases affect comparison keys only. Provider IDs and snapshots are not merged; unknown/ambiguous club changes are not guessed.",
+    "All normalized fixtures and historical subsets remain isolated. Existing snapshots, main warehouse, production models and website are unchanged."
+  ],
+  "recorded_at": "2026-10-18",
+  "references": [
+    {
+      "scope": "README schema/update notes and all eight pinned 2026/27 JSON files; no upstream generator/package execution.",
+      "source_number": 67,
+      "url": "https://github.com/openfootball/football.json"
+    }
+  ],
+  "revision": "e6744429ee395bc86f247348c6184bb08d4eb361",
+  "run_id": "d7a96c5d943596ac",
+  "schema": "SoccerAnalytics.OpenFootballReview.v1",
+  "verification": {
+    "cross_provider_matched": 250,
+    "cross_provider_scope": "Five major leagues only; no CSV comparison for ELC/DED/PPL.",
+    "feature_columns": 30,
+    "full_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "log_sha256": "71c204f546da05c7f58adcc4b6c4ab93737b2e713f0f7ab68d1f34bc3e247f58",
+      "passed": 361,
+      "seconds": 34.817,
+      "skipped": 4,
+      "tests": 365
+    },
+    "independent_core_fields": 17496,
+    "independent_half_time_values": 882,
+    "lossless_asset_exports": 24,
+    "main_database_scope": "Stat only; no query/hash/copy.",
+    "native_requests": 8,
+    "pinned_catalogue_blob_hashes_verified": 8,
+    "provider_ids_merged": false,
+    "response_closes": 8,
+    "unchanged_pre_match_feature_rows": 470
+  }
+}

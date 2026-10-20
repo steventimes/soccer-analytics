@@ -3,11 +3,14 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from app.file_io import (
+    json_bytes as _json_bytes,
+    write_json_atomic as _atomic_write_json,
+)
 from app.config import load_settings
 from app.ml.prediction import PredictionEngine, PredictionRun
 from app.web.operations import build_operations_summary
@@ -22,52 +25,6 @@ def _utc(now: datetime | None = None) -> datetime:
     if current.tzinfo is None:
         current = current.replace(tzinfo=UTC)
     return current.astimezone(UTC)
-
-
-def _json_bytes(payload: Mapping[str, Any]) -> bytes:
-    return (
-        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
-    ).encode("utf-8")
-
-
-def _atomic_write_json(path: Path, payload: Mapping[str, Any]) -> None:
-    """同目录落临时文件再替换；失败时旧制品保持原样。"""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="wb",
-            dir=path.parent,
-            prefix=f".{path.name}.",
-            suffix=".tmp",
-            delete=False,
-        ) as handle:
-            temporary_path = Path(handle.name)
-            handle.write(_json_bytes(payload))
-            handle.flush()
-            # 容器以不同 UID 写挂载卷时，让制品归属于输出目录所有者。
-            try:
-                parent = path.parent.stat()
-                os.fchown(handle.fileno(), parent.st_uid, parent.st_gid)
-            except (AttributeError, OSError):
-                pass
-            # 站点制品需要由容器外的静态服务器和审计进程读取。
-            os.fchmod(handle.fileno(), 0o644)
-            os.fsync(handle.fileno())
-        os.replace(temporary_path, path)
-        temporary_path = None
-        # 目录 fsync 让 rename 在突然断电后也具备持久性；不支持时文件原子性仍成立。
-        try:
-            directory_fd = os.open(path.parent, os.O_RDONLY)
-            try:
-                os.fsync(directory_fd)
-            finally:
-                os.close(directory_fd)
-        except OSError:
-            pass
-    finally:
-        if temporary_path is not None:
-            temporary_path.unlink(missing_ok=True)
 
 
 def _artifact_path(path: Path) -> str:
@@ -110,9 +67,15 @@ def _manifest(
             "sha256": hashlib.sha256(raw).hexdigest(),
             "size_bytes": len(raw),
         }
-    ratio = None if competitions_requested == 0 else round(models_loaded / competitions_requested, 4)
-    run_seed = generated_at + "|" + "|".join(
-        artifacts[name]["sha256"] for name in sorted(artifacts)
+    ratio = (
+        None
+        if competitions_requested == 0
+        else round(models_loaded / competitions_requested, 4)
+    )
+    run_seed = (
+        generated_at
+        + "|"
+        + "|".join(artifacts[name]["sha256"] for name in sorted(artifacts))
     )
     return {
         "schema": "SoccerAnalytics.SiteManifest.v3",
@@ -160,7 +123,9 @@ def export_site_data(
     )
     if prediction_run is not None and now is None:
         try:
-            active_now = _utc(datetime.fromisoformat(run.generated_at.replace("Z", "+00:00")))
+            active_now = _utc(
+                datetime.fromisoformat(run.generated_at.replace("Z", "+00:00"))
+            )
         except ValueError:
             pass
     generated_at = active_now.isoformat()

@@ -16,10 +16,24 @@ venv/
 .env
 
 # Generated Data
+.tmp/
+data/
+archive/
+matches/
 log/
 models/
+*.sqlite3
+*.sqlite3-*
 *.joblib
 *.pkl
 
 # System
 .DS_Store
+
+# Local checks and browser tooling
+tests/
+scripts/
+node_modules/
+.pytest_cache/
+.ruff_cache/
+output/

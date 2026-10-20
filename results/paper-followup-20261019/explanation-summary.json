@@ -1,0 +1,2864 @@
+{
+  "schema": "SoccerAnalytics.GlobalExplanation.v1",
+  "scope": "Frozen model on a chronological holdout. Features advance only with earlier kickoff results; kickoff does not certify final-whistle or source-arrival availability.",
+  "run_id": "3c493184a1e17c956bc9",
+  "class_order": [
+    "A",
+    "D",
+    "H"
+  ],
+  "fixed_output": "H - A",
+  "feature_dependence": "native_tree_path_dependent",
+  "output_unit": "raw margin",
+  "reference": "Path cover statistics and baseline of this fitted booster, not an interventional background.",
+  "interaction_convention": "Native off-diagonal cells each hold half the pair interaction; reported pair totals multiply one cell by two. Diagonal is the main effect.",
+  "rows": 32,
+  "source": "football-csv",
+  "competition": "PL",
+  "seasons": [
+    "2025"
+  ],
+  "source_snapshots": [
+    {
+      "competition": "PL",
+      "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+      "provider": "football-data.co.uk",
+      "season": "2025",
+      "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+      "source": "football-csv"
+    }
+  ],
+  "seed": 42,
+  "training_rows": 304,
+  "training_last_kickoff": "2026-03-21T15:00:00+00:00",
+  "holdout_rows": 76,
+  "holdout_first_kickoff": "2026-03-21T17:30:00+00:00",
+  "holdout_last_kickoff": "2026-05-24T15:00:00+00:00",
+  "cohort_policy": "first_k_holdout_rows_in_kickoff_then_match_id_order",
+  "model_policy": "fixed_default_XGBoost_fitted_only_on_development;not_a_release_or_model_comparison",
+  "feature_window": 5,
+  "closure_max_absolute_error": 1.4493707567453384e-08,
+  "interaction_row_sum_max_absolute_error": 8.119968697428703e-09,
+  "model_fit_seconds": 0.036310183932073414,
+  "limits": [
+    "Contributions are raw-score units, not probability points or causal effects.",
+    "Fixed output for the whole cohort; never mix each row's winning class.",
+    "Dependence plots show observed feature values and contributions, not interventions.",
+    "Only the first bounded subset of the final holdout is explained; no sample is selected by outcome or explanation size."
+  ],
+  "identity": {
+    "against": 0,
+    "class_index": 2,
+    "engine": {
+      "clock": "time.perf_counter",
+      "engine": "xgboost",
+      "execution_policy": {
+        "configured_iteration_cap": 160,
+        "early_stopping_rounds": 20,
+        "threads": 1
+      },
+      "seed": 42,
+      "timing_used_for_selection": false,
+      "version": "3.4.1"
+    },
+    "feature_names": [
+      "home_elo",
+      "away_elo",
+      "elo_diff",
+      "home_form_points",
+      "away_form_points",
+      "form_points_diff",
+      "home_goals_for",
+      "away_goals_for",
+      "attack_diff",
+      "home_goals_against",
+      "away_goals_against",
+      "defense_diff",
+      "home_goal_difference",
+      "away_goal_difference",
+      "goal_difference_diff",
+      "home_win_rate",
+      "away_win_rate",
+      "win_rate_diff",
+      "home_clean_sheet_rate",
+      "away_clean_sheet_rate",
+      "home_rest_days",
+      "away_rest_days",
+      "rest_diff",
+      "home_venue_points",
+      "away_venue_points",
+      "venue_points_diff",
+      "home_matches_seen",
+      "away_matches_seen",
+      "experience_diff",
+      "home_advantage"
+    ],
+    "input_sha256": "bafa83a4d99404b04fe353a9a2cfaa4fe4060d1a23e7a7bf13b0c1798f1c2a1b",
+    "model_sha256": "248ab51bf6b5ca99963ecd633547327975fb857f65e93d81b432c940cd8fd164"
+  },
+  "features": [
+    {
+      "feature": "home_elo",
+      "input_unit": "Elo points",
+      "mean_absolute_contribution": 0.007625319289218169
+    },
+    {
+      "feature": "away_elo",
+      "input_unit": "Elo points",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "elo_diff",
+      "input_unit": "Elo points",
+      "mean_absolute_contribution": 0.030031115462406888
+    },
+    {
+      "feature": "home_form_points",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.0057042621047003195
+    },
+    {
+      "feature": "away_form_points",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "form_points_diff",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.004391694999867468
+    },
+    {
+      "feature": "home_goals_for",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "away_goals_for",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.0020025271151098423
+    },
+    {
+      "feature": "attack_diff",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.01227410948195029
+    },
+    {
+      "feature": "home_goals_against",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.002860782937204931
+    },
+    {
+      "feature": "away_goals_against",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.012306912543863291
+    },
+    {
+      "feature": "defense_diff",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.002814627663610736
+    },
+    {
+      "feature": "home_goal_difference",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.012386699596390827
+    },
+    {
+      "feature": "away_goal_difference",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "goal_difference_diff",
+      "input_unit": "goals per recent match",
+      "mean_absolute_contribution": 0.020925531687680632
+    },
+    {
+      "feature": "home_win_rate",
+      "input_unit": "fraction",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "away_win_rate",
+      "input_unit": "fraction",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "win_rate_diff",
+      "input_unit": "fraction",
+      "mean_absolute_contribution": 0.005294140286423499
+    },
+    {
+      "feature": "home_clean_sheet_rate",
+      "input_unit": "fraction",
+      "mean_absolute_contribution": 0.004301243672671262
+    },
+    {
+      "feature": "away_clean_sheet_rate",
+      "input_unit": "fraction",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "home_rest_days",
+      "input_unit": "days (capped at 21)",
+      "mean_absolute_contribution": 0.020613977745597367
+    },
+    {
+      "feature": "away_rest_days",
+      "input_unit": "days (capped at 21)",
+      "mean_absolute_contribution": 0.0012656914514082018
+    },
+    {
+      "feature": "rest_diff",
+      "input_unit": "days (capped at 21)",
+      "mean_absolute_contribution": 0.006810113225583336
+    },
+    {
+      "feature": "home_venue_points",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.0056179015373345464
+    },
+    {
+      "feature": "away_venue_points",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.0009867689695965964
+    },
+    {
+      "feature": "venue_points_diff",
+      "input_unit": "points per recent match",
+      "mean_absolute_contribution": 0.0019005144531547558
+    },
+    {
+      "feature": "home_matches_seen",
+      "input_unit": "completed matches",
+      "mean_absolute_contribution": 0.01510064018657431
+    },
+    {
+      "feature": "away_matches_seen",
+      "input_unit": "completed matches",
+      "mean_absolute_contribution": 0.004682047008827794
+    },
+    {
+      "feature": "experience_diff",
+      "input_unit": "completed matches",
+      "mean_absolute_contribution": 0.0
+    },
+    {
+      "feature": "home_advantage",
+      "input_unit": "indicator",
+      "mean_absolute_contribution": 0.0
+    }
+  ],
+  "interaction_pairs": [
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_elo",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "elo_diff",
+      "mean_absolute_pair_total": 0.0025661430045147426,
+      "mean_pair_total": 0.0008134264789987355
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "form_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0017217522054124856,
+      "mean_pair_total": 0.0004955310414516134
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0035676710758707486,
+      "mean_pair_total": 0.0007589507304146537
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0005410000332517484,
+      "mean_pair_total": -0.000380518867302726
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.004617794715159107,
+      "mean_pair_total": 0.0002693709757295437
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.001316958081588382,
+      "mean_pair_total": 0.00041468920608167537
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0017789088633435313,
+      "mean_pair_total": -0.0005482625456352253
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.002608768922982563,
+      "mean_pair_total": 0.0006440555889639654
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.001517084305305616,
+      "mean_pair_total": 0.0006407965793187032
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_elo",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "elo_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "form_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_elo",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "form_points_diff",
+      "mean_absolute_pair_total": 0.003686202295284602,
+      "mean_pair_total": -0.0030848082296870416
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0032872208139451686,
+      "mean_pair_total": 0.0007200978470791597
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0045747831973130815,
+      "mean_pair_total": -0.002683518127014395
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.007042281755275326,
+      "mean_pair_total": -0.00040794757296680473
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.002413703814454493,
+      "mean_pair_total": 0.0010290983354934724
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.002788764591969084,
+      "mean_pair_total": 0.001304104494920466
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0035467902052914724,
+      "mean_pair_total": -4.716093826573342e-06
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0015361677506007254,
+      "mean_pair_total": -0.00023037209030007944
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.00610251756006619,
+      "mean_pair_total": -0.00046083301276667044
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0010935803184111137,
+      "mean_pair_total": 0.0004005876362498384
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.003253111514823104,
+      "mean_pair_total": -0.0018227504815513385
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.003278993972344324,
+      "mean_pair_total": -0.00096105519332923
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "elo_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_form_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "form_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.005070817453088239,
+      "mean_pair_total": 0.001849895779741928
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.006064880974008702,
+      "mean_pair_total": -0.002234367493656464
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_form_points",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "form_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_form_points",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0014396003098227084,
+      "mean_pair_total": -0.0003645980468718335
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0013552424627505388,
+      "mean_pair_total": 0.0011284924896699522
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0010063514600915369,
+      "mean_pair_total": 0.0005003328005841468
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.002641366050738725,
+      "mean_pair_total": 0.0004817923891096143
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0036260933993617073,
+      "mean_pair_total": -0.002130236753146164
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0025342978551634587,
+      "mean_pair_total": -0.0005612015011138283
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "form_points_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_goals_for",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_for",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "attack_diff",
+      "mean_absolute_pair_total": 0.002177203685278073,
+      "mean_pair_total": -0.0012566524528665468
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_for",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0005735158233619586,
+      "mean_pair_total": -6.829900257798727e-05
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0020572061657730956,
+      "mean_pair_total": 0.0002076189011859242
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.00399840937461704,
+      "mean_pair_total": 0.0014555958623532206
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0013809897081955569,
+      "mean_pair_total": 0.0002148117473552702
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "attack_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_goals_against",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0035675549625011627,
+      "mean_pair_total": -0.001986941326322267
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0023815800886950456,
+      "mean_pair_total": 0.00017583226144779474
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goals_against",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "defense_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.008788753344560973,
+      "mean_pair_total": 0.0036074418312637135
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.002030771209319937,
+      "mean_pair_total": -0.0007322754299821099
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0013653968471771805,
+      "mean_pair_total": -0.0007051219654385932
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.003810041871474823,
+      "mean_pair_total": 0.0006081846695451532
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goals_against",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0014372858195201843,
+      "mean_pair_total": 0.0003073196703553549
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0020152494907961227,
+      "mean_pair_total": 3.6067067412659526e-06
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "defense_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_goal_difference",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.010635473392540007,
+      "mean_pair_total": 0.0077227528436196735
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0009263555220968556,
+      "mean_pair_total": 0.00018607258607516997
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.008686402041348629,
+      "mean_pair_total": -0.0024238846235675737
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_goal_difference",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "goal_difference_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_goal_difference",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.00466193348984234,
+      "mean_pair_total": 0.002184550423407927
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0057284633367089555,
+      "mean_pair_total": 0.0010125951666850597
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0014679600735689746,
+      "mean_pair_total": -0.0008609397755208192
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.006587678479263559,
+      "mean_pair_total": 0.0004998337390134111
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.030381836215383373,
+      "mean_pair_total": 0.005902448741835542
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.004022115066618426,
+      "mean_pair_total": 0.0016768665409472305
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "goal_difference_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "away_win_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_win_rate",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "win_rate_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_win_rate",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "home_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "win_rate_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "away_clean_sheet_rate",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0022612120665144175,
+      "mean_pair_total": -0.0003114466817351058
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_clean_sheet_rate",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "home_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_clean_sheet_rate",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "away_rest_days",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0028858196037617745,
+      "mean_pair_total": -6.016139559505973e-05
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.006477539718616754,
+      "mean_pair_total": 0.005072514817584306
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_rest_days",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "rest_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_rest_days",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "home_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0005951530306447239,
+      "mean_pair_total": -0.00024498577249687514
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.002093633996992139,
+      "mean_pair_total": -0.0003728479096025694
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "rest_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "away_venue_points",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.001346696062682895,
+      "mean_pair_total": -0.0001897540751087945
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_venue_points",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_venue_points",
+      "feature_b": "venue_points_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_venue_points",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_venue_points",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_venue_points",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_venue_points",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "venue_points_diff",
+      "feature_b": "home_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "venue_points_diff",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "venue_points_diff",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "venue_points_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_matches_seen",
+      "feature_b": "away_matches_seen",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_matches_seen",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "home_matches_seen",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_matches_seen",
+      "feature_b": "experience_diff",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "away_matches_seen",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    },
+    {
+      "feature_a": "experience_diff",
+      "feature_b": "home_advantage",
+      "mean_absolute_pair_total": 0.0,
+      "mean_pair_total": 0.0
+    }
+  ],
+  "publication_scope": "Aggregate summary only; individual feature values, contributions, predictions and match identities remain in private CLI output."
+}

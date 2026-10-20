@@ -1,0 +1,284 @@
+{
+  "figures": [
+    {
+      "alt": "压迫、进球概率、空间控制与组织进攻。各实验使用各自样本与指标，请在图中核对分母和误差范围。",
+      "filename": "analysis-upgrades.svg",
+      "format": "svg",
+      "id": "analysis-upgrades",
+      "scope": "各实验使用各自样本与指标，请在图中核对分母和误差范围。",
+      "source": "公开研究实验汇总",
+      "title": "压迫、进球概率、空间控制与组织进攻",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "压迫链如何结束。供应商标注的压迫链，包含夺回、干扰与未知结果。",
+      "filename": "analysis-upgrades-pressing.svg",
+      "format": "svg",
+      "id": "analysis-upgrades-pressing",
+      "scope": "供应商标注的压迫链，包含夺回、干扰与未知结果。",
+      "source": "SkillCorner 开放比赛数据",
+      "title": "压迫链如何结束",
+      "topic": "战术与空间"
+    },
+    {
+      "alt": "上下文模型能否改善进球概率预测。历史测试集上的配对比较，区间按比赛重采样。",
+      "filename": "analysis-upgrades-goal-probability.svg",
+      "format": "svg",
+      "id": "analysis-upgrades-goal-probability",
+      "scope": "历史测试集上的配对比较，区间按比赛重采样。",
+      "source": "Wyscout 历史事件实验",
+      "title": "上下文模型能否改善进球概率预测",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "同一帧下的三种空间控制模型。同一公开追踪帧和网格上的模型差异，没有空间控制真值。",
+      "filename": "analysis-upgrades-space-control.svg",
+      "format": "svg",
+      "id": "analysis-upgrades-space-control",
+      "scope": "同一公开追踪帧和网格上的模型差异，没有空间控制真值。",
+      "source": "Metrica Sports 开放追踪数据",
+      "title": "同一帧下的三种空间控制模型",
+      "topic": "战术与空间"
+    },
+    {
+      "alt": "加入 xGBuildup 与 xGChain 后的预测比较。用历史赛季的参与指标预测下一赛季 xGBuildup/90，区间按球员聚类。",
+      "filename": "analysis-upgrades-buildup.svg",
+      "format": "svg",
+      "id": "analysis-upgrades-buildup",
+      "scope": "用历史赛季的参与指标预测下一赛季 xGBuildup/90，区间按球员聚类。",
+      "source": "Understat 历史球员面板实验",
+      "title": "加入 xGBuildup 与 xGChain 后的预测比较",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "机会模型的特征消融比较。同一历史测试划分下的模型与特征组合，结果不代表其他赛季。",
+      "filename": "chance-ablations.svg",
+      "format": "svg",
+      "id": "chance-ablations",
+      "scope": "同一历史测试划分下的模型与特征组合，结果不代表其他赛季。",
+      "source": "StatsBomb 开放事件实验",
+      "title": "机会模型的特征消融比较",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "切尔西与 PSG 的决赛踢法变化。2025 世俱杯决赛与各队此前六场比较，未校准对手强度。",
+      "filename": "chelsea-psg-final.svg",
+      "format": "svg",
+      "id": "chelsea-psg-final",
+      "scope": "2025 世俱杯决赛与各队此前六场比较，未校准对手强度。",
+      "source": "FIFA Training Centre 官方比赛报告",
+      "title": "切尔西与 PSG 的决赛踢法变化",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "跑动负荷与画面可见范围。公开追踪片段的观测量，画面覆盖限制了可解释范围。",
+      "filename": "external-load.svg",
+      "format": "svg",
+      "id": "external-load",
+      "scope": "公开追踪片段的观测量，画面覆盖限制了可解释范围。",
+      "source": "SkillCorner 开放转播追踪样本",
+      "title": "跑动负荷与画面可见范围",
+      "topic": "跑动与负荷"
+    },
+    {
+      "alt": "射门来自哪里。单场比赛的射门位置与结果，样本和方向见图中说明。",
+      "filename": "football-shot-map.svg",
+      "format": "svg",
+      "id": "football-shot-map",
+      "scope": "单场比赛的射门位置与结果，样本和方向见图中说明。",
+      "source": "StatsBomb 开放事件数据",
+      "title": "射门来自哪里",
+      "topic": "比赛片段"
+    },
+    {
+      "alt": "传球联系集中在哪些位置。指定比赛和时段的完成传球网络，节点位置为事件起点均值。",
+      "filename": "football-passing-network.svg",
+      "format": "svg",
+      "id": "football-passing-network",
+      "scope": "指定比赛和时段的完成传球网络，节点位置为事件起点均值。",
+      "source": "StatsBomb 开放事件数据",
+      "title": "传球联系集中在哪些位置",
+      "topic": "比赛片段"
+    },
+    {
+      "alt": "持球队员身边的可见空间。单个 360 事件画面中的可见球员，未观测球员不能视为空间无人。",
+      "filename": "football-visible-space.svg",
+      "format": "svg",
+      "id": "football-visible-space",
+      "scope": "单个 360 事件画面中的可见球员，未观测球员不能视为空间无人。",
+      "source": "StatsBomb 360 开放数据",
+      "title": "持球队员身边的可见空间",
+      "topic": "战术与空间"
+    },
+    {
+      "alt": "观测片段中的跑动与位置。公开追踪片段，不外推到完整比赛或球员能力。",
+      "filename": "football-running-position.svg",
+      "format": "svg",
+      "id": "football-running-position",
+      "scope": "公开追踪片段，不外推到完整比赛或球员能力。",
+      "source": "Metrica Sports 开放追踪数据",
+      "title": "观测片段中的跑动与位置",
+      "topic": "跑动与负荷"
+    },
+    {
+      "alt": "球员代理目标的模型比较。历史球员样本上的测试误差，代理指标不等于潜力或实际能力。",
+      "filename": "player-assessment.svg",
+      "format": "svg",
+      "id": "player-assessment",
+      "scope": "历史球员样本上的测试误差，代理指标不等于潜力或实际能力。",
+      "source": "Wyscout 历史球员事件实验",
+      "title": "球员代理目标的模型比较",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "事件表示学习的测试结果。Wyscout 2017/18，点与横线为种子均值和标准差，标准差不是置信区间。",
+      "filename": "representation-figure-1.svg",
+      "format": "svg",
+      "id": "representation-figure-1",
+      "scope": "Wyscout 2017/18，点与横线为种子均值和标准差，标准差不是置信区间。",
+      "source": "Wyscout 历史事件表示学习实验",
+      "title": "事件表示学习的测试结果",
+      "topic": "表示学习"
+    },
+    {
+      "alt": "表示学习模型的训练过程。目标联赛验证损失，仅画一个随机种子的训练过程。",
+      "filename": "representation-figure-2.svg",
+      "format": "svg",
+      "id": "representation-figure-2",
+      "scope": "目标联赛验证损失，仅画一个随机种子的训练过程。",
+      "source": "Wyscout 历史事件表示学习实验",
+      "title": "表示学习模型的训练过程",
+      "topic": "表示学习"
+    },
+    {
+      "alt": "相同历史输入下的五联赛模型对照。MLP与GRU减去各自联赛的树基线，负值误差更低。横线为固定模型的逐项整场重采样范围，不含训练不确定性；同赛季对照不能证明跨赛季效果。",
+      "filename": "representation-leagues-figure-1.svg",
+      "format": "svg",
+      "id": "representation-leagues-figure-1",
+      "scope": "MLP与GRU减去各自联赛的树基线，负值误差更低。横线为固定模型的逐项整场重采样范围，不含训练不确定性；同赛季对照不能证明跨赛季效果。",
+      "source": "Wyscout 2017/18，五联赛独立目标训练",
+      "title": "相同历史输入下的五联赛模型对照",
+      "topic": "表示学习"
+    },
+    {
+      "alt": "年轻球员观察分组与传球方向。历史事件样本中的跟进分组与位置分布，分组不等于潜力排名。",
+      "filename": "scouting-observations.svg",
+      "format": "svg",
+      "id": "scouting-observations",
+      "scope": "历史事件样本中的跟进分组与位置分布，分组不等于潜力排名。",
+      "source": "Wyscout 历史球员与事件统计",
+      "title": "年轻球员观察分组与传球方向",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "转移球前后的传球上下文。规则识别的转移球与匹配比较，事件上下文不证明因果效果。",
+      "filename": "switch-context.svg",
+      "format": "svg",
+      "id": "switch-context",
+      "scope": "规则识别的转移球与匹配比较，事件上下文不证明因果效果。",
+      "source": "SkillCorner 开放比赛数据",
+      "title": "转移球前后的传球上下文",
+      "topic": "战术与空间"
+    },
+    {
+      "alt": "球队预测模型与基线比较。历史比赛的时间顺序留出评估，具体指标与基线见图。",
+      "filename": "team-assessment.svg",
+      "format": "svg",
+      "id": "team-assessment",
+      "scope": "历史比赛的时间顺序留出评估，具体指标与基线见图。",
+      "source": "Football-Data 历史赛果与球队统计",
+      "title": "球队预测模型与基线比较",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "空间球风表示的识别稳定性。Wyscout 2017/18，同俱乐部且两段各至少900分钟的球员。种子范围不是置信区间；识别率不是能力评分，人数见图。",
+      "filename": "spatial-style-figure-1.svg",
+      "format": "svg",
+      "id": "spatial-style-figure-1",
+      "scope": "Wyscout 2017/18，同俱乐部且两段各至少900分钟的球员。种子范围不是置信区间；识别率不是能力评分，人数见图。",
+      "source": "Wyscout 公开事件与 Player Vectors 启发的本地实验",
+      "title": "空间球风表示的识别稳定性",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "早段动作拟合的传球空间基底。只展示一个固定种子的前两个传球分量，起终点共用色阶。基底不是站位时长或空间控制。",
+      "filename": "spatial-style-figure-2.svg",
+      "format": "svg",
+      "id": "spatial-style-figure-2",
+      "scope": "只展示一个固定种子的前两个传球分量，起终点共用色阶。基底不是站位时长或空间控制。",
+      "source": "Wyscout 2017/18 早段聚合传球热图",
+      "title": "早段动作拟合的传球空间基底",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "动作历史能否改善进球与失球概率。英超、法甲时间留出，排除当前进球状态。横线按整场比赛重采样，未覆盖训练不确定性。",
+      "filename": "vaep-spadl-figure-1.svg",
+      "format": "svg",
+      "id": "vaep-spadl-figure-1",
+      "scope": "英超、法甲时间留出，排除当前进球状态。横线按整场比赛重采样，未覆盖训练不确定性。",
+      "source": "Wyscout 2017/18 与本地 SPADL/VAEP 对照",
+      "title": "动作历史能否改善进球与失球概率",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "动作增量中的进攻与防守贡献。测试集按动作类型汇总，不是球员排名或因果效果。转换器补出的带球会单独计数。",
+      "filename": "vaep-spadl-figure-2.svg",
+      "format": "svg",
+      "id": "vaep-spadl-figure-2",
+      "scope": "测试集按动作类型汇总，不是球员排名或因果效果。转换器补出的带球会单独计数。",
+      "source": "Wyscout 公开事件与 socceraction 1.5.3 转换",
+      "title": "动作增量中的进攻与防守贡献",
+      "topic": "球员与球队"
+    },
+    {
+      "alt": "比分模型的差值有多稳定。五联赛固定历史预测，按整天比赛配对重采样。三种平均块长度的百分位范围不等同于显著性或未来赛季优势。",
+      "filename": "outcome-comparison.svg",
+      "format": "svg",
+      "id": "outcome-comparison",
+      "scope": "五联赛固定历史预测，按整天比赛配对重采样。三种平均块长度的百分位范围不等同于显著性或未来赛季优势。",
+      "source": "Football-Data 2022/23–2024/25，固定比分配置与默认 XGBoost",
+      "title": "比分模型的差值有多稳定",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "进球频数与完整尾项。英超 2025/26 的76场时间留出；观察频数与五种点拟合模型的期望频数。没有后验区间或拟合优度检验。",
+      "filename": "paper-followup-20261019-score-counts-pl.svg",
+      "format": "svg",
+      "id": "paper-followup-20261019-score-counts-pl",
+      "scope": "英超 2025/26 的76场时间留出；观察频数与五种点拟合模型的期望频数。没有后验区间或拟合优度检验。",
+      "source": "Football-Data 校验快照，2026年10月19日离线重算",
+      "title": "进球频数与完整尾项",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "同一输出下的特征贡献分布。英超历史留出前32场，固定主胜减客胜的原始分数。树路径参照；不是校准概率或因果影响。",
+      "filename": "paper-followup-20261019-global-contributions.svg",
+      "format": "svg",
+      "id": "paper-followup-20261019-global-contributions",
+      "scope": "英超历史留出前32场，固定主胜减客胜的原始分数。树路径参照；不是校准概率或因果影响。",
+      "source": "Football-Data 2025/26，开发期固定 XGBoost",
+      "title": "同一输出下的特征贡献分布",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "赛前特征与原始分数贡献。同一固定类别对和样本，横轴保留特征原单位。关联散点不等于部分依赖或交互检验。",
+      "filename": "paper-followup-20261019-feature-dependence.svg",
+      "format": "svg",
+      "id": "paper-followup-20261019-feature-dependence",
+      "scope": "同一固定类别对和样本，横轴保留特征原单位。关联散点不等于部分依赖或交互检验。",
+      "source": "Football-Data 2025/26，固定类别 TreeSHAP",
+      "title": "赛前特征与原始分数贡献",
+      "topic": "模型比较"
+    },
+    {
+      "alt": "显式特征交互与主效应。对角为平均绝对主效应，非对角为完整成对交互的平均绝对值；不是显著性或因果图。",
+      "filename": "paper-followup-20261019-feature-interactions.svg",
+      "format": "svg",
+      "id": "paper-followup-20261019-feature-interactions",
+      "scope": "对角为平均绝对主效应，非对角为完整成对交互的平均绝对值；不是显著性或因果图。",
+      "source": "Football-Data 2025/26，原生 TreeSHAP 交互",
+      "title": "显式特征交互与主效应",
+      "topic": "模型比较"
+    }
+  ]
+}

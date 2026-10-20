@@ -1,0 +1,8 @@
+# Use a separate Python 3.12 environment: socceraction requires NumPy 1.x.
+socceraction==1.5.3
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+scipy==1.14.1
+pandera==0.17.2
+multimethod==1.12

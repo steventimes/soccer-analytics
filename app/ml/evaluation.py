@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import math
+from time import perf_counter
 from collections import Counter
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Sequence
 
 from app.ml.model import (
     accuracy_score,
+    fit_estimator,
+    estimator_runtime,
     multiclass_brier_score,
     multiclass_log_loss,
     ranked_probability_score,
@@ -174,6 +177,35 @@ def top_label_calibration_error(
     )
 
 
+def expanding_window_boundaries(
+    row_count: int, *, folds: int = 3, kickoffs: Sequence[str] = (),
+) -> tuple[int, ...]:
+    """Shared chronological folds; every boundary preserves whole kickoff groups."""
+    if isinstance(folds, bool) or not isinstance(folds, int) or folds < 2:
+        raise EvaluationError("folds 至少为 2")
+    if row_count < folds * 2:
+        raise EvaluationError("样本不足以形成请求的扩展窗口")
+    if kickoffs and (len(kickoffs) != row_count or list(kickoffs) != sorted(kickoffs)):
+        raise EvaluationError("kickoffs 必须与特征长度一致且按时间排序")
+    initial_rows = row_count // 2
+    remaining_rows = row_count - initial_rows
+    base_size, extra = divmod(remaining_rows, folds)
+    fold_sizes = [base_size + (1 if index < extra else 0) for index in range(folds)]
+    boundaries = [initial_rows]
+    for size in fold_sizes:
+        boundaries.append(boundaries[-1] + size)
+    if kickoffs:
+        for index in range(len(boundaries) - 1):
+            boundary = boundaries[index]
+            while boundary > 0 and kickoffs[boundary - 1] == kickoffs[boundary]:
+                boundary -= 1
+            boundaries[index] = boundary
+        if boundaries[0] == 0 or any(a >= b for a, b in zip(boundaries, boundaries[1:])):
+            raise EvaluationError("独立开球时间桶不足以形成请求的扩展窗口")
+
+    return tuple(boundaries)
+
+
 def evaluate_expanding_window(
     rows: Sequence[Mapping[str, float]],
     targets: Sequence[int],
@@ -181,6 +213,7 @@ def evaluate_expanding_window(
     model_factory: EstimatorFactory,
     *,
     folds: int = 3,
+    kickoffs: Sequence[str] = (),
 ) -> TemporalEvaluation:
     """以前半段为初始历史，用扩展窗口覆盖后半段的全部样本。"""
     if isinstance(folds, bool) or not isinstance(folds, int) or folds < 2:
@@ -189,11 +222,10 @@ def evaluate_expanding_window(
         raise EvaluationError("样本不足以形成请求的扩展窗口")
     if not feature_names:
         raise EvaluationError("feature_names 不能为空")
+    if kickoffs and (len(kickoffs) != len(rows) or list(kickoffs) != sorted(kickoffs)):
+        raise EvaluationError("kickoffs 必须与特征长度一致且按时间排序")
 
-    initial_rows = len(rows) // 2
-    remaining_rows = len(rows) - initial_rows
-    base_size, extra = divmod(remaining_rows, folds)
-    fold_sizes = [base_size + (1 if index < extra else 0) for index in range(folds)]
+    boundaries = expanding_window_boundaries(len(rows), folds=folds, kickoffs=kickoffs)
 
     all_targets: list[int] = []
     all_probabilities: list[list[float]] = []
@@ -201,22 +233,25 @@ def evaluate_expanding_window(
     all_majority_baselines: list[int] = []
     all_elo_baselines: list[int] = []
     fold_metrics: list[dict[str, Any]] = []
-    validation_start = initial_rows
-
-    for fold_index, validation_size in enumerate(fold_sizes, start=1):
-        validation_end = validation_start + validation_size
+    for fold_index, (validation_start, validation_end) in enumerate(zip(boundaries, boundaries[1:]), start=1):
+        validation_size = validation_end - validation_start
         training_rows = rows[:validation_start]
         training_targets = targets[:validation_start]
         validation_rows = rows[validation_start:validation_end]
         validation_targets = list(targets[validation_start:validation_end])
 
         estimator = model_factory(feature_names)
-        estimator.fit(training_rows, training_targets)
+        fit_started = perf_counter()
+        fit_estimator(estimator, training_rows, training_targets,
+                      kickoffs=kickoffs[:validation_start])
+        fit_seconds = perf_counter() - fit_started
+        inference_started = perf_counter()
         probabilities = [
             [float(value) for value in probability_row]
             for probability_row in estimator.predict_proba(validation_rows)
         ]
-        predictions = [int(value) for value in estimator.predict(validation_rows)]
+        inference_seconds = perf_counter() - inference_started
+        predictions = [max(range(3), key=row.__getitem__) for row in probabilities]
         majority_class = Counter(training_targets).most_common(1)[0][0]
         majority_baselines = [majority_class] * validation_size
         elo_baselines = elo_baseline_predictions(
@@ -240,6 +275,9 @@ def evaluate_expanding_window(
         fold_metrics.append(
             {
                 "fold": fold_index,
+                "runtime": {**estimator_runtime(estimator),
+                            "fit_seconds": fit_seconds,
+                            "inference_seconds": inference_seconds},
                 "training_rows": len(training_rows),
                 "validation_rows": validation_size,
                 "accuracy": accuracy_score(validation_targets, predictions),

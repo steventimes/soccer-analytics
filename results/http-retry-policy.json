@@ -1,0 +1,458 @@
+{
+  "audit_id": "f7453ff59fc0a848",
+  "before_counterexamples": {
+    "archive_permanent_404": {
+      "attempts": 4,
+      "risk": "Repeated a non-retryable resource error.",
+      "waits_seconds": [
+        1,
+        2,
+        4
+      ]
+    },
+    "future_http_date": {
+      "header": "Thu, 31 Dec 2099 23:59:59 GMT",
+      "numeric_only_parser_fallback_seconds": 0.25,
+      "risk": "An HTTP-date server hint was ignored, allowing an early retry."
+    },
+    "review_edges": [
+      "Finite 1e-307 * 2^1024 overflowed at the intermediate exponent.",
+      "Standard-library RFC850 fixed pivot treated year70 as1970 at a2026 clock.",
+      "The final archive failure discarded the parsed wait hint.",
+      "An intermediate2100-02-29 failed before a valid2000 rollback."
+    ]
+  },
+  "behavior": {
+    "archive_attempts": 4,
+    "archive_backoff_factor_seconds": 1.0,
+    "attempts_exhausted": "When a retryable failure exhausts attempts, do not wait; preserve DataSourceError for clients and the original requests exception for archives, attaching any parsed hint. Permanent HTTP errors stop immediately without parsing retry hints.",
+    "client_attempts": "max_retries + 1",
+    "client_backoff_factor_seconds": 0.25,
+    "default_max_delay_seconds": 60.0,
+    "fallback": "Uniform full jitter from zero through min(max_delay, backoff_factor * 2^retry_index); scaled exponent avoids intermediate overflow.",
+    "fractional_seconds": "Accepted for compatibility with the prior client; RFC9110 itself specifies integer delay-seconds.",
+    "freshness": "Existing training snapshots require explicit --refresh. Recent collection uses a new directory unless --resume is explicit; no automatic TTL or stale response fallback.",
+    "network_failures_retried": true,
+    "over_limit_with_attempts_remaining": "No further request or sleep; DataSourceError for clients, RetryAfterLimitError(requests.RequestException) for archives, both with retry_after_seconds.",
+    "rate_hooks": "Each actual attempt preserves its existing limiter accounting or archive before_request hook.",
+    "response_lifecycle": "Close failed HTTP responses before waits/errors. Successfully returned public responses and archive streams remain caller-owned.",
+    "retryable_status_codes": [
+      429,
+      500,
+      502,
+      503,
+      504
+    ],
+    "server_hint": "Nonnegative seconds or HTTP date precede fallback; never jitter or shorten a valid wait."
+  },
+  "implementation_sha256": {
+    "app/data_service/archive.py": "ca35985f45c660ced521f30385a8278761b0ed73c373b45473c656c56d155ee1",
+    "app/data_service/fetch/fetcher.py": "1df3cff006f7738d6f19a03f9e2c54964676da6551f09cf5383572fcc4ed03fe",
+    "app/data_service/fetch/public.py": "b48cf1be429a4b89106a7a54285a834889c71f669164024d111934678d1033de",
+    "app/data_service/fetch/retry.py": "a0a02668e0ce41707cf34d75b5f75257e26ca5de7e942f64a139af60f2af8dad",
+    "tests/test_core.py": "1817b1a1f62f3380a8ef32e908785f416616c6b448f808bfcb1fbda75e08dd20",
+    "tests/test_recent_matches.py": "0463097c2b31c772f245da889d3fc652740c0c85d2ac31e8501fa30a951ca7ef"
+  },
+  "limits": [
+    "Injected clock/RNG/recording sleeps validate decisions and requested delays, not actual wall-clock waiting or provider availability.",
+    "No global retry statistics, async retries, background scheduler or distributed coordination.",
+    "Server HTTP-date waits depend on the local clock; invalid hints fall back to bounded jitter.",
+    "This covers three existing requests paths, not every third-party client or failures while consuming an already returned successful stream.",
+    "No requests-cache/Tenacity dependency, live match refresh, database mutation, production model refit or forecast change, commit, push or deployment."
+  ],
+  "local_policy_tested": true,
+  "preservation": {
+    "all87reference_urls_and84user_descriptions_preserved": true,
+    "changed_prior_files": [
+      "DATA_SOURCES.md",
+      "README.md",
+      "REPRODUCING.md",
+      "app/data_service/archive.py",
+      "app/data_service/fetch/fetcher.py",
+      "app/data_service/fetch/public.py",
+      "results/README.md",
+      "results/resource-reviews.json",
+      "tests/test_core.py",
+      "tests/test_recent_matches.py"
+    ],
+    "database_guard_scope": "Only stat(size, mtime); no main-database query, hash or copy.",
+    "database_size_mtime_unchanged": true,
+    "earlier11resource_reviews_unchanged": true,
+    "new_public_files": [
+      "app/data_service/fetch/retry.py",
+      "results/http-retry-policy.json"
+    ],
+    "prior_public_files": 403,
+    "prior_public_files_unchanged": 393,
+    "prior_public_model_reports_and_gallery_unchanged": true,
+    "production_models_or_predictions_written": false,
+    "removed_prior_files": 0
+  },
+  "reading_scope": {
+    "http": {
+      "read": "Retry-After seconds/HTTP-date semantics, three date formats, UTC and rolling 50-year two-digit-year interpretation.",
+      "urls": [
+        "https://www.rfc-editor.org/rfc/rfc9110.html#section-10.2.3",
+        "https://www.rfc-editor.org/rfc/rfc9110.html#section-5.6.7"
+      ]
+    },
+    "requests_cache": {
+      "decision": "Do not install or enable HTTP caching. Keep checksummed snapshots and explicit refresh/resume boundaries; differentiated HTTP TTL remains a candidate.",
+      "documentation_version_observed": "1.3.3",
+      "read": "Expiry precedence, refresh/force_refresh, stale_if_error and stale_while_revalidate; no package source or runtime audit.",
+      "url": "https://requests-cache.readthedocs.io/en/stable/user_guide/expiration.html"
+    },
+    "tenacity": {
+      "decision": "Adapt wait behavior within existing requests/error interfaces, using the standard library; no upstream installation or copied source.",
+      "read": "Bounded attempts and full-jitter guidance; pinned wait.py wait_exponential and wait_random_exponential sections only.",
+      "url": "https://tenacity.readthedocs.io/en/latest/"
+    }
+  },
+  "reviewed_at": "2026-10-17",
+  "schema": "SoccerAnalytics.HttpRetryPolicy.v1",
+  "scope": "Native shared retry waits for three existing requests paths; not a provider refresh, cache integration or third-party SDK rewrite.",
+  "sources": [
+    {
+      "commit": "32ac68f0941319c0d2f4fb927f96e4ee29bb46c6",
+      "commit_date": "2026-10-12T13:10:02Z",
+      "official_url": "https://github.com/jd/tenacity/commit/32ac68f0941319c0d2f4fb927f96e4ee29bb46c6",
+      "repository": "jd/tenacity",
+      "source_path": "tenacity/wait.py",
+      "source_sha256": "fab8c53ae00dda64008a70c03654f22e059f3d697c3c8a6029513910fa7179fc",
+      "source_url": "https://raw.githubusercontent.com/jd/tenacity/32ac68f0941319c0d2f4fb927f96e4ee29bb46c6/tenacity/wait.py"
+    },
+    {
+      "commit": "abe06a833cfb35a885f371d1b3db1199b3a968b5",
+      "commit_date": "2026-10-15T22:52:21Z",
+      "official_url": "https://github.com/requests-cache/requests-cache/commit/abe06a833cfb35a885f371d1b3db1199b3a968b5",
+      "repository": "requests-cache/requests-cache"
+    }
+  ],
+  "upstream_runtime_tested": false,
+  "verification": {
+    "date_and_numeric_boundaries": [
+      "IMF-fixdate, RFC850 and asctime",
+      "Exact50-year cutoff and1-second rollover",
+      "2070 two-digit-year correction",
+      "2099-to2110 century boundary",
+      "Leap-day clock and2050-to2000 leap-century rollback",
+      "Tiny factor with finite2^1024 product and huge-index saturation"
+    ],
+    "environment": "Initial loopback bind failed with sandbox EPERM; the authorized scoped local test then passed. No provider fault injection.",
+    "full_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "existing_optional_skip_scope": [
+        "1 socceraction",
+        "2 soccerdata",
+        "1 pandas"
+      ],
+      "log_sha256": "7cde86ec8b06537bf47bf3cc209ba6c00dfa4078e70fa20a256c1ec286e75164",
+      "passed": 346,
+      "seconds": 31.834,
+      "skipped": 4,
+      "tests": 350
+    },
+    "independent_review": {
+      "final_retry_source_sha256": "a0a02668e0ce41707cf34d75b5f75257e26ca5de7e942f64a139af60f2af8dad",
+      "scope": "Scoped baseline diff and small in-memory counterexamples; no duplicate full suite or database access.",
+      "status": "Passed after fixes; no unresolved findings"
+    },
+    "loopback": {
+      "audit_script_sha256": "87f6466ad98ed1707a89b87e7becca2a566162f7ca089b9d29699d2e8867fa04",
+      "failed_responses_closed": 40,
+      "outcomes": [
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "api",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "date_then_jitter",
+          "waits_seconds": [
+            12.0,
+            0.25
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "disconnect_then_date",
+          "waits_seconds": [
+            0.125,
+            12.0
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "api",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "invalid_hints",
+          "waits_seconds": [
+            0.125,
+            0.25
+          ]
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 1,
+          "retry_after_seconds": 120.0,
+          "scenario": "over_limit",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 1,
+          "retry_after_seconds": 1388534400.0,
+          "scenario": "rfc850_future",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 3,
+          "path": "api",
+          "requests": 3,
+          "retry_after_seconds": 120.0,
+          "scenario": "exhausted_final_hint",
+          "waits_seconds": [
+            0.125,
+            0.25
+          ]
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_403",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_404",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "api",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_501",
+          "waits_seconds": []
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "public",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "date_then_jitter",
+          "waits_seconds": [
+            12.0,
+            0.25
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "disconnect_then_date",
+          "waits_seconds": [
+            0.125,
+            12.0
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "public",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "invalid_hints",
+          "waits_seconds": [
+            0.125,
+            0.25
+          ]
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 1,
+          "retry_after_seconds": 120.0,
+          "scenario": "over_limit",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 1,
+          "retry_after_seconds": 1388534400.0,
+          "scenario": "rfc850_future",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 3,
+          "path": "public",
+          "requests": 3,
+          "retry_after_seconds": 120.0,
+          "scenario": "exhausted_final_hint",
+          "waits_seconds": [
+            0.125,
+            0.25
+          ]
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_403",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_404",
+          "waits_seconds": []
+        },
+        {
+          "exception": "DataSourceError",
+          "failed_responses_closed": 1,
+          "path": "public",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_501",
+          "waits_seconds": []
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "archive",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "date_then_jitter",
+          "waits_seconds": [
+            12.0,
+            1.0
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "disconnect_then_date",
+          "waits_seconds": [
+            0.5,
+            12.0
+          ]
+        },
+        {
+          "exception": null,
+          "failed_responses_closed": 2,
+          "path": "archive",
+          "requests": 3,
+          "retry_after_seconds": null,
+          "scenario": "invalid_hints",
+          "waits_seconds": [
+            0.5,
+            1.0
+          ]
+        },
+        {
+          "exception": "RetryAfterLimitError",
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 1,
+          "retry_after_seconds": 120.0,
+          "scenario": "over_limit",
+          "waits_seconds": []
+        },
+        {
+          "exception": "RetryAfterLimitError",
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 1,
+          "retry_after_seconds": 1388534400.0,
+          "scenario": "rfc850_future",
+          "waits_seconds": []
+        },
+        {
+          "exception": "HTTPError",
+          "failed_responses_closed": 4,
+          "path": "archive",
+          "requests": 4,
+          "retry_after_seconds": 120.0,
+          "scenario": "exhausted_final_hint",
+          "waits_seconds": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "exception": "HTTPError",
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_403",
+          "waits_seconds": []
+        },
+        {
+          "exception": "HTTPError",
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_404",
+          "waits_seconds": []
+        },
+        {
+          "exception": "HTTPError",
+          "failed_responses_closed": 1,
+          "path": "archive",
+          "requests": 1,
+          "retry_after_seconds": null,
+          "scenario": "permanent_501",
+          "waits_seconds": []
+        }
+      ],
+      "requests": 52,
+      "result": "passed",
+      "scenarios": 27,
+      "scope": "Real loopback HTTP and disconnects; synthetic bodies; injected clock/RNG/recording sleeps; no provider traffic",
+      "server_stopped": true
+    },
+    "prose_review": {
+      "chinese": "Chinese drafting and humanizer-zh expression review applied to added passages.",
+      "english": "stop-slop review and offline Harper2.13.0; the final added passage has two SplitWords suggestions for the technical terms retryable and nonnegative, retained after review. Older full-file findings were not changed."
+    },
+    "resolved_test_harness_issue": "Initial combined test omitted unittest.mock.Mock; import corrected and focused run passed; both original failure and final logs retained privately.",
+    "test_consolidation": "Two meaningful combined cases added to existing files; reuse original request-contract coverage, no new test module or framework."
+  }
+}

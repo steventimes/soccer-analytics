@@ -4,6 +4,7 @@ import hashlib
 import math
 import os
 import pickle
+import stat
 import tempfile
 from dataclasses import dataclass
 from datetime import datetime
@@ -287,8 +288,24 @@ def _load_model_bundle_with_digest(path: Path) -> tuple[ModelBundle, str]:
         raise ModelArtifactError(f"模型包不存在: {target}")
 
     try:
-        payload = target.read_bytes()
+        # This remains an executable, trusted-local format. Check storage before
+        # unpickling; a digest/schema check cannot authenticate pickle contents.
+        parent_status = target.parent.stat()
+        if parent_status.st_mode & 0o022:
+            raise ModelArtifactError("模型目录不能允许其他用户写入")
+        flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
+        if target.is_symlink():
+            raise ModelArtifactError("模型文件不能是符号链接")
+        with os.fdopen(os.open(target, flags), "rb") as handle:
+            status = os.fstat(handle.fileno())
+            if not stat.S_ISREG(status.st_mode) or status.st_mode & 0o022:
+                raise ModelArtifactError("模型必须是其他用户不可写的普通文件")
+            if status.st_uid != parent_status.st_uid:
+                raise ModelArtifactError("模型文件所有者必须与可信模型目录一致")
+            payload = handle.read()
         loaded = pickle.loads(payload)
+    except ModelArtifactError:
+        raise
     except Exception as exc:
         # pickle 钩子可能抛出任意运行时异常；统一包装后才能安全尝试上一版。
         raise ModelArtifactError(f"模型包无法读取: {target}") from exc

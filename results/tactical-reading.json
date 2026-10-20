@@ -1,0 +1,47 @@
+{
+  "reviewed_at": "2026-10-09",
+  "scope": "Selected tactical learning references and original research questions; no copied video, captions or FM screenshots.",
+  "references": [
+    {
+      "creator": "友利Mori",
+      "title": "以强队之名：倒三角型、轮转、边锋",
+      "published": "2024-07-04",
+      "url": "https://www.bilibili.com/video/BV1NJ4m1M7hE/",
+      "metadata_source": "https://www.bilibili.com/list/279704683?bvid=BV1NJ4m1M7hE&oid=1256077977",
+      "reading_level": "Official index title, date and topic tags verified; full commentary not reviewed.",
+      "access_status": "Anonymous detail API returned HTTP412; subtitles not obtained.",
+      "research_questions": [
+        "How do wing and full-back ball-action locations differ between possession phases?",
+        "Do detected pair exchanges preserve width and produce new passing options?"
+      ],
+      "question_attribution": "Questions defined by this project from the public topic; not attributed statements from the unseen commentary."
+    },
+    {
+      "creator": "司马尘",
+      "title": "对手：我 不仅要摆大巴，我还要摆到你的脸上！巴萨：？？？",
+      "url": "https://www.bilibili.com/video/BV1Wi4y1G71p/",
+      "reading_level": "Official anonymous search metadata and short description verified; full commentary not reviewed.",
+      "access_status": "Anonymous detail API returned HTTP412; subtitles not obtained.",
+      "research_questions": [
+        "Which receiving zones and passing links change when the opponent presses or blocks central access?",
+        "Does the same team use different channels against different opponents after home/away alignment?"
+      ],
+      "question_attribution": "Project-defined questions, not a transcription or paraphrase of the full video."
+    },
+    {
+      "creator": "Sports Interactive / SEGA",
+      "title": "FM27: Tactical Tweaks and Match Engine Upgrades",
+      "published": "2026-10-06",
+      "url": "https://footballmanager.sega.com/asia-en/info/details/000191.html",
+      "reading_level": "Official written feature description reviewed.",
+      "visual_inspiration": ["pitch action zones", "heat maps", "passing maps", "match observation context"],
+      "interpretation": "Reference for chart forms; the article describes a pre-release build. Our graphs use verified real event/tracking data and contain no game screenshots."
+    }
+  ],
+  "analytical_boundaries": [
+    "Event action locations are not continuous standing positions.",
+    "A whole-match passing network can combine substitutions and tactical changes; published example uses first-half minutes10-40.",
+    "Tracking occupancy describes detected positions, with coverage limits; it does not by itself identify a tactical role.",
+    "Community explanations supply research questions; independently observed data determines which claims are supported."
+  ]
+}

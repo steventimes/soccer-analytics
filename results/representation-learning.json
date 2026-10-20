@@ -1,0 +1,847 @@
+{
+  "code_sha256": {
+    "comparison.py": "c1d10525bc1ec14fd075f459a76bb4a8f9166a2b89d0f969b1c4202f91d6b910",
+    "data.py": "783ae4bdc40bd06532eb3ed93e7c0857aec5b64df2096941933947371e996f3f",
+    "experiment.py": "0e4c3335d4f741d05f6403145573334109a881a74f147cb5db7190223efe081f",
+    "models.py": "fa5e0373d955ae61aeea76e067fb785577b16c6efcd19ba2f39ea3b6aa3b4be5"
+  },
+  "configuration": {
+    "batch_size": 256,
+    "encoder": "GRU",
+    "epochs": 15,
+    "event_embedding_size": 8,
+    "hidden_size": 32,
+    "learning_rate": 0.003,
+    "mask_rate": 0.35,
+    "multi_task_loss": "completion BCE + forward displacement MSE, unit weights",
+    "optimizer": "Adam",
+    "seeds": [
+      11,
+      29,
+      47
+    ],
+    "sequence_length": 8,
+    "tabular_baselines": {
+      "inputs": "Same eight events and observed fields; flattened numeric values and eleven-way event-type one-hot (including padding).",
+      "mlp": "One32-unit ReLU layer and shared two-task head;Adam,batch size,epochs,loss and validation checkpoint selection match shared GRU;train-only;no source pretraining.",
+      "tree": "Separate classification/regression estimators;100 boosting iterations,15 leaves,learning rate0.05,L2=1,seed11;no internal validation or early stopping."
+    },
+    "target_league": "England",
+    "train_cap": 8000
+  },
+  "data": {
+    "inputs": {
+      "complete_assets": 27,
+      "providers": [
+        "wyscout"
+      ],
+      "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+    },
+    "provider": "wyscout",
+    "season": "2017/18",
+    "splits": {
+      "source": {
+        "completion_rate": 0.8295624852180481,
+        "date_end": "2017-12-30",
+        "date_start": "2017-08-04",
+        "leagues": {
+          "France": 190,
+          "Germany": 153,
+          "Italy": 188,
+          "Spain": 169
+        },
+        "matches_used": 700,
+        "sequences_available": 596256,
+        "sequences_used": 16000
+      },
+      "test": {
+        "completion_rate": 0.8267499804496765,
+        "date_end": "2018-05-13",
+        "date_start": "2018-03-01",
+        "leagues": {
+          "England": 101
+        },
+        "matches_used": 101,
+        "sequences_available": 88056,
+        "sequences_used": 8000
+      },
+      "train": {
+        "completion_rate": 0.831250011920929,
+        "date_end": "2017-12-31",
+        "date_start": "2017-08-11",
+        "leagues": {
+          "England": 209
+        },
+        "matches_used": 209,
+        "sequences_available": 181180,
+        "sequences_used": 8000
+      },
+      "validation": {
+        "completion_rate": 0.8151249885559082,
+        "date_end": "2018-02-25",
+        "date_start": "2018-01-01",
+        "leagues": {
+          "England": 70
+        },
+        "matches_used": 70,
+        "sequences_available": 59421,
+        "sequences_used": 8000
+      }
+    },
+    "target_league": "England",
+    "test_start": "2018-03-01",
+    "validation_start": "2018-01-01"
+  },
+  "environment": {
+    "device": "cpu",
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "torch": "2.8.0+cpu",
+    "torch_threads": 2
+  },
+  "input_fields": [
+    "event type",
+    "event-start x/y in current-team frame",
+    "time gap to current event",
+    "same-team flag"
+  ],
+  "limits": [
+    "Historical single-season first benchmark; cross-season transfer not yet tested.",
+    "Events lack continuous off-ball trajectories and complete pressure observations.",
+    "Forward displacement is an observed geometry target, not intended pass destination or chance value.",
+    "Validation selects epochs; fixed hyperparameters are not tuned on test scores.",
+    "Seed SD describes optimizer variability, not sampling uncertainty or causal effects.",
+    "Transfer methods consume extra source-training compute; separate tasks use two encoders.",
+    "Tree and MLP baselines use the same observable history with fixed one-hot types; GRU learns type embeddings. Architecture/compute budgets are not identical.",
+    "Representations are learned from observed events; they do not identify tactics or player potential by themselves."
+  ],
+  "observed_at": "2026-10-15T20:45:04.915846+00:00",
+  "run_id": "f94ded4a65f37938",
+  "summaries": [
+    {
+      "method": "constant_train_prior",
+      "runs": 1,
+      "test": {
+        "completion_auc": {
+          "mean": 0.5,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.14325468242168427,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.4610738754272461,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.537498980760574,
+          "seed_sd": 0.0
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.5,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.15095625817775726,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.4796100854873657,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 12.157191336154938,
+          "seed_sd": 0.0
+        }
+      }
+    },
+    {
+      "method": "linear_context",
+      "runs": 1,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6526873992855244,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.1377577781677246,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.4427587389945984,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.32507175207138,
+          "seed_sd": 0.0
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6263128257082569,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.14677385985851288,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.4683481752872467,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.75522431731224,
+          "seed_sd": 0.0
+        }
+      }
+    },
+    {
+      "method": "hist_gradient_boosting_context",
+      "runs": 1,
+      "test": {
+        "completion_auc": {
+          "mean": 0.686785617198378,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.133822839087745,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.4294370018934273,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 10.934715994340177,
+          "seed_sd": 0.0
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6746735128065471,
+          "seed_sd": 0.0
+        },
+        "completion_brier": {
+          "mean": 0.14264172950702803,
+          "seed_sd": 0.0
+        },
+        "completion_log_loss": {
+          "mean": 0.45146317979586664,
+          "seed_sd": 0.0
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.331483099293555,
+          "seed_sd": 0.0
+        }
+      }
+    },
+    {
+      "method": "separate_single_task",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6306963903728343,
+          "seed_sd": 0.006164571790487006
+        },
+        "completion_brier": {
+          "mean": 0.13964236776034036,
+          "seed_sd": 0.0005561796294148816
+        },
+        "completion_log_loss": {
+          "mean": 0.44841532905896503,
+          "seed_sd": 0.002008401287247021
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.283513655265173,
+          "seed_sd": 0.040728002109875025
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6248903656455417,
+          "seed_sd": 0.004711819184633545
+        },
+        "completion_brier": {
+          "mean": 0.14663268129030863,
+          "seed_sd": 0.00026196260718642107
+        },
+        "completion_log_loss": {
+          "mean": 0.46546001235644024,
+          "seed_sd": 0.0010444384959752977
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.721867074569067,
+          "seed_sd": 0.028150585592632085
+        }
+      }
+    },
+    {
+      "method": "shared_multi_task",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6306952267792909,
+          "seed_sd": 0.004257744225861839
+        },
+        "completion_brier": {
+          "mean": 0.1396293342113495,
+          "seed_sd": 0.00043525216945504045
+        },
+        "completion_log_loss": {
+          "mean": 0.4484296540419261,
+          "seed_sd": 0.0016020866221686466
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.354316025972366,
+          "seed_sd": 0.04146744383575272
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6235114016099648,
+          "seed_sd": 0.0028013847024734887
+        },
+        "completion_brier": {
+          "mean": 0.14670170346895853,
+          "seed_sd": 0.00018205762016260205
+        },
+        "completion_log_loss": {
+          "mean": 0.4657359520594279,
+          "seed_sd": 0.0007163264302043239
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.777822176615397,
+          "seed_sd": 0.05412909946241004
+        }
+      }
+    },
+    {
+      "method": "current_event_only",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.5283344118390989,
+          "seed_sd": 0.0005704400757867345
+        },
+        "completion_brier": {
+          "mean": 0.14288602272669473,
+          "seed_sd": 2.0414288096840012e-05
+        },
+        "completion_log_loss": {
+          "mean": 0.45995161930720013,
+          "seed_sd": 4.5652959053060616e-05
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.383919417858124,
+          "seed_sd": 0.06079614850151317
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.5313323121703474,
+          "seed_sd": 0.0007801135624744438
+        },
+        "completion_brier": {
+          "mean": 0.15046710769335428,
+          "seed_sd": 0.00011291856349447387
+        },
+        "completion_log_loss": {
+          "mean": 0.4780774811903636,
+          "seed_sd": 0.00036997956303415537
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.81512251496315,
+          "seed_sd": 0.044788779645978084
+        }
+      }
+    },
+    {
+      "method": "mlp_context",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6374583051707333,
+          "seed_sd": 0.002848235059332768
+        },
+        "completion_brier": {
+          "mean": 0.13882497946421304,
+          "seed_sd": 0.00017746411995343405
+        },
+        "completion_log_loss": {
+          "mean": 0.44544897476832074,
+          "seed_sd": 0.0007090967430017897
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.398870994647345,
+          "seed_sd": 0.09349022297286601
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6201982381983459,
+          "seed_sd": 0.0007018856072194004
+        },
+        "completion_brier": {
+          "mean": 0.14701241254806519,
+          "seed_sd": 0.00014448472335389694
+        },
+        "completion_log_loss": {
+          "mean": 0.46632761756579083,
+          "seed_sd": 0.0004412194750472233
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.834795276323954,
+          "seed_sd": 0.07676428247624455
+        }
+      }
+    },
+    {
+      "method": "source_zero_shot",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6543451746430277,
+          "seed_sd": 0.0020814859066186327
+        },
+        "completion_brier": {
+          "mean": 0.13742618262767792,
+          "seed_sd": 0.00021589219294604832
+        },
+        "completion_log_loss": {
+          "mean": 0.4415695369243622,
+          "seed_sd": 0.0008171780403064763
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.26502032081286,
+          "seed_sd": 0.07853708499647866
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6545670465596198,
+          "seed_sd": 0.0020113272621183273
+        },
+        "completion_brier": {
+          "mean": 0.14370721081892648,
+          "seed_sd": 0.0003697940134978513
+        },
+        "completion_log_loss": {
+          "mean": 0.4572422206401825,
+          "seed_sd": 0.0010246327653164176
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.742603778839111,
+          "seed_sd": 0.0886235347008539
+        }
+      }
+    },
+    {
+      "method": "supervised_transfer_frozen",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.661368370734866,
+          "seed_sd": 0.001918471583629117
+        },
+        "completion_brier": {
+          "mean": 0.1368498553832372,
+          "seed_sd": 0.00021392031151120524
+        },
+        "completion_log_loss": {
+          "mean": 0.4389724135398865,
+          "seed_sd": 0.0006686116808388636
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.300918956597647,
+          "seed_sd": 0.021567849835874
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6595302767774728,
+          "seed_sd": 0.002244803752052849
+        },
+        "completion_brier": {
+          "mean": 0.14353223145008087,
+          "seed_sd": 0.00036425753089631887
+        },
+        "completion_log_loss": {
+          "mean": 0.455747385819753,
+          "seed_sd": 0.0010293793191111992
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.78532416621844,
+          "seed_sd": 0.011441435020192342
+        }
+      }
+    },
+    {
+      "method": "supervised_transfer_finetune",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6635822710815151,
+          "seed_sd": 0.0013803430778159672
+        },
+        "completion_brier": {
+          "mean": 0.13669915000597635,
+          "seed_sd": 0.00019698845131022147
+        },
+        "completion_log_loss": {
+          "mean": 0.43794097503026325,
+          "seed_sd": 0.0005902108044271012
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.28283441066742,
+          "seed_sd": 0.08579837553510145
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6600056916374646,
+          "seed_sd": 0.0028184618411513517
+        },
+        "completion_brier": {
+          "mean": 0.14323246975739798,
+          "seed_sd": 0.00032196873900479584
+        },
+        "completion_log_loss": {
+          "mean": 0.45490238070487976,
+          "seed_sd": 0.0009580003582828034
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.752420415480932,
+          "seed_sd": 0.06709840874291957
+        }
+      }
+    },
+    {
+      "method": "self_supervised_frozen",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6219707478401159,
+          "seed_sd": 0.00626343763015404
+        },
+        "completion_brier": {
+          "mean": 0.1402512788772583,
+          "seed_sd": 0.0003780447510410958
+        },
+        "completion_log_loss": {
+          "mean": 0.4508939782778422,
+          "seed_sd": 0.0012953206146888352
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.43951565027237,
+          "seed_sd": 0.04436568871785823
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.6106656267711843,
+          "seed_sd": 0.009936752328888025
+        },
+        "completion_brier": {
+          "mean": 0.1477335145076116,
+          "seed_sd": 0.0006790499180648844
+        },
+        "completion_log_loss": {
+          "mean": 0.4691392680009206,
+          "seed_sd": 0.0021136027827061503
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.908883104721705,
+          "seed_sd": 0.014357586555137634
+        }
+      }
+    },
+    {
+      "method": "self_supervised_finetune",
+      "runs": 3,
+      "test": {
+        "completion_auc": {
+          "mean": 0.6524088095376271,
+          "seed_sd": 0.0005059641107652801
+        },
+        "completion_brier": {
+          "mean": 0.13797407348950705,
+          "seed_sd": 0.00015925092408521538
+        },
+        "completion_log_loss": {
+          "mean": 0.4420957068602244,
+          "seed_sd": 0.00030131887875560536
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.365830898284912,
+          "seed_sd": 0.034115163365171716
+        }
+      },
+      "validation": {
+        "completion_auc": {
+          "mean": 0.643854132331677,
+          "seed_sd": 0.0037438326612413276
+        },
+        "completion_brier": {
+          "mean": 0.1448905070622762,
+          "seed_sd": 0.0004000182577433174
+        },
+        "completion_log_loss": {
+          "mean": 0.4598231812318166,
+          "seed_sd": 0.0010699121887495615
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "mean": 11.825765669345856,
+          "seed_sd": 0.03348497581280889
+        }
+      }
+    }
+  ],
+  "targets": [
+    "recorded pass completion",
+    "recorded endpoint x minus start x / pitch length"
+  ],
+  "test_comparisons": {
+    "cohort_sha256": "c65d1de011123acc2cb4da8020203da6f0c675d5c019f87880ae41b8aa4d3992",
+    "comparisons": [
+      {
+        "completion_brier": {
+          "difference": 0.00943184851954348,
+          "lower": 0.00758679035622844,
+          "upper": 0.01129880333377432
+        },
+        "completion_log_loss": {
+          "difference": 0.031636934930241084,
+          "lower": 0.026454331252405712,
+          "upper": 0.036911207723835646
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.6027829996684573,
+          "lower": 0.4755580787538178,
+          "upper": 0.7312956149253914
+        },
+        "method": "constant_train_prior",
+        "runs": 1
+      },
+      {
+        "completion_brier": {
+          "difference": 0.003934936195994794,
+          "lower": 0.002467744762815603,
+          "upper": 0.005350491438586837
+        },
+        "completion_log_loss": {
+          "difference": 0.013321732416679043,
+          "lower": 0.008973935908755058,
+          "upper": 0.01776809749972683
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.3903551629653235,
+          "lower": 0.31044821030104497,
+          "upper": 0.47348237542186716
+        },
+        "method": "linear_context",
+        "runs": 1
+      },
+      {
+        "completion_brier": {
+          "difference": 0.005819528503777389,
+          "lower": 0.004293088254911613,
+          "upper": 0.0073007997563090095
+        },
+        "completion_log_loss": {
+          "difference": 0.018978333165821554,
+          "lower": 0.014816509727403167,
+          "upper": 0.023128972694185117
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.34879740512560853,
+          "lower": 0.2694634279733546,
+          "upper": 0.42746609915178285
+        },
+        "method": "separate_single_task",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.00580649648820732,
+          "lower": 0.00432625527225358,
+          "upper": 0.007234796527041584
+        },
+        "completion_log_loss": {
+          "difference": 0.0189926451690796,
+          "lower": 0.014849680796372899,
+          "upper": 0.023080950496937952
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.4195996457891261,
+          "lower": 0.34210701658804704,
+          "upper": 0.4996513694068651
+        },
+        "method": "shared_multi_task",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.009063178678717051,
+          "lower": 0.007359490773872886,
+          "upper": 0.010804941863092632
+        },
+        "completion_log_loss": {
+          "difference": 0.030514627659313107,
+          "lower": 0.02562599228322778,
+          "upper": 0.03534706128539431
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.44920349058093034,
+          "lower": 0.3618485712877534,
+          "upper": 0.5373458464140956
+        },
+        "method": "current_event_only",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.005002137914974231,
+          "lower": 0.003570607705687266,
+          "upper": 0.006449838403252278
+        },
+        "completion_log_loss": {
+          "difference": 0.01601198440587313,
+          "lower": 0.012022005662583069,
+          "upper": 0.020004075109704155
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.46415484521867506,
+          "lower": 0.37907340292531455,
+          "upper": 0.5483202936540102
+        },
+        "method": "mlp_context",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.003603342837142938,
+          "lower": 0.002213961853678614,
+          "upper": 0.004912589088461159
+        },
+        "completion_log_loss": {
+          "difference": 0.01213253147297002,
+          "lower": 0.007694804052644075,
+          "upper": 0.015958139039708472
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.3303043571985678,
+          "lower": 0.2571637206411554,
+          "upper": 0.4084726254785565
+        },
+        "method": "source_zero_shot",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.003027014685530359,
+          "lower": 0.0016791476974432637,
+          "upper": 0.004315082576234729
+        },
+        "completion_log_loss": {
+          "difference": 0.009535412636345114,
+          "lower": 0.005679216844782635,
+          "upper": 0.013163186907819348
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.36620307515704675,
+          "lower": 0.2866074390549599,
+          "upper": 0.4479807780444124
+        },
+        "method": "supervised_transfer_frozen",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.0028763135346998145,
+          "lower": 0.0016265822619664237,
+          "upper": 0.004071469369974169
+        },
+        "completion_log_loss": {
+          "difference": 0.008503978719626515,
+          "lower": 0.004949327808616599,
+          "upper": 0.011985674452939897
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.3481180540039547,
+          "lower": 0.2680510669443088,
+          "upper": 0.4304902096865263
+        },
+        "method": "supervised_transfer_finetune",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.006428438799413667,
+          "lower": 0.004855571148813796,
+          "upper": 0.007978875216450677
+        },
+        "completion_log_loss": {
+          "difference": 0.021456973542821486,
+          "lower": 0.017194811817793185,
+          "upper": 0.02578101139398569
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.504799637701552,
+          "lower": 0.42218173439114765,
+          "upper": 0.5979784139252087
+        },
+        "method": "self_supervised_frozen",
+        "runs": 3
+      },
+      {
+        "completion_brier": {
+          "difference": 0.004151235115470153,
+          "lower": 0.002747934639203397,
+          "upper": 0.005571138922393931
+        },
+        "completion_log_loss": {
+          "difference": 0.012658702296285105,
+          "lower": 0.008819726298418757,
+          "upper": 0.01654802846354331
+        },
+        "forward_displacement_mae_pitch_pct": {
+          "difference": 0.43111483875991446,
+          "lower": 0.3565284684943428,
+          "upper": 0.5117264713337544
+        },
+        "method": "self_supervised_finetune",
+        "runs": 3
+      }
+    ],
+    "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+    "interval_method": "percentile",
+    "limits": [
+      "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+      "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+      "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+      "树基线在先前测试对照后选作参照；这些是事后探索比较，没有多重比较显著性结论。"
+    ],
+    "method": "paired_match_case_bootstrap",
+    "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+    "predictions_sha256": "93c7d39732971e0bee0d48988b724ed54aaba02ed7c2c68899b864677fb989f3",
+    "quantiles": [
+      0.025,
+      0.975
+    ],
+    "reference": "hist_gradient_boosting_context",
+    "replicates": 2000,
+    "rng": "numpy.PCG64",
+    "scipy_version": "1.18.1",
+    "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+    "seed": 20261015,
+    "seed_aggregation": "mean_loss_across_fixed_seeds",
+    "test_matches": 101,
+    "test_sequences": 8000,
+    "weighting": "pooled_sampled_passes"
+  }
+}

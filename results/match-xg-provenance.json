@@ -1,0 +1,292 @@
+{
+  "availability_timestamp": null,
+  "cohort": {
+    "completed_matches": 297,
+    "independently_verified_xg_values": 594,
+    "leagues": [
+      {
+        "competition": "PL",
+        "complete_finished_pairs": 60,
+        "field_status_counts": {
+          "away": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 60
+          },
+          "home": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 60
+          }
+        },
+        "inconsistent_metadata_matches": 0,
+        "matches": 60,
+        "paired_xg_summary": {
+          "away": {
+            "max": 3.57,
+            "mean": 1.4215,
+            "min": 0.2
+          },
+          "home": {
+            "max": 4.56,
+            "mean": 1.5941666666666667,
+            "min": 0.32
+          }
+        },
+        "season": "2026"
+      },
+      {
+        "competition": "FL1",
+        "complete_finished_pairs": 54,
+        "field_status_counts": {
+          "away": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 54
+          },
+          "home": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 54
+          }
+        },
+        "inconsistent_metadata_matches": 0,
+        "matches": 54,
+        "paired_xg_summary": {
+          "away": {
+            "max": 5.09,
+            "mean": 1.44,
+            "min": 0.19
+          },
+          "home": {
+            "max": 4.42,
+            "mean": 1.7655555555555555,
+            "min": 0.3
+          }
+        },
+        "season": "2026"
+      },
+      {
+        "competition": "BL1",
+        "complete_finished_pairs": 45,
+        "field_status_counts": {
+          "away": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 45
+          },
+          "home": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 45
+          }
+        },
+        "inconsistent_metadata_matches": 0,
+        "matches": 45,
+        "paired_xg_summary": {
+          "away": {
+            "max": 4.96,
+            "mean": 1.5611111111111111,
+            "min": 0.19
+          },
+          "home": {
+            "max": 4.06,
+            "mean": 2.0020000000000002,
+            "min": 0.21
+          }
+        },
+        "season": "2026"
+      },
+      {
+        "competition": "SA",
+        "complete_finished_pairs": 60,
+        "field_status_counts": {
+          "away": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 60
+          },
+          "home": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 60
+          }
+        },
+        "inconsistent_metadata_matches": 0,
+        "matches": 60,
+        "paired_xg_summary": {
+          "away": {
+            "max": 3.91,
+            "mean": 1.417,
+            "min": 0.11
+          },
+          "home": {
+            "max": 3.86,
+            "mean": 1.5746666666666667,
+            "min": 0.16
+          }
+        },
+        "season": "2026"
+      },
+      {
+        "competition": "PD",
+        "complete_finished_pairs": 78,
+        "field_status_counts": {
+          "away": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 78
+          },
+          "home": {
+            "column_absent": 0,
+            "invalid": 0,
+            "missing": 0,
+            "untracked": 0,
+            "valid": 78
+          }
+        },
+        "inconsistent_metadata_matches": 0,
+        "matches": 78,
+        "paired_xg_summary": {
+          "away": {
+            "max": 4.38,
+            "mean": 1.3662820512820513,
+            "min": 0.05
+          },
+          "home": {
+            "max": 6.74,
+            "mean": 1.5535897435897437,
+            "min": 0.13
+          }
+        },
+        "season": "2026"
+      }
+    ]
+  },
+  "definition_status": "unverified",
+  "implementation": {
+    "app/data_service/database.py": "38472c083db9acd64f553b290600eb912f385ffba2ce9e0ca79451ea065f3c46",
+    "app/data_service/fetch/public.py": "70fef5f7e9edc152a32ff0040cac06349871cf1ab65ded31bf385a66c6e26dec"
+  },
+  "inputs": [
+    {
+      "baseline_snapshot_sha256": "c9f637defd1f72c7d4de18a9a9a6fa5051d96acc50db6e433a21897224e0d8e9",
+      "bytes": 29659,
+      "competition": "PL",
+      "derived_snapshot_sha256": "68312087ec5b5433757b9495edc2e47de7c12cb0e49a5413eabe5918ca4268b8",
+      "matches": 60,
+      "observed_at": "2026-10-17T23:40:11.338186+00:00",
+      "sha256": "6731e95dd7120f5c7dc9f37650cc11ccccda8e7e0a3626830263c2cd77daa787",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/E0.csv"
+    },
+    {
+      "baseline_snapshot_sha256": "ced235525a17482d4795dd82da688ed0d1cc2b9d8c4545020c089e22d72ae7ed",
+      "bytes": 26136,
+      "competition": "FL1",
+      "derived_snapshot_sha256": "31b10c38953b736e42442fec96ba2d932ccc104e3f70b8639d9f21dd3f41208a",
+      "matches": 54,
+      "observed_at": "2026-10-17T23:40:11.599012+00:00",
+      "sha256": "821dd8fb2d734b9389e80504c6eb39cfe26936305c27e383a76eff9b6b8e1d20",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/F1.csv"
+    },
+    {
+      "baseline_snapshot_sha256": "8088241d7a4d4c1fa4be414ca65e71f230c3d07b552662d0ded758c2e85d7e6c",
+      "bytes": 22029,
+      "competition": "BL1",
+      "derived_snapshot_sha256": "ad8baaaa8c79b2fb32534dbeefbe93733cc1db01707664d3054a2429a5dc20d7",
+      "matches": 45,
+      "observed_at": "2026-10-17T23:40:11.852216+00:00",
+      "sha256": "5eda3818e95fea577b46e9af172c8190d007c4e48b486d65418423e55d66acf9",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/D1.csv"
+    },
+    {
+      "baseline_snapshot_sha256": "24dc6e03f8d3db495c72f2535e415c47b11d9da4527f59a84aebb5b727a73e36",
+      "bytes": 28711,
+      "competition": "SA",
+      "derived_snapshot_sha256": "f0584006060a25f019ed4ecd064ac72e15d5ce55872fb4fc99bbce59ea5d41fb",
+      "matches": 60,
+      "observed_at": "2026-10-17T23:40:12.118448+00:00",
+      "sha256": "9faa2c5914ba4925721a81a1618d2531eec6bd4a59c430a964a6815cb2f3dc75",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/I1.csv"
+    },
+    {
+      "baseline_snapshot_sha256": "05475a52798e0fd113754e3b0d42ccf7218c9479fb1529e075829743b68c982e",
+      "bytes": 37529,
+      "competition": "PD",
+      "derived_snapshot_sha256": "0db7f37b034b88e587e9945863d8cd57f866e48986570b54ee81ddb594867231",
+      "matches": 78,
+      "observed_at": "2026-10-17T23:40:12.394671+00:00",
+      "sha256": "a2a27803e477b9a671f7fc1fdcd0b9a6a9bb52a3ff50806b4151845716b60abb",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/SP1.csv"
+    }
+  ],
+  "limits": [
+    "HxG/AxG are provider-labelled match values. Model vendor, shot population, penalty treatment, revisions and exact availability time remain unverified.",
+    "Finite nonnegative totals are retained, including zero and values above1; optional invalid/missing fields do not discard fixtures. Raw bytes remain separately exportable.",
+    "Summaries require both valid fields, consistent provenance and FINISHED status. Coverage is per asset; revisions and providers are never pooled.",
+    "Current297fixtures end October11–12. Offline reparse adds no matches and does not establish current-day completeness.",
+    "Existing historical snapshots, production30feature schema, model artifacts, main warehouse and website are unchanged. No xG forecasting feature or shot-level training is added.",
+    "Paper31 has a selected reading only. Pandera54 is a documentation adaptation; the package is not installed or executed."
+  ],
+  "references": [
+    {
+      "number": 31,
+      "scope": "Selected Section2/Algorithm1 and Section2.1/Table1 on shot-level probabilities and aggregate xG; no shot-model or explanation reproduction.",
+      "url": "https://arxiv.org/html/2206.07212v2"
+    },
+    {
+      "number": 54,
+      "scope": "Selected optional-column, nullable and coercion documentation; native field validation only, no Pandera runtime.",
+      "url": "https://pandera.readthedocs.io/en/stable/dataframe_schemas.html"
+    },
+    {
+      "scope": "Selected null-handling and dataframe-level checks; explicit pair checks retain missing/invalid rows.",
+      "url": "https://pandera.readthedocs.io/en/stable/checks.html"
+    },
+    {
+      "scope": "No HxG/AxG column definition found in the official field notes read for this audit.",
+      "url": "https://football-data.co.uk/notes.txt"
+    }
+  ],
+  "run_id": "12012f3527e86074",
+  "schema": "SoccerAnalytics.MatchXGProvenanceStudy.v1",
+  "scope": "Offline normalization and isolated storage audit of previously downloaded five-league 2026/27 CSVs.",
+  "usage_policy": "post_match_only",
+  "validation": {
+    "exact_legacy_match_equivalence": true,
+    "full_suite": {
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "log_sha256": "896947499171d4e3bff3e378354870245b7fdcc2b2390620dfa377dcb82647ec",
+      "passed": 356,
+      "seconds": 34.243,
+      "skipped": 4,
+      "tests": 360
+    },
+    "isolated_database_bytes": 1748992,
+    "isolated_database_unchanged_by_audit_and_exports": true,
+    "lossless_asset_exports": 15,
+    "main_database_scope": "Stat(size,mtime) only; no query/hash/copy.",
+    "raw_csv_cell_roundtrip": true,
+    "read_only_cli": true,
+    "unchanged_30_pre_match_feature_rows": 297,
+    "zero_new_network_requests": true
+  }
+}

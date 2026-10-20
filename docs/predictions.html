@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2468A0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232468A0'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Touchline · 比赛预测</title>
+<meta name="description" content="核对赛前概率、历史验证与发布条件。">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+<script src="./app.js" defer></script><script src="./validation.js" defer></script><script src="./market.js" defer></script>
+</head><body class="research-page workspace" data-page="predictions">
+<a class="skip-link" href="#main-content">跳到主要内容</a>
+<aside class="workspace-sidebar"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">T</span>Touchline</a><p class="workspace-edition">足球数据研究</p><nav class="workspace-nav" aria-label="主导航"><a href="./index.html">概览</a><a href="./matches.html">比赛</a><a href="./entities.html">球队与球员</a><a href="./models.html" aria-current="page">模型实验</a><a href="./library.html">数据与资料</a></nav><div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span>公开研究快照<p>每项分析保留样本与来源。</p></div></aside>
+<div class="workspace-body"><header class="workspace-topbar"><a href="./index.html" class="mobile-brand" aria-label="Touchline 概览">T</a><span>足球研究 <span aria-hidden="true">/</span> 比赛预测</span><a href="./library.html#coverage">查看数据范围 ↗</a></header>
+<main id="main-content" class="workspace-main"><div class="workspace-heading"><div><p class="eyebrow">TOUCHLINE / 比赛预测</p><h1>比赛预测</h1><p>核对赛前概率、历史验证与发布条件。</p></div></div>
+
+<p class="back-link"><a href="./models.html">← 返回模型实验</a><a href="#historical-validation">查看历史验证 ↓</a></p><div class="prediction-workspace"><div id="data-health" class="data-health" aria-live="polite">正在读取预测快照…</div><div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">足球赛前概率</p>
+            <h2>预测发布状态</h2>
+            <p class="hero-summary">
+              比较待赛比赛的赛果概率，并查看模型质量与发布条件。
+            </p>
+            <a class="fixture-link" href="#fixtures-title">查看待赛比赛 ↓</a>
+          </div>
+
+          <aside id="release-command" class="release-command" aria-labelledby="release-command-title">
+            <div class="command-topline">
+              <span>发布检查</span>
+              <span id="release-status" class="status-token status-unknown">正在检查</span>
+            </div>
+            <h2 id="release-command-title">暂停发布推荐</h2>
+            <p id="release-command-copy">正在读取发布检查。</p>
+            <div class="command-facts" id="release-command-facts"></div>
+          </aside>
+        </div>
+
+        <section class="coverage-board" aria-labelledby="coverage-title">
+          <div class="coverage-heading">
+            <div>
+              <span class="eyebrow" id="coverage-title">模型覆盖</span>
+              <strong id="coverage-copy">正在读取赛事模型</strong>
+            </div>
+            <span id="coverage-ratio" class="coverage-ratio">— / —</span>
+          </div>
+          <div
+            id="model-coverage-track"
+            class="coverage-track"
+            role="progressbar"
+            aria-label="赛事模型覆盖"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span id="coverage-fill"></span>
+          </div>
+          <div id="coverage-labels" class="coverage-labels"></div>
+        </section>
+
+      <section class="scoreboard" aria-label="当前快照摘要">
+        <article class="score-cell">
+          <span>比赛数</span>
+          <strong id="metric-fixtures">0</strong>
+          <small>当前快照中的比赛</small>
+        </article>
+        <article class="score-cell">
+          <span>可发布</span>
+          <strong id="metric-picks">0</strong>
+          <small id="metric-picks-threshold">最高赛果概率至少 60%</small>
+        </article>
+        <article class="score-cell">
+          <span>平均最高赛果概率</span>
+          <strong id="metric-confidence">—</strong>
+          <small>当前全部比赛</small>
+        </article>
+        <article class="score-cell">
+          <span>历史不足</span>
+          <strong id="metric-cold-start">—</strong>
+          <small>球队历史数据不足</small>
+        </article>
+      </section>
+
+      <section class="surface fixture-desk" aria-labelledby="fixtures-title">
+        <div class="fixture-heading">
+          <div>
+            <p class="eyebrow">赛果概率</p>
+            <h2 id="fixtures-title">待赛比赛</h2>
+            <p id="fixture-result-count" class="section-note" aria-live="polite">正在读取比赛…</p>
+            <a class="research-browse" href="./research.html#figures">查看比赛分析与图表 ↗</a>
+          </div>
+          <div class="controls" aria-label="Prediction filters">
+            <label class="search-control">
+              <span>搜索球队</span>
+              <input id="prediction-search" type="search" placeholder="搜索比赛" autocomplete="off" />
+            </label>
+            <label>
+              <span>赛事</span>
+              <select id="competition-filter">
+                <option value="all">全部赛事</option>
+              </select>
+            </label>
+            <label>
+              <span>最高赛果概率</span>
+              <select id="confidence-filter">
+                <option value="0">不限概率</option>
+                <option value="0.5">至少 50%</option>
+                <option value="0.6">至少 60%</option>
+                <option value="0.7">至少 70%</option>
+              </select>
+            </label>
+            <label>
+              <span>排序</span>
+              <select id="prediction-sort">
+                <option value="kickoff">按开球时间</option>
+                <option value="confidence">最高概率优先</option>
+                <option value="uncertainty">最低不确定性优先</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="predictions" class="fixture-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="support-grid">
+        <article class="surface support-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">候选比赛</p>
+              <h2>推荐候选</h2>
+            </div>
+          </div>
+          <div id="recommended-bets" class="compact-list"></div>
+        </article>
+        <article class="surface support-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">最新赛果</p>
+              <h2>已结束比赛</h2>
+            </div>
+          </div>
+          <div id="scores" class="compact-list"></div>
+        </article>
+      </section>
+
+      <section id="historical-validation" class="surface validation-panel" aria-labelledby="validation-heading">
+        <div class="section-heading"><div><p class="eyebrow">历史留出评估</p><h2 id="validation-heading">预测概率可靠吗</h2></div><a href="./research.html#comparisons">查看球队与球员比较 ↗</a></div>
+        <p id="validation-scope" class="context-note">正在读取历史验证范围。</p>
+        <div class="validation-filters">
+          <label>联赛<select id="validation-league" disabled></select></label><label>起始月份<select id="validation-from" disabled></select></label><label>结束月份<select id="validation-to" disabled></select></label>
+          <label>校准对象<select id="validation-outcome" disabled><option value="top">最高概率赛果</option><option value="home">主胜概率</option><option value="draw">平局概率</option><option value="away">客胜概率</option></select></label>
+        </div>
+        <p id="validation-status" class="context-note" role="status" aria-live="polite">正在读取历史验证数据。</p>
+        <div id="validation-summary" class="quality-stats"></div>
+        <p class="validation-scroll-hint">小屏幕可左右滑动图表，或展开下方数值表。</p>
+        <div class="validation-charts"><div><h3>预测概率与实际比例</h3><div id="validation-calibration" class="validation-chart" tabindex="0" role="region" aria-label="概率校准图，可横向滚动"></div></div><div><h3>按月命中率</h3><div id="validation-timeline" class="validation-chart" tabindex="0" role="region" aria-label="月度命中率图，可横向滚动"></div></div></div>
+        <p id="validation-limits" class="context-note">校准点为非空概率分箱，虚线为完全校准参考线。月度图缺少比赛的月份断线，不补零。</p>
+        <button id="validation-export" type="button" disabled>下载所选月份数值 CSV</button>
+        <details class="diagnostic-details"><summary>查看校准分箱与每月数值</summary><div id="validation-bins" class="table-scroll"></div><div id="validation-periods" class="table-scroll"></div></details>
+      </section>
+      <section id="market-reference" class="surface validation-panel" aria-labelledby="market-heading">
+        <div class="section-heading"><div><p class="eyebrow">足球主平客 · 回顾性参考</p><h2 id="market-heading">市场报价提供什么参考</h2></div><a href="https://www.football-data.co.uk/notes.txt" target="_blank" rel="noopener noreferrer">来源与列定义 ↗</a></div>
+        <p class="context-note">比较同一批比赛的历史赛果频率、收盘前报价与收盘报价。这里的比赛范围单独核查，与上方模型评估的样本可能不同。</p>
+        <div class="validation-filters">
+          <label>联赛<select id="market-league" disabled></select></label><label>赛季<select id="market-season" disabled></select></label><label>报价来源<select id="market-book" disabled></select></label>
+        </div>
+        <p id="market-status" class="context-note" role="status" aria-live="polite">正在读取足球市场参考。</p>
+        <button id="market-retry" type="button" hidden>重试读取市场参考</button>
+        <div id="market-table" class="table-scroll" tabindex="0" role="region" aria-label="市场参考数值表，可横向滚动"></div>
+        <p id="market-training" class="context-note"></p><p id="market-method" class="context-note"></p>
+        <p id="market-limits" class="context-note"></p>
+        <p class="context-note"><span id="market-source"></span> <a href="https://www.football-data.co.uk/data.php" target="_blank" rel="noopener noreferrer">查看供应商质量提示 ↗</a></p>
+      </section>
+      <section class="quality-grid" aria-label="模型质量与发布检查">
+        <article class="surface quality-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">模型验证</p>
+              <h2>模型质量</h2>
+            </div>
+            <span id="operations-status" class="status-token status-unknown">未知</span>
+          </div>
+          <div id="operations-summary" class="quality-stats"></div>
+          <details class="diagnostic-details">
+            <summary>模型检查与回测 <span id="operations-message-count"></span></summary>
+            <div id="operations-alerts" class="signal-list"></div>
+          </details>
+        </article>
+
+        <article class="surface gate-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">发布条件</p>
+              <h2>发布检查</h2>
+            </div>
+          </div>
+          <div id="release-summary" class="quality-stats"></div>
+          <details class="diagnostic-details">
+            <summary>查看发布检查详情 <span id="release-message-count"></span></summary>
+            <div id="release-blockers" class="signal-list"></div>
+          </details>
+        </article>
+      </section>
+
+      <section class="surface diagnostics" aria-labelledby="diagnostics-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">运行诊断</p>
+            <h2 id="diagnostics-title">数据与运行问题</h2>
+          </div>
+        </div>
+        <details class="diagnostic-details">
+          <summary>查看诊断信息 <span id="diagnostic-message-count"></span></summary>
+          <div id="prediction-errors" class="signal-list"></div>
+        </details>
+      </section>
+
+      <section class="risk-band" aria-labelledby="risk-title">
+        <div>
+          <p class="eyebrow">使用说明</p>
+          <h2 id="risk-title">结合验证结果使用预测</h2>
+        </div>
+        <div id="risk-disclosure" class="risk-copy">
+          <p>概率仅供分析参考。发布检查未通过时，暂停发布推荐。</p>
+        </div>
+      </section>
+    <p id="footer-run-id" class="context-note">快照尚未加载</p></div>
+</main><footer class="workspace-footer"><span>Touchline · 足球数据研究</span><span>公开汇总 · 原件与训练文件保留在本地</span></footer></div>
+</body></html>

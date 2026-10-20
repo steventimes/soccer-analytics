@@ -1,0 +1,589 @@
+{
+  "candidates": [
+    {
+      "application": "关注低成本足球分析的输入与交互，待读正文后再决定是否采用。",
+      "authors": "Joshua Langmead, Sarah Goodwin, Benjamin Tag",
+      "citation_key": "LangmeadGoodwinTag2026Affordable",
+      "data": "尚未取得并阅读正文，不记录数据规模。",
+      "evidence_pages": [],
+      "id": "affordable-football-2026",
+      "limitations": "同作者2025年公开预印本已单列；标题与作者数量不同，版本关系未证实，本条仍为后续阅读候选。",
+      "priority": 3,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1109/PacificVis68791.2026.00035",
+      "read_scope": "metadata_only",
+      "source_url": "https://www.unsw.edu.au/staff/benjamin-tag",
+      "title": "Affordable Visual Analytics for Amateur Football (Soccer)",
+      "topic": "visualization",
+      "validation": "核对作者机构和Crossref的出版信息，未读正文，不推断实验结果。",
+      "venue": "IEEE PacificVis",
+      "year": 2026
+    }
+  ],
+  "checked_at": "2026-10-15",
+  "papers": [
+    {
+      "application": "需要精确比较时保留共用刻度的点图、条形图和数值表。场地图继续负责空间关系。",
+      "authors": "Jeffrey Heer, Michael Bostock",
+      "citation_key": "heer_bostock_2010",
+      "data": "在线比例估计实验，比较位置、长度、角度、面积等编码，并复核此前实验。",
+      "evidence_pages": [
+        3,
+        4
+      ],
+      "id": "heer-bostock-2010",
+      "limitations": "控制实验中的感知结果，不等于所有交互界面或任务都有同一排序。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://hci.stanford.edu/publications/paper.php?id=142",
+      "read_scope": "本地作者公开版本全部10页已逐页通读、查看；原实验未复现，最终本地验证待集中进行。",
+      "source_url": "https://hci.stanford.edu/publications/2010/crowd-perception/heer-chi2010.pdf",
+      "title": "Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design",
+      "topic": "visualization",
+      "validation": "比例判断中，位置编码比面积编码更准确；图尺寸和矩形形状也影响判断。",
+      "venue": "ACM CHI",
+      "year": 2010
+    },
+    {
+      "application": "把精确查值交给数值表，趋势和两队指标比较分别选择适合任务的图，不把喜欢某种样式当作效果证据。",
+      "authors": "Bahador Saket, Alex Endert, Çağatay Demiralp",
+      "citation_key": "saket_2019",
+      "data": "180 名完成者，5 种图表，10 种分析任务，2 份真实数据。",
+      "evidence_pages": [
+        4,
+        7,
+        8
+      ],
+      "id": "saket-2019",
+      "limitations": "公开全文是作者预印本。实验主要使用静态图表，交互效果需要另验。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1109/TVCG.2018.2829750",
+      "read_scope": "本地作者公开版本全部9页已逐页通读、查看；原实验未复现，最终本地验证待集中进行。",
+      "source_url": "https://arxiv.org/pdf/1709.08546",
+      "title": "Task-Based Effectiveness of Basic Visualizations",
+      "topic": "visualization",
+      "validation": "速度、准确率和偏好随任务变化，论文不支持一种图表在所有任务中最好。",
+      "venue": "IEEE TVCG 25(7)",
+      "year": 2019
+    },
+    {
+      "application": "比赛页已增加射门前控球段、逐步查看和保留顺序的步骤表，继续使用单一主图。控球段采用 StatsBomb 定义，不声称复现论文的完整系统。",
+      "authors": "Charles Perin, Romain Vuillemot, Jean-Daniel Fekete",
+      "citation_key": "soccerstories_2013",
+      "data": "真实赛事案例，4 位专家参与需求访谈，2 项定性研究。",
+      "evidence_pages": [
+        1,
+        5,
+        7
+      ],
+      "id": "soccerstories-2013",
+      "limitations": "这是定性设计研究，没有证明统一的耗时提升幅度或预测准确率。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1109/TVCG.2013.192",
+      "read_scope": "作者公开稿全部10页已读，含图1–16、动作表、两项定性研究与参考文献。",
+      "source_url": "https://aviz.fr/wiki/uploads/Research/soccerstories.pdf",
+      "title": "SoccerStories: A Kick-off for Visual Soccer Analysis",
+      "topic": "visualization",
+      "validation": "以比赛阶段连接概览和细节。第一项研究产出 4 篇战术文章；专家否定过同时铺开多种视图的早期网格界面。",
+      "venue": "IEEE TVCG / InfoVis",
+      "year": 2013
+    },
+    {
+      "application": "已增加三传球模式的分时段计数、筛选与逐步回看，使用有序事件而非累计传球矩阵。模式按接力身份规则分类，不是论文的 NMF 主题；没有复现防守覆盖区或视频分析。",
+      "authors": "Xiao Xie et al.",
+      "citation_key": "passvizor_2021",
+      "data": "需求阶段访谈 4 位专家。评估由 2 位专家分析阿根廷对巴西、阿根廷对秘鲁两场 U15 比赛。",
+      "evidence_pages": [
+        3,
+        5,
+        6
+      ],
+      "id": "passvizor-2021",
+      "limitations": "小规模专家案例，不是职业五大联赛的效果基准。防守覆盖和速度等视图还依赖追踪数据。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1109/TVCG.2020.3030359",
+      "read_scope": "作者稿全部10页已读，含NMF定义、图1–9、两场U15专家案例、限制与参考文献。",
+      "source_url": "https://ssxiexiao.github.io/papers/passvizor.pdf",
+      "title": "PassVizor: Toward Better Understanding of the Dynamics of Soccer Passes",
+      "topic": "visualization",
+      "validation": "模式时间线联动进攻阶段细节，案例显示整场网络会掩盖传球模式的时间变化。",
+      "venue": "IEEE TVCG 27(2)",
+      "year": 2021
+    },
+    {
+      "application": "保留事件与追踪驻留图的明确区别，比较热图时说明网格、归一化分母、坐标方向和数据缺口。",
+      "authors": "D. Garrido, B. Burriel, R. Resta, R. López del Campo, J. M. Buldú",
+      "citation_key": "event_tracking_heatmaps_2022",
+      "data": "西班牙两个级别共 60 场，1,320 条球员出场观测，比较事件位置与 25Hz 追踪位置。",
+      "evidence_pages": [
+        2,
+        3,
+        4
+      ],
+      "id": "event-tracking-heatmaps-2022",
+      "limitations": "方法和结果核对使用 2021 作者预印本，正式发表于 2022。事件密度不等于实际驻留时间。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1016/j.chaos.2022.112827",
+      "read_scope": "作者v1预印本全部6页已读，含方法、图1–5、结论及参考文献；2022出版版未作字节对照。",
+      "source_url": "https://arxiv.org/pdf/2106.04558",
+      "title": "Heatmaps in soccer: Event vs tracking datasets",
+      "topic": "visualization",
+      "validation": "网格尺度会改变两类热图的相关性。即使在最佳尺度，平均相关也只是中等，球员间差异很大。",
+      "venue": "Chaos, Solitons & Fractals 165",
+      "year": 2022
+    },
+    {
+      "application": "借鉴跨次拟合比较，为已有球风 NMF 增加三个明确随机起点和早段分量的一对一余弦匹配。持球进攻对抗的最小匹配相似度为 0.559，不能因检索率接近就断言空间模式稳定。没有复现论文的跨主题数布局或时序主题模型。",
+      "authors": "Laleh Moussavi, Gennady Andrienko, Natalia Andrienko, Aidan Slingsby",
+      "citation_key": "topics_2025",
+      "data": "公开 Wyscout 数据，1,941 场，包含五大联赛 2017/18 与两项国家队赛事。",
+      "evidence_pages": [
+        4,
+        6,
+        15
+      ],
+      "id": "topics-2025",
+      "limitations": "主要是工作流与案例展示，正式专家用户研究被列为后续工作。词袋表示不保留动作顺序，16 不是通用最优值。",
+      "priority": 2,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1016/j.cag.2025.104245",
+      "read_scope": "机构公开归档全部16个物理页已读，含封面、正文、图1–7、两表及参考文献。",
+      "source_url": "https://openaccess.city.ac.uk/id/eprint/35224/8/1-s2.0-S009784932500086X-main.pdf",
+      "title": "Visually-supported topic modeling for understanding behavioral patterns from spatio–temporal events",
+      "topic": "visualization",
+      "validation": "跨多种主题数比较空间足迹，案例选择 16 个主题，并展示单场到跨队比较。",
+      "venue": "Computers & Graphics 129",
+      "year": 2025
+    },
+    {
+      "application": "已据论文独立实现 50×50 每 90 分钟热图与 18 维 NMF 对照。Wyscout 2017/18 的 598 名稳定俱乐部非门将，在 2018-01-01 前拟合、之后检索，同联赛 Top-1 为动作频率 21.9%、空间热图 45.3%、仅起点 NMF 46.4%、传球起终点 NMF 43.2%。NMF 使用三个明确随机起点，数字为种子均值。加入终点没有提高本批数据的识别率。该实验是同赛季前后段的闭集球风稳定性检索，持球进攻对抗也不同于原文的带球运输，不能称为原跨赛季实验的复现。",
+      "authors": "Tom Decroos, Jesse Davis",
+      "citation_key": "player_vectors_2019",
+      "data": "五大联赛 9,155 场。跨季检索实验仅保留同队且两季都至少 900 分钟的 741 名球员。",
+      "evidence_pages": [
+        6,
+        7,
+        8,
+        14
+      ],
+      "id": "player-vectors-2019",
+      "limitations": "风格检索不是球员实力或未来潜力评估。原方法包含四类动作、每 90 分钟热图，传球同时使用起点与终点。",
+      "priority": 2,
+      "publication_status": "published",
+      "publication_url": "https://dtai.cs.kuleuven.be/sports/player_vectors/",
+      "read_scope": "作者公开稿全部16页已读，含方法、图1–4、两表、跨赛季检索、案例及参考文献。",
+      "source_url": "https://tomdecroos.github.io/reports/ecml19_tomd.pdf",
+      "title": "Player Vectors: Characterizing Soccer Players’ Playing Style from Match Event Streams",
+      "topic": "sports-analytics",
+      "validation": "同一检索任务中，曼哈顿距离 Top-1 为 38.2%，欧氏距离为 33.0%。",
+      "venue": "ECML PKDD",
+      "year": 2019
+    },
+    {
+      "application": "图层应区分传球成功概率、传球选择分布和预期价值，先验证概率校准，再考虑全场概率面。",
+      "authors": "Javier Fernández, Luke Bornn",
+      "citation_key": "soccermap_2021",
+      "data": "433,295 次传球及同步时空输入，包含双方球员位置、速度和球。",
+      "evidence_pages": [
+        7,
+        9
+      ],
+      "id": "soccermap-2021",
+      "limitations": "正式论文集发表于 2021，作者预印本为 2020。这是该数据集上的结果，局部事件或 360 快照不能替代完整连续输入。",
+      "priority": 3,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1007/978-3-030-67670-4_30",
+      "read_scope": "arXiv v1 全部16页已读，含三种输出、网络、图1–6、表1–3、限制及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2010.10202",
+      "title": "SoccerMap: A Deep Learning Architecture for Visually-Interpretable Analysis in Soccer",
+      "topic": "sports-analytics",
+      "validation": "论文表 1 的传球成功 log loss，SoccerMap 0.217，Logistic Net 0.384，Dense2 Net 0.349。",
+      "venue": "ECML PKDD 2020 论文集",
+      "year": 2021
+    },
+    {
+      "application": "新增独立 SPADL/VAEP 本地对照。Wyscout 2017/18 英超、法甲共 759 场通过比分审计，测试 211 场。固定日期划分训练、验证、测试，比较训练频率、单动作与三动作模型。排除当前进球状态后，三动作模型在两地均好于频率基线；相对单动作，仅法甲进球 log loss 的配对区间未跨零，其余七项区间跨零。修正 bad_touch 乌龙球的标签、比分和后续增量，以及重复门将记录。原 action_value.py 仍为原生传球前状态预测。当前结果不能直接与原论文的 Opta 跨赛季分数比较。",
+      "authors": "Tom Decroos, Lotte Bransen, Jan Van Haaren, Jesse Davis",
+      "citation_key": "vaep_2019",
+      "data": "7 个欧洲联赛，11,565 场，2012/13 至 2017/18。以前序赛季训练并在后续赛季应用。",
+      "evidence_pages": [
+        5,
+        8
+      ],
+      "id": "vaep-2019",
+      "limitations": "状态价值与单次动作的增量价值不同，也不构成动作因果效应。不能直接套用于本地不同定义的序列。",
+      "priority": 2,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1145/3292500.3330758",
+      "read_scope": "arXiv v2 全部11页已读，含图表、特征和模型比较、附录A1–A3及参考文献。",
+      "source_url": "https://arxiv.org/pdf/1802.07127",
+      "title": "Actions Speak Louder than Goals: Valuing Player Actions in Soccer",
+      "topic": "sports-analytics",
+      "validation": "表 3 中，进球概率的 Brier 从无特征基线 0.01632 降为全特征 0.01376。动作值结合进球与失球概率的前后变化。",
+      "venue": "ACM KDD",
+      "year": 2019
+    },
+    {
+      "application": "将真实观测、模型预测和建议调整用不同图层表示。当前数据不足以声称复现其战术生成效果。",
+      "authors": "Zhe Wang et al.",
+      "citation_key": "tacticai_2024",
+      "data": "7,176 次英超角球。建模采用随机 80%/20% 划分。另有 5 位专家评估 50 个战术调整案例。",
+      "evidence_pages": [
+        4,
+        8,
+        10
+      ],
+      "id": "tacticai-2024",
+      "limitations": "90% 是案例偏好，不是胜率或进球提升。数据随机切分也不是时间外验证；需要完整球员情境。",
+      "priority": 3,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1038/s41467-024-45965-x",
+      "read_scope": "作者arXiv v2全部32页已逐页读完、查看，含正文、S1.1–S1.3、五项补充图、三项补充表及参考文献；2024出版版未作字节对照。",
+      "source_url": "https://arxiv.org/pdf/2310.10553",
+      "title": "TacticAI: an AI assistant for football tactics",
+      "topic": "sports-analytics",
+      "validation": "50 个案例中，45 个获得专家多数认可，即 90%。",
+      "venue": "Nature Communications 15, 1906",
+      "year": 2024
+    },
+    {
+      "application": "已为冻结的英超、法甲 SPADL 测试预测增加 12 组校准诊断。网页并排呈现 PAV 曲线和可切换分箱，提供概率分布、低概率坐标、完整数值表与 MCB/DSC/UNC 分解。同样本 PAV 分数不作为校准后的留出成绩。",
+      "authors": "Timo Dimitriadis, Tilmann Gneiting, Alexander I. Jordan",
+      "citation_key": "DimitriadisGneitingJordan2021CORP",
+      "data": "Niamey 2016 年 7–9 月的 92 个 24 小时降水概率预报，包含 ENS、EPC、Logistic 与 EMOS。",
+      "evidence_pages": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "id": "corp-2021",
+      "limitations": "原例不是足球。这里没有移用独立样本的置信带或显著性结论，足球状态与重复球队有相关性。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1073/pnas.2016191118",
+      "read_scope": "出版正文全部10页及官方SI全部23页已逐页读完、查看，含主文附录A–C、SI S1–S6、14项补充图、一表、两项定理证明与全部参考文献。",
+      "source_url": "https://publikationen.bibliothek.kit.edu/1000130510/106591216",
+      "title": "Stable reliability diagrams for probabilistic classifiers",
+      "topic": "visualization",
+      "validation": "同一 EMOS 样本使用 9、10、11 个等宽分箱，图形明显不同。论文提出按概率顺序做 PAV 拟合，并给出精确的 Brier 分解。",
+      "venue": "PNAS 118(8), e2016191118",
+      "year": 2021
+    },
+    {
+      "application": "2024 男足欧洲杯 51 场生成 21,832 个可重叠三传球窗口。按第三次传球归入时段，保留完整三次传球回看，缺坐标仍计数但不补画。次数不代表战术效果或风格显著性。",
+      "authors": "Laszlo Gyarmati, Haewoon Kwak, Pablo Rodriguez",
+      "citation_key": "GyarmatiKwakRodriguez2014FlowMotifs",
+      "data": "2012/13 欧洲五大联赛，文中西甲部分含 20 队、380 场及超过 25 万次传球。",
+      "evidence_pages": [
+        1,
+        2,
+        3
+      ],
+      "id": "flow-motifs-2014",
+      "limitations": "本地仅使用五类模式、接球队员连续性和 5 秒阈值，没有复现随机网络 Z 分数或球队聚类。另加半场、原生控球权和中断边界。",
+      "priority": 1,
+      "publication_status": "preprint",
+      "publication_url": "https://arxiv.org/abs/1409.0308",
+      "read_scope": "v1全部4页已读，含图1–6、五类模式、随机网络说明、聚类、结论与参考文献。",
+      "source_url": "https://arxiv.org/pdf/1409.0308",
+      "title": "Searching for a Unique Style in Soccer",
+      "topic": "sports-analytics",
+      "validation": "原文用保度数随机网络作对照。巴塞罗那的 ABAC 更常见，ABCD 较少，球队聚类也显示差异。",
+      "venue": "arXiv:1409.0308",
+      "year": 2014
+    },
+    {
+      "application": "增加 xT 计数守恒检查和目标可达状态的直接求解，修复小迭代步长误报收敛。原实验208场训练比赛的网格重算最大差约3.0×10⁻⁹。另借整簇 case bootstrap 的重采样定义，按整场比赛重采样1,000次，展示96格的数值、样本与逐格百分位范围；这是本地敏感性分析，不是论文的真值模拟或统计覆盖率认证。",
+      "authors": "Koen van Arem, Jakob Söhl, Mirjam Bruinsma, Geurt Jongbloed",
+      "citation_key": "vanArem2026XTQuality",
+      "data": "StatsBomb 五大联赛约 400 万事件。13 种网格与 8 种样本量产生 104,000 个模拟模型，另以 47 名法甲中锋研究排名变化。",
+      "evidence_pages": [
+        5,
+        9,
+        11,
+        13
+      ],
+      "id": "xt-quality-2026",
+      "limitations": "模拟把大样本拟合模型视作真值，状态和采样假设有限。数值残差、统计估计与建模误差不同，经验阈值不能直接认证另一种动作口径或样本。",
+      "priority": 1,
+      "publication_status": "preprint",
+      "publication_url": "https://arxiv.org/abs/2604.21087v4",
+      "read_scope": "arXiv v4全部21页已逐页读完、查看，含图1–10、四表、附录A中命题1–4和定理5证明及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2604.21087v4",
+      "title": "Model quality in football: Quantifying the quality of an Expected Threat model",
+      "topic": "sports-analytics",
+      "validation": "模拟比较真值模型与重采样模型的最大绝对误差。进球向量误差的相关系数为 0.9935，加权转移误差为 0.8069。更细网格与更少数据通常产生更大估计误差。",
+      "venue": "arXiv，v4，2026-07-24",
+      "year": 2026
+    },
+    {
+      "application": "本地补充同八事件输入的32单元MLP和梯度提升树，对照原GRU与线性基线。保留原时间划分与种子，不把事件类型准确率当作本地传球概率质量，也未复现比赛模拟或xP+排名。",
+      "authors": "Tiago Mendes-Neves, Luís Meireles, João Mendes-Moreira",
+      "citation_key": "MendesNeves2024LEM",
+      "data": "Wyscout2017/18。法、德、意共1,718,640事件训练，英、西共1,214,838事件测试，按联赛留出。",
+      "evidence_pages": [
+        10,
+        12,
+        13,
+        14
+      ],
+      "id": "lem-2024",
+      "limitations": "使用最近一个事件，不是Transformer或长历史模型。基线使用默认参数，部分随机森林结果因内存不足缺失；联赛留出不等于未来赛季验证。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1007/s10994-024-06606-y",
+      "read_scope": "出版原文全部23页已逐页读完、查看，含图1–11、表1–6、三模型、模拟、声明及参考文献。",
+      "source_url": "https://link.springer.com/content/pdf/10.1007/s10994-024-06606-y.pdf",
+      "title": "Towards a foundation large events model for soccer",
+      "topic": "sports-analytics",
+      "validation": "LEM用三个分阶段 MLP 预测事件类型、结果、时间与位置。事件类型准确率55.7%，默认MLP55.5%，随机森林49.9%，多数类40.8%。",
+      "venue": "Machine Learning 113,8687–8709",
+      "year": 2024
+    },
+    {
+      "application": "借鉴单列场景检查和收益/风险分开呈现；原文场景用于特征修订后不再是独立验收。现有VAEP十动作攻防增量与15秒有效时间EPV分别保留。没有训练U-Net、复现场景基准或从事件间隔虚构速度。",
+      "authors": "Thijs Overmeer, Tim Janssen, Wim P.M. Nuijten",
+      "citation_key": "Overmeer2025OJNEPV",
+      "data": "624场荷甲、63场2022世界杯，10Hz球员和球追踪加事件；另有50对专家标注的传球场景基准。",
+      "evidence_pages": [
+        5,
+        6,
+        7,
+        9,
+        12
+      ],
+      "id": "ojn-epv-2025",
+      "limitations": "依赖同步完整追踪、速度和球高，目标为15秒有效比赛时间。50对专家场景含越位失效，且用于特征修改；78%一致率不是独立未来验证。净值ECE也不证明联合校准。",
+      "priority": 1,
+      "publication_status": "preprint",
+      "publication_url": "https://arxiv.org/abs/2502.02565v1",
+      "read_scope": "arXiv v1 全部16页已逐页读完、查看，含U-Net、图1–3、表1–5、场景基准、Definition1及参考文献。",
+      "source_checks": [
+        {
+          "label": "作者公开场景基准",
+          "note": "提供专家判断的场景对；本地尚未运行其EPV模型。",
+          "url": "https://github.com/EAISI/OJN-EPV-benchmark"
+        }
+      ],
+      "source_url": "https://arxiv.org/pdf/2502.02565v1",
+      "title": "Revisiting Expected Possession Value in Football: Introducing a Benchmark, U-Net Architecture, and Reward and Risk for Passes",
+      "topic": "sports-analytics",
+      "validation": "加入距门和角度后，场景基准由68%/70%升至78%，整体损失和ECE变化较小。世界杯微调对概率模型的收益不一致。",
+      "venue": "arXiv:2502.02565v1",
+      "year": 2025
+    },
+    {
+      "application": "本地补充同可观测历史的树模型与MLP对照；表示学习仍移除球员/球队身份。字段级自监督遮蔽可继续研究。论文数据来源尚需澄清，分数不替换本地基准；定性近邻也不替代时间留出检索验证。",
+      "authors": "Weiran Yang, Daniel Memmert, Maximilian Klemp-Weins",
+      "citation_key": "Yang2026FootballTabTransformer",
+      "data": "作者报告2015/16五大联赛6,391,338事件、1,823场预训练；用欧洲杯、世界杯与美洲杯测试。44维事件产生911维表示。",
+      "evidence_pages": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "id": "tabtransformer-2026",
+      "limitations": "发表日前官方快照的同范围只有1,551条比赛记录，德甲34条，尚缺作者样本清单来解释1,823场。只核对公开来源，不能排除额外数据。Brier较低也不能单独证明校准更好。",
+      "priority": 3,
+      "publication_status": "preprint",
+      "publication_url": "https://arxiv.org/abs/2606.09327v1",
+      "read_scope": "arXiv v1 全部12页已逐页读完、查看，含架构图、表1–4、数据与遮蔽协议、结果、限制和参考文献。",
+      "source_checks": [
+        {
+          "label": "发表日前的StatsBomb官方快照",
+          "note": "固定版本2026-05-26；男足2015/16五大联赛目录合计1,551条比赛记录。",
+          "url": "https://github.com/statsbomb/open-data/tree/b0bc9f22dd77c206ddedc1d742893b3bbe64baec/data/matches"
+        },
+        {
+          "label": "该版本德甲2015/16比赛目录",
+          "note": "公开目录34条；这里只核对公开数据，尚不能确定作者是否使用了额外来源。",
+          "url": "https://raw.githubusercontent.com/statsbomb/open-data/b0bc9f22dd77c206ddedc1d742893b3bbe64baec/data/matches/9/27.json"
+        }
+      ],
+      "source_url": "https://arxiv.org/pdf/2606.09327v1",
+      "title": "A Universal Dense Football Event Representation Based on TabTransformer",
+      "topic": "sports-analytics",
+      "validation": "进球VAEP的AUC为0.830（表示+CatBoost）与0.845（原特征XGBoost）。xG的Brier为0.0923，对照MLP为0.1010；ROC-AUC则由0.8142降至0.7806。",
+      "venue": "arXiv:2606.09327v1",
+      "year": 2026
+    },
+    {
+      "application": "用于足球赛果训练的开发回测、最终留出及内部早停边界复核。现为XGBoost传入开球时间，内部早停保留完整时间组；固定1,140场样本原有五处切点中的四处切开同一时间组，修复后为零。旧、新流程都未通过强基线检查，没有保存新模型。",
+      "authors": "Gavin C. Cawley, Nicola L. C. Talbot",
+      "citation_key": "cawley_talbot_2010",
+      "data": "13 组通用分类基准与核岭回归等模型，非足球数据。",
+      "evidence_pages": [
+        2,
+        16,
+        18,
+        19
+      ],
+      "id": "cawley-talbot-2010",
+      "limitations": "这是协议偏差示例，不能推算本项目的分数变化。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://www.jmlr.org/papers/v11/cawley10a.html",
+      "read_scope": "JMLR 原文全部29页已逐页读完、查看，含图1–14、表1–8、公式、评估协议和参考文献。",
+      "source_checks": [
+        {
+          "label": "XGBoost官方早停说明",
+          "note": "官方说明验证集用于选择迭代轮数；本地据此把早停也纳入时间边界检查。完整时间组划分是本地实现，没有把论文当成该修复的准确率证据。",
+          "url": "https://xgboost.readthedocs.io/en/stable/python/python_intro.html#early-stopping"
+        }
+      ],
+      "source_url": "https://www.jmlr.org/papers/volume11/cawley10a/cawley10a.pdf",
+      "title": "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation",
+      "topic": "sports-analytics",
+      "validation": "表5的 heart 基准中，中位数选模协议的错误率为15.720%，逐次内部选模为16.730%，说明复用选模信息可能使评估偏乐观。",
+      "venue": "Journal of Machine Learning Research 11(70)",
+      "year": 2010
+    },
+    {
+      "application": "核对本地GRU、MLP和树模型的事件起点输入，发现时钟倒退时停止编码。原历史模型与分数保留。",
+      "authors": "Andrew Peters, Nimai Parmar, Michael Davies, Nic James",
+      "citation_key": "peters_etal_2026_timing",
+      "data": "StatsBomb360的2020/21英超，380场比赛、256,433次传球。",
+      "evidence_pages": [
+        3,
+        4,
+        5,
+        6,
+        11
+      ],
+      "id": "peters-temporal-leakage-2026",
+      "limitations": "单赛季，分组验证不等于未来赛季验证。静态代码显示混合效应与默认yardstick指标可能采用不同正类，不直接横比敏感度。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://doi.org/10.1080/02701367.2026.2677718",
+      "read_scope": "机构公开出版版全部13个物理页已逐页读完、查看，含封面、正文、图1–4、表1–6与参考文献；正文引用的补充S1–S3尚未取得。",
+      "source_checks": [
+        {
+          "label": "大学仓库公开出版版",
+          "note": "正文已取得，核对特征与验证部分；此前出版社403记录不再作为全文缺失状态。",
+          "url": "https://repository.mdx.ac.uk/item/36873v"
+        },
+        {
+          "label": "作者固定版本源码",
+          "note": "静态核对特征、分组与指标代码；未运行作者R环境。README的under review字样已落后于出版记录。",
+          "url": "https://github.com/andypetes94/xTurnovers_Models/blob/6d1e7144b0f622424433f7a07da5ec4b81e629d0/R/turnover_pipeline.R"
+        },
+        {
+          "label": "yardstick正类定义",
+          "note": "官方默认正类为第一个因子水平。作者代码先列no_turnover，混合效应手算则以1为正；这是静态核对得到的口径疑点。",
+          "url": "https://yardstick.tidymodels.org/reference/sens.html"
+        },
+        {
+          "label": "Crossref出版元数据",
+          "note": "正式发表日期2026-06-03，与大学仓库出版记录一致。",
+          "url": "https://api.crossref.org/works/10.1080/02701367.2026.2677718"
+        }
+      ],
+      "source_url": "https://repository.mdx.ac.uk/download/5550b2f03b34cdfe6dc2f592970267bae4c8f244d656c72f841c5784aad2e177/5552000/When%20Timing%20Matters%20%20Evaluating%20Temporal%20Leakage%20in%20Machine%20Learning%20Models%20of%20Football%20Pass%20Turnovers.pdf",
+      "title": "When Timing Matters: Evaluating Temporal Leakage in Machine Learning Models of Football Pass Turnovers",
+      "topic": "sports-analytics",
+      "validation": "表4–6：去除四个出球后特征，XGBoost ROC-AUC由0.924降至0.742。按比赛分组交叉验证，未另设最终测试集。",
+      "venue": "Research Quarterly for Exercise and Sport",
+      "year": 2026
+    },
+    {
+      "application": "据需求部分检查输入和恢复成本。本地修复四个摘要一起失败的问题，增加各区域重试；论文没有测试此加载机制，浏览器检查也不等于用户效果实验。",
+      "authors": "Joshua Langmead",
+      "citation_key": "langmead_2025_affordable",
+      "data": "两家业余足球俱乐部的4名教练和2名球员参与访谈；原型使用手表GPS与Metrica样本。",
+      "evidence_pages": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "id": "affordable-outdoor-team-sports-2025",
+      "limitations": "小规模视频反馈，没有对照任务或速度、准确率测量。OSF接受状态不是同行评审。与2026年会议论文的版本关系未证实。",
+      "priority": 2,
+      "publication_status": "preprint",
+      "publication_url": "https://doi.org/10.31219/osf.io/aw6et_v1",
+      "read_scope": "OSF v1 全部9页已读，含两俱乐部访谈、GPS处理、原型、图1–6、两表、反馈及参考文献。",
+      "source_checks": [
+        {
+          "label": "OSF预印本元数据",
+          "note": "核对公开状态、标题、2025-03-11发布日期和版本DOI；PDF署名单作者。",
+          "url": "https://api.osf.io/v2/preprints/aw6et/"
+        },
+        {
+          "label": "不同标题的2026年会议记录",
+          "note": "三名作者、PacificVis页码263–268；仅有出版信息，未以本预印本代替会议正文。",
+          "url": "https://api.crossref.org/works/10.1109/PacificVis68791.2026.00035"
+        }
+      ],
+      "source_url": "https://osf.io/download/67be5f152b437c0abf5566c1/",
+      "title": "Affordable Outdoor Team Sports Visualisation",
+      "topic": "visualization",
+      "validation": "4名教练观看演示视频后回复，均给有用性5/5，均将动画列为最有用、时间线列为最不有用的视图之一。",
+      "venue": "OSF Preprints，v1，2025-03-11",
+      "year": 2025
+    },
+    {
+      "application": "借鉴样本筛选披露和对齐比较，增加共享编码器的排除计数。对原实验1,080场、924,913次Pass只读核对，排除数均为零，改动前后编码数组及原运行的比赛与采样行归属一致。没有重训、改写成绩或复现速度补全；事件位移不等于瞬时速度。",
+      "authors": "Rikuhei Umemoto, Keisuke Fujii",
+      "citation_key": "umemoto_fujii_2025_velocity",
+      "data": "DataStadium的2019日本J1联赛55场事件与25Hz追踪数据，按比赛40/8/7划分。目标为进攻三区事件；非RNN与RNN训练样本为17,118与14,616，测试均对齐为2,958。",
+      "evidence_pages": [
+        6,
+        8,
+        9,
+        10,
+        11,
+        15,
+        16
+      ],
+      "id": "velocity-completion-2025",
+      "limitations": "需要事件时刻球与所有球员的位置及追踪速度真值，训练样本数也随模型结构而变。加入动作类型和当前终点特征的GRNN误差为1.93，未优于1.90。当前终点用于事后补全，不能视作出球前可用输入；不完整可见站位还需额外处理。",
+      "priority": 2,
+      "publication_status": "preprint",
+      "publication_url": "https://arxiv.org/abs/2505.16199v1",
+      "read_scope": "arXiv v1 全部24页已逐页读完、查看，含图1–7、表1–6、附录A–D及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2505.16199v1",
+      "title": "Velocity Completion Task and Method for Event-based Player Positional Data in Soccer",
+      "topic": "sports-analytics",
+      "validation": "表2的速度误差：规则4.51、MLP 2.29、RNN 1.98、图网络结合GRU的GRNN 1.90 m/s。按式1先在每次事件内计算球员向量误差的均方根，再跨事件平均；表中平均10次推断，不是10次独立训练。",
+      "venue": "arXiv:2505.16199v1，2025-05-22",
+      "year": 2025
+    },
+    {
+      "application": "借鉴多数据集对照，把现有固定参数扩展到五个足球联赛，含均值、线性、树、MLP与共享GRU，共45条评估。五个联赛的树基线在两个主要误差指标上均较低，原英格兰实验保留。没有复现原论文的搜索、变换或模型集合，不把同赛季结果外推为跨赛季优势。",
+      "authors": "Léo Grinsztajn, Edouard Oyallon, Gaël Varoquaux",
+      "citation_key": "grinsztajn_etal_2022_tabular",
+      "data": "45个通用表格数据集，非足球数据；主要研究训练集最多10,000行的规模。排除时间序列、删除缺失数据，分类任务平衡二元类别。",
+      "evidence_pages": [
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      "id": "tree-tabular-benchmark-2022",
+      "limitations": "图1范围来自同一搜索结果的15次顺序重排，不是15次独立训练。其独立同分布任务、预处理和搜索预算不等同于足球事件时间留出，也不支持所有数据上树模型必胜。",
+      "priority": 1,
+      "publication_status": "published",
+      "publication_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/0378c7692da36807bdec87ab043cdadc-Abstract-Datasets_and_Benchmarks.html",
+      "read_scope": "会议正文全部14页和官方补充PDF全部48页已读；后者前14页与正文相同，附录A1–A10为第15–48页。",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf",
+      "title": "Why do tree-based models still outperform deep learning on typical tabular data?",
+      "topic": "sports-analytics",
+      "validation": "每模型、数据集约400次随机搜索，按验证集选参。图1按四类任务汇总归一化测试准确率或R²，树集成在不同搜索预算下仍高于所比较的神经模型。",
+      "venue": "NeurIPS 2022 Datasets and Benchmarks",
+      "year": 2022
+    }
+  ],
+  "schema": "SoccerAnalytics.FootballLiterature.v1",
+  "scope": "足球相关机器学习、深度学习与可用于足球图表的可视化研究。阅读覆盖所列方法、验证和部分图例，不等于复现，不是穷尽式综述。论文报告的分数与本地验证结果分别记录。"
+}

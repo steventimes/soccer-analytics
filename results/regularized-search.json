@@ -1,0 +1,5913 @@
+{
+  "schema": "SoccerAnalytics.RegularizedSearch.v1",
+  "run_id": "40481f7ebdfb8601",
+  "config": {
+    "source": "football-csv",
+    "seasons": [
+      "2022",
+      "2023",
+      "2024"
+    ],
+    "competitions": [
+      "PL",
+      "FL1",
+      "BL1",
+      "SA",
+      "PD"
+    ],
+    "models": [
+      "xgboost",
+      "logistic_l1",
+      "logistic_l2",
+      "logistic_elasticnet"
+    ],
+    "optimizers": [
+      "bayesian",
+      "genetic",
+      "optuna"
+    ],
+    "trials_per_search": 8,
+    "seed": 42,
+    "optuna_sampler": "independent TPE",
+    "optuna_startup_trials": 4,
+    "parallel_trials": false,
+    "pruning": false,
+    "logistic_solvers": {
+      "logistic_l1": "saga",
+      "logistic_l2": "lbfgs",
+      "logistic_elasticnet": "saga"
+    },
+    "logistic_max_iter": 20000,
+    "logistic_tol": 0.0001,
+    "trial_budget_counts": "attempts including convergence failures",
+    "failure_policy": "failed trials excluded; native Optuna FAIL; GP/GA surrogate penalty at least36"
+  },
+  "receipts": [
+    {
+      "competition": "PL",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:16.418773+00:00",
+          "sha256": "e4619858bf01645ecf92e230f5a6cec0730cb9fd4ebf153c2bf96d783a47876d"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:16.770405+00:00",
+          "sha256": "ab7a513b187ab7e8931d79b3de3b00333d43247acdbd3eca79592729c1724f16"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PL",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:17.130081+00:00",
+          "sha256": "97e1085e7a70650ab3e4deb91b6dd1a407b526c0db9e3c6e6094a3d6cd578cc1"
+        }
+      ],
+      "feature_names": [
+        "home_elo",
+        "away_elo",
+        "elo_diff",
+        "home_form_points",
+        "away_form_points",
+        "form_points_diff",
+        "home_goals_for",
+        "away_goals_for",
+        "attack_diff",
+        "home_goals_against",
+        "away_goals_against",
+        "defense_diff",
+        "home_goal_difference",
+        "away_goal_difference",
+        "goal_difference_diff",
+        "home_win_rate",
+        "away_win_rate",
+        "win_rate_diff",
+        "home_clean_sheet_rate",
+        "away_clean_sheet_rate",
+        "home_rest_days",
+        "away_rest_days",
+        "rest_diff",
+        "home_venue_points",
+        "away_venue_points",
+        "venue_points_diff",
+        "home_matches_seen",
+        "away_matches_seen",
+        "experience_diff",
+        "home_advantage"
+      ],
+      "feature_target_sha256": "08e6b45f45e57539794a94544704a36b4350d9dbc3e557b2794fe4a1cd355e14",
+      "development_first_kickoff": "2022-08-05T19:00:00+00:00",
+      "development_last_kickoff": "2024-12-09T20:00:00+00:00",
+      "holdout_first_kickoff": "2024-12-14T15:00:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T15:00:00+00:00"
+    },
+    {
+      "competition": "FL1",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:30.371780+00:00",
+          "sha256": "a24ce36662b01a437d7f91a83fd5defb7bd3cf21cb875e7b9acacd64fe02fb6a"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:30.698081+00:00",
+          "sha256": "9a4a09220a009a178a8043ae00befb4e9edffc292f5b1b0a8f77977b57ded3c5"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "FL1",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:31.028716+00:00",
+          "sha256": "b520b41cf37af11cd7f906319d194985f5a70f41b104e87f981b15849603eedc"
+        }
+      ],
+      "feature_names": [
+        "home_elo",
+        "away_elo",
+        "elo_diff",
+        "home_form_points",
+        "away_form_points",
+        "form_points_diff",
+        "home_goals_for",
+        "away_goals_for",
+        "attack_diff",
+        "home_goals_against",
+        "away_goals_against",
+        "defense_diff",
+        "home_goal_difference",
+        "away_goal_difference",
+        "goal_difference_diff",
+        "home_win_rate",
+        "away_win_rate",
+        "win_rate_diff",
+        "home_clean_sheet_rate",
+        "away_clean_sheet_rate",
+        "home_rest_days",
+        "away_rest_days",
+        "rest_diff",
+        "home_venue_points",
+        "away_venue_points",
+        "venue_points_diff",
+        "home_matches_seen",
+        "away_matches_seen",
+        "experience_diff",
+        "home_advantage"
+      ],
+      "feature_target_sha256": "923d594e9490a71dbeb466ab8e028a117fcf0b18af52a4a68df27ceaf44acabc",
+      "development_first_kickoff": "2022-08-05T19:00:00+00:00",
+      "development_last_kickoff": "2024-11-24T19:45:00+00:00",
+      "holdout_first_kickoff": "2024-11-29T19:45:00+00:00",
+      "holdout_last_kickoff": "2025-05-17T19:00:00+00:00"
+    },
+    {
+      "competition": "BL1",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:26.039918+00:00",
+          "sha256": "3b6d81ea8efc1c27fdd2c7ce5ae06df13847d0fb7f621a495500673c0d645868"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:26.366306+00:00",
+          "sha256": "302eb7e5624a2c34ba5f5175f50ffdd65a067aff2873e8c28081960c8b0afc2a"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "BL1",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:26.699996+00:00",
+          "sha256": "50272531804425504bb5e8d3db501b8d0e2efa33c84b8da13dbbaeb52d436225"
+        }
+      ],
+      "feature_names": [
+        "home_elo",
+        "away_elo",
+        "elo_diff",
+        "home_form_points",
+        "away_form_points",
+        "form_points_diff",
+        "home_goals_for",
+        "away_goals_for",
+        "attack_diff",
+        "home_goals_against",
+        "away_goals_against",
+        "defense_diff",
+        "home_goal_difference",
+        "away_goal_difference",
+        "goal_difference_diff",
+        "home_win_rate",
+        "away_win_rate",
+        "win_rate_diff",
+        "home_clean_sheet_rate",
+        "away_clean_sheet_rate",
+        "home_rest_days",
+        "away_rest_days",
+        "rest_diff",
+        "home_venue_points",
+        "away_venue_points",
+        "venue_points_diff",
+        "home_matches_seen",
+        "away_matches_seen",
+        "experience_diff",
+        "home_advantage"
+      ],
+      "feature_target_sha256": "fb3da6d5ee36742e054d78c5f7e37a3f3b4d9b5a3cd468f38b528deaac4e6c5f",
+      "development_first_kickoff": "2022-08-05T18:30:00+00:00",
+      "development_last_kickoff": "2024-12-14T14:30:00+00:00",
+      "holdout_first_kickoff": "2024-12-14T17:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-17T13:30:00+00:00"
+    },
+    {
+      "competition": "SA",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:45:33.638788+00:00",
+          "sha256": "9040d052d51f175617ab65a072859237853f2af97999cc299ea9fa645d3a4cef"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:45:33.986937+00:00",
+          "sha256": "99926562f8c6e6a7a4ac3625864f5417701a43f19ac3a7e1d62c9292ae581dc2"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "SA",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:45:34.341747+00:00",
+          "sha256": "150d54f5460e40fc718d3d57648b8d7d4f4f1d32122eea6e9c25b6947a3f34a1"
+        }
+      ],
+      "feature_names": [
+        "home_elo",
+        "away_elo",
+        "elo_diff",
+        "home_form_points",
+        "away_form_points",
+        "form_points_diff",
+        "home_goals_for",
+        "away_goals_for",
+        "attack_diff",
+        "home_goals_against",
+        "away_goals_against",
+        "defense_diff",
+        "home_goal_difference",
+        "away_goal_difference",
+        "goal_difference_diff",
+        "home_win_rate",
+        "away_win_rate",
+        "win_rate_diff",
+        "home_clean_sheet_rate",
+        "away_clean_sheet_rate",
+        "home_rest_days",
+        "away_rest_days",
+        "rest_diff",
+        "home_venue_points",
+        "away_venue_points",
+        "venue_points_diff",
+        "home_matches_seen",
+        "away_matches_seen",
+        "experience_diff",
+        "home_advantage"
+      ],
+      "feature_target_sha256": "c09ba379b453755b4ad1575d73b7a830e454f24f017e85ce98f7a00b67690109",
+      "development_first_kickoff": "2022-08-13T16:30:00+00:00",
+      "development_last_kickoff": "2024-12-14T19:45:00+00:00",
+      "holdout_first_kickoff": "2024-12-15T11:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T18:45:00+00:00"
+    },
+    {
+      "competition": "PD",
+      "source_snapshots": [
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2022",
+          "fetched_at": "2026-10-08T23:46:16.733397+00:00",
+          "sha256": "0289b067c024ef9a4a352e09d0e2dced95d317de6d91dd79c95402c036eb49dd"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2023",
+          "fetched_at": "2026-10-08T23:46:17.074396+00:00",
+          "sha256": "c3128d3ffda910b4b120fb64818820bf8524da59d5db763df3012c308ed44f49"
+        },
+        {
+          "source": "football-csv",
+          "provider": "football-data.co.uk",
+          "competition": "PD",
+          "season": "2024",
+          "fetched_at": "2026-10-08T23:46:17.421132+00:00",
+          "sha256": "a3daa09b015ac66526ee8929c65bc92adc331c98a06b70efd4b5570021473741"
+        }
+      ],
+      "feature_names": [
+        "home_elo",
+        "away_elo",
+        "elo_diff",
+        "home_form_points",
+        "away_form_points",
+        "form_points_diff",
+        "home_goals_for",
+        "away_goals_for",
+        "attack_diff",
+        "home_goals_against",
+        "away_goals_against",
+        "defense_diff",
+        "home_goal_difference",
+        "away_goal_difference",
+        "goal_difference_diff",
+        "home_win_rate",
+        "away_win_rate",
+        "win_rate_diff",
+        "home_clean_sheet_rate",
+        "away_clean_sheet_rate",
+        "home_rest_days",
+        "away_rest_days",
+        "rest_diff",
+        "home_venue_points",
+        "away_venue_points",
+        "venue_points_diff",
+        "home_matches_seen",
+        "away_matches_seen",
+        "experience_diff",
+        "home_advantage"
+      ],
+      "feature_target_sha256": "4224bbb3a70608926d613ae7e88f489a33b3da0466a36e02d7b047e4f8285bc8",
+      "development_first_kickoff": "2022-08-12T19:00:00+00:00",
+      "development_last_kickoff": "2024-12-07T15:15:00+00:00",
+      "holdout_first_kickoff": "2024-12-07T17:30:00+00:00",
+      "holdout_last_kickoff": "2025-05-25T19:00:00+00:00"
+    }
+  ],
+  "code_sha256": {
+    "app/ml/alternatives.py": "0a3d8b6ed54efdb36c9c83b88e7bc5796fb8f94937c6c98936a9fc9fb164719c",
+    "app/ml/experiments.py": "39abfb4f8911e9fde74d0fb291f7cbd684783bd9302fa16f3e773553dcab79a0",
+    "app/ml/evaluation.py": "31fa24d88c2d0171d6d48af5920002de7b2f0621f0c96556c1baa3e83f6cc34c",
+    "app/ml/model.py": "2168142f0a8f2c996eba8d28186731830e87d11bdb83a7c458c862d5f8038483",
+    "app/ml/feature_engineering.py": "de4c7e2e20a3c4a6a2e7a71d6aa6e781792990f736a6771881f92f85f77e4b87"
+  },
+  "versions": {
+    "python": "3.12.3",
+    "scikit-learn": "1.9.1",
+    "scikit-optimize": "0.10.2",
+    "optuna": "5.0.0",
+    "numpy": "2.5.3",
+    "xgboost-cpu": "3.4.1"
+  },
+  "results": [
+    {
+      "competition": "PL",
+      "receipt": {
+        "competition": "PL",
+        "source_snapshots": [
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PL",
+            "season": "2022",
+            "fetched_at": "2026-10-08T23:45:16.418773+00:00",
+            "sha256": "e4619858bf01645ecf92e230f5a6cec0730cb9fd4ebf153c2bf96d783a47876d"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PL",
+            "season": "2023",
+            "fetched_at": "2026-10-08T23:45:16.770405+00:00",
+            "sha256": "ab7a513b187ab7e8931d79b3de3b00333d43247acdbd3eca79592729c1724f16"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PL",
+            "season": "2024",
+            "fetched_at": "2026-10-08T23:45:17.130081+00:00",
+            "sha256": "97e1085e7a70650ab3e4deb91b6dd1a407b526c0db9e3c6e6094a3d6cd578cc1"
+          }
+        ],
+        "feature_names": [
+          "home_elo",
+          "away_elo",
+          "elo_diff",
+          "home_form_points",
+          "away_form_points",
+          "form_points_diff",
+          "home_goals_for",
+          "away_goals_for",
+          "attack_diff",
+          "home_goals_against",
+          "away_goals_against",
+          "defense_diff",
+          "home_goal_difference",
+          "away_goal_difference",
+          "goal_difference_diff",
+          "home_win_rate",
+          "away_win_rate",
+          "win_rate_diff",
+          "home_clean_sheet_rate",
+          "away_clean_sheet_rate",
+          "home_rest_days",
+          "away_rest_days",
+          "rest_diff",
+          "home_venue_points",
+          "away_venue_points",
+          "venue_points_diff",
+          "home_matches_seen",
+          "away_matches_seen",
+          "experience_diff",
+          "home_advantage"
+        ],
+        "feature_target_sha256": "08e6b45f45e57539794a94544704a36b4350d9dbc3e557b2794fe4a1cd355e14",
+        "development_first_kickoff": "2022-08-05T19:00:00+00:00",
+        "development_last_kickoff": "2024-12-09T20:00:00+00:00",
+        "holdout_first_kickoff": "2024-12-14T15:00:00+00:00",
+        "holdout_last_kickoff": "2025-05-25T15:00:00+00:00"
+      },
+      "seed": 42,
+      "selection_rows": 909,
+      "holdout_rows": 231,
+      "selected_on": "expanding_window_log_loss",
+      "selected": {
+        "model": "logistic_l1",
+        "optimizer": "optuna",
+        "params": {
+          "C": 0.05423185466354641
+        }
+      },
+      "results": [
+        {
+          "model": "xgboost",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0359772466017787,
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 1.0001838573932904,
+          "holdout_brier_score": 0.5966791933044117,
+          "holdout_rps": 0.2056669280884362
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "bayesian",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.0964631711321574,
+            "l2": 0.11661669704379643
+          },
+          "selection_log_loss": 1.0248709758358054,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.0964631711321574,
+              "l2": 0.11661669704379643
+            },
+            "best_loss": 1.0248709758358054,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.017324238895039288,
+                  "l2": 3.625617634576231
+                },
+                "log_loss": 1.03580395161086
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03802259770124277,
+                  "l2": 0.15847101210439093
+                },
+                "log_loss": 1.0474187348009019
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.0271747096730583,
+                  "l2": 0.19307837536547137
+                },
+                "log_loss": 1.0387803148247943
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.011841130198891353,
+                  "l2": 2.7796975515266844
+                },
+                "log_loss": 1.037157395775949
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.011656282450195083,
+                  "l2": 9.998796633046949
+                },
+                "log_loss": 1.0323244342373554
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.19988557985942051,
+                  "l2": 8.792459065498184
+                },
+                "log_loss": 1.0471440646878398
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.010004372909269515,
+                  "l2": 0.2773701925037786
+                },
+                "log_loss": 1.0314615546290264
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.0964631711321574,
+                  "l2": 0.11661669704379643
+                },
+                "log_loss": 1.0248709758358054
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5108225108225108,
+          "holdout_log_loss": 1.0018454860804917,
+          "holdout_brier_score": 0.5971584052878555,
+          "holdout_rps": 0.20487403656625072
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "genetic",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.01297507954575384,
+            "l2": 1.0249686360134889
+          },
+          "selection_log_loss": 1.0290649191665109,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.01297507954575384,
+              "l2": 1.0249686360134889
+            },
+            "best_loss": 1.0290649191665109,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 0.35486129798045063
+                },
+                "log_loss": 1.0399856088903066
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 2.2563110735889107
+                },
+                "log_loss": 1.0406786496578393
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 0.697981062161514
+                },
+                "log_loss": 1.0375629368532153
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0295972376703553
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0295972376703553
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0078049925983112
+                },
+                "log_loss": 1.0315130336596152
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010000000000000004,
+                  "l2": 1.6752246274060734
+                },
+                "log_loss": 1.034084364945001
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0290649191665109
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5324675324675324,
+          "holdout_log_loss": 1.002183406185135,
+          "holdout_brier_score": 0.5992117165704467,
+          "holdout_rps": 0.20750635314151014
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "optuna",
+          "params": {
+            "max_depth": 4,
+            "learning_rate": 0.015958237752949748,
+            "l2": 0.2051110418843398
+          },
+          "selection_log_loss": 1.031757087871795,
+          "search": {
+            "best_params": {
+              "max_depth": 4,
+              "learning_rate": 0.015958237752949748,
+              "l2": 0.2051110418843398
+            },
+            "best_loss": 1.031757087871795,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.17254716573280354,
+                  "l2": 2.9106359131330697
+                },
+                "log_loss": 1.0497091695288467
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.015958237752949748,
+                  "l2": 0.2051110418843398
+                },
+                "log_loss": 1.031757087871795
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.13394334706750485,
+                  "l2": 1.5930522616241019
+                },
+                "log_loss": 1.0331327465287166
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010636066512540286,
+                  "l2": 8.706020878304859
+                },
+                "log_loss": 1.03907320285709
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.010181283131439633,
+                  "l2": 0.10353677627159774
+                },
+                "log_loss": 1.0349516548199011
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03715401797187733,
+                  "l2": 0.11952270129143845
+                },
+                "log_loss": 1.040067294612262
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.04312838874709204,
+                  "l2": 0.46729415889753084
+                },
+                "log_loss": 1.044343532456041
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.030301788478652055,
+                  "l2": 0.4933834990290913
+                },
+                "log_loss": 1.038973149192513
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5064935064935064,
+          "holdout_log_loss": 1.0065427324061942,
+          "holdout_brier_score": 0.6006702187435894,
+          "holdout_rps": 0.20805013869397793
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0051006561099893,
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 1.0155090246941079,
+          "holdout_brier_score": 0.6062495523054778,
+          "holdout_rps": 0.2124204680562539
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.05114304118004933
+          },
+          "selection_log_loss": 0.9621221512863981,
+          "search": {
+            "best_params": {
+              "C": 0.05114304118004933
+            },
+            "best_loss": 0.9621221512863981,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0107377784516014
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.0568452201471839
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0105720608435316
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0048705282284998
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004
+                },
+                "log_loss": 1.0113940195999527
+              },
+              {
+                "params": {
+                  "C": 0.2120278258401687
+                },
+                "log_loss": 0.9872338074859106
+              },
+              {
+                "params": {
+                  "C": 0.08967191327541196
+                },
+                "log_loss": 0.9659096853616077
+              },
+              {
+                "params": {
+                  "C": 0.05114304118004933
+                },
+                "log_loss": 0.9621221512863981
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5324675324675324,
+          "holdout_log_loss": 0.9776740470861344,
+          "holdout_brier_score": 0.5853189783582486,
+          "holdout_rps": 0.20346070431948401
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213
+          },
+          "selection_log_loss": 0.981484865225384,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213
+            },
+            "best_loss": 0.981484865225384,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0071038192720194
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.059991466219128
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.981484865225384
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.026671962201992
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.981484865225384
+              },
+              {
+                "params": {
+                  "C": 4.4779463234403005
+                },
+                "log_loss": 1.0099093048039225
+              },
+              {
+                "params": {
+                  "C": 3.163912054989562
+                },
+                "log_loss": 1.0092417430747254
+              },
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0071038192720194
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5324675324675324,
+          "holdout_log_loss": 0.9812528474146097,
+          "holdout_brier_score": 0.5876621375964313,
+          "holdout_rps": 0.20463416551759844
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.05423185466354641
+          },
+          "selection_log_loss": 0.9618678748290674,
+          "search": {
+            "best_params": {
+              "C": 0.05423185466354641
+            },
+            "best_loss": 0.9618678748290674,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 0.9631916359221928
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0113368206334794
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.009937421438323
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0050048255756479
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.0608235615107469
+              },
+              {
+                "params": {
+                  "C": 0.0040125951635096345
+                },
+                "log_loss": 1.0605686498091256
+              },
+              {
+                "params": {
+                  "C": 0.06976600642206403
+                },
+                "log_loss": 0.9627435413927147
+              },
+              {
+                "params": {
+                  "C": 0.05423185466354641
+                },
+                "log_loss": 0.9618678748290674
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5324675324675324,
+          "holdout_log_loss": 0.9778139944417473,
+          "holdout_brier_score": 0.5854009976987704,
+          "holdout_rps": 0.20352519183721082
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0101072013349146,
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5194805194805194,
+          "holdout_log_loss": 1.0186609376060196,
+          "holdout_brier_score": 0.6080911305022744,
+          "holdout_rps": 0.21309025357618752
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.0035170563045607995
+          },
+          "selection_log_loss": 0.9719178937129085,
+          "search": {
+            "best_params": {
+              "C": 0.0035170563045607995
+            },
+            "best_loss": 0.9719178937129085,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.011333736663239
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 0.9736623953262654
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0112810857285928
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0100582818879416
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 0.9862798362792411
+              },
+              {
+                "params": {
+                  "C": 0.034619154358707487
+                },
+                "log_loss": 0.9916863786782831
+              },
+              {
+                "params": {
+                  "C": 0.0035170563045607995
+                },
+                "log_loss": 0.9719178937129085
+              },
+              {
+                "params": {
+                  "C": 99.88457395209984
+                },
+                "log_loss": 1.0114728601234346
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 0.9898528308669834,
+          "holdout_brier_score": 0.5930990435705208,
+          "holdout_rps": 0.20735900663323523
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.003793138209595036
+          },
+          "selection_log_loss": 0.9716625244580629,
+          "search": {
+            "best_params": {
+              "C": 0.003793138209595036
+            },
+            "best_loss": 0.9716625244580629,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0106595127288258
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 0.9815465194144642
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.9864012325163697
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9783121964722273
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9783121964722273
+              },
+              {
+                "params": {
+                  "C": 0.003793138209595036
+                },
+                "log_loss": 0.9716625244580629
+              },
+              {
+                "params": {
+                  "C": 0.0026800579642408608
+                },
+                "log_loss": 0.9734949150118918
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 0.9815465194144642
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 0.9898603136671708,
+          "holdout_brier_score": 0.5931089833272339,
+          "holdout_rps": 0.20733639407400736
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0015126466309778011
+          },
+          "selection_log_loss": 0.9797181278663453,
+          "search": {
+            "best_params": {
+              "C": 0.0015126466309778011
+            },
+            "best_loss": 0.9797181278663453,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 1.0005532133643038
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.011459872036028
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0111386142256364
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0100928466999821
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 0.9797181278663453
+              },
+              {
+                "params": {
+                  "C": 0.0010714845538373117
+                },
+                "log_loss": 0.9850801637156946
+              },
+              {
+                "params": {
+                  "C": 0.0010907785690006102
+                },
+                "log_loss": 0.9847752272253198
+              },
+              {
+                "params": {
+                  "C": 0.048849194097041415
+                },
+                "log_loss": 0.9961046782788594
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5151515151515151,
+          "holdout_log_loss": 0.9945698946934757,
+          "holdout_brier_score": 0.5957142001370851,
+          "holdout_rps": 0.20886641868841757
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0072510208555232,
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5194805194805194,
+          "holdout_log_loss": 1.0165409523264834,
+          "holdout_brier_score": 0.6068429174832498,
+          "holdout_rps": 0.21261238069583596
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1978082768935381,
+            "l1_ratio": 0.3337086111390219
+          },
+          "selection_log_loss": 0.9983384759135511,
+          "search": {
+            "best_params": {
+              "C": 0.1978082768935381,
+              "l1_ratio": 0.3337086111390219
+            },
+            "best_loss": 0.9983384759135511,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417,
+                  "l1_ratio": 0.18343478986616382
+                },
+                "log_loss": 1.0111355352649565
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231,
+                  "l1_ratio": 0.5968501579464871
+                },
+                "log_loss": 1.0108252811053515
+              },
+              {
+                "params": {
+                  "C": 0.1694976823788475,
+                  "l1_ratio": 0.09997491581800291
+                },
+                "log_loss": 1.0023640044877253
+              },
+              {
+                "params": {
+                  "C": 0.1978082768935381,
+                  "l1_ratio": 0.3337086111390219
+                },
+                "log_loss": 0.9983384759135511
+              },
+              {
+                "params": {
+                  "C": 0.6299076752974043,
+                  "l1_ratio": 0.7414517680393582
+                },
+                "log_loss": 1.0034455052937747
+              },
+              {
+                "params": {
+                  "C": 0.009645744523687695,
+                  "l1_ratio": 0.9981639603286301
+                },
+                "log_loss": 1.0492867127220153
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004,
+                  "l1_ratio": 0.9720553297696337
+                },
+                "log_loss": 1.0113956526202332
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002,
+                  "l1_ratio": 0.13513423426658464
+                },
+                "log_loss": 1.060896780272096
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 1.008598950836334,
+          "holdout_brier_score": 0.6019888359086012,
+          "holdout_rps": 0.2106717964224026
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.3029771712089531
+          },
+          "selection_log_loss": 0.9627678382169753,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213,
+              "l1_ratio": 0.3029771712089531
+            },
+            "best_loss": 0.9627678382169753,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.025010755222666936
+                },
+                "log_loss": 1.0104467251343534
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9646182230635161
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.6766994874229113
+                },
+                "log_loss": 1.0103094649932867
+              },
+              {
+                "params": {
+                  "C": 28.89999971836148,
+                  "l1_ratio": 0.08693883262941615
+                },
+                "log_loss": 1.0113783986881582
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9646182230635161
+              },
+              {
+                "params": {
+                  "C": 3.2248641562359994,
+                  "l1_ratio": 0.6755291314660851
+                },
+                "log_loss": 1.0097901106114051
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.3029771712089531
+                },
+                "log_loss": 0.9627678382169753
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.45866769272160957
+                },
+                "log_loss": 1.0105506673969917
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5411255411255411,
+          "holdout_log_loss": 0.9785556782864308,
+          "holdout_brier_score": 0.5857105249311488,
+          "holdout_rps": 0.20358904796776953
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          },
+          "selection_log_loss": 0.9635516687915623,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655,
+              "l1_ratio": 0.9507143064099162
+            },
+            "best_loss": 0.9635516687915623,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655,
+                  "l1_ratio": 0.9507143064099162
+                },
+                "log_loss": 0.9635516687915623
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515,
+                  "l1_ratio": 0.5986584841970366
+                },
+                "log_loss": 1.010339026878925
+              },
+              {
+                "params": {
+                  "C": 0.006026889128682512,
+                  "l1_ratio": 0.15599452033620265
+                },
+                "log_loss": 0.9780788183949588
+              },
+              {
+                "params": {
+                  "C": 0.0019517224641449498,
+                  "l1_ratio": 0.8661761457749352
+                },
+                "log_loss": 1.0609963625436316
+              },
+              {
+                "params": {
+                  "C": 57.23510936899938,
+                  "l1_ratio": 0.0059971829558171375
+                },
+                "log_loss": 1.0114416903078474
+              },
+              {
+                "params": {
+                  "C": 0.23836674000300828,
+                  "l1_ratio": 0.9350090497701827
+                },
+                "log_loss": 0.9907757922329052
+              },
+              {
+                "params": {
+                  "C": 0.09683790422339313,
+                  "l1_ratio": 0.4212594514141791
+                },
+                "log_loss": 0.9837384440819525
+              },
+              {
+                "params": {
+                  "C": 0.12994411782671272,
+                  "l1_ratio": 0.6001912881794036
+                },
+                "log_loss": 0.9848214618029577
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 231,
+          "holdout_accuracy": 0.5281385281385281,
+          "holdout_log_loss": 0.9800254721462466,
+          "holdout_brier_score": 0.5865627459800791,
+          "holdout_rps": 0.20408091210449605
+        }
+      ],
+      "baselines": {
+        "majority_accuracy": 0.38961038961038963,
+        "elo_accuracy": 0.5324675324675324
+      },
+      "note": "Exploratory comparison only; no production model is saved and release gates remain required."
+    },
+    {
+      "competition": "FL1",
+      "receipt": {
+        "competition": "FL1",
+        "source_snapshots": [
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "FL1",
+            "season": "2022",
+            "fetched_at": "2026-10-08T23:45:30.371780+00:00",
+            "sha256": "a24ce36662b01a437d7f91a83fd5defb7bd3cf21cb875e7b9acacd64fe02fb6a"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "FL1",
+            "season": "2023",
+            "fetched_at": "2026-10-08T23:45:30.698081+00:00",
+            "sha256": "9a4a09220a009a178a8043ae00befb4e9edffc292f5b1b0a8f77977b57ded3c5"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "FL1",
+            "season": "2024",
+            "fetched_at": "2026-10-08T23:45:31.028716+00:00",
+            "sha256": "b520b41cf37af11cd7f906319d194985f5a70f41b104e87f981b15849603eedc"
+          }
+        ],
+        "feature_names": [
+          "home_elo",
+          "away_elo",
+          "elo_diff",
+          "home_form_points",
+          "away_form_points",
+          "form_points_diff",
+          "home_goals_for",
+          "away_goals_for",
+          "attack_diff",
+          "home_goals_against",
+          "away_goals_against",
+          "defense_diff",
+          "home_goal_difference",
+          "away_goal_difference",
+          "goal_difference_diff",
+          "home_win_rate",
+          "away_win_rate",
+          "win_rate_diff",
+          "home_clean_sheet_rate",
+          "away_clean_sheet_rate",
+          "home_rest_days",
+          "away_rest_days",
+          "rest_diff",
+          "home_venue_points",
+          "away_venue_points",
+          "venue_points_diff",
+          "home_matches_seen",
+          "away_matches_seen",
+          "experience_diff",
+          "home_advantage"
+        ],
+        "feature_target_sha256": "923d594e9490a71dbeb466ab8e028a117fcf0b18af52a4a68df27ceaf44acabc",
+        "development_first_kickoff": "2022-08-05T19:00:00+00:00",
+        "development_last_kickoff": "2024-11-24T19:45:00+00:00",
+        "holdout_first_kickoff": "2024-11-29T19:45:00+00:00",
+        "holdout_last_kickoff": "2025-05-17T19:00:00+00:00"
+      },
+      "seed": 42,
+      "selection_rows": 794,
+      "holdout_rows": 198,
+      "selected_on": "expanding_window_log_loss",
+      "selected": {
+        "model": "logistic_elasticnet",
+        "optimizer": "optuna",
+        "params": {
+          "C": 0.0745934328572655,
+          "l1_ratio": 0.9507143064099162
+        }
+      },
+      "results": [
+        {
+          "model": "xgboost",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0689124205609881,
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.494949494949495,
+          "holdout_log_loss": 1.0571268058165606,
+          "holdout_brier_score": 0.6378836499013314,
+          "holdout_rps": 0.23283359706721307
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "bayesian",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.011656282398126489,
+            "l2": 10.000000000000007
+          },
+          "selection_log_loss": 1.0611019065751024,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.011656282398126489,
+              "l2": 10.000000000000007
+            },
+            "best_loss": 1.0611019065751024,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.017324238895039288,
+                  "l2": 3.625617634576231
+                },
+                "log_loss": 1.0707046767137982
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03802259770124277,
+                  "l2": 0.15847101210439093
+                },
+                "log_loss": 1.0870686479379528
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.0271747096730583,
+                  "l2": 0.19307837536547137
+                },
+                "log_loss": 1.0934474793720543
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.011841130198891353,
+                  "l2": 2.7796975515266844
+                },
+                "log_loss": 1.0690015961645771
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.011656282398126489,
+                  "l2": 10.000000000000007
+                },
+                "log_loss": 1.0611019065751024
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.1990108479726117,
+                  "l2": 9.869255350533797
+                },
+                "log_loss": 1.1038677808267452
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.20000000000000007,
+                  "l2": 0.10000000000000002
+                },
+                "log_loss": 1.0860553199190426
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.03995871710785214,
+                  "l2": 10.000000000000007
+                },
+                "log_loss": 1.0710666094483423
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5,
+          "holdout_log_loss": 1.0430612443601714,
+          "holdout_brier_score": 0.627524952319407,
+          "holdout_rps": 0.22732688679457463
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "genetic",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.010778038801831716,
+            "l2": 1.0249686360134889
+          },
+          "selection_log_loss": 1.0585319425718296,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.010778038801831716,
+              "l2": 1.0249686360134889
+            },
+            "best_loss": 1.0585319425718296,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 0.35486129798045063
+                },
+                "log_loss": 1.0752688031357813
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 2.2563110735889107
+                },
+                "log_loss": 1.0789915138738189
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 0.697981062161514
+                },
+                "log_loss": 1.0754957376838912
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.063494830214271
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.063494830214271
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 0.5123792136667722
+                },
+                "log_loss": 1.0806726760565366
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.010000000000000004,
+                  "l2": 1.6752246274060734
+                },
+                "log_loss": 1.073781242052157
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0585319425718296
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5151515151515151,
+          "holdout_log_loss": 1.0381929132116463,
+          "holdout_brier_score": 0.6245649673303255,
+          "holdout_rps": 0.22647176337629724
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "optuna",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.05864422925454845,
+            "l2": 7.791470666172773
+          },
+          "selection_log_loss": 1.069205513381458,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.05864422925454845,
+              "l2": 7.791470666172773
+            },
+            "best_loss": 1.069205513381458,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.17254716573280354,
+                  "l2": 2.9106359131330697
+                },
+                "log_loss": 1.107297562940186
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.015958237752949748,
+                  "l2": 0.2051110418843398
+                },
+                "log_loss": 1.0751807489186376
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.13394334706750485,
+                  "l2": 1.5930522616241019
+                },
+                "log_loss": 1.0758493544001555
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010636066512540286,
+                  "l2": 8.706020878304859
+                },
+                "log_loss": 1.0718010061540448
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.010181283131439633,
+                  "l2": 8.691089486124962
+                },
+                "log_loss": 1.0715626017429034
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.03678321458463047,
+                  "l2": 0.11952270129143845
+                },
+                "log_loss": 1.0818549769688266
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.04278880097592998,
+                  "l2": 0.5760557382046961
+                },
+                "log_loss": 1.0966743829516725
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.05864422925454845,
+                  "l2": 7.791470666172773
+                },
+                "log_loss": 1.069205513381458
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.4898989898989899,
+          "holdout_log_loss": 1.0477768008251183,
+          "holdout_brier_score": 0.6303228346538359,
+          "holdout_rps": 0.22798044597989642
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0691850841579393,
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5151515151515151,
+          "holdout_log_loss": 1.0672430090679286,
+          "holdout_brier_score": 0.6352429094665869,
+          "holdout_rps": 0.2281782002549297
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.0834643350579431
+          },
+          "selection_log_loss": 1.0319631654120105,
+          "search": {
+            "best_params": {
+              "C": 0.0834643350579431
+            },
+            "best_loss": 1.0319631654120105,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0792471761380713
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.0808347072353337
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.078910964372406
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0689013374563836
+              },
+              {
+                "params": {
+                  "C": 0.20222484269803795
+                },
+                "log_loss": 1.0447854594536206
+              },
+              {
+                "params": {
+                  "C": 0.0834643350579431
+                },
+                "log_loss": 1.0319631654120105
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004
+                },
+                "log_loss": 1.0807681530960689
+              },
+              {
+                "params": {
+                  "C": 0.04176860554597058
+                },
+                "log_loss": 1.0337874545873638
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5454545454545454,
+          "holdout_log_loss": 1.013835027862427,
+          "holdout_brier_score": 0.6045889090095528,
+          "holdout_rps": 0.21908014994308053
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.037153401592453235
+          },
+          "selection_log_loss": 1.0343677820018993,
+          "search": {
+            "best_params": {
+              "C": 0.037153401592453235
+            },
+            "best_loss": 1.0343677820018993,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0723450639708476
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.086476488622232
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.041238640555006
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0682365029064333
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.041238640555006
+              },
+              {
+                "params": {
+                  "C": 0.037153401592453235
+                },
+                "log_loss": 1.0343677820018993
+              },
+              {
+                "params": {
+                  "C": 0.026250894202751455
+                },
+                "log_loss": 1.0387973150582843
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0682365029064333
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5505050505050505,
+          "holdout_log_loss": 0.9889864379437213,
+          "holdout_brier_score": 0.5889552972919795,
+          "holdout_rps": 0.21445600994401545
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655
+          },
+          "selection_log_loss": 1.031622085475492,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655
+            },
+            "best_loss": 1.031622085475492,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 1.031622085475492
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0806354989894866
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0775467876381073
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0690643033619
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.0847465853042584
+              },
+              {
+                "params": {
+                  "C": 0.0040125951635096345
+                },
+                "log_loss": 1.0797847679546086
+              },
+              {
+                "params": {
+                  "C": 0.06976600642206403
+                },
+                "log_loss": 1.0317234757927638
+              },
+              {
+                "params": {
+                  "C": 0.0667051880861635
+                },
+                "log_loss": 1.0318515378294022
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5454545454545454,
+          "holdout_log_loss": 1.0095494805097758,
+          "holdout_brier_score": 0.6018171028216087,
+          "holdout_rps": 0.21822253735776237
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0791075013949158,
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.48484848484848486,
+          "holdout_log_loss": 1.0772053752072737,
+          "holdout_brier_score": 0.6411421167737414,
+          "holdout_rps": 0.229837163983712
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.0028769158233619735
+          },
+          "selection_log_loss": 1.0357900193019782,
+          "search": {
+            "best_params": {
+              "C": 0.0028769158233619735
+            },
+            "best_loss": 1.0357900193019782,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0806218440099375
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.0389014697744472
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0805921061458907
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0789296233633676
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 1.0407219047109986
+              },
+              {
+                "params": {
+                  "C": 0.0359771532931192
+                },
+                "log_loss": 1.054703695774523
+              },
+              {
+                "params": {
+                  "C": 0.0028769158233619735
+                },
+                "log_loss": 1.0357900193019782
+              },
+              {
+                "params": {
+                  "C": 99.88457395209984
+                },
+                "log_loss": 1.0808310608286422
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5353535353535354,
+          "holdout_log_loss": 1.0159088582464646,
+          "holdout_brier_score": 0.607970008712855,
+          "holdout_rps": 0.22178741851799433
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.0013336865644471845
+          },
+          "selection_log_loss": 1.0386421555918113,
+          "search": {
+            "best_params": {
+              "C": 0.0013336865644471845
+            },
+            "best_loss": 1.0386421555918113,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0795651840202827
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.0386421555918113
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.0494496598526122
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0427605926873849
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.0386421555918113
+              },
+              {
+                "params": {
+                  "C": 0.037153401592453235
+                },
+                "log_loss": 1.0551232250435196
+              },
+              {
+                "params": {
+                  "C": 0.026250894202751455
+                },
+                "log_loss": 1.0507377612567075
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0427605926873849
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5404040404040404,
+          "holdout_log_loss": 1.0111271309534509,
+          "holdout_brier_score": 0.60553147413593,
+          "holdout_rps": 0.22184638050238398
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0015126466309778011
+          },
+          "selection_log_loss": 1.0378979712006096,
+          "search": {
+            "best_params": {
+              "C": 0.0015126466309778011
+            },
+            "best_loss": 1.0378979712006096,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 1.0636116225001442
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0807894617393694
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0803930198087282
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0789539347892254
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.0378979712006096
+              },
+              {
+                "params": {
+                  "C": 0.0010714845538373117
+                },
+                "log_loss": 1.0401752210677364
+              },
+              {
+                "params": {
+                  "C": 0.0010907785690006102
+                },
+                "log_loss": 1.040038786772279
+              },
+              {
+                "params": {
+                  "C": 0.048849194097041415
+                },
+                "log_loss": 1.058571606043567
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5404040404040404,
+          "holdout_log_loss": 1.0115251069194693,
+          "holdout_brier_score": 0.6056961919347431,
+          "holdout_rps": 0.2217554321646579
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.073270343647945,
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5050505050505051,
+          "holdout_log_loss": 1.0718486574491726,
+          "holdout_brier_score": 0.6380221844314761,
+          "holdout_rps": 0.22896633777250205
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1978082768935381,
+            "l1_ratio": 0.3337086111390219
+          },
+          "selection_log_loss": 1.0582763493113307,
+          "search": {
+            "best_params": {
+              "C": 0.1978082768935381,
+              "l1_ratio": 0.3337086111390219
+            },
+            "best_loss": 1.0582763493113307,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417,
+                  "l1_ratio": 0.18343478986616382
+                },
+                "log_loss": 1.0804290699602404
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231,
+                  "l1_ratio": 0.5968501579464871
+                },
+                "log_loss": 1.0796159305179263
+              },
+              {
+                "params": {
+                  "C": 0.1694976823788475,
+                  "l1_ratio": 0.09997491581800291
+                },
+                "log_loss": 1.0657151818772825
+              },
+              {
+                "params": {
+                  "C": 0.1978082768935381,
+                  "l1_ratio": 0.3337086111390219
+                },
+                "log_loss": 1.0582763493113307
+              },
+              {
+                "params": {
+                  "C": 0.5451596707548896,
+                  "l1_ratio": 0.7387480290356229
+                },
+                "log_loss": 1.0653119073092043
+              },
+              {
+                "params": {
+                  "C": 0.011982229284799096,
+                  "l1_ratio": 0.9654710148944439
+                },
+                "log_loss": 1.070557301323839
+              },
+              {
+                "params": {
+                  "C": 0.001001074364493335,
+                  "l1_ratio": 0.45564311816343883
+                },
+                "log_loss": 1.0855335463303373
+              },
+              {
+                "params": {
+                  "C": 99.90063286367882,
+                  "l1_ratio": 0.9682004428077876
+                },
+                "log_loss": 1.0807636942339507
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5303030303030303,
+          "holdout_log_loss": 1.0569717286972382,
+          "holdout_brier_score": 0.6295814093886277,
+          "holdout_rps": 0.22660867327212417
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.3029771712089531
+          },
+          "selection_log_loss": 1.032201250402157,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213,
+              "l1_ratio": 0.3029771712089531
+            },
+            "best_loss": 1.032201250402157,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.025010755222666936
+                },
+                "log_loss": 1.0793764639627625
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 1.0334754257898682
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.6766994874229113
+                },
+                "log_loss": 1.0786402852234087
+              },
+              {
+                "params": {
+                  "C": 28.89999971836148,
+                  "l1_ratio": 0.08693883262941615
+                },
+                "log_loss": 1.0808090133550494
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 1.0334754257898682
+              },
+              {
+                "params": {
+                  "C": 3.2248641562359994,
+                  "l1_ratio": 0.6755291314660851
+                },
+                "log_loss": 1.0776033233718587
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.3029771712089531
+                },
+                "log_loss": 1.032201250402157
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.45866769272160957
+                },
+                "log_loss": 1.0791871868186633
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5505050505050505,
+          "holdout_log_loss": 1.0067870290661005,
+          "holdout_brier_score": 0.60038329998066,
+          "holdout_rps": 0.21802305797009863
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          },
+          "selection_log_loss": 1.0315457213203667,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655,
+              "l1_ratio": 0.9507143064099162
+            },
+            "best_loss": 1.0315457213203667,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655,
+                  "l1_ratio": 0.9507143064099162
+                },
+                "log_loss": 1.0315457213203667
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515,
+                  "l1_ratio": 0.5986584841970366
+                },
+                "log_loss": 1.078730957403717
+              },
+              {
+                "params": {
+                  "C": 0.006026889128682512,
+                  "l1_ratio": 0.15599452033620265
+                },
+                "log_loss": 1.0416069067913334
+              },
+              {
+                "params": {
+                  "C": 0.0019517224641449498,
+                  "l1_ratio": 0.8661761457749352
+                },
+                "log_loss": 1.0855327655812903
+              },
+              {
+                "params": {
+                  "C": 57.23510936899938,
+                  "l1_ratio": 0.0059971829558171375
+                },
+                "log_loss": 1.0808909707054781
+              },
+              {
+                "params": {
+                  "C": 0.23836674000300828,
+                  "l1_ratio": 0.9350090497701827
+                },
+                "log_loss": 1.0500514273207848
+              },
+              {
+                "params": {
+                  "C": 0.09683790422339313,
+                  "l1_ratio": 0.4212594514141791
+                },
+                "log_loss": 1.0438142089199096
+              },
+              {
+                "params": {
+                  "C": 0.12994411782671272,
+                  "l1_ratio": 0.6001912881794036
+                },
+                "log_loss": 1.0444233954789646
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 198,
+          "holdout_accuracy": 0.5454545454545454,
+          "holdout_log_loss": 1.0112478321944718,
+          "holdout_brier_score": 0.6029252332751885,
+          "holdout_rps": 0.21857751613659726
+        }
+      ],
+      "baselines": {
+        "majority_accuracy": 0.4696969696969697,
+        "elo_accuracy": 0.5505050505050505
+      },
+      "note": "Exploratory comparison only; no production model is saved and release gates remain required."
+    },
+    {
+      "competition": "BL1",
+      "receipt": {
+        "competition": "BL1",
+        "source_snapshots": [
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "BL1",
+            "season": "2022",
+            "fetched_at": "2026-10-08T23:45:26.039918+00:00",
+            "sha256": "3b6d81ea8efc1c27fdd2c7ce5ae06df13847d0fb7f621a495500673c0d645868"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "BL1",
+            "season": "2023",
+            "fetched_at": "2026-10-08T23:45:26.366306+00:00",
+            "sha256": "302eb7e5624a2c34ba5f5175f50ffdd65a067aff2873e8c28081960c8b0afc2a"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "BL1",
+            "season": "2024",
+            "fetched_at": "2026-10-08T23:45:26.699996+00:00",
+            "sha256": "50272531804425504bb5e8d3db501b8d0e2efa33c84b8da13dbbaeb52d436225"
+          }
+        ],
+        "feature_names": [
+          "home_elo",
+          "away_elo",
+          "elo_diff",
+          "home_form_points",
+          "away_form_points",
+          "form_points_diff",
+          "home_goals_for",
+          "away_goals_for",
+          "attack_diff",
+          "home_goals_against",
+          "away_goals_against",
+          "defense_diff",
+          "home_goal_difference",
+          "away_goal_difference",
+          "goal_difference_diff",
+          "home_win_rate",
+          "away_win_rate",
+          "win_rate_diff",
+          "home_clean_sheet_rate",
+          "away_clean_sheet_rate",
+          "home_rest_days",
+          "away_rest_days",
+          "rest_diff",
+          "home_venue_points",
+          "away_venue_points",
+          "venue_points_diff",
+          "home_matches_seen",
+          "away_matches_seen",
+          "experience_diff",
+          "home_advantage"
+        ],
+        "feature_target_sha256": "fb3da6d5ee36742e054d78c5f7e37a3f3b4d9b5a3cd468f38b528deaac4e6c5f",
+        "development_first_kickoff": "2022-08-05T18:30:00+00:00",
+        "development_last_kickoff": "2024-12-14T14:30:00+00:00",
+        "holdout_first_kickoff": "2024-12-14T17:30:00+00:00",
+        "holdout_last_kickoff": "2025-05-17T13:30:00+00:00"
+      },
+      "seed": 42,
+      "selection_rows": 734,
+      "holdout_rows": 184,
+      "selected_on": "expanding_window_log_loss",
+      "selected": {
+        "model": "logistic_elasticnet",
+        "optimizer": "optuna",
+        "params": {
+          "C": 0.0745934328572655,
+          "l1_ratio": 0.9507143064099162
+        }
+      },
+      "results": [
+        {
+          "model": "xgboost",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0502277904670043,
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4673913043478261,
+          "holdout_log_loss": 1.0582657178990715,
+          "holdout_brier_score": 0.6350280466110726,
+          "holdout_rps": 0.21711714175292646
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "bayesian",
+          "params": {
+            "max_depth": 3,
+            "learning_rate": 0.07673215441375207,
+            "l2": 2.0856607566253396
+          },
+          "selection_log_loss": 1.040587259820353,
+          "search": {
+            "best_params": {
+              "max_depth": 3,
+              "learning_rate": 0.07673215441375207,
+              "l2": 2.0856607566253396
+            },
+            "best_loss": 1.040587259820353,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.017324238895039288,
+                  "l2": 3.625617634576231
+                },
+                "log_loss": 1.046823291252892
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03802259770124277,
+                  "l2": 0.15847101210439093
+                },
+                "log_loss": 1.0522026177825385
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.0271747096730583,
+                  "l2": 0.19307837536547137
+                },
+                "log_loss": 1.0491373730047602
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.011841130198891353,
+                  "l2": 2.7796975515266844
+                },
+                "log_loss": 1.0423356512786248
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.07673215441375207,
+                  "l2": 2.0856607566253396
+                },
+                "log_loss": 1.040587259820353
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.021454938537844123,
+                  "l2": 1.0296501059765484
+                },
+                "log_loss": 1.0453174513597638
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.03944376593540598,
+                  "l2": 0.44614473878993455
+                },
+                "log_loss": 1.045079304087652
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.025163383266861596,
+                  "l2": 9.991059931373588
+                },
+                "log_loss": 1.0476542511639977
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.45108695652173914,
+          "holdout_log_loss": 1.0600390270234432,
+          "holdout_brier_score": 0.6357173490453816,
+          "holdout_rps": 0.2172238460959256
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "genetic",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.019251056268853182,
+            "l2": 1.0249686360134889
+          },
+          "selection_log_loss": 1.035278040368444,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.019251056268853182,
+              "l2": 1.0249686360134889
+            },
+            "best_loss": 1.035278040368444,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 0.35486129798045063
+                },
+                "log_loss": 1.0465280996985216
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 2.2563110735889107
+                },
+                "log_loss": 1.0426408413935404
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 0.697981062161514
+                },
+                "log_loss": 1.0474997464813622
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.035278040368444
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.035278040368444
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 3.257855675590766
+                },
+                "log_loss": 1.0429747858660234
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.06995855544021141,
+                  "l2": 1.6752246274060734
+                },
+                "log_loss": 1.0471818226467087
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0377420105732988
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.45652173913043476,
+          "holdout_log_loss": 1.0489512571356905,
+          "holdout_brier_score": 0.6296054766915156,
+          "holdout_rps": 0.21565297100896705
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "optuna",
+          "params": {
+            "max_depth": 4,
+            "learning_rate": 0.015958237752949748,
+            "l2": 0.2051110418843398
+          },
+          "selection_log_loss": 1.040454871830716,
+          "search": {
+            "best_params": {
+              "max_depth": 4,
+              "learning_rate": 0.015958237752949748,
+              "l2": 0.2051110418843398
+            },
+            "best_loss": 1.040454871830716,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.17254716573280354,
+                  "l2": 2.9106359131330697
+                },
+                "log_loss": 1.0427484264256603
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.015958237752949748,
+                  "l2": 0.2051110418843398
+                },
+                "log_loss": 1.040454871830716
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.13394334706750485,
+                  "l2": 1.5930522616241019
+                },
+                "log_loss": 1.0540375123011494
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010636066512540286,
+                  "l2": 8.706020878304859
+                },
+                "log_loss": 1.0464845098797548
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.010181283131439633,
+                  "l2": 0.10353677627159774
+                },
+                "log_loss": 1.0481919276117488
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03715401797187733,
+                  "l2": 0.11952270129143845
+                },
+                "log_loss": 1.0536738638121579
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.04312838874709204,
+                  "l2": 0.46729415889753084
+                },
+                "log_loss": 1.0498446272871533
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.030301788478652055,
+                  "l2": 0.4933834990290913
+                },
+                "log_loss": 1.0500645200615433
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4782608695652174,
+          "holdout_log_loss": 1.0564052384069906,
+          "holdout_brier_score": 0.6340335939030574,
+          "holdout_rps": 0.2173130949336166
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.012098222096441,
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4782608695652174,
+          "holdout_log_loss": 1.1257687211206655,
+          "holdout_brier_score": 0.6612993408299633,
+          "holdout_rps": 0.23319658664648948
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.06822787500525128
+          },
+          "selection_log_loss": 0.9915734617877882,
+          "search": {
+            "best_params": {
+              "C": 0.06822787500525128
+            },
+            "best_loss": 0.9915734617877882,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0212744317365736
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.0786579489600463
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0209697268292826
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0118768124495925
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter",
+                "surrogate_penalty": 36.0
+              },
+              {
+                "params": {
+                  "C": 0.06822787500525128
+                },
+                "log_loss": 0.9915734617877882
+              },
+              {
+                "params": {
+                  "C": 0.0011451348242237556
+                },
+                "log_loss": 1.0790447117129414
+              },
+              {
+                "params": {
+                  "C": 0.2608890646599894
+                },
+                "log_loss": 1.0000220782184608
+              }
+            ],
+            "completed_trials": 7,
+            "failed_trials": 1
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4673913043478261,
+          "holdout_log_loss": 1.0799556479190235,
+          "holdout_brier_score": 0.6459536643047136,
+          "holdout_rps": 0.2260273086845157
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.06746701302324619
+          },
+          "selection_log_loss": 0.9917408701075514,
+          "search": {
+            "best_params": {
+              "C": 0.06746701302324619
+            },
+            "best_loss": 0.9917408701075514,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0146658915373459
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.079044342731667
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.0331089467944683
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.071131306274753
+              },
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0146658915373459
+              },
+              {
+                "params": {
+                  "C": 0.06746701302324619
+                },
+                "log_loss": 0.9917408701075514
+              },
+              {
+                "params": {
+                  "C": 0.0476691055229957
+                },
+                "log_loss": 0.9988271627944558
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.0331089467944683
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4673913043478261,
+          "holdout_log_loss": 1.0795892957672577,
+          "holdout_brier_score": 0.6458006363277026,
+          "holdout_rps": 0.22595119365283514
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655
+          },
+          "selection_log_loss": 0.9902876663279151,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655
+            },
+            "best_loss": 0.9902876663279151,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 0.9902876663279151
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.022469557123365
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0197041813081495
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0120042739814499
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.0777171456296772
+              },
+              {
+                "params": {
+                  "C": 0.0040125951635096345
+                },
+                "log_loss": 1.0778272208643653
+              },
+              {
+                "params": {
+                  "C": 0.06976600642206403
+                },
+                "log_loss": 0.9912499064273782
+              },
+              {
+                "params": {
+                  "C": 0.0667051880861635
+                },
+                "log_loss": 0.9919167286298068
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.46195652173913043,
+          "holdout_log_loss": 1.0831921465429346,
+          "holdout_brier_score": 0.6473328829138083,
+          "holdout_rps": 0.22672426224329587
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0201474696358164,
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4891304347826087,
+          "holdout_log_loss": 1.1341730794729867,
+          "holdout_brier_score": 0.6646636289413677,
+          "holdout_rps": 0.23442465612761046
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.008263688714158009
+          },
+          "selection_log_loss": 0.9946882359464372,
+          "search": {
+            "best_params": {
+              "C": 0.008263688714158009
+            },
+            "best_loss": 0.9946882359464372,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0223836457799378
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 0.9946882359464372
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.022307354667448
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.020088979517488
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 1.0125941978170736
+              },
+              {
+                "params": {
+                  "C": 0.035806309615743756
+                },
+                "log_loss": 1.0028143992647427
+              },
+              {
+                "params": {
+                  "C": 99.96991854129176
+                },
+                "log_loss": 1.0226939711187903
+              },
+              {
+                "params": {
+                  "C": 0.15507470673329463
+                },
+                "log_loss": 1.013605483766004
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.45108695652173914,
+          "holdout_log_loss": 1.091269126719074,
+          "holdout_brier_score": 0.6516273751084011,
+          "holdout_rps": 0.2292837678115094
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.013063323767645078
+          },
+          "selection_log_loss": 0.9958816845395198,
+          "search": {
+            "best_params": {
+              "C": 0.013063323767645078
+            },
+            "best_loss": 0.9958816845395198,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.020942287989689
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.0079142031624826
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.999540942694913
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9958816845395198
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9958816845395198
+              },
+              {
+                "params": {
+                  "C": 0.06746701302324619
+                },
+                "log_loss": 1.008015046136381
+              },
+              {
+                "params": {
+                  "C": 0.0476691055229957
+                },
+                "log_loss": 1.0052143147698516
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.999540942694913
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.44021739130434784,
+          "holdout_log_loss": 1.0987128211002832,
+          "holdout_brier_score": 0.6536129431257826,
+          "holdout_rps": 0.2301327748210087
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.048849194097041415
+          },
+          "selection_log_loss": 1.005413960390504,
+          "search": {
+            "best_params": {
+              "C": 0.048849194097041415
+            },
+            "best_loss": 1.005413960390504,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 1.0087572689063407
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0226630376921024
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0220516644263735
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0201161735522613
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.00608268463725
+              },
+              {
+                "params": {
+                  "C": 0.0010714845538373117
+                },
+                "log_loss": 1.011416917449833
+              },
+              {
+                "params": {
+                  "C": 0.0010907785690006102
+                },
+                "log_loss": 1.0111230355914285
+              },
+              {
+                "params": {
+                  "C": 0.048849194097041415
+                },
+                "log_loss": 1.005413960390504
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.47282608695652173,
+          "holdout_log_loss": 1.118552466599571,
+          "holdout_brier_score": 0.6595009176916051,
+          "holdout_rps": 0.23252107893384888
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0153820078574982,
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.483695652173913,
+          "holdout_log_loss": 1.129504005103698,
+          "holdout_brier_score": 0.6628924383924208,
+          "holdout_rps": 0.2337773087347943
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1978082768935381,
+            "l1_ratio": 0.3337086111390219
+          },
+          "selection_log_loss": 1.0048612089958988,
+          "search": {
+            "best_params": {
+              "C": 0.1978082768935381,
+              "l1_ratio": 0.3337086111390219
+            },
+            "best_loss": 1.0048612089958988,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417,
+                  "l1_ratio": 0.18343478986616382
+                },
+                "log_loss": 1.0221111291777427
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231,
+                  "l1_ratio": 0.5968501579464871
+                },
+                "log_loss": 1.021471607290436
+              },
+              {
+                "params": {
+                  "C": 0.1694976823788475,
+                  "l1_ratio": 0.09997491581800291
+                },
+                "log_loss": 1.009389617614918
+              },
+              {
+                "params": {
+                  "C": 0.1978082768935381,
+                  "l1_ratio": 0.3337086111390219
+                },
+                "log_loss": 1.0048612089958988
+              },
+              {
+                "params": {
+                  "C": 0.5887046092170255,
+                  "l1_ratio": 0.8670315987766841
+                },
+                "log_loss": 1.0085524827436758
+              },
+              {
+                "params": {
+                  "C": 0.006816564650957093,
+                  "l1_ratio": 0.9614248765980814
+                },
+                "log_loss": 1.0780002599660212
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004,
+                  "l1_ratio": 0.9720559883586094
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter",
+                "surrogate_penalty": 36.0
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002,
+                  "l1_ratio": 0.0
+                },
+                "log_loss": 1.012595480638096
+              }
+            ],
+            "completed_trials": 7,
+            "failed_trials": 1
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.4673913043478261,
+          "holdout_log_loss": 1.1174882288545445,
+          "holdout_brier_score": 0.6587530860934487,
+          "holdout_rps": 0.23229383696203776
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.22321073814882275
+          },
+          "selection_log_loss": 0.9907061964895343,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213,
+              "l1_ratio": 0.22321073814882275
+            },
+            "best_loss": 0.9907061964895343,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.025010755222666936
+                },
+                "log_loss": 1.0207372292119286
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9907061964895343
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.6766994874229113
+                },
+                "log_loss": 1.0205521036555336
+              },
+              {
+                "params": {
+                  "C": 28.89999971836148,
+                  "l1_ratio": 0.08693883262941615
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter",
+                "surrogate_penalty": 36.0
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9907061964895343
+              },
+              {
+                "params": {
+                  "C": 3.2248641562359994,
+                  "l1_ratio": 0.6755291314660851
+                },
+                "log_loss": 1.0195561023467856
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.3029771712089531
+                },
+                "log_loss": 0.9921742860356553
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.45866769272160957
+                },
+                "log_loss": 1.0209851465416528
+              }
+            ],
+            "completed_trials": 7,
+            "failed_trials": 1
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.46195652173913043,
+          "holdout_log_loss": 1.0845678442802587,
+          "holdout_brier_score": 0.6490368314641506,
+          "holdout_rps": 0.22801459829763163
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          },
+          "selection_log_loss": 0.9898206378113867,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655,
+              "l1_ratio": 0.9507143064099162
+            },
+            "best_loss": 0.9898206378113867,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655,
+                  "l1_ratio": 0.9507143064099162
+                },
+                "log_loss": 0.9898206378113867
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515,
+                  "l1_ratio": 0.5986584841970366
+                },
+                "log_loss": 1.0206072010582714
+              },
+              {
+                "params": {
+                  "C": 0.006026889128682512,
+                  "l1_ratio": 0.15599452033620265
+                },
+                "log_loss": 1.0197031969220722
+              },
+              {
+                "params": {
+                  "C": 0.0019517224641449498,
+                  "l1_ratio": 0.8661761457749352
+                },
+                "log_loss": 1.0759907849631138
+              },
+              {
+                "params": {
+                  "C": 57.23510936899938,
+                  "l1_ratio": 0.0059971829558171375
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter"
+              },
+              {
+                "params": {
+                  "C": 70.41830285015996,
+                  "l1_ratio": 0.017961875614819656
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter"
+              },
+              {
+                "params": {
+                  "C": 64.29867464471931,
+                  "l1_ratio": 0.0387251999611829
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter"
+              },
+              {
+                "params": {
+                  "C": 62.92942010319489,
+                  "l1_ratio": 0.025574449535232913
+                },
+                "log_loss": null,
+                "state": "failed",
+                "error": "逻辑回归未收敛，请检查参数或增加 max_iter"
+              }
+            ],
+            "completed_trials": 4,
+            "failed_trials": 4
+          },
+          "holdout_rows": 184,
+          "holdout_accuracy": 0.46195652173913043,
+          "holdout_log_loss": 1.0847217795225894,
+          "holdout_brier_score": 0.6480421120789441,
+          "holdout_rps": 0.22709863857243387
+        }
+      ],
+      "baselines": {
+        "majority_accuracy": 0.3423913043478261,
+        "elo_accuracy": 0.46195652173913043
+      },
+      "note": "Exploratory comparison only; no production model is saved and release gates remain required."
+    },
+    {
+      "competition": "SA",
+      "receipt": {
+        "competition": "SA",
+        "source_snapshots": [
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "SA",
+            "season": "2022",
+            "fetched_at": "2026-10-08T23:45:33.638788+00:00",
+            "sha256": "9040d052d51f175617ab65a072859237853f2af97999cc299ea9fa645d3a4cef"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "SA",
+            "season": "2023",
+            "fetched_at": "2026-10-08T23:45:33.986937+00:00",
+            "sha256": "99926562f8c6e6a7a4ac3625864f5417701a43f19ac3a7e1d62c9292ae581dc2"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "SA",
+            "season": "2024",
+            "fetched_at": "2026-10-08T23:45:34.341747+00:00",
+            "sha256": "150d54f5460e40fc718d3d57648b8d7d4f4f1d32122eea6e9c25b6947a3f34a1"
+          }
+        ],
+        "feature_names": [
+          "home_elo",
+          "away_elo",
+          "elo_diff",
+          "home_form_points",
+          "away_form_points",
+          "form_points_diff",
+          "home_goals_for",
+          "away_goals_for",
+          "attack_diff",
+          "home_goals_against",
+          "away_goals_against",
+          "defense_diff",
+          "home_goal_difference",
+          "away_goal_difference",
+          "goal_difference_diff",
+          "home_win_rate",
+          "away_win_rate",
+          "win_rate_diff",
+          "home_clean_sheet_rate",
+          "away_clean_sheet_rate",
+          "home_rest_days",
+          "away_rest_days",
+          "rest_diff",
+          "home_venue_points",
+          "away_venue_points",
+          "venue_points_diff",
+          "home_matches_seen",
+          "away_matches_seen",
+          "experience_diff",
+          "home_advantage"
+        ],
+        "feature_target_sha256": "c09ba379b453755b4ad1575d73b7a830e454f24f017e85ce98f7a00b67690109",
+        "development_first_kickoff": "2022-08-13T16:30:00+00:00",
+        "development_last_kickoff": "2024-12-14T19:45:00+00:00",
+        "holdout_first_kickoff": "2024-12-15T11:30:00+00:00",
+        "holdout_last_kickoff": "2025-05-25T18:45:00+00:00"
+      },
+      "seed": 42,
+      "selection_rows": 912,
+      "holdout_rows": 228,
+      "selected_on": "expanding_window_log_loss",
+      "selected": {
+        "model": "logistic_elasticnet",
+        "optimizer": "genetic",
+        "params": {
+          "C": 0.023721742747173213,
+          "l1_ratio": 0.22321073814882275
+        }
+      },
+      "results": [
+        {
+          "model": "xgboost",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0160500810584179,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 1.0151934673281955,
+          "holdout_brier_score": 0.6102918252167833,
+          "holdout_rps": 0.2028758670049174
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "bayesian",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.05908573313264041,
+            "l2": 6.910191823203145
+          },
+          "selection_log_loss": 1.0085631624804203,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.05908573313264041,
+              "l2": 6.910191823203145
+            },
+            "best_loss": 1.0085631624804203,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.017324238895039288,
+                  "l2": 3.625617634576231
+                },
+                "log_loss": 1.0245716629822477
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03802259770124277,
+                  "l2": 0.15847101210439093
+                },
+                "log_loss": 1.0233827495809236
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.0271747096730583,
+                  "l2": 0.19307837536547137
+                },
+                "log_loss": 1.0285650940957511
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.011841130198891353,
+                  "l2": 2.7796975515266844
+                },
+                "log_loss": 1.0241495659725324
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.16504512784350067,
+                  "l2": 0.9855650240227372
+                },
+                "log_loss": 1.090004176557963
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.05908573313264041,
+                  "l2": 6.910191823203145
+                },
+                "log_loss": 1.0085631624804203
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.010000000000000004,
+                  "l2": 10.000000000000007
+                },
+                "log_loss": 1.009401545935263
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.1781935922560462,
+                  "l2": 10.000000000000007
+                },
+                "log_loss": 1.0524540814574121
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4824561403508772,
+          "holdout_log_loss": 1.013764123114093,
+          "holdout_brier_score": 0.6092814315837541,
+          "holdout_rps": 0.2016207450014583
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "genetic",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.019251056268853182,
+            "l2": 1.0249686360134889
+          },
+          "selection_log_loss": 1.0003506731737377,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.019251056268853182,
+              "l2": 1.0249686360134889
+            },
+            "best_loss": 1.0003506731737377,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 0.35486129798045063
+                },
+                "log_loss": 1.029149060517319
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 2.2563110735889107
+                },
+                "log_loss": 1.0202993907904054
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 0.697981062161514
+                },
+                "log_loss": 1.03238345960891
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0003506731737377
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0003506731737377
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 3.257855675590766
+                },
+                "log_loss": 1.008554717749499
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.06995855544021141,
+                  "l2": 1.6752246274060734
+                },
+                "log_loss": 1.0204263871172738
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.01361703662688
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4956140350877193,
+          "holdout_log_loss": 1.0119492689362168,
+          "holdout_brier_score": 0.6084415522275333,
+          "holdout_rps": 0.20111664980806052
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "optuna",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.14860744665805786,
+            "l2": 0.41246625441929846
+          },
+          "selection_log_loss": 1.0071745166705857,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.14860744665805786,
+              "l2": 0.41246625441929846
+            },
+            "best_loss": 1.0071745166705857,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.17254716573280354,
+                  "l2": 2.9106359131330697
+                },
+                "log_loss": 1.0286953736738025
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.015958237752949748,
+                  "l2": 0.2051110418843398
+                },
+                "log_loss": 1.0212743275930543
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.13394334706750485,
+                  "l2": 1.5930522616241019
+                },
+                "log_loss": 1.0146477237339133
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010636066512540286,
+                  "l2": 8.706020878304859
+                },
+                "log_loss": 1.0237562834403984
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.14860744665805786,
+                  "l2": 0.41246625441929846
+                },
+                "log_loss": 1.0071745166705857
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.045061763919341524,
+                  "l2": 0.11952270129143845
+                },
+                "log_loss": 1.0359155904605488
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.047106674028357845,
+                  "l2": 0.46729415889753084
+                },
+                "log_loss": 1.009625030505534
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.05864422925454845,
+                  "l2": 0.7584001479563484
+                },
+                "log_loss": 1.032410328393953
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5175438596491229,
+          "holdout_log_loss": 1.0130016282085037,
+          "holdout_brier_score": 0.6083572428662989,
+          "holdout_rps": 0.2018385920375767
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0214107994872152,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5350877192982456,
+          "holdout_log_loss": 1.0027209940819501,
+          "holdout_brier_score": 0.594661534902606,
+          "holdout_rps": 0.19452109415747684
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.10147435094880147
+          },
+          "selection_log_loss": 0.9954184698241952,
+          "search": {
+            "best_params": {
+              "C": 0.10147435094880147
+            },
+            "best_loss": 0.9954184698241952,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0313768704241593
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.088415713487418
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0310936529341248
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0210640090509568
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004
+                },
+                "log_loss": 1.0326147099773777
+              },
+              {
+                "params": {
+                  "C": 0.24185755562338648
+                },
+                "log_loss": 1.0027991108668843
+              },
+              {
+                "params": {
+                  "C": 0.10147435094880147
+                },
+                "log_loss": 0.9954184698241952
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 1.0895634999970631
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.543859649122807,
+          "holdout_log_loss": 0.9878056372820224,
+          "holdout_brier_score": 0.5868680316987708,
+          "holdout_rps": 0.19309534254264846
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213
+          },
+          "selection_log_loss": 1.0131087958346416,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213
+            },
+            "best_loss": 1.0131087958346416,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0251773639248685
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.090127696516236
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.0131087958346416
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0567267318557132
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.0131087958346416
+              },
+              {
+                "params": {
+                  "C": 4.4779463234403005
+                },
+                "log_loss": 1.0298832384811043
+              },
+              {
+                "params": {
+                  "C": 3.163912054989562
+                },
+                "log_loss": 1.0287641950635984
+              },
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0251773639248685
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5307017543859649,
+          "holdout_log_loss": 0.9811042788896421,
+          "holdout_brier_score": 0.5846114701187402,
+          "holdout_rps": 0.19240682529420627
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.06976600642206403
+          },
+          "selection_log_loss": 0.9935809978816962,
+          "search": {
+            "best_params": {
+              "C": 0.06976600642206403
+            },
+            "best_loss": 0.9935809978816962,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 0.9937252242848322
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0325092700268457
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.029938096030287
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0212641026129214
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.089249691352028
+              },
+              {
+                "params": {
+                  "C": 0.0040125951635096345
+                },
+                "log_loss": 1.087823318301337
+              },
+              {
+                "params": {
+                  "C": 0.06976600642206403
+                },
+                "log_loss": 0.9935809978816962
+              },
+              {
+                "params": {
+                  "C": 0.05423185466354641
+                },
+                "log_loss": 0.9943318263158466
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5526315789473685,
+          "holdout_log_loss": 0.982868957467894,
+          "holdout_brier_score": 0.584338005656636,
+          "holdout_rps": 0.1923123162748087
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0307600353922313,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5087719298245614,
+          "holdout_log_loss": 1.0088544711224945,
+          "holdout_brier_score": 0.5987668172737508,
+          "holdout_rps": 0.19537500897744142
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.003607124096953676
+          },
+          "selection_log_loss": 0.9941049358161557,
+          "search": {
+            "best_params": {
+              "C": 0.003607124096953676
+            },
+            "best_loss": 0.9941049358161557,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.0325167450384805
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 0.9941960142299039
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0325238644010566
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0306855559021162
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 1.0110379088059835
+              },
+              {
+                "params": {
+                  "C": 0.0337765273420245
+                },
+                "log_loss": 1.008696898167122
+              },
+              {
+                "params": {
+                  "C": 99.96991854129176
+                },
+                "log_loss": 1.0327193385609166
+              },
+              {
+                "params": {
+                  "C": 0.003607124096953676
+                },
+                "log_loss": 0.9941049358161557
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5394736842105263,
+          "holdout_log_loss": 1.0028431911125555,
+          "holdout_brier_score": 0.5980362889154398,
+          "holdout_rps": 0.19724949158980082
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.013063323767645078
+          },
+          "selection_log_loss": 0.9976788121336732,
+          "search": {
+            "best_params": {
+              "C": 0.013063323767645078
+            },
+            "best_loss": 0.9976788121336732,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0314830079559694
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.0056231864060317
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.004427423971912
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9976788121336732
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.9976788121336732
+              },
+              {
+                "params": {
+                  "C": 0.06746701302324619
+                },
+                "log_loss": 1.0165511740548738
+              },
+              {
+                "params": {
+                  "C": 0.0476691055229957
+                },
+                "log_loss": 1.0128147022995382
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 1.004427423971912
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5350877192982456,
+          "holdout_log_loss": 1.000454637599943,
+          "holdout_brier_score": 0.5948327470802952,
+          "holdout_rps": 0.19531439025760888
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0015126466309778011
+          },
+          "selection_log_loss": 1.00352774966166,
+          "search": {
+            "best_params": {
+              "C": 0.0015126466309778011
+            },
+            "best_loss": 1.00352774966166,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 1.0175379891689937
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0326993078602071
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0322745976932728
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.0306948947107466
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.00352774966166
+              },
+              {
+                "params": {
+                  "C": 0.0010714845538373117
+                },
+                "log_loss": 1.0096616202139939
+              },
+              {
+                "params": {
+                  "C": 0.0010907785690006102
+                },
+                "log_loss": 1.0093152894323507
+              },
+              {
+                "params": {
+                  "C": 0.048849194097041415
+                },
+                "log_loss": 1.0130931588643293
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5307017543859649,
+          "holdout_log_loss": 1.009433677007038,
+          "holdout_brier_score": 0.6031373900449171,
+          "holdout_rps": 0.20003639885604016
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0254542839353196,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5307017543859649,
+          "holdout_log_loss": 1.0053879942531743,
+          "holdout_brier_score": 0.59649181369553,
+          "holdout_rps": 0.19486793024091245
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1978082768935381,
+            "l1_ratio": 0.3337086111390219
+          },
+          "selection_log_loss": 1.0118860816299549,
+          "search": {
+            "best_params": {
+              "C": 0.1978082768935381,
+              "l1_ratio": 0.3337086111390219
+            },
+            "best_loss": 1.0118860816299549,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417,
+                  "l1_ratio": 0.18343478986616382
+                },
+                "log_loss": 1.0322832157903918
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231,
+                  "l1_ratio": 0.5968501579464871
+                },
+                "log_loss": 1.0315847452989415
+              },
+              {
+                "params": {
+                  "C": 0.1694976823788475,
+                  "l1_ratio": 0.09997491581800291
+                },
+                "log_loss": 1.0189473500385908
+              },
+              {
+                "params": {
+                  "C": 0.1978082768935381,
+                  "l1_ratio": 0.3337086111390219
+                },
+                "log_loss": 1.0118860816299549
+              },
+              {
+                "params": {
+                  "C": 0.5578903603405043,
+                  "l1_ratio": 0.8833864870490226
+                },
+                "log_loss": 1.0160781925831381
+              },
+              {
+                "params": {
+                  "C": 0.00954692050183656,
+                  "l1_ratio": 0.9196260712224333
+                },
+                "log_loss": 1.0778245554287558
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004,
+                  "l1_ratio": 0.972055359356638
+                },
+                "log_loss": 1.0326179745175486
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002,
+                  "l1_ratio": 0.13513422874055636
+                },
+                "log_loss": 1.087679029025561
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5394736842105263,
+          "holdout_log_loss": 0.9987377866231631,
+          "holdout_brier_score": 0.5924391371124239,
+          "holdout_rps": 0.19409369403746812
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.22321073814882275
+          },
+          "selection_log_loss": 0.9921587611621248,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213,
+              "l1_ratio": 0.22321073814882275
+            },
+            "best_loss": 0.9921587611621248,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.025010755222666936
+                },
+                "log_loss": 1.0312114711883573
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9921587611621248
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.6766994874229113
+                },
+                "log_loss": 1.0306680345529122
+              },
+              {
+                "params": {
+                  "C": 28.89999971836148,
+                  "l1_ratio": 0.08693883262941615
+                },
+                "log_loss": 1.0326370164969352
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9921587611621248
+              },
+              {
+                "params": {
+                  "C": 3.2248641562359994,
+                  "l1_ratio": 0.6755291314660851
+                },
+                "log_loss": 1.0296942923618058
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.3029771712089531
+                },
+                "log_loss": 0.993203503115422
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.45866769272160957
+                },
+                "log_loss": 1.0311665269103596
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5394736842105263,
+          "holdout_log_loss": 0.989088864156223,
+          "holdout_brier_score": 0.5885379204971177,
+          "holdout_rps": 0.19350629594989469
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          },
+          "selection_log_loss": 0.9938994383117601,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655,
+              "l1_ratio": 0.9507143064099162
+            },
+            "best_loss": 0.9938994383117601,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655,
+                  "l1_ratio": 0.9507143064099162
+                },
+                "log_loss": 0.9938994383117601
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515,
+                  "l1_ratio": 0.5986584841970366
+                },
+                "log_loss": 1.0307469211736295
+              },
+              {
+                "params": {
+                  "C": 0.006026889128682512,
+                  "l1_ratio": 0.15599452033620265
+                },
+                "log_loss": 1.0097166914046127
+              },
+              {
+                "params": {
+                  "C": 0.0019517224641449498,
+                  "l1_ratio": 0.8661761457749352
+                },
+                "log_loss": 1.0897504556314284
+              },
+              {
+                "params": {
+                  "C": 57.23510936899938,
+                  "l1_ratio": 0.0059971829558171375
+                },
+                "log_loss": 1.0327093676217542
+              },
+              {
+                "params": {
+                  "C": 0.23836674000300828,
+                  "l1_ratio": 0.9350090497701827
+                },
+                "log_loss": 1.0032933769902035
+              },
+              {
+                "params": {
+                  "C": 0.09683790422339313,
+                  "l1_ratio": 0.4212594514141791
+                },
+                "log_loss": 0.9992729521059974
+              },
+              {
+                "params": {
+                  "C": 0.12994411782671272,
+                  "l1_ratio": 0.6001912881794036
+                },
+                "log_loss": 1.0001135971654995
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5526315789473685,
+          "holdout_log_loss": 0.9842322025837745,
+          "holdout_brier_score": 0.5850719018905646,
+          "holdout_rps": 0.19254234138641718
+        }
+      ],
+      "baselines": {
+        "majority_accuracy": 0.3991228070175439,
+        "elo_accuracy": 0.5263157894736842
+      },
+      "note": "Exploratory comparison only; no production model is saved and release gates remain required."
+    },
+    {
+      "competition": "PD",
+      "receipt": {
+        "competition": "PD",
+        "source_snapshots": [
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PD",
+            "season": "2022",
+            "fetched_at": "2026-10-08T23:46:16.733397+00:00",
+            "sha256": "0289b067c024ef9a4a352e09d0e2dced95d317de6d91dd79c95402c036eb49dd"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PD",
+            "season": "2023",
+            "fetched_at": "2026-10-08T23:46:17.074396+00:00",
+            "sha256": "c3128d3ffda910b4b120fb64818820bf8524da59d5db763df3012c308ed44f49"
+          },
+          {
+            "source": "football-csv",
+            "provider": "football-data.co.uk",
+            "competition": "PD",
+            "season": "2024",
+            "fetched_at": "2026-10-08T23:46:17.421132+00:00",
+            "sha256": "a3daa09b015ac66526ee8929c65bc92adc331c98a06b70efd4b5570021473741"
+          }
+        ],
+        "feature_names": [
+          "home_elo",
+          "away_elo",
+          "elo_diff",
+          "home_form_points",
+          "away_form_points",
+          "form_points_diff",
+          "home_goals_for",
+          "away_goals_for",
+          "attack_diff",
+          "home_goals_against",
+          "away_goals_against",
+          "defense_diff",
+          "home_goal_difference",
+          "away_goal_difference",
+          "goal_difference_diff",
+          "home_win_rate",
+          "away_win_rate",
+          "win_rate_diff",
+          "home_clean_sheet_rate",
+          "away_clean_sheet_rate",
+          "home_rest_days",
+          "away_rest_days",
+          "rest_diff",
+          "home_venue_points",
+          "away_venue_points",
+          "venue_points_diff",
+          "home_matches_seen",
+          "away_matches_seen",
+          "experience_diff",
+          "home_advantage"
+        ],
+        "feature_target_sha256": "4224bbb3a70608926d613ae7e88f489a33b3da0466a36e02d7b047e4f8285bc8",
+        "development_first_kickoff": "2022-08-12T19:00:00+00:00",
+        "development_last_kickoff": "2024-12-07T15:15:00+00:00",
+        "holdout_first_kickoff": "2024-12-07T17:30:00+00:00",
+        "holdout_last_kickoff": "2025-05-25T19:00:00+00:00"
+      },
+      "seed": 42,
+      "selection_rows": 912,
+      "holdout_rows": 228,
+      "selected_on": "expanding_window_log_loss",
+      "selected": {
+        "model": "logistic_elasticnet",
+        "optimizer": "genetic",
+        "params": {
+          "C": 0.023721742747173213,
+          "l1_ratio": 0.22321073814882275
+        }
+      },
+      "results": [
+        {
+          "model": "xgboost",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.02248677595042,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5175438596491229,
+          "holdout_log_loss": 1.0094463888033591,
+          "holdout_brier_score": 0.602648358273611,
+          "holdout_rps": 0.20545921304519635
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "bayesian",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.010009615740716604,
+            "l2": 0.9216176318410045
+          },
+          "selection_log_loss": 1.0150902910404558,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.010009615740716604,
+              "l2": 0.9216176318410045
+            },
+            "best_loss": 1.0150902910404558,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.017324238895039288,
+                  "l2": 3.625617634576231
+                },
+                "log_loss": 1.0268773674598641
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.03802259770124277,
+                  "l2": 0.15847101210439093
+                },
+                "log_loss": 1.0309719323059399
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.0271747096730583,
+                  "l2": 0.19307837536547137
+                },
+                "log_loss": 1.0287578309076941
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.011841130198891353,
+                  "l2": 2.7796975515266844
+                },
+                "log_loss": 1.0241202337013684
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.025816590159272707,
+                  "l2": 1.9397595291386571
+                },
+                "log_loss": 1.0312014914712924
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.010009615740716604,
+                  "l2": 0.9216176318410045
+                },
+                "log_loss": 1.0150902910404558
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.19903144148506025,
+                  "l2": 3.861867228761174
+                },
+                "log_loss": 1.0153782531281605
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.20000000000000007,
+                  "l2": 0.18474288623410592
+                },
+                "log_loss": 1.0352832776700638
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 1.0154299283507164,
+          "holdout_brier_score": 0.6066614036530138,
+          "holdout_rps": 0.20692984667316222
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "genetic",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.010778038801831716,
+            "l2": 1.0249686360134889
+          },
+          "selection_log_loss": 1.0140552184065617,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.010778038801831716,
+              "l2": 1.0249686360134889
+            },
+            "best_loss": 1.0140552184065617,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 0.35486129798045063
+                },
+                "log_loss": 1.0254521220289687
+              },
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.09081783416307722,
+                  "l2": 2.2563110735889107
+                },
+                "log_loss": 1.0313322042651896
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.01297507954575384,
+                  "l2": 0.697981062161514
+                },
+                "log_loss": 1.0281037726308246
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.015582419267945
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.015582419267945
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.019251056268853182,
+                  "l2": 0.5123792136667722
+                },
+                "log_loss": 1.027121888883711
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.010000000000000004,
+                  "l2": 1.6752246274060734
+                },
+                "log_loss": 1.0230922568738858
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.010778038801831716,
+                  "l2": 1.0249686360134889
+                },
+                "log_loss": 1.0140552184065617
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5087719298245614,
+          "holdout_log_loss": 1.013577457020267,
+          "holdout_brier_score": 0.6052260594672713,
+          "holdout_rps": 0.20625611736201904
+        },
+        {
+          "model": "xgboost",
+          "optimizer": "optuna",
+          "params": {
+            "max_depth": 2,
+            "learning_rate": 0.13394334706750485,
+            "l2": 1.5930522616241019
+          },
+          "selection_log_loss": 1.0128165515028358,
+          "search": {
+            "best_params": {
+              "max_depth": 2,
+              "learning_rate": 0.13394334706750485,
+              "l2": 1.5930522616241019
+            },
+            "best_loss": 1.0128165515028358,
+            "trials": [
+              {
+                "params": {
+                  "max_depth": 3,
+                  "learning_rate": 0.17254716573280354,
+                  "l2": 2.9106359131330697
+                },
+                "log_loss": 1.0230425931488323
+              },
+              {
+                "params": {
+                  "max_depth": 4,
+                  "learning_rate": 0.015958237752949748,
+                  "l2": 0.2051110418843398
+                },
+                "log_loss": 1.024158132972992
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.13394334706750485,
+                  "l2": 1.5930522616241019
+                },
+                "log_loss": 1.0128165515028358
+              },
+              {
+                "params": {
+                  "max_depth": 5,
+                  "learning_rate": 0.010636066512540286,
+                  "l2": 8.706020878304859
+                },
+                "log_loss": 1.0264889390421168
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.14860744665805786,
+                  "l2": 0.41246625441929846
+                },
+                "log_loss": 1.0138737116335244
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.045061763919341524,
+                  "l2": 1.1526992083000087
+                },
+                "log_loss": 1.0347214881811386
+              },
+              {
+                "params": {
+                  "max_depth": 2,
+                  "learning_rate": 0.0469855573441532,
+                  "l2": 0.9756377654499405
+                },
+                "log_loss": 1.0218519360796519
+              },
+              {
+                "params": {
+                  "max_depth": 6,
+                  "learning_rate": 0.05864422925454845,
+                  "l2": 0.11009231052416371
+                },
+                "log_loss": 1.0330172421068595
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5175438596491229,
+          "holdout_log_loss": 1.0102357123456362,
+          "holdout_brier_score": 0.6024129450440366,
+          "holdout_rps": 0.20493647454284708
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0028121707064017,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4868421052631579,
+          "holdout_log_loss": 1.0378541426904722,
+          "holdout_brier_score": 0.6151895900245297,
+          "holdout_rps": 0.20944235641500544
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1031078138036858
+          },
+          "selection_log_loss": 0.9735372042832225,
+          "search": {
+            "best_params": {
+              "C": 0.1031078138036858
+            },
+            "best_loss": 0.9735372042832225,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.013684053358598
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 1.0671381887165545
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0133791148697393
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0023752907288794
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004
+                },
+                "log_loss": 1.014944801683498
+              },
+              {
+                "params": {
+                  "C": 0.24310854946103574
+                },
+                "log_loss": 0.9821094095783796
+              },
+              {
+                "params": {
+                  "C": 0.1031078138036858
+                },
+                "log_loss": 0.9735372042832225
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 1.075106140305522
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 0.9999281573760778,
+          "holdout_brier_score": 0.5950029997023473,
+          "holdout_rps": 0.20251051977580395
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213
+          },
+          "selection_log_loss": 0.9997183280077473,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213
+            },
+            "best_loss": 0.9997183280077473,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0073004908855954
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 1.075108067720153
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.9997183280077473
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 1.0359073042739606
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.9997183280077473
+              },
+              {
+                "params": {
+                  "C": 4.4779463234403005
+                },
+                "log_loss": 1.0121160512789718
+              },
+              {
+                "params": {
+                  "C": 3.163912054989562
+                },
+                "log_loss": 1.0109608656816857
+              },
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0073004908855954
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5219298245614035,
+          "holdout_log_loss": 0.9972691146218274,
+          "holdout_brier_score": 0.5950549688288601,
+          "holdout_rps": 0.2024546536674911
+        },
+        {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655
+          },
+          "selection_log_loss": 0.9725603240440265,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655
+            },
+            "best_loss": 0.9725603240440265,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 0.9725603240440265
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0148484186841453
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.0121735814863408
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.002627332493955
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 1.075109483358826
+              },
+              {
+                "params": {
+                  "C": 0.0040125951635096345
+                },
+                "log_loss": 1.0716349850335434
+              },
+              {
+                "params": {
+                  "C": 0.06976600642206403
+                },
+                "log_loss": 0.9726087632811206
+              },
+              {
+                "params": {
+                  "C": 0.0667051880861635
+                },
+                "log_loss": 0.9725983849604394
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5219298245614035,
+          "holdout_log_loss": 0.9933216543522387,
+          "holdout_brier_score": 0.5914765049054733,
+          "holdout_rps": 0.20131104524287788
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.010465845791102,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4956140350877193,
+          "holdout_log_loss": 1.049287153556332,
+          "holdout_brier_score": 0.6216273043296747,
+          "holdout_rps": 0.21181133329301952
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.008263688714158009
+          },
+          "selection_log_loss": 0.9733819283540328,
+          "search": {
+            "best_params": {
+              "C": 0.008263688714158009
+            },
+            "best_loss": 0.9733819283540328,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417
+                },
+                "log_loss": 1.014582348037443
+              },
+              {
+                "params": {
+                  "C": 0.008263688714158009
+                },
+                "log_loss": 0.9733819283540328
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231
+                },
+                "log_loss": 1.0143687752813535
+              },
+              {
+                "params": {
+                  "C": 0.9643857615941447
+                },
+                "log_loss": 1.0103473123872582
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002
+                },
+                "log_loss": 0.9961714856815433
+              },
+              {
+                "params": {
+                  "C": 0.0326008227817164
+                },
+                "log_loss": 0.9845480601579736
+              },
+              {
+                "params": {
+                  "C": 99.96991854129176
+                },
+                "log_loss": 1.015067990418618
+              },
+              {
+                "params": {
+                  "C": 0.0037389909885096936
+                },
+                "log_loss": 0.9754946059829319
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 1.0016444096990686,
+          "holdout_brier_score": 0.5961460746412244,
+          "holdout_rps": 0.2026456043963771
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.013063323767645078
+          },
+          "selection_log_loss": 0.975659590404779,
+          "search": {
+            "best_params": {
+              "C": 0.013063323767645078
+            },
+            "best_loss": 0.975659590404779,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032
+                },
+                "log_loss": 1.0119828620364633
+              },
+              {
+                "params": {
+                  "C": 0.0013336865644471845
+                },
+                "log_loss": 0.9901806413109083
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.9810550098944446
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.975659590404779
+              },
+              {
+                "params": {
+                  "C": 0.013063323767645078
+                },
+                "log_loss": 0.975659590404779
+              },
+              {
+                "params": {
+                  "C": 0.06746701302324619
+                },
+                "log_loss": 0.9923040693625552
+              },
+              {
+                "params": {
+                  "C": 0.0476691055229957
+                },
+                "log_loss": 0.9887041266130845
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213
+                },
+                "log_loss": 0.9810550098944446
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 1.0077101390360712,
+          "holdout_brier_score": 0.5992024411685587,
+          "holdout_rps": 0.2036783317005921
+        },
+        {
+          "model": "logistic_l2",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0015126466309778011
+          },
+          "selection_log_loss": 0.9877770893682776,
+          "search": {
+            "best_params": {
+              "C": 0.0015126466309778011
+            },
+            "best_loss": 0.9877770893682776,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655
+                },
+                "log_loss": 0.9932905833297666
+              },
+              {
+                "params": {
+                  "C": 56.69849511478853
+                },
+                "log_loss": 1.0150685661703565
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515
+                },
+                "log_loss": 1.013999376367522
+              },
+              {
+                "params": {
+                  "C": 0.9846738873614566
+                },
+                "log_loss": 1.010390933069404
+              },
+              {
+                "params": {
+                  "C": 0.0015126466309778011
+                },
+                "log_loss": 0.9877770893682776
+              },
+              {
+                "params": {
+                  "C": 0.0010714845538373117
+                },
+                "log_loss": 0.9946795610285876
+              },
+              {
+                "params": {
+                  "C": 0.0010907785690006102
+                },
+                "log_loss": 0.994299702962189
+              },
+              {
+                "params": {
+                  "C": 0.048849194097041415
+                },
+                "log_loss": 0.9889427751639988
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5043859649122807,
+          "holdout_log_loss": 0.999820167050043,
+          "holdout_brier_score": 0.5971599964360338,
+          "holdout_rps": 0.2038256031701141
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "default",
+          "params": {},
+          "selection_log_loss": 1.0059111400699585,
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4868421052631579,
+          "holdout_log_loss": 1.043465967480858,
+          "holdout_brier_score": 0.6184343673854732,
+          "holdout_rps": 0.21061093225476815
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "bayesian",
+          "params": {
+            "C": 0.1978082768935381,
+            "l1_ratio": 0.3337086111390219
+          },
+          "selection_log_loss": 0.990021593671753,
+          "search": {
+            "best_params": {
+              "C": 0.1978082768935381,
+              "l1_ratio": 0.3337086111390219
+            },
+            "best_loss": 0.990021593671753,
+            "trials": [
+              {
+                "params": {
+                  "C": 9.609812947036417,
+                  "l1_ratio": 0.18343478986616382
+                },
+                "log_loss": 1.0142721473086111
+              },
+              {
+                "params": {
+                  "C": 7.915074397656231,
+                  "l1_ratio": 0.5968501579464871
+                },
+                "log_loss": 1.0136268118719438
+              },
+              {
+                "params": {
+                  "C": 0.1694976823788475,
+                  "l1_ratio": 0.09997491581800291
+                },
+                "log_loss": 0.9960732302721018
+              },
+              {
+                "params": {
+                  "C": 0.1978082768935381,
+                  "l1_ratio": 0.3337086111390219
+                },
+                "log_loss": 0.990021593671753
+              },
+              {
+                "params": {
+                  "C": 0.5365824433285931,
+                  "l1_ratio": 0.8469226063637734
+                },
+                "log_loss": 0.9959414811725664
+              },
+              {
+                "params": {
+                  "C": 0.008451124462945553,
+                  "l1_ratio": 0.9221222768267124
+                },
+                "log_loss": 1.061804055081894
+              },
+              {
+                "params": {
+                  "C": 100.00000000000004,
+                  "l1_ratio": 0.9720553954671188
+                },
+                "log_loss": 1.0149481701043617
+              },
+              {
+                "params": {
+                  "C": 0.0010000000000000002,
+                  "l1_ratio": 0.13513423151426165
+                },
+                "log_loss": 1.07071459706801
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.4824561403508772,
+          "holdout_log_loss": 1.02597571289326,
+          "holdout_brier_score": 0.608522792646709,
+          "holdout_rps": 0.20693647112388225
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.22321073814882275
+          },
+          "selection_log_loss": 0.9702270844128353,
+          "search": {
+            "best_params": {
+              "C": 0.023721742747173213,
+              "l1_ratio": 0.22321073814882275
+            },
+            "best_loss": 0.9702270844128353,
+            "trials": [
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.025010755222666936
+                },
+                "log_loss": 1.0117072581103967
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9702270844128353
+              },
+              {
+                "params": {
+                  "C": 4.812337422878541,
+                  "l1_ratio": 0.6766994874229113
+                },
+                "log_loss": 1.0126214130305673
+              },
+              {
+                "params": {
+                  "C": 28.89999971836148,
+                  "l1_ratio": 0.08693883262941615
+                },
+                "log_loss": 1.0148708561070445
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.22321073814882275
+                },
+                "log_loss": 0.9702270844128353
+              },
+              {
+                "params": {
+                  "C": 1.0550896107779926,
+                  "l1_ratio": 0.02384039926584068
+                },
+                "log_loss": 1.0103796802675191
+              },
+              {
+                "params": {
+                  "C": 0.023721742747173213,
+                  "l1_ratio": 0.3029771712089531
+                },
+                "log_loss": 0.9710032036178077
+              },
+              {
+                "params": {
+                  "C": 1.574468558193032,
+                  "l1_ratio": 0.0
+                },
+                "log_loss": 1.0119036261817476
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5131578947368421,
+          "holdout_log_loss": 0.9953494689811507,
+          "holdout_brier_score": 0.5925532359812404,
+          "holdout_rps": 0.20170995847202197
+        },
+        {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          },
+          "selection_log_loss": 0.9724012588447095,
+          "search": {
+            "best_params": {
+              "C": 0.0745934328572655,
+              "l1_ratio": 0.9507143064099162
+            },
+            "best_loss": 0.9724012588447095,
+            "trials": [
+              {
+                "params": {
+                  "C": 0.0745934328572655,
+                  "l1_ratio": 0.9507143064099162
+                },
+                "log_loss": 0.9724012588447095
+              },
+              {
+                "params": {
+                  "C": 4.5705630998014515,
+                  "l1_ratio": 0.5986584841970366
+                },
+                "log_loss": 1.0126027299584992
+              },
+              {
+                "params": {
+                  "C": 0.006026889128682512,
+                  "l1_ratio": 0.15599452033620265
+                },
+                "log_loss": 0.9930813009968265
+              },
+              {
+                "params": {
+                  "C": 0.0019517224641449498,
+                  "l1_ratio": 0.8661761457749352
+                },
+                "log_loss": 1.0732518246618448
+              },
+              {
+                "params": {
+                  "C": 57.23510936899938,
+                  "l1_ratio": 0.0059971829558171375
+                },
+                "log_loss": 1.0150074774319129
+              },
+              {
+                "params": {
+                  "C": 0.23836674000300828,
+                  "l1_ratio": 0.9350090497701827
+                },
+                "log_loss": 0.9824187377495278
+              },
+              {
+                "params": {
+                  "C": 0.09683790422339313,
+                  "l1_ratio": 0.4212594514141791
+                },
+                "log_loss": 0.9773690067577
+              },
+              {
+                "params": {
+                  "C": 0.12994411782671272,
+                  "l1_ratio": 0.6001912881794036
+                },
+                "log_loss": 0.9783482345506365
+              }
+            ],
+            "completed_trials": 8,
+            "failed_trials": 0
+          },
+          "holdout_rows": 228,
+          "holdout_accuracy": 0.5219298245614035,
+          "holdout_log_loss": 0.9941086053736659,
+          "holdout_brier_score": 0.5918609072630066,
+          "holdout_rps": 0.2014590667876993
+        }
+      ],
+      "baselines": {
+        "majority_accuracy": 0.42543859649122806,
+        "elo_accuracy": 0.4956140350877193
+      },
+      "note": "Exploratory comparison only; no production model is saved and release gates remain required."
+    }
+  ],
+  "limits": [
+    "Historical snapshots have been used in earlier research; this is not a fresh unseen final test.",
+    "Each invocation locks selection on development expanding-window log loss before holdout scoring.",
+    "Equal trial counts do not imply equal wall-clock cost, search priors or a definitive optimizer ranking.",
+    "One training seed and eight trials per optimizer/model; no cross-season deployment claim.",
+    "L1 means regularized multinomial logistic classification, not regression of numeric outcome codes.",
+    "No model bundles, live forecasts, source cache or warehouse records are replaced.",
+    "Some configurations do not converge within the fixed solver budget. Failed trials are retained and excluded, not treated as valid numerical scores.",
+    "XGBoost retains its existing training-prefix class weighting; logistic models use unweighted multinomial loss. This compares the stated configurations, not regularization in isolation."
+  ],
+  "elapsed_seconds": 380.92,
+  "verification": {
+    "run_id": "40481f7ebdfb8601",
+    "leagues": [
+      {
+        "competition": "PL",
+        "source_matches": 1140,
+        "feature_rows": 1140,
+        "development_rows": 909,
+        "holdout_rows": 231,
+        "candidates_verified": 16,
+        "selected": {
+          "model": "logistic_l1",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.05423185466354641
+          }
+        }
+      },
+      {
+        "competition": "FL1",
+        "source_matches": 992,
+        "feature_rows": 992,
+        "development_rows": 794,
+        "holdout_rows": 198,
+        "candidates_verified": 16,
+        "selected": {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          }
+        }
+      },
+      {
+        "competition": "BL1",
+        "source_matches": 918,
+        "feature_rows": 918,
+        "development_rows": 734,
+        "holdout_rows": 184,
+        "candidates_verified": 16,
+        "selected": {
+          "model": "logistic_elasticnet",
+          "optimizer": "optuna",
+          "params": {
+            "C": 0.0745934328572655,
+            "l1_ratio": 0.9507143064099162
+          }
+        }
+      },
+      {
+        "competition": "SA",
+        "source_matches": 1140,
+        "feature_rows": 1140,
+        "development_rows": 912,
+        "holdout_rows": 228,
+        "candidates_verified": 16,
+        "selected": {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.22321073814882275
+          }
+        }
+      },
+      {
+        "competition": "PD",
+        "source_matches": 1140,
+        "feature_rows": 1140,
+        "development_rows": 912,
+        "holdout_rows": 228,
+        "candidates_verified": 16,
+        "selected": {
+          "model": "logistic_elasticnet",
+          "optimizer": "genetic",
+          "params": {
+            "C": 0.023721742747173213,
+            "l1_ratio": 0.22321073814882275
+          }
+        }
+      }
+    ],
+    "candidates_refitted_and_metrics_replayed": 80,
+    "failed_search_trials": 7,
+    "failed_candidates": 0,
+    "failed_final_refits_reproduced": 0,
+    "metric_values_replayed": 320,
+    "max_metric_delta": 2.220446049250313e-16
+  },
+  "recorded_at": "2026-10-17",
+  "numerical_development_probe": {
+    "scope": "Training-only PL451 and FL1397 prefixes; final holdout labels were not used.",
+    "fl1_tolerance_comparison": {
+      "fits": [
+        {
+          "tol": 1e-05,
+          "max_iter": 100000,
+          "iterations": [
+            29279
+          ],
+          "warnings": [],
+          "seconds": 8.898541531991214,
+          "training_log_loss": 0.9450939869040387,
+          "training_penalized_objective": 0.9452585009752374
+        },
+        {
+          "tol": 0.0001,
+          "max_iter": 20000,
+          "iterations": [
+            1882
+          ],
+          "warnings": [],
+          "seconds": 0.575084923999384,
+          "training_log_loss": 0.9450941330498539,
+          "training_penalized_objective": 0.9452787137164129
+        }
+      ],
+      "max_training_probability_delta": 0.0005296073523644029
+    },
+    "limit": "This probes one problematic development prefix, not a global solver error bound."
+  }
+}

@@ -1,0 +1,711 @@
+{
+  "snapshot_date": "2026-10-09",
+  "analysis_type": "exploratory; observational; no causal claims",
+  "repeatability": {
+    "minimum900": {
+      "np_goals": {
+        "r": 0.7459446850661332,
+        "cluster_bootstrap_ci95": [
+          0.7250702270221077,
+          0.7643530880576817
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      },
+      "np_xg": {
+        "r": 0.8715238797441549,
+        "cluster_bootstrap_ci95": [
+          0.8599842063421649,
+          0.881821262486718
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      },
+      "xa": {
+        "r": 0.7749345952185788,
+        "cluster_bootstrap_ci95": [
+          0.7591453480431449,
+          0.7896155363764437
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      },
+      "shots": {
+        "r": 0.9115470275580941,
+        "cluster_bootstrap_ci95": [
+          0.9055716935885532,
+          0.9170039971783975
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      },
+      "key_passes": {
+        "r": 0.8567775469506498,
+        "cluster_bootstrap_ci95": [
+          0.8471345959386063,
+          0.8651914001916119
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      },
+      "finishing_residual": {
+        "r": 0.0758168531228377,
+        "cluster_bootstrap_ci95": [
+          0.038704132578580776,
+          0.10668170489399248
+        ],
+        "rows": 10670,
+        "clusters": 3492,
+        "bootstrap_draws": 1000
+      }
+    },
+    "minimum1800": {
+      "np_goals": {
+        "r": 0.8073579624383701,
+        "cluster_bootstrap_ci95": [
+          0.7830730235168225,
+          0.8269630561512877
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      },
+      "np_xg": {
+        "r": 0.90907711109218,
+        "cluster_bootstrap_ci95": [
+          0.8972684177873442,
+          0.9185792188770298
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      },
+      "xa": {
+        "r": 0.8273919525595256,
+        "cluster_bootstrap_ci95": [
+          0.8129515446832762,
+          0.8429276216224455
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      },
+      "shots": {
+        "r": 0.9381285043660736,
+        "cluster_bootstrap_ci95": [
+          0.9315426259822532,
+          0.9441824246528938
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      },
+      "key_passes": {
+        "r": 0.8955791448352801,
+        "cluster_bootstrap_ci95": [
+          0.8864923574407093,
+          0.9041788993496374
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      },
+      "finishing_residual": {
+        "r": 0.06651200925476747,
+        "cluster_bootstrap_ci95": [
+          0.01549287516368387,
+          0.12056301243968763
+        ],
+        "rows": 5132,
+        "clusters": 2084,
+        "bootstrap_draws": 1000
+      }
+    },
+    "forwards900": {
+      "np_goals": {
+        "r": 0.5531250257422038,
+        "cluster_bootstrap_ci95": [
+          0.49781502160301405,
+          0.600293781560358
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      },
+      "np_xg": {
+        "r": 0.7263283361804653,
+        "cluster_bootstrap_ci95": [
+          0.6885606144208186,
+          0.7591537878377318
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      },
+      "xa": {
+        "r": 0.5936604734751048,
+        "cluster_bootstrap_ci95": [
+          0.5514837513961411,
+          0.634573072041239
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      },
+      "shots": {
+        "r": 0.747118974633622,
+        "cluster_bootstrap_ci95": [
+          0.7112964078429121,
+          0.7786795012324952
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      },
+      "key_passes": {
+        "r": 0.7363640271481369,
+        "cluster_bootstrap_ci95": [
+          0.7077058936551787,
+          0.7614020131525615
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      },
+      "finishing_residual": {
+        "r": 0.10586253380184737,
+        "cluster_bootstrap_ci95": [
+          0.05842625505223597,
+          0.152760703111635
+        ],
+        "rows": 2592,
+        "clusters": 988,
+        "bootstrap_draws": 1000
+      }
+    }
+  },
+  "temporal_prediction": {
+    "target": "next-season non-penalty goals per90",
+    "sample": {
+      "train": 7910,
+      "validation": 937,
+      "test": 1823
+    },
+    "train_input_seasons": "2014/15-2021/22",
+    "validation_input_season": "2022/23",
+    "test_target_seasons": [
+      "2024/25",
+      "2025/26"
+    ],
+    "models": {
+      "goals": {
+        "features": [
+          "np_goals"
+        ],
+        "coefficients": [
+          0.026558700322373112,
+          0.7389156016139691
+        ],
+        "validation_mae": 0.07067887839154842,
+        "test_mae": 0.0704754329587109
+      },
+      "opportunities": {
+        "features": [
+          "np_xg"
+        ],
+        "coefficients": [
+          0.010770726084032596,
+          0.8736501453586942
+        ],
+        "validation_mae": 0.0645225073876956,
+        "test_mae": 0.06505038843200266
+      },
+      "opportunities_and_finishing": {
+        "features": [
+          "np_xg",
+          "finishing_residual"
+        ],
+        "coefficients": [
+          0.010788428040257064,
+          0.8724543373093662,
+          0.16134507489412941
+        ],
+        "validation_mae": 0.06394069594454602,
+        "test_mae": 0.06439103168006134
+      }
+    },
+    "validation_selected_model": "opportunities_and_finishing",
+    "carry_forward_goals_test_mae": 0.0733358821751259,
+    "paired_model_comparisons": {
+      "opportunities_minus_goals": {
+        "mae_delta": -0.005425044526708256,
+        "player_cluster_ci95": [
+          -0.007762102272670337,
+          -0.00291423668024121
+        ]
+      },
+      "opportunities_and_finishing_minus_opportunities": {
+        "mae_delta": -0.0006593567519413013,
+        "player_cluster_ci95": [
+          -0.0012242060697327266,
+          -0.00013602028146291346
+        ]
+      }
+    },
+    "scope": "Exploratory fixed linear models, no future xG as an input; same-league returners with >=900 minutes in both years. Not a youth-potential model."
+  },
+  "possession": {
+    "matched_fixtures": 380,
+    "score_conflicts": 0,
+    "excluded_possession_fixtures": [
+      {
+        "understat_game_id": "26605",
+        "game": "2024-08-17 Everton-Brighton",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26603",
+        "game": "2024-08-17 Ipswich-Liverpool",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26635",
+        "game": "2024-09-14 Liverpool-Nottingham Forest",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26655",
+        "game": "2024-09-28 Arsenal-Leicester",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26708",
+        "game": "2024-11-10 Manchester United-Leicester",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26745",
+        "game": "2024-12-08 Tottenham-Chelsea",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26784",
+        "game": "2024-12-29 Crystal Palace-Southampton",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26838",
+        "game": "2025-02-02 Manchester United-Crystal Palace",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26866",
+        "game": "2025-02-27 West Ham-Leicester",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26889",
+        "game": "2025-03-15 Manchester City-Brighton",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26960",
+        "game": "2025-05-11 Tottenham-Crystal Palace",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "understat_game_id": "26981",
+        "game": "2025-05-25 Fulham-Manchester City",
+        "reason": "invalid paired possession total",
+        "values": [
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "raw_espn_both_zero_fixtures": 12,
+    "eligible_fixtures": 368,
+    "shot_count_disagreement_team_rows": 41,
+    "shot_sum_vs_reported_team_xg": {
+      "team_rows_differing_more_than_0_001": 314,
+      "mean_shot_sum_minus_team_reported": 0.0260906426160371,
+      "maximum_absolute_difference": 0.82553597977072,
+      "note": "Both measures are preserved. Publisher aggregation corrections are unverified; shot quality uses the sum of the same shot values as its denominator, excluding own goals and penalties."
+    },
+    "correlations": {
+      "shots": {
+        "r": 0.5039371142657195,
+        "cluster_bootstrap_ci95": [
+          0.44915407316466177,
+          0.5665757364615067
+        ],
+        "rows": 736,
+        "clusters": 368,
+        "bootstrap_draws": 1000
+      },
+      "shot_xg": {
+        "r": 0.2506800104862338,
+        "cluster_bootstrap_ci95": [
+          0.18009743461159558,
+          0.3210195447589812
+        ],
+        "rows": 736,
+        "clusters": 368,
+        "bootstrap_draws": 1000
+      },
+      "np_shot_xg": {
+        "r": 0.258724733282937,
+        "cluster_bootstrap_ci95": [
+          0.1929154699316916,
+          0.32876011408442535
+        ],
+        "rows": 736,
+        "clusters": 368,
+        "bootstrap_draws": 1000
+      },
+      "np_quality": {
+        "r": -0.14128793386524555,
+        "cluster_bootstrap_ci95": [
+          -0.21728814503812172,
+          -0.06453156126062286
+        ],
+        "rows": 736,
+        "clusters": 368,
+        "bootstrap_draws": 1000
+      }
+    },
+    "team_summaries": [
+      {
+        "team": "Arsenal",
+        "matches": 37,
+        "possession_pct": 56.483783783783785,
+        "shot_xg_per_match": 1.8761927766876447,
+        "np_xg_per_shot": 0.1336551083904493
+      },
+      {
+        "team": "Aston Villa",
+        "matches": 38,
+        "possession_pct": 50.6,
+        "shot_xg_per_match": 1.763896566742149,
+        "np_xg_per_shot": 0.1306716663408323
+      },
+      {
+        "team": "Bournemouth",
+        "matches": 38,
+        "possession_pct": 48.60789473684211,
+        "shot_xg_per_match": 1.956608918434205,
+        "np_xg_per_shot": 0.12066950531060958
+      },
+      {
+        "team": "Brentford",
+        "matches": 38,
+        "possession_pct": 47.75789473684211,
+        "shot_xg_per_match": 1.7954717067707526,
+        "np_xg_per_shot": 0.14634692375173514
+      },
+      {
+        "team": "Brighton",
+        "matches": 36,
+        "possession_pct": 52.67222222222222,
+        "shot_xg_per_match": 1.7260422574407939,
+        "np_xg_per_shot": 0.11339189502003486
+      },
+      {
+        "team": "Chelsea",
+        "matches": 37,
+        "possession_pct": 57.08648648648648,
+        "shot_xg_per_match": 1.9408258908252056,
+        "np_xg_per_shot": 0.12091661121372295
+      },
+      {
+        "team": "Crystal Palace",
+        "matches": 35,
+        "possession_pct": 42.43428571428572,
+        "shot_xg_per_match": 1.687525001913309,
+        "np_xg_per_shot": 0.12231157143401006
+      },
+      {
+        "team": "Everton",
+        "matches": 37,
+        "possession_pct": 40.64324324324324,
+        "shot_xg_per_match": 1.2596918119847573,
+        "np_xg_per_shot": 0.11443213037650106
+      },
+      {
+        "team": "Fulham",
+        "matches": 37,
+        "possession_pct": 52.43783783783783,
+        "shot_xg_per_match": 1.5183550663594458,
+        "np_xg_per_shot": 0.105425520049822
+      },
+      {
+        "team": "Ipswich",
+        "matches": 37,
+        "possession_pct": 40.41351351351352,
+        "shot_xg_per_match": 1.0947562387666188,
+        "np_xg_per_shot": 0.1062224609244422
+      },
+      {
+        "team": "Leicester",
+        "matches": 35,
+        "possession_pct": 45.86857142857142,
+        "shot_xg_per_match": 1.0668327704604184,
+        "np_xg_per_shot": 0.11271910113656827
+      },
+      {
+        "team": "Liverpool",
+        "matches": 36,
+        "possession_pct": 57.491666666666674,
+        "shot_xg_per_match": 2.4928362167750797,
+        "np_xg_per_shot": 0.1367847925181141
+      },
+      {
+        "team": "Manchester City",
+        "matches": 36,
+        "possession_pct": 61.85277777777779,
+        "shot_xg_per_match": 1.959956184753941,
+        "np_xg_per_shot": 0.12006275648008222
+      },
+      {
+        "team": "Manchester United",
+        "matches": 36,
+        "possession_pct": 53.269444444444446,
+        "shot_xg_per_match": 1.5264884090930637,
+        "np_xg_per_shot": 0.10507875987279572
+      },
+      {
+        "team": "Newcastle United",
+        "matches": 38,
+        "possession_pct": 51.18421052631579,
+        "shot_xg_per_match": 1.8970410851516615,
+        "np_xg_per_shot": 0.13060067352123658
+      },
+      {
+        "team": "Nottingham Forest",
+        "matches": 37,
+        "possession_pct": 41.0918918918919,
+        "shot_xg_per_match": 1.443805360638008,
+        "np_xg_per_shot": 0.1123896523757459
+      },
+      {
+        "team": "Southampton",
+        "matches": 37,
+        "possession_pct": 48.52972972972974,
+        "shot_xg_per_match": 1.04319127024831,
+        "np_xg_per_shot": 0.11100520755716427
+      },
+      {
+        "team": "Tottenham",
+        "matches": 36,
+        "possession_pct": 55.480555555555554,
+        "shot_xg_per_match": 1.7235584729092404,
+        "np_xg_per_shot": 0.1252726744682451
+      },
+      {
+        "team": "West Ham",
+        "matches": 37,
+        "possession_pct": 48.31081081081081,
+        "shot_xg_per_match": 1.3506804185139167,
+        "np_xg_per_shot": 0.10278376933701079
+      },
+      {
+        "team": "Wolverhampton Wanderers",
+        "matches": 38,
+        "possession_pct": 48.084210526315786,
+        "shot_xg_per_match": 1.2044930707565265,
+        "np_xg_per_shot": 0.10644357369476279
+      }
+    ],
+    "scope": "Whole-match descriptive associations; game state, opponent approach, red cards and selection can affect possession. Chance volume uses attacking shots; quality uses non-penalty shot-level xG divided by those same shots. Understat team-reported totals remain separate."
+  },
+  "team_changes": [
+    {
+      "team": "Manchester City",
+      "seasons": [
+        {
+          "season": "2023/24",
+          "matches": 38,
+          "xg_per_match": 2.356546131578947,
+          "xga_per_match": 0.9808270131578947,
+          "xgd_per_match": 1.3757191184210524
+        },
+        {
+          "season": "2024/25",
+          "matches": 38,
+          "xg_per_match": 1.9249586842105268,
+          "xga_per_match": 1.3921893947368424,
+          "xgd_per_match": 0.5327692894736844
+        }
+      ],
+      "attack_xg_change": -0.43158744736842025,
+      "defensive_xga_change": 0.4113623815789478,
+      "matched_opponent_home_away": {
+        "matches_per_season": 32,
+        "opponents": 16,
+        "xgd_change": -0.9404402968749999,
+        "opponent_cluster_ci95": [
+          -1.6289337773437502,
+          -0.3049668046875002
+        ]
+      }
+    },
+    {
+      "team": "Arsenal",
+      "seasons": [
+        {
+          "season": "2023/24",
+          "matches": 38,
+          "xg_per_match": 2.2208547105263152,
+          "xga_per_match": 0.8363717210526315,
+          "xgd_per_match": 1.3844829894736836
+        },
+        {
+          "season": "2024/25",
+          "matches": 38,
+          "xg_per_match": 1.9360501315789476,
+          "xga_per_match": 1.0521016236842105,
+          "xgd_per_match": 0.8839485078947371
+        }
+      ],
+      "attack_xg_change": -0.28480457894736766,
+      "defensive_xga_change": 0.21572990263157898,
+      "matched_opponent_home_away": {
+        "matches_per_season": 32,
+        "opponents": 16,
+        "xgd_change": -0.69937159375,
+        "opponent_cluster_ci95": [
+          -1.3277582312500003,
+          -0.10202017968750031
+        ]
+      }
+    },
+    {
+      "team": "Liverpool",
+      "seasons": [
+        {
+          "season": "2023/24",
+          "matches": 38,
+          "xg_per_match": 2.4943484736842105,
+          "xga_per_match": 1.2473356447368418,
+          "xgd_per_match": 1.2470128289473688
+        },
+        {
+          "season": "2024/25",
+          "matches": 38,
+          "xg_per_match": 2.4536668684210525,
+          "xga_per_match": 1.1136979210526317,
+          "xgd_per_match": 1.3399689473684209
+        }
+      ],
+      "attack_xg_change": -0.040681605263158005,
+      "defensive_xga_change": -0.13363772368421012,
+      "matched_opponent_home_away": {
+        "matches_per_season": 32,
+        "opponents": 16,
+        "xgd_change": -0.11128092187500008,
+        "opponent_cluster_ci95": [
+          -0.797251960546875,
+          0.6390906664062497
+        ]
+      }
+    }
+  ],
+  "data_quality": {
+    "recovered_penalty_labels": 83,
+    "multi_team_player_season_rows": 882,
+    "player_season_grain": "league/player/source-season totals, potentially multiple clubs; SDK team label is first-listed club and must not receive all those totals"
+  },
+  "input_receipt": {
+    "assets": 825,
+    "frames": [
+      {
+        "asset_id": 20145,
+        "sha256": "5b6d3bd22242393df699adbe5420d8eaeb1b106c6d8daa90590d134f06ef72f1",
+        "path": "Understat-history/tables/player_season_stats.csv",
+        "rows": 32574
+      },
+      {
+        "asset_id": 20147,
+        "sha256": "a7d4717628cd0bc9eb797306f9aa7c74ed8ec6c12df7a56de882fe8b6e2f121c",
+        "path": "Understat-history/tables/team_match_stats.csv",
+        "rows": 21589
+      },
+      {
+        "asset_id": 19756,
+        "sha256": "c794e72d3bc9cf86e5b35889e9e5160292b159ab41285725ea86ad23958e6340",
+        "path": "Understat-details/tables/shot_events.csv",
+        "rows": 9878
+      },
+      {
+        "asset_id": 19617,
+        "sha256": "9d2645b6e105dacdad665502b1cb55074e81e4add7d1df3aacac2a02f0da964f",
+        "path": "ESPN/tables/schedule.csv",
+        "rows": 380
+      },
+      {
+        "asset_id": 20215,
+        "sha256": "78878f28539bce37c5575ebb8c67e227ed35fb1b2bced1b466edba345acfa4d3",
+        "path": "ESPN/tables/matchsheets.csv",
+        "rows": 760
+      }
+    ],
+    "asset_set_sha256": "328c3afa1f3be4943459b9728952e4e54de4af6a13c68e4a1b793ef6250007fd",
+    "extractor_sha256": "a94a005dacd8c4c8cf6c45a9178341fd9144052b998d89513e4e14b207baa57e"
+  },
+  "limits": [
+    "Player samples require sufficient minutes in both years and omit league switchers and disappearing players.",
+    "Correlation can reflect role persistence; forward-only and higher-minute sensitivity checks are included.",
+    "Possession is a whole-match outcome and cannot show that retaining possession causes shot quality to change.",
+    "Team xG changes do not identify coaching, injury, fitness or tactical causes.",
+    "Understat model revisions are unknown; estimates are publisher xG, not directly measured chance probabilities."
+  ]
+}

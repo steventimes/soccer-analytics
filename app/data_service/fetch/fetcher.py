@@ -11,6 +11,7 @@ from typing import Any, Mapping
 import requests
 
 from app.config import load_settings
+from .retry import RETRYABLE_STATUS_CODES, RetryAfterLimitError, RetryPolicy, close_response
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +26,13 @@ class DataSourceError(RuntimeError):
         endpoint: str,
         status_code: int | None = None,
         retryable: bool = False,
+        retry_after_seconds: float | None = None,
     ) -> None:
         super().__init__(message)
         self.endpoint = endpoint
         self.status_code = status_code
         self.retryable = retryable
+        self.retry_after_seconds = retry_after_seconds
 
 
 class SlidingWindowRateLimiter:
@@ -76,7 +79,7 @@ class SlidingWindowRateLimiter:
 
 class FootballDataClient:
     source_name = "football-data.org"
-    RETRYABLE_STATUS_CODES = frozenset({429, 500, 502, 503, 504})
+    RETRYABLE_STATUS_CODES = RETRYABLE_STATUS_CODES
 
     def __init__(
         self,
@@ -88,6 +91,10 @@ class FootballDataClient:
         max_retries: int | None = None,
         backoff_factor: float = 0.25,
         sleep: Any = None,
+        max_retry_delay: float = 60.,
+        retry_jitter: bool = True,
+        wall_clock: Any = None,
+        random_value: Any = None,
     ) -> None:
         settings = load_settings()
         self.api_key = api_key if api_key is not None else os.getenv("FOOTBALL_DATA_API_KEY")
@@ -98,24 +105,25 @@ class FootballDataClient:
         self.max_retries = max_retries if max_retries is not None else settings.request_retries
         self.backoff_factor = backoff_factor
         self._sleep = sleep or time.sleep
+        self._retry_policy = RetryPolicy(backoff_factor=backoff_factor, max_delay=max_retry_delay,
+                                         jitter=retry_jitter, wall_clock=wall_clock, random_value=random_value)
 
-        if self.timeout <= 0:
+        if isinstance(self.timeout, bool) or not isinstance(self.timeout, (int, float)) or not math.isfinite(self.timeout) or self.timeout <= 0:
             raise ValueError("timeout 必须大于 0")
-        if self.max_retries < 0:
+        if isinstance(self.max_retries, bool) or not isinstance(self.max_retries, int) or self.max_retries < 0:
             raise ValueError("max_retries 不能小于 0")
-        if self.backoff_factor < 0:
-            raise ValueError("backoff_factor 不能小于 0")
 
     def _retry_delay(self, response: Any, retry_index: int) -> float:
-        retry_after = getattr(response, "headers", {}).get("Retry-After")
-        if retry_after is not None:
-            try:
-                parsed = float(retry_after)
-                if math.isfinite(parsed) and parsed >= 0:
-                    return parsed
-            except (TypeError, ValueError):
-                pass
-        return self.backoff_factor * (2**retry_index)
+        return self._retry_policy.delay(response, retry_index)
+
+    def _wait_to_retry(self, response, retry_index, endpoint):
+        try:
+            delay = self._retry_delay(response, retry_index)
+        except RetryAfterLimitError as exc:
+            raise DataSourceError(str(exc), endpoint=endpoint,
+                                  status_code=getattr(response, 'status_code', None), retryable=True,
+                                  retry_after_seconds=exc.retry_after_seconds) from exc
+        self._sleep(delay)
 
     def _record_request(self) -> None:
         try:
@@ -151,7 +159,7 @@ class FootballDataClient:
             except requests.RequestException as exc:
                 self._record_request()
                 if attempt < self.max_retries:
-                    self._sleep(self.backoff_factor * (2**attempt))
+                    self._wait_to_retry(None, attempt, normalized_endpoint)
                     continue
                 raise DataSourceError(
                     f"请求失败: {type(exc).__name__}",
@@ -181,14 +189,16 @@ class FootballDataClient:
                 return payload
 
             retryable = status_code in self.RETRYABLE_STATUS_CODES
+            close_response(response)
             if retryable and attempt < self.max_retries:
-                self._sleep(self._retry_delay(response, attempt))
+                self._wait_to_retry(response, attempt, normalized_endpoint)
                 continue
             raise DataSourceError(
                 f"football-data 返回 HTTP {status_code}",
                 endpoint=normalized_endpoint,
                 status_code=status_code,
                 retryable=retryable,
+                retry_after_seconds=self._retry_policy.retry_after(response) if retryable else None,
             )
 
         raise AssertionError("重试循环不应到达此处")

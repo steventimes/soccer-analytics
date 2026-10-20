@@ -1,0 +1,554 @@
+{
+  "observed_at": "2026-10-11",
+  "sources": [
+    {
+      "id": "marsch-2022",
+      "url": "https://www.youtube.com/watch?v=G01I5gQzegA",
+      "medium": "youtube",
+      "publisher": "Coaches Voice",
+      "published_at": "2024-01-29",
+      "content_level": "automatic_captions",
+      "sha256": "eff01d81dfcdccf11da150823f7e0535bb9c3d1ec7b926b8ba92005432104606",
+      "scope": "Coach retrospective of Liverpool1-Leeds2 on2022-10-29; auto captions contain name/spelling errors. Historical CSV confirms score only, not tactical intent.",
+      "cards": [
+        {
+          "id": "marsch-trigger",
+          "claim_type": "coach_self_report",
+          "statement_zh": "Marsch 回顾利兹客战利物浦时，描述先让 Gomez 持球，再根据他的下一次传球触发压迫。",
+          "anchor": "we wanted Gomez on the ball",
+          "theme": "pressing_trigger",
+          "project_measure": "选定后卫接球后的传球与压力事件序列，结合队形距离复核。",
+          "locator": "Video chapter02:54; caption text near Gomez/trigger",
+          "test_status": "source_information; empirical test not performed"
+        },
+        {
+          "id": "marsch-wide-matchup",
+          "claim_type": "coach_self_report",
+          "statement_zh": "他解释两名边路球员互换位置，以安排转换中的一对一对位和远门柱防守。",
+          "anchor": "we actually switched him",
+          "theme": "opponent_specific_role",
+          "project_measure": "按对手、边路角色和转换阶段比较，避免将整场平均位置当作角色。",
+          "locator": "Video chapter07:15; caption text Harrison/Somerville",
+          "test_status": "source_information; empirical test not performed"
+        },
+        {
+          "id": "marsch-rest-cover",
+          "claim_type": "coach_self_report",
+          "statement_zh": "他把反抢和后方保护联系起来，强调压迫球员需要信任身后对快速反击的覆盖。",
+          "anchor": "rest defense",
+          "theme": "rest_defence",
+          "project_measure": "连续追踪中记录丢球时后方保护人数和接下来向前推进，事件数据仅作代理。",
+          "locator": "Video chapter15:36",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Jesse Marsch"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "cv-rest",
+      "url": "https://learning.coachesvoice.com/cv/rest-defence-explained/",
+      "medium": "article",
+      "publisher": "Coaches Voice",
+      "published_at": "2024-03-08",
+      "content_level": "full_text",
+      "sha256": "e77e3f00a43f2bec4f006984ad7c45c5dc5ef0b70ce1f4b295721f8a59a60786",
+      "scope": "General coaching explainer with historical club examples, not2026 team observations.",
+      "cards": [
+        {
+          "id": "rest-shape",
+          "claim_type": "analyst_explanation",
+          "statement_zh": "Rest defence 包含进攻时留在球后与球侧的支援和空间保护，不能仅用后卫人数描述。",
+          "anchor": "around and underneath the ball",
+          "theme": "rest_defence",
+          "project_measure": "在控球与丢球时分别记录球后人数、两条保护线和潜在反击通道。",
+          "locator": "What is rest defence?",
+          "test_status": "source_information; empirical test not performed"
+        },
+        {
+          "id": "rest-delay",
+          "claim_type": "analyst_explanation",
+          "statement_zh": "无法立即夺回球权时，延缓对手向前推进可以为回防争取时间。",
+          "anchor": "delaying the opposing counter-attack",
+          "theme": "transition_defence",
+          "project_measure": "丢球至对手首次向前推进、进入危险区或射门的时间。",
+          "locator": "How can players ensure effective application?",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Pep Guardiola",
+        "Jürgen Klopp",
+        "Mikel Arteta",
+        "Thomas Tuchel",
+        "Roberto De Zerbi"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "cv-switch",
+      "url": "https://learning.coachesvoice.com/cv/in-focus-switching-play/",
+      "medium": "article",
+      "publisher": "Coaches Voice",
+      "published_at": "2026-08-21",
+      "content_level": "full_text",
+      "sha256": "a0b377fe00c88d0fd77fb93204ab0e1913061376ea4ed98b0a9ada563925147c",
+      "scope": "Pitch-coordinate y channels are project definitions, not claims of observed left/right movement without orientation checks.",
+      "cards": [
+        {
+          "id": "switch-draw",
+          "claim_type": "analyst_explanation",
+          "statement_zh": "转换进攻侧需要先吸引对手横向移动，再利用远侧空间。作者也讨论错误转移传球带来的反击风险。",
+          "anchor": "moves the point of attack",
+          "theme": "switching_play",
+          "project_measure": "同一次控球中的低y到高y移动，结合对手移动与球后保护复核。",
+          "locator": "What is meant by switching play; risks",
+          "test_status": "ball-movement proxy studied withEuro2024 visible context and a separate SkillCorner cohort; defensive displacement and weak-side mechanism not established"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "cv-third",
+      "url": "https://learning.coachesvoice.com/cv/third-man-runs-football-tactics-explained-gasperini-guardiola/",
+      "medium": "article",
+      "publisher": "Coaches Voice",
+      "published_at": "2022-01-13",
+      "content_level": "full_text",
+      "sha256": "dc1e6977e5cba96a46f1c7fd06701604912fd2e8cbadd5aed26e4218ee3acb70",
+      "scope": "Explainer. A three-pass chain alone does not prove the intended off-ball mechanism.",
+      "cards": [
+        {
+          "id": "third-line",
+          "claim_type": "analyst_explanation",
+          "statement_zh": "第三人配合用于找到直接传球线路受阻时的接应者，时机和无球移动是重要部分。",
+          "anchor": "Two players exchange passes",
+          "theme": "third_man",
+          "project_measure": "A到B到C传球只产生候选，仍需无球轨迹和防守牵制证据。",
+          "locator": "What is a third-man run?",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "cv-tuchel",
+      "url": "https://learning.coachesvoice.com/cv/thomas-tuchel-jurgen-klopp-chelsea-dortmund-psg/",
+      "medium": "article",
+      "publisher": "Coaches Voice",
+      "published_at": null,
+      "content_level": "full_text",
+      "sha256": "83829dbfa1cb8a451f9f96a3138c96d56ee1be5ea4088bcd8b962d7409dc3e27",
+      "scope": "Historical Dortmund/PSG/Chelsea analysis; current England tactics require separate evidence.",
+      "cards": [
+        {
+          "id": "tuchel-context",
+          "claim_type": "analyst_explanation",
+          "statement_zh": "文章区分 Tuchel 在不同俱乐部的阵型、边翼卫与前腰轮转，以及双后腰对转换防守的作用。",
+          "anchor": "rotations between his wing-backs and attacking midfielders",
+          "theme": "coach_context",
+          "project_measure": "按教练、球队、比赛阶段和对手分组，不能把早年俱乐部结构直接套到国家队。",
+          "locator": "Attacking; Defending and pressing",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Thomas Tuchel"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "fifa-third",
+      "url": "https://www.fifatrainingcentre.com/en/game/game-analysis/world-class-tactics/croatia-evolving-third-player-combinations.php",
+      "medium": "report",
+      "publisher": "FIFA Training Centre",
+      "published_at": "2026-05-19",
+      "content_level": "full_text",
+      "sha256": "f9701933b95e2b6c91c3778fb110bd441dd7a9ed90738cbf6c99d32d171664b1",
+      "scope": "Article discusses Qatar2022 matches, despite later publication/navigation dates.",
+      "cards": [
+        {
+          "id": "third-adapt",
+          "claim_type": "technical_report",
+          "statement_zh": "报告把克罗地亚的第三人配合描述为根据压力、空间和对手行为调整的解决方式。",
+          "anchor": "pressure, spacing and opponent behaviour",
+          "theme": "third_man",
+          "project_measure": "比较同一球队面对不同压迫结构时的接应角色和推进方向。",
+          "locator": "Opening analysis; examples",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "fifa-webinar",
+      "url": "https://www.fifatrainingcentre.com/en/fwc26-silva-addo-webinar.php",
+      "medium": "report",
+      "publisher": "FIFA Training Centre",
+      "published_at": null,
+      "content_level": "full_text",
+      "sha256": "011c1b1d92b4972748f912700e265adb75bacaaff4f40484b5fd224cd109a57c",
+      "scope": "Readable webinar description, not the seminar transcript.",
+      "cards": [
+        {
+          "id": "fwc-build",
+          "claim_type": "topic_only",
+          "statement_zh": "官方研讨页说明会讨论世界杯中的抗压出球、推进结构和决策变化。视频讲话内容尚未转录。",
+          "anchor": "build through pressure",
+          "theme": "build_up",
+          "project_measure": "门将参与推进、在不同压迫结构下的接应和传球选择。",
+          "locator": "Webinar description only",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "fa-selection",
+      "url": "https://www.englandfootball.com/articles/2026/Sep/18/thomas-tuchel-on-england-squad-selection-20261809",
+      "medium": "news",
+      "publisher": "England Football",
+      "published_at": "2026-09-18",
+      "content_level": "full_text",
+      "sha256": "d3adeb8549dd2a1bd5765e1bbbeed6d1fb5a85fb954a66fb7e1e7e397f952a34",
+      "scope": "Published coach quotations; no full interview video transcription.",
+      "cards": [
+        {
+          "id": "fa-selection-role",
+          "claim_type": "coach_self_report",
+          "statement_zh": "Tuchel 在国家队名单采访中说明了回归球员、出球属性和近期表现的考虑。",
+          "anchor": "good in build-up",
+          "theme": "selection_context",
+          "project_measure": "球员俱乐部出场与国家队角色分开记录，主观评价不改写为测量值。",
+          "locator": "Selection interview",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Thomas Tuchel"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "fa-reaction",
+      "url": "https://www.englandfootball.com/articles/2026/Oct/06/england-czechia-uefa-nations-league-thomas-tuchel-reaction-20260610",
+      "medium": "news",
+      "publisher": "England Football",
+      "published_at": "2026-10-06",
+      "content_level": "full_text",
+      "sha256": "05f1fc08a5a5d5aa934408975fa7da85f4879e763097d9883693612e071f8fb1",
+      "scope": "Coach interpretation does not establish a causal effect; numerical wording in quotations must be checked against dates.",
+      "cards": [
+        {
+          "id": "fa-four-games",
+          "claim_type": "coach_self_report",
+          "statement_zh": "赛后采访将英格兰四场窗口的表现与世界杯经历联系起来，这是教练的解释。",
+          "anchor": "four games",
+          "theme": "international_continuity",
+          "project_measure": "比赛密度按实际赛程计算，采访中数字也要独立核对。",
+          "locator": "Post-match reaction",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Thomas Tuchel"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "athletic-rest",
+      "url": "https://shows.acast.com/the-athletic-fc-tactics-podcast/episodes/liverpool-vs-man-city-preview-a-guide-to-rest-defence-for-au",
+      "medium": "podcast",
+      "publisher": "The Athletic",
+      "published_at": "2026-10-09",
+      "content_level": "show_notes",
+      "sha256": "d28bdbefd168d6eebc2cccd6e874502e0c108c9653e80bc3b403c4ccb00d91a2",
+      "scope": "RSS has no transcript URL; selected audio endpoint returned403.",
+      "cards": [
+        {
+          "id": "pod-rest-topic",
+          "claim_type": "topic_only",
+          "statement_zh": "官方节目说明将 rest defence 与反抢列为本期讨论主题。未取得这期完整音频或转录。",
+          "anchor": "rest defence",
+          "theme": "rest_defence",
+          "project_measure": "作为选题线索，不生成嘉宾观点或实证结论。",
+          "locator": "Official episode description",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "athletic-canada",
+      "url": "https://shows.acast.com/the-athletic-fc-tactics-podcast/episodes/canada-at-the-world-cup-can-their-tactics-spring-a-surprise",
+      "medium": "podcast",
+      "publisher": "The Athletic",
+      "published_at": "2026-06-09",
+      "content_level": "show_notes",
+      "sha256": "3b450231cd35881c5f2ccae92f322aea3c216edfca30ae4c627260ba1a1c2361",
+      "scope": "Show notes only; not a completed listening or transcription.",
+      "cards": [
+        {
+          "id": "pod-canada-topic",
+          "claim_type": "topic_only",
+          "statement_zh": "节目说明介绍加拿大助教参与国家队备战与对手分析讨论。",
+          "anchor": "opposition analysis",
+          "theme": "national_preparation",
+          "project_measure": "追踪国家队备战周期、可用阵容和对手信息，等待讲话原文后再归纳观点。",
+          "locator": "Official episode description",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "luke-worldcup",
+      "url": "https://teacherluke.co.uk/wp-content/uploads/2026/06/BONUS-FIFA-WORLD-CUP-2026-PREVIEW-MEGARAMBLE.pdf",
+      "medium": "podcast",
+      "publisher": "Luke English Podcast",
+      "published_at": "2026-06",
+      "content_level": "publisher_transcript",
+      "sha256": "b0e573aafadba88f17cec70c47d8d1d7a51f5943db7427b58953863e14e19177",
+      "scope": "Publisher-provided pre-tournament transcript; personal commentary, not a technical study or post-tournament finding.",
+      "cards": [
+        {
+          "id": "pod-tuchel-flex",
+          "claim_type": "podcast_commentary",
+          "statement_zh": "作者公开转录讨论 Tuchel 根据对手调整阵型的能力，以及俱乐部经验与国家队人员选择。",
+          "anchor": "Tactical Flexibility",
+          "theme": "coach_context",
+          "project_measure": "作为个人赛前评论，与教练原话和比赛数据分别存储。",
+          "locator": "PDF pages11-12, Management Style & Tactical Approach",
+          "test_status": "source_information; empirical test not performed"
+        }
+      ],
+      "coach_tags": [
+        "Thomas Tuchel"
+      ],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "bili-mori",
+      "url": "https://www.bilibili.com/video/BV1NJ4m1M7hE/",
+      "medium": "bilibili",
+      "publisher": "友利Mori",
+      "published_at": null,
+      "content_level": "blocked",
+      "sha256": "e7badcc8c88ee24673ace7d93d15543ef41a0f6db1f93d17a2b1fe8ef6d8ee01",
+      "scope": "Anonymous detail API returned412; earlier title metadata retained separately. No spoken claims extracted.",
+      "cards": [],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "bili-sima",
+      "url": "https://www.bilibili.com/video/BV1Wi4y1G71p/",
+      "medium": "bilibili",
+      "publisher": "司马尘",
+      "published_at": null,
+      "content_level": "blocked",
+      "sha256": "e7badcc8c88ee24673ace7d93d15543ef41a0f6db1f93d17a2b1fe8ef6d8ee01",
+      "scope": "Anonymous detail API returned412; earlier title metadata retained separately. No spoken claims extracted.",
+      "cards": [],
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in this source; not an appointment or cross-provider identity link"
+    },
+    {
+      "id": "fifa2026-publication",
+      "url": "https://inside.fifa.com/talent-development/technical-study-group/media-releases/comprehensive-post-tournament-report-fifa-world-cup-2026",
+      "medium": "report",
+      "publisher": "FIFA",
+      "published_at": "2026-10-02",
+      "content_level": "primary_publication_summary",
+      "sha256": "a9a0bc51671c8056a437e729b746b47110ffd26a2ba3970470a753c15a50f989",
+      "scope": "Readable official release summarizing technical report; complete tournament tracking and full report not acquired. Direct HTTP403, web primary page was readable.",
+      "coach_tags": [],
+      "coach_tag_scope": "mentioned in source, not an appointment",
+      "cards": [
+        {
+          "id": "fifa2026-counterpress",
+          "claim_type": "publisher_reported_finding",
+          "statement_zh": "FIFA 在报告发布说明中把丢球后的反抢和快速再进攻列为研究主题，并指出不同防守方式仍可取得成功。",
+          "anchor": "Counter-pressing",
+          "theme": "counter_pressing",
+          "project_measure": "按教练与对手记录丢球后反抢、回收与推进，阈值需另外定义和验证。",
+          "locator": "Official release key findings",
+          "test_status": "publisher-reported; not independently tested in local2026 data"
+        },
+        {
+          "id": "fifa2026-goalkeeper",
+          "claim_type": "publisher_reported_finding",
+          "statement_zh": "发布说明讨论门将在组织进攻、抗压出球中的参与，以及边路位置交换。",
+          "anchor": "Goalkeepers",
+          "theme": "build_up",
+          "project_measure": "门将接球与出球方向、接应结构和边路轮转，需要事件或连续追踪。",
+          "locator": "Goalkeeper and tactical-theme sections",
+          "test_status": "publisher-reported; not independently tested in local2026 data"
+        }
+      ]
+    },
+    {
+      "id": "skillcorner-direction-spec",
+      "url": "https://26560301.fs1.hubspotusercontent-eu1.net/hubfs/26560301/Guides/Dynamic%20Events/20250216%20-%20Dynamic%20Events%20CSV%20Specifications.pdf",
+      "medium": "documentation",
+      "publisher": "SkillCorner",
+      "published_at": "2025-02-16",
+      "content_level": "full_text",
+      "scope": "Full official CSV specification inspected for orientation, event scope and target timing. Later pressure additions use the2026 publication and collected README.",
+      "coach_tags": [],
+      "coach_tag_scope": "no coach appointment inference",
+      "cards": [
+        {
+          "id": "skillcorner-direction",
+          "claim_type": "technical_definition",
+          "statement_zh": "动态事件已按进攻方向统一；原始追踪需要另外旋转。事件编号只在一场比赛内唯一。",
+          "anchor": "we mirror the coordinates",
+          "theme": "coordinate_alignment",
+          "project_measure": "按比赛、节次和控球队方向对齐，并用传球时刻的球坐标核对。",
+          "locator": "PDF page11, Direction Of Play And Pitch Coordinates; event identity notes",
+          "test_status": "definition checked; alignment tested against tracking"
+        },
+        {
+          "id": "skillcorner-target-timing",
+          "claim_type": "technical_definition",
+          "statement_zh": "目标球员在传球时刻的位置与实际接球时刻的位置分别保留，不能把后者提前用于预测。",
+          "anchor": "y location of the targeted player at the moment of the pass",
+          "theme": "temporal_alignment",
+          "project_measure": "转移候选使用 target at pass；后续运动独立记录。",
+          "locator": "PDF page55, player_targeted_y_pass",
+          "test_status": "definition checked"
+        }
+      ],
+      "sha256": "43eb9cf35ea324747dc373c2ee69411aa12cc6d3f170a6fae63a2252be69617d"
+    },
+    {
+      "id": "skillcorner-pressure-2026",
+      "url": "https://skillcorner.com/us/articles/introducing-skillcorners-new-pressure-metrics",
+      "medium": "documentation",
+      "publisher": "SkillCorner",
+      "published_at": "2026-03-25",
+      "content_level": "primary_publication_summary",
+      "scope": "Reviewed notes from readable official publication, not a copied full article or watched video. Vendor pressure labels are different from binary StatsBomb pressure flags.",
+      "coach_tags": [],
+      "coach_tag_scope": "no appointment inference",
+      "cards": [
+        {
+          "id": "skillcorner-pressure-components",
+          "claim_type": "publisher_metric_definition",
+          "statement_zh": "压迫分级同时考虑逼近的时间与速度、空间限制、接应选择和接球难度，控球开始与结束的字段不能混用。",
+          "anchor": "Time to Impact",
+          "theme": "pressure_context",
+          "project_measure": "结合供应商压迫分级、检测到的对手逼近，以及远侧接应；保留来源与各指标定义。",
+          "locator": "Official publication, New Pressure Metrics and possession start/end",
+          "test_status": "definition checked; empirical tactical effect not established"
+        }
+      ],
+      "sha256": "044f16396faefa0344fbff873a529245643b323af9b97465ef5c4f2e0aa4ddd5"
+    },
+    {
+      "id": "chelsea-final-plan",
+      "url": "https://www.chelseafc.com/en/news/article/maresca-explains-how-club-world-cup-final-was-won",
+      "medium": "article",
+      "publisher": "Chelsea FC",
+      "published_at": null,
+      "content_level": "full_article",
+      "sha256": "ceaee7749599d20b5a426c30619a618a6c8fac881db1979465489a363d07776c",
+      "scope": "Coach retrospective of 2025-07-13 CWC final, not independent causal evidence.",
+      "cards": [
+        {
+          "id": "chelsea-opening-press",
+          "claim_type": "coach_self_report",
+          "statement_zh": "Maresca 说明开场十分钟采用人盯人压迫，并提到天气限制其持续时间。",
+          "anchor": "The idea was to go man-to-man",
+          "theme": "opening_pressure",
+          "project_measure": "按比分与分钟切分压力事件和受压迫接球；全场次数不能验证开局强度。",
+          "locator": "Article first game-plan quote",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        },
+        {
+          "id": "chelsea-vitinha-marking",
+          "claim_type": "coach_self_report",
+          "statement_zh": "教练说明中场对位中，由 Enzo 负责 Vitinha。",
+          "anchor": "Vitinha was charged for Enzo",
+          "theme": "opponent_midfield_matchup",
+          "project_measure": "用比赛当天站位与接球路线验证，不把名义阵型当作对位。",
+          "locator": "Article midfield assignments quote",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        },
+        {
+          "id": "chelsea-right-overload",
+          "claim_type": "coach_self_report",
+          "statement_zh": "教练说明安排 Palmer 与 Gusto 在同一侧形成局部人数优势。",
+          "anchor": "on that side to create a little bit of an overload",
+          "theme": "local_overload",
+          "project_measure": "统计出球时己方支援与对手距离，并同时观察远侧跑位和球后保护。",
+          "locator": "Article Palmer/Gusto quote",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        }
+      ]
+    },
+    {
+      "id": "chelsea-final-narrative",
+      "url": "https://www.chelseafc.com/en/news/article/club-world-cup-final-report-chelsea-3-0-paris-saint-germain",
+      "medium": "article",
+      "publisher": "Chelsea FC",
+      "published_at": null,
+      "content_level": "full_article",
+      "sha256": "3a2458b050ce5348e24dfbdb9e4ca65b4e92d25e02e830f4d92fea8d90329f81",
+      "scope": "Club-authored match narrative; specific sequences need footage validation.",
+      "cards": [
+        {
+          "id": "chelsea-second-goal-runs",
+          "claim_type": "club_match_narrative",
+          "statement_zh": "官方战报描述第二球前，Gusto 与 Joao Pedro 的跑动牵制 Palmer 的防守人。",
+          "anchor": "he used the runs of Gusto and Joao Pedro",
+          "theme": "decoy_runs",
+          "project_measure": "复核出球、跑动和防守反应的先后，以及对手高线后的空间。",
+          "locator": "The man for the big occasion, second Palmer goal",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        },
+        {
+          "id": "chelsea-score-state-defence",
+          "claim_type": "club_match_narrative",
+          "statement_zh": "战报描述切尔西领先后下半场回收更深；PSG 的红牌发生在比赛末段。",
+          "anchor": "We were dropping deeper",
+          "theme": "score_state",
+          "project_measure": "以半场和比分状态分层，避免将全场防守均值用于解释开局。",
+          "locator": "Holding firm section",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        }
+      ]
+    },
+    {
+      "id": "fifa-fluidity-preview",
+      "url": "https://www.fifatrainingcentre.com/en/game/tournaments/fcwc/2025/team-analyses/formed-by-fluidity-understanding-psg-and-chelseas-tactical-approaches-with-roberto-martinez.php",
+      "medium": "article",
+      "publisher": "FIFA Training Centre",
+      "published_at": "2025-07-12",
+      "content_level": "full_article",
+      "sha256": "d733c452983548eadea72ae7add1b51afe8c52c9d94cc94462ec7a4eb358c96d",
+      "scope": "Roberto Martinez preview before final; clips concern earlier matches, not validation of final execution.",
+      "cards": [
+        {
+          "id": "fifa-final-preview-rotation",
+          "claim_type": "expert_preview",
+          "statement_zh": "FIFA 的赛前分析讨论双方边后卫轮转，但指出球员特点使轮转方式不同。",
+          "anchor": "ahead of the Club World Cup final",
+          "theme": "fullback_rotation",
+          "project_measure": "保留发言时间与片段对应比赛；比较角色轮换后的支援、纵深和球后保护。",
+          "locator": "Introduction and fullback sections",
+          "test_status": "source_information; mechanism not yet measured from synchronized final trajectories"
+        }
+      ]
+    }
+  ],
+  "copyright_scope": "Raw pages/captions/transcripts remain local. Public output contains short paraphrases, links, provenance and scopes."
+}

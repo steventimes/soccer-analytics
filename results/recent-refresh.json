@@ -1,0 +1,78 @@
+{
+  "observed_at": "2026-10-11T02:05:55.568081+00:00",
+  "start": "2026-09-20",
+  "end": "2026-10-11",
+  "espn_observations": 513,
+  "finished_observations": 478,
+  "finished_by_population": {
+    "club/male/senior": 78,
+    "national/male/senior": 298,
+    "national/male/u21": 68,
+    "national/female/senior": 34
+  },
+  "per_competition": {
+    "eng.1": 13,
+    "eng.2": 14,
+    "ger.1": 12,
+    "esp.1": 14,
+    "ita.1": 13,
+    "fra.1": 12,
+    "por.1": 13,
+    "ned.1": 13,
+    "uefa.nations": 104,
+    "fifa.friendly": 77,
+    "concacaf.nations.league": 74,
+    "caf.nations_qual": 48,
+    "uefa.euro_u21_qual": 68,
+    "fifa.friendly.w": 38
+  },
+  "collected_match_summaries": 478,
+  "ingestion": {
+    "added_to_latest_view": {},
+    "updated_latest_records": {},
+    "football_csv_new_to_previous_archive": 0,
+    "coverage": [
+      {
+        "provider": "espn",
+        "team_type": "club",
+        "gender": "male",
+        "rows": 104,
+        "maximum_date": "2026-10-11"
+      },
+      {
+        "provider": "espn",
+        "team_type": "national",
+        "gender": "female",
+        "rows": 38,
+        "maximum_date": "2026-10-11"
+      },
+      {
+        "provider": "espn",
+        "team_type": "national",
+        "gender": "male",
+        "rows": 371,
+        "maximum_date": "2026-10-07"
+      },
+      {
+        "provider": "football-data.co.uk",
+        "team_type": "club",
+        "gender": "male",
+        "rows": 1385,
+        "maximum_date": "2026-10-05"
+      },
+      {
+        "provider": "international_results",
+        "team_type": "national",
+        "gender": "male",
+        "rows": 49943,
+        "maximum_date": "2026-10-06"
+      }
+    ],
+    "identity_conflicts": 1,
+    "errors": [],
+    "note": "Different providers may overlap. Latest-view additions are not globally unique new matches; current-day scheduled/live events are retained but not treated as final results."
+  },
+  "national_archive_raw_result_rows": 49945,
+  "national_identity_conflict_rows": 2,
+  "scope": "Provider scopes overlap. Latest-view registrations are not new unique matches across all sources. National results include extra time and exclude shootout scores; neutral grounds, age groups and gender are retained separately."
+}

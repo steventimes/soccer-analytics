@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2468A0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232468A0'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Touchline · 球队与球员</title>
+<meta name="description" content="在相同来源、联赛和赛季内比较，查看球风表示实验。">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+<script src="./research.js" defer></script><script src="./table-export.js" defer></script><script src="./explore.js" defer></script><script src="./style-retrieval.js" defer></script>
+</head><body class="research-page workspace" data-page="entities">
+<a class="skip-link" href="#main-content">跳到主要内容</a>
+<aside class="workspace-sidebar"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">T</span>Touchline</a><p class="workspace-edition">足球数据研究</p><nav class="workspace-nav" aria-label="主导航"><a href="./index.html">概览</a><a href="./matches.html">比赛</a><a href="./entities.html" aria-current="page">球队与球员</a><a href="./models.html">模型实验</a><a href="./library.html">数据与资料</a></nav><div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span>公开研究快照<p>每项分析保留样本与来源。</p></div></aside>
+<div class="workspace-body"><header class="workspace-topbar"><a href="./index.html" class="mobile-brand" aria-label="Touchline 概览">T</a><span>足球研究 <span aria-hidden="true">/</span> 球队与球员</span><a href="./library.html#coverage">查看数据范围 ↗</a></header>
+<main id="main-content" class="workspace-main"><div class="workspace-heading"><div><p class="eyebrow">TOUCHLINE / 球队与球员</p><h1>球队与球员</h1><p>在相同来源、联赛和赛季内比较，查看球风表示实验。</p></div></div>
+<div class="workspace-tabs" role="tablist" aria-label="球队与球员视图"><button type="button" role="tab" id="tab-comparisons" aria-controls="comparisons" aria-selected="true" tabindex="0">指标比较</button><button type="button" role="tab" id="tab-style-retrieval" aria-controls="style-retrieval" aria-selected="false" tabindex="-1">球风检索</button></div>
+<section role="tabpanel" aria-labelledby="tab-comparisons" tabindex="0" id="comparisons" class="research-panel" data-heading="comparison-heading">
+      <div class="panel-title"><div><p class="eyebrow">同来源、同联赛、同赛季</p><h2 id="comparison-heading">球队与球员并排比较</h2></div></div>
+      <p class="source-banner">球队：Football-Data 赛果统计 · 球员：Wyscout 2017/18 事件档案。筛选只在各自来源内生效。</p><div class="filters exploration-filters comparison-primary"><label>比较对象<select id="compare-kind"><option value="teams">球队</option><option value="players">球员</option></select></label><label>对象 A<select id="compare-a" disabled></select></label><label>对象 B<select id="compare-b" disabled></select></label></div><details id="compare-filters" class="filter-disclosure"><summary>联赛、赛季与查找 <span id="compare-options-summary"></span></summary><div class="filters exploration-filters"><label>联赛<select id="compare-league" disabled></select></label><label>赛季<select id="compare-season" disabled></select></label><label id="compare-position-label" hidden>位置<select id="compare-position"><option value="">全部位置</option></select></label><label id="compare-minutes-label" hidden>最少出场分钟<select id="compare-minutes"><option value="900">900 分钟</option><option value="270">270 分钟</option><option value="0">不限</option><option value="4000">4000 分钟</option></select></label><label>查找对象<input id="compare-search" type="search" placeholder="输入姓名或球队名" autocomplete="off"></label></div><div id="compare-search-results" class="subject-search-results" role="group" aria-label="对象搜索结果"></div></details><button id="compare-retry" type="button" hidden>重新读取比较数据</button><p id="compare-status" class="context-note" role="status" aria-live="polite">正在读取比较数据。</p>
+      <div id="compare-samples" class="comparison-samples"></div><div id="compare-chart" class="interactive-chart" tabindex="0" role="region" aria-label="对象比较图，可横向滚动"></div>
+      <details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">每项指标从零开始，A、B 共用该项坐标。比例固定为 0–100%，场均积分为 0–3，其他上限取当前筛选样本的最大值再留少量空间。各项单位不同，不能比较不同指标的线长。球员使用观测每 90 分钟数据和成功率，未校准对手强度和球队风格。球队当前赛季可能尚未结束。</p></details>
+      <button id="compare-export" type="button" disabled>下载当前比较 SVG</button>
+      <details class="chart-data"><summary>查看比较数值与差值</summary><div id="compare-table" class="table-scroll"></div></details>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-style-retrieval" tabindex="0" hidden id="style-retrieval" class="research-panel" data-heading="style-heading">
+      <div class="panel-title"><div><p class="eyebrow">球风表示的本地对照实验</p><h2 id="style-heading">后段动作能否识别同一球员</h2></div><a href="https://dtai.cs.kuleuven.be/sports/player_vectors/" target="_blank" rel="noopener noreferrer">Player Vectors 原方法 ↗</a></div>
+      <button id="style-retry" type="button" hidden>重新读取球风实验</button><p id="style-scope" class="context-note">正在读取球风检索实验。</p>
+      <div class="filters"><label>联赛<select id="style-league" disabled><option value="all">五大联赛总体</option></select></label><label>候选球员<select id="style-pool" disabled><option value="same_league">同联赛非门将</option><option value="same_position">同联赛且同位置</option></select></label></div>
+      <p id="style-status" class="context-note" role="status" aria-live="polite"></p>
+      <p class="context-note">Top-1 是第一名识别率，Top-5 是前五名识别率，MRR 是正确球员名次倒数的均值。同距名次按均匀随机排序分摊。种子范围只表示拟合初始化差异，不是置信区间。</p>
+      <p class="chart-scroll-hint">小屏幕可左右滑动数值表。</p>
+      <div id="style-table" class="table-scroll"></div>
+      <details class="diagnostic-details"><summary>随机初始化与空间分量稳定性</summary>
+        <p id="style-seed-scope" class="context-note">对随机起点的早段基底，按最大总余弦相似度做一对一匹配。1 表示空间形状一致，0 表示不重叠，零分量不计为稳定。这是跨联赛共享基底的诊断，不随上方联赛或候选池筛选改变，也不表示球员识别准确率或时间稳定性。参考 <a href="https://doi.org/10.1016/j.cag.2025.104245" target="_blank" rel="noopener noreferrer">空间主题比较论文 ↗</a>。</p>
+        <p id="style-seed-status" class="context-note" role="status" aria-live="polite">正在读取随机初始化诊断。</p>
+        <div id="style-seed-table" class="table-scroll"></div>
+      </details>
+      <details class="diagnostic-details"><summary>方法、数据差异与解释限制</summary><p id="style-method"></p><p id="style-run" class="context-note"></p><div id="style-data-source"></div><ul id="style-limits"></ul></details>
+      <p><a id="style-share" hidden>打开当前筛选链接</a> · <a href="./library.html#figures">在图表库查看检索比较与空间基底</a> · <a href="./data/research/spatial-style.json" download>下载公开汇总 JSON</a></p>
+    </section>
+<p id="load-status" class="sr-only" role="status" aria-live="polite"></p><p id="snapshot-date" class="sr-only"></p></main><footer class="workspace-footer"><span>Touchline · 足球数据研究</span><span>公开汇总 · 原件与训练文件保留在本地</span></footer></div>
+</body></html>

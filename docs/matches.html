@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2468A0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232468A0'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Touchline · 比赛</title>
+<meta name="description" content="选择一场比赛，查看事件、接应记录与战术案例。">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+<script src="./research.js" defer></script><script src="./table-export.js" defer></script><script src="./passing.js" defer></script><script src="./sequences.js" defer></script><script src="./motifs.js" defer></script><script src="./explore.js" defer></script><script src="./fifa-offers.js" defer></script>
+</head><body class="research-page workspace" data-page="matches">
+<a class="skip-link" href="#main-content">跳到主要内容</a>
+<aside class="workspace-sidebar"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">T</span>Touchline</a><p class="workspace-edition">足球数据研究</p><nav class="workspace-nav" aria-label="主导航"><a href="./index.html">概览</a><a href="./matches.html" aria-current="page">比赛</a><a href="./entities.html">球队与球员</a><a href="./models.html">模型实验</a><a href="./library.html">数据与资料</a></nav><div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span>公开研究快照<p>每项分析保留样本与来源。</p></div></aside>
+<div class="workspace-body"><header class="workspace-topbar"><a href="./index.html" class="mobile-brand" aria-label="Touchline 概览">T</a><span>足球研究 <span aria-hidden="true">/</span> 比赛</span><a href="./library.html#coverage">查看数据范围 ↗</a></header>
+<main id="main-content" class="workspace-main"><div class="workspace-heading"><div><p class="eyebrow">TOUCHLINE / 比赛</p><h1>比赛</h1><p>选择一场比赛，查看事件、接应记录与战术案例。</p></div></div>
+<div class="workspace-tabs" role="tablist" aria-label="比赛视图"><button type="button" role="tab" id="tab-match-explorer" aria-controls="match-explorer" aria-selected="true" tabindex="0">比赛事件</button><button type="button" role="tab" id="tab-fifa-offers" aria-controls="fifa-offers" aria-selected="false" tabindex="-1">FIFA 接应</button><button type="button" role="tab" id="tab-case" aria-controls="case" aria-selected="false" tabindex="-1">决赛案例</button></div>
+<section role="tabpanel" aria-labelledby="tab-match-explorer" tabindex="0" id="match-explorer" class="research-panel" data-heading="match-heading">
+      <div class="panel-title"><div><p class="eyebrow">StatsBomb · 2024 欧洲杯</p><h2 id="match-heading">比赛事件分析</h2></div></div>
+      <details class="match-catalog"><summary>浏览比赛目录 <span id="match-catalog-count">51 场公开样本</span></summary><label>查找球队或日期<input id="match-search" type="search" placeholder="例如 Spain、England、2024-07" autocomplete="off"></label><div id="match-catalog" class="match-catalog-list" role="group" aria-label="比赛目录"></div><p id="match-search-status" role="status" aria-live="polite"></p></details><div class="filters exploration-filters primary-match-filters">
+        <label class="match-selector">比赛<select id="match-select" disabled><option>正在读取比赛…</option></select></label>
+        <label>球队<select id="match-team" disabled></select></label>
+        <label>图表<select id="match-view"><option value="shots">射门分区</option><option value="network">完成传球网络</option><option value="matrix">传球矩阵</option><option value="sequence">射门前配合</option><option value="motifs">三传球模式</option></select></label>
+      </div>
+<details class="filter-disclosure"><summary>时段与图表选项 <span id="match-options-summary">全场</span></summary><div class="filters exploration-filters">        <label>时段<select id="match-period"><option value="all">全场，含加时</option><option value="first">上半场</option><option value="second">下半场</option><option value="extra1">加时上半场</option><option value="extra2">加时下半场</option><option value="custom">自选时段</option></select></label>
+        <label>起始分钟<select id="match-start" disabled></select></label><label>结束分钟<select id="match-end" disabled></select></label>
+        <label id="match-player-label" hidden>聚焦球员<select id="match-player"><option value="">全队联系</option></select></label>
+        <label id="match-minimum-label" hidden>每条联系至少<select id="match-minimum"><option value="1">1 次传球</option><option value="3">3 次传球</option><option value="5">5 次传球</option><option value="10">10 次传球</option></select></label>
+        <label id="match-phase-label" class="sequence-selector" hidden>射门前控球段<select id="match-phase" disabled></select></label>
+        <label id="match-motif-label" hidden>三传球模式<select id="match-motif" disabled><option value="">全部五种模式</option><option value="ABAB">ABAB · 双人往返</option><option value="ABAC">ABAC · 回做后分给第三人</option><option value="ABCA">ABCA · 三人传回起点</option><option value="ABCB">ABCB · 第三人传回 B</option><option value="ABCD">ABCD · 四人接力</option></select></label>
+        <label id="match-window-label" class="sequence-selector" hidden>回看窗口<select id="match-window" disabled></select></label>
+        <label id="match-action-label" class="sequence-selector" hidden>突出动作<select id="match-action" disabled></select></label>
+        <div id="match-step-navigation" class="sequence-navigation" hidden><button id="match-previous-action" type="button" disabled>上一步</button><button id="match-next-action" type="button" disabled>下一步</button></div>
+
+</div></details>
+      <button id="match-retry" type="button" hidden>重新读取比赛数据</button><p id="match-status" class="context-note" role="status" aria-live="polite">正在读取比赛数据。</p>
+      <p id="match-filter-summary" class="chart-reading" role="status" aria-live="polite" hidden></p>
+      <div class="explorer-layout"><div id="match-chart" class="interactive-chart" tabindex="0" role="region" aria-label="当前比赛图，可横向滚动"></div><aside><div id="match-summary" class="selection-summary"></div><button id="match-export" type="button" disabled>下载当前图表 SVG</button><details class="roster-details"><summary>球员与编号</summary><div id="match-roster"></div></details></aside></div>
+<details class="reading-notes"><summary>如何阅读当前图表</summary><p><a href="https://github.com/hudl/open-data" target="_blank" rel="noopener noreferrer">StatsBomb 开放数据 ↗</a></p>      <p id="match-overview-reading" class="context-note">时段以 15 分钟为单位，补时归入各半场最后一段，加时单列，排除点球大战。射门圆心是 10×10 分区中心，面积随次数增加，不是精确射门点。传球节点是起点均值，不是真实站位。均向右进攻。矩阵按行传给列，保留无起点坐标的接球队员；0 表示本时段未记录该联系，不代表不能传球。球员编号不是球衣号码。</p>
+      <p id="match-sequence-reading" class="context-note" hidden>仅展示产生射门的 StatsBomb 控球段，保留该队传球、带球、过人和射门，截止同段最后一次射门。按射门所在时段筛选，完整控球段可能跨越时段边界；补时归入对应半场，排除点球大战。这是事件顺序，不是连续追踪，不能据此判断站位或无球跑动。对方事件不画作本队动作，不填补两个动作之间的空白。起终点使用原始 120×80 坐标，均向右进攻。</p>
+      <p id="match-motif-reading" class="context-note" hidden>三次连续完成传球中，前一位接球队员须接着出球，相邻发起时间不超过 5 秒。按第三次传球所在的 15 分钟段筛选，保留完整窗口，补时归本半场末段。窗口可重叠，次数未按控球时间归一化。半场、控球权或中断事件会断开；压力事件不视作触球。A、B、C、D 按球员首次出现编号，不是球衣号码。均向右进攻，不连接传球间的空白。这里只描述频率，不判断战术效果。参考 <a href="https://arxiv.org/abs/1409.0308" target="_blank" rel="noopener noreferrer">三传球模式论文 ↗</a>与 <a href="https://ssxiexiao.github.io/papers/passvizor.pdf" target="_blank" rel="noopener noreferrer">PassVizor ↗</a>。</p>
+
+</details>
+      <details class="chart-data"><summary>查看当前图表数值</summary><div id="match-table" class="table-scroll"></div></details>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-fifa-offers" tabindex="0" hidden id="fifa-offers" class="research-panel" data-heading="fifa-offers-heading">
+      <div class="panel-title"><div><p class="eyebrow">FIFA 官方赛后报告</p><h2 id="fifa-offers-heading">接应方式与接球记录</h2></div></div>
+      <div class="filters exploration-filters"><label>赛事<select id="fifa-series" disabled></select></label><label>坐标<select id="fifa-mode" disabled><option value="counts">整场次数</option><option value="shares">占本队接应总数</option></select></label><label class="match-selector">比赛<select id="fifa-match" disabled></select></label></div>
+      <p id="fifa-status" class="context-note" role="status" aria-live="polite">正在读取接应记录…</p>
+      <button id="fifa-retry" type="button" hidden>重新读取接应记录</button>
+      <div id="fifa-summary" class="comparison-samples"></div>
+
+      <div id="fifa-chart" class="interactive-chart" tabindex="0" role="region" aria-label="两队接应方式比较，可横向滚动"></div>
+      <details class="reading-notes"><summary>口径与读图说明</summary><p class="context-note">按 FIFA 六类接应方式汇总球员记录，分类加总与报告中的全队总数核对。次数包含报告记录的整场比赛及可能的加时，不按每 90 分钟换算。接应与接球受出场时间、控球、角色和比分影响，不能据此判断球员能力或跑位质量；接球占比也不是经过校准的概率。</p></details>
+      <div id="fifa-sources" class="fifa-sources"></div>
+      <button id="fifa-export" type="button" disabled>下载当前接应比较 SVG</button>
+      <details class="chart-data"><summary>查看接应次数与占比</summary><div id="fifa-table" class="table-scroll"></div></details>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-case" tabindex="0" hidden id="case" class="research-panel" data-heading="case-heading">
+      <div class="panel-title"><div><p class="eyebrow">2025 世俱杯决赛 · 2025-07-13</p><h2 id="case-heading">切尔西 3:0 Paris Saint-Germain</h2></div><a id="case-source">FIFA 原始报告 ↗</a></div>
+      <p id="case-status" class="context-note section-status" role="status" aria-live="polite">正在读取战术案例。</p><button id="case-retry" type="button" hidden>重试战术案例</button>
+      <p>将决赛与各队此前六场比较，观察踢法发生了什么变化。对手和比赛时长不同，图中均值未做对手强度校准。</p>
+      <div class="case-controls"><label>比较指标<select id="metric-select" disabled><option value="controlled_possession_pct">受控控球占比</option><option value="in_possession_long_ball">长球阶段占比</option><option value="out_of_possession_mid_block">中位防守阶段占比</option><option value="out_of_possession_counter_press">反抢阶段占比</option></select></label><span>各队此前六场均值，与决赛比较</span></div>
+      <div id="team-facets" class="team-facets" hidden></div>
+      <aside id="metric-detail" class="metric-detail" aria-live="polite" hidden></aside>
+      <p class="context-note">两个面板使用相同的 0–100% 坐标。阶段占比的分母不同，不能互相相加。决赛半场已是 3:0，全场均值不能证明开局压迫效果；控球另有 6.7% 争夺状态。报告没有这场比赛的连续原始跑动轨迹。</p>
+    </section>
+<p id="load-status" class="sr-only" role="status" aria-live="polite"></p><p id="snapshot-date" class="sr-only"></p></main><footer class="workspace-footer"><span>Touchline · 足球数据研究</span><span>公开汇总 · 原件与训练文件保留在本地</span></footer></div>
+</body></html>

@@ -1,0 +1,163 @@
+{
+  "schema": "SoccerAnalytics.PassCohortEligibility.v1",
+  "observed_at": "2026-10-15T23:17:44.475474+00:00",
+  "source_run_id": "f94ded4a65f37938",
+  "population_definition": "Wyscout events named Pass, regular 2017/18 matches, first/second halves. Joint completion and recorded forward-displacement targets require a valid start, exactly two positions, exclusive accurate/inaccurate tag and valid endpoint. Free-kick events with another eventName are outside this population.",
+  "provider": "wyscout",
+  "season": "2017/18",
+  "target_league": "England",
+  "configuration": {
+    "train_cap": 8000,
+    "source_cap": 16000,
+    "sampling_seed": 2026,
+    "context_length": 8
+  },
+  "inputs": {
+    "providers": [
+      "wyscout"
+    ],
+    "complete_assets": 27,
+    "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+  },
+  "splits": {
+    "source": {
+      "sequences_available": 596256,
+      "sequences_used": 16000,
+      "matches_used": 700,
+      "date_start": "2017-08-04",
+      "date_end": "2017-12-30",
+      "leagues": {
+        "France": 190,
+        "Germany": 153,
+        "Spain": 169,
+        "Italy": 188
+      },
+      "completion_rate": 0.8295624852180481,
+      "label_eligibility": {
+        "matches_considered": 700,
+        "event_rows": 1167179,
+        "pass_events": 596256,
+        "eligible_passes": 596256,
+        "excluded_invalid_start": 0,
+        "excluded_endpoint_count": 0,
+        "excluded_outcome_tags": 0,
+        "excluded_invalid_endpoint": 0,
+        "known_outcome_valid_start_passes": 596256,
+        "known_outcome_valid_start_completed": 494368,
+        "eligible_completed": 494368
+      }
+    },
+    "train": {
+      "sequences_available": 181180,
+      "sequences_used": 8000,
+      "matches_used": 209,
+      "date_start": "2017-08-11",
+      "date_end": "2017-12-31",
+      "leagues": {
+        "England": 209
+      },
+      "completion_rate": 0.831250011920929,
+      "label_eligibility": {
+        "matches_considered": 209,
+        "event_rows": 352856,
+        "pass_events": 181180,
+        "eligible_passes": 181180,
+        "excluded_invalid_start": 0,
+        "excluded_endpoint_count": 0,
+        "excluded_outcome_tags": 0,
+        "excluded_invalid_endpoint": 0,
+        "known_outcome_valid_start_passes": 181180,
+        "known_outcome_valid_start_completed": 149927,
+        "eligible_completed": 149927
+      }
+    },
+    "validation": {
+      "sequences_available": 59421,
+      "sequences_used": 8000,
+      "matches_used": 70,
+      "date_start": "2018-01-01",
+      "date_end": "2018-02-25",
+      "leagues": {
+        "England": 70
+      },
+      "completion_rate": 0.8151249885559082,
+      "label_eligibility": {
+        "matches_considered": 70,
+        "event_rows": 119011,
+        "pass_events": 59421,
+        "eligible_passes": 59421,
+        "excluded_invalid_start": 0,
+        "excluded_endpoint_count": 0,
+        "excluded_outcome_tags": 0,
+        "excluded_invalid_endpoint": 0,
+        "known_outcome_valid_start_passes": 59421,
+        "known_outcome_valid_start_completed": 48547,
+        "eligible_completed": 48547
+      }
+    },
+    "test": {
+      "sequences_available": 88056,
+      "sequences_used": 8000,
+      "matches_used": 101,
+      "date_start": "2018-03-01",
+      "date_end": "2018-05-13",
+      "leagues": {
+        "England": 101
+      },
+      "completion_rate": 0.8267499804496765,
+      "label_eligibility": {
+        "matches_considered": 101,
+        "event_rows": 171283,
+        "pass_events": 88056,
+        "eligible_passes": 88056,
+        "excluded_invalid_start": 0,
+        "excluded_endpoint_count": 0,
+        "excluded_outcome_tags": 0,
+        "excluded_invalid_endpoint": 0,
+        "known_outcome_valid_start_passes": 88056,
+        "known_outcome_valid_start_completed": 72806,
+        "eligible_completed": 72806
+      }
+    }
+  },
+  "totals": {
+    "matches": 1080,
+    "event_rows": 1810329,
+    "eligible_passes": 924913
+  },
+  "verification": {
+    "every_encoded_match_arrays_equal_to_baseline": true,
+    "baseline_full_population_array_sha256": "d47f9ff679e391e96b9839b83c3fd69bbd677539e86a5e94033bd27b4a9a4560",
+    "current_full_population_array_sha256": "d47f9ff679e391e96b9839b83c3fd69bbd677539e86a5e94033bd27b4a9a4560",
+    "sampled_array_sha256": {
+      "source": "926e9a51880902639143a01c8308412cc5f6b9a2b28e59dee75f148dd0ea11db",
+      "train": "a7e36699307d2a6959082eaffa2818a8ceeeb86d856e83368bce61c4e926a7d7",
+      "validation": "94ee95b4d16552f0abf2eefa27b4caa1eeff03d02d25bedbfe6a9db65dfd178d",
+      "test": "7ceeb87dc6dc29302051136449d8980cc631e3d9a28925834280e3eae429a65e"
+    },
+    "all_published_receipt_fields_match_recorded_run": true,
+    "database_size_and_mtime_unchanged": true,
+    "original_private_receipt_including_match_and_sample_alignment_matches_recorded_run": true
+  },
+  "code_sha256": {
+    "app/analytics/representation/data.py": "b1382424df098b69036a699f4202a704aac9dfa46be9b9fb5b50f8adfcdc1e1a",
+    "tests/test_representation_learning.py": "f749196df947455fb9bd0044a9f5c88034fc624de6ccb9893d965119a0d02941"
+  },
+  "limits": [
+    "Counts precede the existing capped random sampling and are not estimates of all football passes or other seasons/providers.",
+    "Known-outcome valid-start counts precede endpoint filtering; excluded reasons are disjoint in encoder decision order, not overlapping missingness counts.",
+    "Events with valid starts remain in later history even when their own labels/endpoints are unusable.",
+    "This audit records eligibility and exact input equality; it does not refit models, change scores or reproduce player-velocity completion."
+  ],
+  "run_id": "9e8d2b4ca26c94d19f5a",
+  "count_definitions": {
+    "scope": "Per-split population counts precede capped sampling. completion_rate is the sampled label mean, not the population rate.",
+    "excluded_invalid_start": "Missing, nonnumeric, nonfinite or out-of-range start coordinates, missing/invalid event clock or event type outside 1..10; backward clocks raise rather than count as exclusions.",
+    "excluded_endpoint_count": "Valid start but positions count differs from two.",
+    "excluded_outcome_tags": "Valid start and two positions but neither or both outcome tags (1801, 1802).",
+    "excluded_invalid_endpoint": "Prior checks pass but endpoint coordinates are missing, nonnumeric, nonfinite or outside 0..100.",
+    "known_outcome_valid_start_passes": "Valid-start Pass events with exactly one outcome tag, counted before either endpoint check.",
+    "known_outcome_valid_start_completed": "Accurate-tag subset of known_outcome_valid_start_passes.",
+    "eligible_completed": "Accurate-tag subset of eligible_passes, before sampling."
+  }
+}

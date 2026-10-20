@@ -1,0 +1,1416 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "cohort_policy": "all_configurations_share_the_same_pre_kickoff_warmup_eligibility_and_time_partitions",
+      "competition": "PL",
+      "counts": {
+        "completed_rows": 380,
+        "duplicate_rows": 0,
+        "input_rows": 380,
+        "unfinished_excluded": 0
+      },
+      "definitions": {
+        "basic": {
+          "home_offset": 80.0,
+          "initial": 1500.0,
+          "k": 20.0,
+          "scale": 400.0
+        },
+        "goal_weighted": "K=k*(1+abs(observed_goal_difference))**power;home_offset80;scale400",
+        "pi": "two_venue_states_start0;c3;signed(10**(abs(r)/3)-1);error=observed-predicted;played_venue_step=lambda*sign(error)*3*log10(1+abs(error));opposite_step=gamma*played_step"
+      },
+      "development_last_kickoff": "2026-04-10T19:00:00+00:00",
+      "holdout_first_kickoff": "2026-04-11T11:30:00+00:00",
+      "holdout_last_kickoff": "2026-05-24T15:00:00+00:00",
+      "holdout_rows": 70,
+      "limits": [
+        "No neutral-venue flag is available; home/away recipes assume the supplied venue labels.",
+        "Kickoff order does not prove final-whistle or source-arrival availability.",
+        "Ratings describe this connected competition pool; no cross-league comparability claim.",
+        "Warmup is completed matches per team, not the papers two/five season protocols; no historical return replication."
+      ],
+      "mapping_policy": "independent_local_fitted_probability_mapping;not_the_original_28_bin_pi_mapping",
+      "parameter_policy": "fixed_small_local_grid_selected_on_past_development_only;not_paper_parameter_reproduction",
+      "results": [
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.42857142857142855,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7150586567283027,
+              "calibration_error": 0.1689775493304259,
+              "classwise_calibration_error": 0.15974040562569844,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.1663043549338103,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.22124981311496691,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0022672020131722093,
+                "inference_seconds": 0.00012867397163063288,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5595814654106576,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6666420262223597,
+              "calibration_error": 0.1570940381960229,
+              "classwise_calibration_error": 0.1413589846605042,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.0942886289234244,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.22871170383338665,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019594269106164575,
+                "inference_seconds": 0.00010060204658657312,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5040869371349513,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016762715065851808,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.5142857142857142,
+          "holdout_brier_score": 0.5963052082710627,
+          "holdout_log_loss": 1.001087516229299,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19850191755640942,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "elo_ordered_logit",
+          "params": {
+            "ridge": 0.001
+          },
+          "rating": {
+            "kind": "basic"
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "ff4de99aaf318f36791ea9790746a1a8944149b0aa6653b5ad639fa7b4f055b8",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "basic_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.002152908011339605,
+            "holdout_inference_seconds": 9.666010737419128e-05,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1302964919286171
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.42857142857142855,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7456433542704414,
+              "calibration_error": 0.20302662252247908,
+              "classwise_calibration_error": 0.17735286910488346,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.247613615437377,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.2330442581150407,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "logistic_l2",
+                "execution_policy": {
+                  "configured_iteration_cap": 20000,
+                  "input": "existing_numeric_features_only",
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.010578099056147039,
+                "inference_seconds": 0.0006012590602040291,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.9.1"
+              },
+              "sharpness": 0.60990883145312,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6807207820375196,
+              "calibration_error": 0.16207836690137717,
+              "classwise_calibration_error": 0.1275441243634848,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1135196449611846,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.2341447417861257,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "logistic_l2",
+                "execution_policy": {
+                  "configured_iteration_cap": 20000,
+                  "input": "existing_numeric_features_only",
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.003561181016266346,
+                "inference_seconds": 0.000579794985242188,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.9.1"
+              },
+              "sharpness": 0.5353792701095081,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.1015600539976731,
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.5142857142857142,
+          "holdout_brier_score": 0.5959374115341105,
+          "holdout_log_loss": 1.0007224650863342,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19781917252052675,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "multinomial_or_tree_v1",
+          "model": "elo_multinomial",
+          "params": {},
+          "rating": {
+            "kind": "basic"
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "ff4de99aaf318f36791ea9790746a1a8944149b0aa6653b5ad639fa7b4f055b8",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "basic_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "logistic_l2",
+            "execution_policy": {
+              "configured_iteration_cap": 20000,
+              "input": "existing_numeric_features_only",
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0036046899622306228,
+            "holdout_inference_seconds": 0.000549822929315269,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "1.9.1"
+          },
+          "selection_log_loss": 1.1805666301992808
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4714285714285714,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7201018425656344,
+              "calibration_error": 0.18853927804884343,
+              "classwise_calibration_error": 0.17498914609886548,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.2490243255519038,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.22342451529599966,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "logistic_l2",
+                "execution_policy": {
+                  "configured_iteration_cap": 20000,
+                  "input": "existing_numeric_features_only",
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.012493176967836916,
+                "inference_seconds": 0.0010088209528476,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.9.1"
+              },
+              "sharpness": 0.6162471943268034,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.32857142857142857,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.7218946835478443,
+              "calibration_error": 0.2328962865517225,
+              "classwise_calibration_error": 0.14759680145030446,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.2084426220388713,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.24961482310260982,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "logistic_l2",
+                "execution_policy": {
+                  "configured_iteration_cap": 20000,
+                  "input": "existing_numeric_features_only",
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.01332490798085928,
+                "inference_seconds": 0.0010162589605897665,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "1.9.1"
+              },
+              "sharpness": 0.5603495345290288,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.04033794207498431,
+          "estimator": "logistic_l2",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "holdout_accuracy": 0.32857142857142857,
+          "holdout_brier_score": 0.7716791152299096,
+          "holdout_log_loss": 1.3268760510604303,
+          "holdout_rows": 70,
+          "holdout_rps": 0.26852406566706305,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "multinomial_or_tree_v1",
+          "model": "logistic_l2",
+          "params": {},
+          "rating": {
+            "kind": "basic"
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "ff4de99aaf318f36791ea9790746a1a8944149b0aa6653b5ad639fa7b4f055b8",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "basic_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "logistic_l2",
+            "execution_policy": {
+              "configured_iteration_cap": 20000,
+              "input": "existing_numeric_features_only",
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.013279775041155517,
+            "holdout_inference_seconds": 0.001010696985758841,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "1.9.1"
+          },
+          "selection_log_loss": 1.2287334737953874
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.32857142857142857,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.6631839986810505,
+              "calibration_error": 0.026611037339483,
+              "classwise_calibration_error": 0.05891411077408565,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.093295201450164,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.2116546556991779,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "xgboost",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "early_stopping_rounds": 20,
+                  "threads": 1
+                },
+                "fit_seconds": 0.023962710984051228,
+                "inference_seconds": 0.0012063978938385844,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "3.4.1"
+              },
+              "sharpness": 0.35518246591091157,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.32857142857142857,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6673120925896023,
+              "calibration_error": 0.011135608383587403,
+              "classwise_calibration_error": 0.03623406149092175,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.0995706924853048,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.23057750360930868,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "xgboost",
+                "execution_policy": {
+                  "configured_iteration_cap": 160,
+                  "early_stopping_rounds": 20,
+                  "threads": 1
+                },
+                "fit_seconds": 0.022277985932305455,
+                "inference_seconds": 0.0012058110442012548,
+                "seed": 42,
+                "timing_used_for_selection": false,
+                "version": "3.4.1"
+              },
+              "sharpness": 0.339707036955016,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.06056077603716403,
+          "estimator": "xgboost",
+          "feature_names": [
+            "home_elo",
+            "away_elo",
+            "elo_diff",
+            "home_form_points",
+            "away_form_points",
+            "form_points_diff",
+            "home_goals_for",
+            "away_goals_for",
+            "attack_diff",
+            "home_goals_against",
+            "away_goals_against",
+            "defense_diff",
+            "home_goal_difference",
+            "away_goal_difference",
+            "goal_difference_diff",
+            "home_win_rate",
+            "away_win_rate",
+            "win_rate_diff",
+            "home_clean_sheet_rate",
+            "away_clean_sheet_rate",
+            "home_rest_days",
+            "away_rest_days",
+            "rest_diff",
+            "home_venue_points",
+            "away_venue_points",
+            "venue_points_diff",
+            "home_matches_seen",
+            "away_matches_seen",
+            "experience_diff",
+            "home_advantage"
+          ],
+          "holdout_accuracy": 0.4142857142857143,
+          "holdout_brier_score": 0.6440807452777269,
+          "holdout_log_loss": 1.061183405891486,
+          "holdout_rows": 70,
+          "holdout_rps": 0.2159591882935996,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "multinomial_or_tree_v1",
+          "model": "xgboost",
+          "params": {},
+          "rating": {
+            "kind": "basic"
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "ff4de99aaf318f36791ea9790746a1a8944149b0aa6653b5ad639fa7b4f055b8",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "basic_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "xgboost",
+            "execution_policy": {
+              "configured_iteration_cap": 160,
+              "early_stopping_rounds": 20,
+              "threads": 1
+            },
+            "final_fit_seconds": 0.09513377596158534,
+            "holdout_inference_seconds": 0.0013005570508539677,
+            "seed": 42,
+            "timing_used_for_selection": false,
+            "version": "3.4.1"
+          },
+          "selection_log_loss": 1.0964329469677345
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.42857142857142855,
+              "baseline_accuracy": 0.4,
+              "brier_score": 0.7076646036955917,
+              "calibration_error": 0.2214306586336532,
+              "classwise_calibration_error": 0.15617215334785384,
+              "elo_baseline_accuracy": 0.4,
+              "fold": 1,
+              "log_loss": 1.155022052580336,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.21840020342598013,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0020075710490345955,
+                "inference_seconds": 0.00010921596549451351,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5500286797390133,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.45714285714285713,
+              "brier_score": 0.6670952341747081,
+              "calibration_error": 0.13483760276254092,
+              "classwise_calibration_error": 0.12815850171445267,
+              "elo_baseline_accuracy": 0.45714285714285713,
+              "fold": 2,
+              "log_loss": 1.094497051092753,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.22869011309931275,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019232790218666196,
+                "inference_seconds": 0.0001077170018106699,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5044533559972633,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016426133108325303,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.5,
+          "holdout_brier_score": 0.5975620526979579,
+          "holdout_log_loss": 1.0027989925311855,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19918729500191276,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "goal_elo_k10_p0.5",
+          "params": {
+            "ridge": 0.001
+          },
+          "rating": {
+            "home_offset": 80.0,
+            "k": 10.0,
+            "kind": "goal_weighted",
+            "power": 0.5
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "3681164dcd06591824ff78eaf63948259dbcab8dd65ae0df6d2b414a436ab25d",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "goal_margin_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.002167377038858831,
+            "holdout_inference_seconds": 0.00010290706995874643,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1247595518365443
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.37142857142857144,
+              "baseline_accuracy": 0.4,
+              "brier_score": 0.7200076010461853,
+              "calibration_error": 0.20290622364063343,
+              "classwise_calibration_error": 0.16756789536155836,
+              "elo_baseline_accuracy": 0.4,
+              "fold": 1,
+              "log_loss": 1.1710616548739923,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.2230624948033209,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019808519864454865,
+                "inference_seconds": 0.00011106499005109072,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5718375041616968,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.4857142857142857,
+              "brier_score": 0.668849492565446,
+              "calibration_error": 0.1491945896190426,
+              "classwise_calibration_error": 0.1381853314989727,
+              "elo_baseline_accuracy": 0.4857142857142857,
+              "fold": 2,
+              "log_loss": 1.0970140820669616,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.22896141315784732,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019507609540596604,
+                "inference_seconds": 0.00010925892274826765,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5176971835527323,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016426221933215857,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.4714285714285714,
+          "holdout_brier_score": 0.5979751046224677,
+          "holdout_log_loss": 1.003291711706812,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19970259048658714,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "goal_elo_k10_p1",
+          "params": {
+            "ridge": 0.001
+          },
+          "rating": {
+            "home_offset": 80.0,
+            "k": 10.0,
+            "kind": "goal_weighted",
+            "power": 1.0
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "477734e6dba54519815240519b381b56632b24954871dad246f70be9f92aa683",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "goal_margin_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0023071019677445292,
+            "holdout_inference_seconds": 0.0001001870259642601,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.134037868470477
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.42857142857142855,
+              "baseline_accuracy": 0.38571428571428573,
+              "brier_score": 0.7236620508890125,
+              "calibration_error": 0.18533523741997335,
+              "classwise_calibration_error": 0.1740813015807087,
+              "elo_baseline_accuracy": 0.38571428571428573,
+              "fold": 1,
+              "log_loss": 1.1775373483190092,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.22440992445478716,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0020000479416921735,
+                "inference_seconds": 0.00010982796084135771,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5744240591123718,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.45714285714285713,
+              "brier_score": 0.6673428983459008,
+              "calibration_error": 0.14196316581106155,
+              "classwise_calibration_error": 0.13450505707200952,
+              "elo_baseline_accuracy": 0.45714285714285713,
+              "fold": 2,
+              "log_loss": 1.0951486088563391,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.22860788641743998,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019576350459828973,
+                "inference_seconds": 0.00010831700637936592,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5133830668127954,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016438717022538185,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.5142857142857142,
+          "holdout_brier_score": 0.5962834481717532,
+          "holdout_log_loss": 1.001010551364228,
+          "holdout_rows": 70,
+          "holdout_rps": 0.1987595945357637,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "goal_elo_k20_p0.5",
+          "params": {
+            "ridge": 0.001
+          },
+          "rating": {
+            "home_offset": 80.0,
+            "k": 20.0,
+            "kind": "goal_weighted",
+            "power": 0.5
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "56b722c423d0288adb0e4bc4e75a28ce7e32c9e157aaacd875b1a950af2e2784",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "goal_margin_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0022926030214875937,
+            "holdout_inference_seconds": 0.00010006898082792759,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.136342978587674
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.4,
+              "brier_score": 0.7201728391607507,
+              "calibration_error": 0.18131152363722544,
+              "classwise_calibration_error": 0.1547941163628804,
+              "elo_baseline_accuracy": 0.4,
+              "fold": 1,
+              "log_loss": 1.1709347157330177,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.22305328589688841,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019861049950122833,
+                "inference_seconds": 0.00011001399252563715,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5726841196558066,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.4857142857142857,
+              "brier_score": 0.6646570364254057,
+              "calibration_error": 0.14198674371964232,
+              "classwise_calibration_error": 0.1305410682237857,
+              "elo_baseline_accuracy": 0.4857142857142857,
+              "fold": 2,
+              "log_loss": 1.091533406749528,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.22754430748468404,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.002122475067153573,
+                "inference_seconds": 0.00011102703865617514,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5141237465212142,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016607424011453986,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "elo_diff"
+          ],
+          "holdout_accuracy": 0.5142857142857142,
+          "holdout_brier_score": 0.5979290883668299,
+          "holdout_log_loss": 1.003530771082646,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19971366159997989,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "goal_elo_k20_p1",
+          "params": {
+            "ridge": 0.001
+          },
+          "rating": {
+            "home_offset": 80.0,
+            "k": 20.0,
+            "kind": "goal_weighted",
+            "power": 1.0
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "ff5150cf9da7d06ab00f86eb024f70299b59daa015992f63b3d08e31786b6f16",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "goal_margin_elo_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0024813790805637836,
+            "holdout_inference_seconds": 0.00010073906742036343,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.131234061241273
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7374731836783577,
+              "calibration_error": 0.20257941938603094,
+              "classwise_calibration_error": 0.16466679269819562,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.2010833396039282,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.2290299812036416,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.001843137084506452,
+                "inference_seconds": 0.00010957801714539528,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.6008858522680329,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6841516006109722,
+              "calibration_error": 0.13685292315266281,
+              "classwise_calibration_error": 0.127855813366861,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1201583945469884,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.2362094546510696,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0017851570155471563,
+                "inference_seconds": 0.00011079397518187761,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5225672088669485,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.016139517072588205,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "rating_diff"
+          ],
+          "holdout_accuracy": 0.4857142857142857,
+          "holdout_brier_score": 0.5968719301636631,
+          "holdout_log_loss": 1.0034308173456479,
+          "holdout_rows": 70,
+          "holdout_rps": 0.1997789010509936,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "pi_lr0.035_catchup0.5",
+          "params": {
+            "feature_name": "rating_diff",
+            "ridge": 0.001,
+            "unit_scale": 1.0
+          },
+          "rating": {
+            "catchup": 0.5,
+            "kind": "pi",
+            "learning_rate": 0.035
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "6c98407e414e3d0f0030ac67d976da544c751c0122969d500acb709837c23bc0",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "venue_pi_signed_log_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.00213613105006516,
+            "holdout_inference_seconds": 0.00010200205724686384,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1606208670754583
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7435079967047363,
+              "calibration_error": 0.2056853224143315,
+              "classwise_calibration_error": 0.1757314906769479,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.2100754975413128,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.23147118780526807,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019809540826827288,
+                "inference_seconds": 0.00011047092266380787,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.6041652235831678,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6795501058462746,
+              "calibration_error": 0.1472659298173433,
+              "classwise_calibration_error": 0.14840898957582355,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1132600101142873,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.23358281741882014,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019565080292522907,
+                "inference_seconds": 0.00011696910951286554,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5244326243219275,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.0164738439489156,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "rating_diff"
+          ],
+          "holdout_accuracy": 0.4857142857142857,
+          "holdout_brier_score": 0.5958348219961849,
+          "holdout_log_loss": 1.0010117898933437,
+          "holdout_rows": 70,
+          "holdout_rps": 0.19915241220850757,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "pi_lr0.035_catchup0.7",
+          "params": {
+            "feature_name": "rating_diff",
+            "ridge": 0.001,
+            "unit_scale": 1.0
+          },
+          "rating": {
+            "catchup": 0.7,
+            "kind": "pi",
+            "learning_rate": 0.035
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "c148d254027d495e9d06b6144be98b2da55880bd5de368fcc67010f14ca51a51",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "venue_pi_signed_log_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0019600280793383718,
+            "holdout_inference_seconds": 0.00010143197141587734,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1616677538278002
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7521057682371626,
+              "calibration_error": 0.21748125676029986,
+              "classwise_calibration_error": 0.17694490031512475,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.2270320611336578,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.23511292188332358,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0019968090346083045,
+                "inference_seconds": 0.00011054100468754768,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.6157028584183653,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.38571428571428573,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6825641313098503,
+              "calibration_error": 0.13277766653802422,
+              "classwise_calibration_error": 0.12498364269323052,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1184563858482757,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.23570476134790655,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0022690551122650504,
+                "inference_seconds": 0.00011074403300881386,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5184919522523099,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.01681051100604236,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "rating_diff"
+          ],
+          "holdout_accuracy": 0.4857142857142857,
+          "holdout_brier_score": 0.5997518682397337,
+          "holdout_log_loss": 1.0080718348491502,
+          "holdout_rows": 70,
+          "holdout_rps": 0.20117881980954852,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "pi_lr0.07_catchup0.5",
+          "params": {
+            "feature_name": "rating_diff",
+            "ridge": 0.001,
+            "unit_scale": 1.0
+          },
+          "rating": {
+            "catchup": 0.5,
+            "kind": "pi",
+            "learning_rate": 0.07
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "0ec28ae27bd51f58674ea2e8019277db2a4036cc89cfe6b296b3ec4d6a5cf172",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "venue_pi_signed_log_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.002476722002029419,
+            "holdout_inference_seconds": 0.00010239600669592619,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1727442234909669
+        },
+        {
+          "development_folds": [
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.37142857142857144,
+              "brier_score": 0.7520551524815708,
+              "calibration_error": 0.22517055363517577,
+              "classwise_calibration_error": 0.192130227440843,
+              "elo_baseline_accuracy": 0.37142857142857144,
+              "fold": 1,
+              "log_loss": 1.2247651918844211,
+              "majority_baseline_accuracy": 0.35714285714285715,
+              "ranked_probability_score": 0.23511420078215547,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0018396190134808421,
+                "inference_seconds": 0.00011020805686712265,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.6125542793159131,
+              "training_rows": 140,
+              "validation_rows": 70
+            },
+            {
+              "accuracy": 0.4,
+              "baseline_accuracy": 0.5,
+              "brier_score": 0.6771349691296052,
+              "calibration_error": 0.11788034727906344,
+              "classwise_calibration_error": 0.12026519477195179,
+              "elo_baseline_accuracy": 0.5,
+              "fold": 2,
+              "log_loss": 1.1100401783472407,
+              "majority_baseline_accuracy": 0.32857142857142857,
+              "ranked_probability_score": 0.23278137409888494,
+              "runtime": {
+                "clock": "time.perf_counter",
+                "engine": "elo_ordered_logit",
+                "execution_policy": {
+                  "configured_iteration_cap": null,
+                  "early_stopping_rounds": null,
+                  "threads": "library_default"
+                },
+                "fit_seconds": 0.0022678259992972016,
+                "inference_seconds": 0.00011131493374705315,
+                "seed": null,
+                "timing_used_for_selection": false,
+                "version": "1.18.1"
+              },
+              "sharpness": 0.5178803472790635,
+              "training_rows": 210,
+              "validation_rows": 70
+            }
+          ],
+          "development_objective_seconds": 0.01668258395511657,
+          "estimator": "elo_ordered_logit",
+          "feature_names": [
+            "rating_diff"
+          ],
+          "holdout_accuracy": 0.4857142857142857,
+          "holdout_brier_score": 0.5979009066602283,
+          "holdout_log_loss": 1.0045765262738768,
+          "holdout_rows": 70,
+          "holdout_rps": 0.20018701006313394,
+          "mapping_fit_interval": {
+            "first": "2025-09-13T11:30:00+00:00",
+            "last": "2026-04-10T19:00:00+00:00"
+          },
+          "mapping_version": "proportional_odds_v1",
+          "model": "pi_lr0.07_catchup0.7",
+          "params": {
+            "feature_name": "rating_diff",
+            "ridge": 0.001,
+            "unit_scale": 1.0
+          },
+          "rating": {
+            "catchup": 0.7,
+            "kind": "pi",
+            "learning_rate": 0.07
+          },
+          "rating_state_after_development": {
+            "after_kickoff": "2026-04-10T19:00:00+00:00",
+            "sha256": "0fac448658c41c97260d74c47f8c790a0791dea2994ad93b586c894ca1a48f09",
+            "teams": 20
+          },
+          "rating_state_policy": "advance_after_earlier_kickoff_results;mapping_frozen_before_holdout",
+          "rating_version": "venue_pi_signed_log_v1",
+          "runtime": {
+            "clock": "time.perf_counter",
+            "engine": "elo_ordered_logit",
+            "execution_policy": {
+              "configured_iteration_cap": null,
+              "early_stopping_rounds": null,
+              "threads": "library_default"
+            },
+            "final_fit_seconds": 0.0023117950186133385,
+            "holdout_inference_seconds": 0.00010326097253710032,
+            "seed": null,
+            "timing_used_for_selection": false,
+            "version": "1.18.1"
+          },
+          "selection_log_loss": 1.1674026851158308
+        }
+      ],
+      "seed": 42,
+      "selected": "xgboost",
+      "selected_on": "development_expanding_window_log_loss",
+      "selection_rows": 280,
+      "source_snapshots": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.489892+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2025",
+          "sha256": "99f58fbf165aeac4971f737a953a7d20cfd019f6a3dcefb4c30ba43cee826483",
+          "source": "football-csv"
+        }
+      ],
+      "variants": [
+        "basic",
+        "goal_weighted",
+        "pi"
+      ],
+      "warmup_excluded": 30,
+      "warmup_matches_per_team": 3
+    }
+  ],
+  "seasons": [
+    "2025"
+  ],
+  "source": "football-csv"
+}

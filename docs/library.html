@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2468A0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232468A0'/%3E%3Cpath d='M6 7h20v5h-7v14h-6V12H6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Touchline · 数据与资料</title>
+<meta name="description" content="查找研究图表、数据覆盖、方法说明与论文证据。">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+<script src="./research.js" defer></script>
+</head><body class="research-page workspace" data-page="library">
+<a class="skip-link" href="#main-content">跳到主要内容</a>
+<aside class="workspace-sidebar"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">T</span>Touchline</a><p class="workspace-edition">足球数据研究</p><nav class="workspace-nav" aria-label="主导航"><a href="./index.html">概览</a><a href="./matches.html">比赛</a><a href="./entities.html">球队与球员</a><a href="./models.html">模型实验</a><a href="./library.html" aria-current="page">数据与资料</a></nav><div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span>公开研究快照<p>每项分析保留样本与来源。</p></div></aside>
+<div class="workspace-body"><header class="workspace-topbar"><a href="./index.html" class="mobile-brand" aria-label="Touchline 概览">T</a><span>足球研究 <span aria-hidden="true">/</span> 数据与资料</span><a href="./library.html#coverage">查看数据范围 ↗</a></header>
+<main id="main-content" class="workspace-main"><div class="workspace-heading"><div><p class="eyebrow">TOUCHLINE / 数据与资料</p><h1>数据与资料</h1><p>查找研究图表、数据覆盖、方法说明与论文证据。</p></div></div>
+<div class="workspace-tabs" role="tablist" aria-label="数据与资料视图"><button type="button" role="tab" id="tab-figures" aria-controls="figures" aria-selected="true" tabindex="0">图表库</button><button type="button" role="tab" id="tab-coverage" aria-controls="coverage" aria-selected="false" tabindex="-1">数据覆盖</button><button type="button" role="tab" id="tab-methods" aria-controls="methods" aria-selected="false" tabindex="-1">公开方法</button><button type="button" role="tab" id="tab-literature" aria-controls="literature" aria-selected="false" tabindex="-1">论文资料</button></div>
+<section role="tabpanel" aria-labelledby="tab-figures" tabindex="0" id="figures" class="research-panel" data-heading="figures-heading">
+      <div class="panel-title"><div><p class="eyebrow">研究图表</p><h2 id="figures-heading">按问题找图</h2></div><p id="figure-count" role="status" aria-live="polite">正在读取图表目录…</p></div>
+      <div class="filters gallery-filters">
+        <label class="figure-search-label">搜索图表<input id="figure-search" type="search" placeholder="例如，传球、压迫、模型" autocomplete="off"></label>
+        <label>主题<select id="figure-topic"><option value="">全部主题</option></select></label>
+      </div>
+      <button id="gallery-retry" type="button" hidden>重新读取图表目录</button><p class="context-note">选择一个问题，在右侧读图。可按主题筛选、翻页或全屏阅读。结论仅适用于图中注明的样本。</p>
+      <div class="figure-browser">
+        <aside class="figure-index" aria-label="选择研究图表">
+          <label class="figure-mobile-select">选择图表<select id="figure-select" disabled><option>正在读取图表…</option></select></label>
+          <nav id="figure-gallery" class="figure-gallery" aria-label="研究图表目录"></nav>
+        </aside>
+        <article id="figure-reader" class="figure-reader" aria-labelledby="figure-reader-title" hidden>
+          <header class="figure-reader-heading"><div><p id="figure-reader-topic" class="eyebrow"></p><h3 id="figure-reader-title"></h3></div><p id="figure-position" aria-live="polite"></p></header>
+          <div class="figure-reader-tools"><button id="figure-enlarge" type="button" aria-haspopup="dialog">放大查看</button><a id="figure-reader-download" download>下载原图</a><a id="figure-reader-open" target="_blank" rel="noopener noreferrer">新窗口打开 ↗</a><div class="figure-paging"><button id="figure-previous" type="button" aria-label="上一张图表">上一张</button><button id="figure-next" type="button" aria-label="下一张图表">下一张</button></div></div>
+          <figure class="figure-reading"><img id="figure-reader-image" alt=""><figcaption id="figure-reader-scope"></figcaption></figure>
+          <p id="figure-reader-source" class="context-note"></p>
+          <p id="figure-image-status" class="context-note" role="status" aria-live="polite"></p><button id="figure-image-retry" type="button" hidden>重试加载图表</button>
+        </article>
+        <p id="figure-empty" class="gallery-empty" hidden></p>
+      </div>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-coverage" tabindex="0" hidden id="coverage" class="research-panel" data-heading="coverage-heading">
+      <div class="panel-title"><div><p class="eyebrow">研究范围</p><h2 id="coverage-heading">来源 × 赛事 × 赛季</h2></div><p id="coverage-count"></p></div>
+      <p id="coverage-status" class="context-note section-status" role="status" aria-live="polite">正在读取数据覆盖。</p><button id="coverage-retry" type="button" hidden>重试数据覆盖</button>
+      <div class="filters">
+        <label>赛事<select id="competition-filter" disabled><option value="">全部核心赛事</option></select></label>
+        <label>来源<select id="provider-filter" disabled><option value="">全部来源</option></select></label>
+        <label>赛季<select id="season-filter" disabled><option value="">全部赛季</option></select></label>
+        <button id="reset-filters" type="button" disabled>重置筛选</button>
+      </div>
+      <p class="context-note">同一比赛可能出现在多个来源。下面按来源展示记录数，不合并为独立比赛总数；行数也不能证明完整覆盖。</p>
+      <p class="context-note">ESPN 摘要单独核对并显示匹配数。摘要缺失或与赛果不符时，赛果仍计入来源记录。匹配摘要不代表所有统计字段齐全。</p>
+      <div id="coverage-content" class="coverage-layout" hidden>
+        <div class="table-scroll"><table><caption class="sr-only">赛事数据来源与赛季覆盖，选择一行查看细节</caption><thead><tr><th>赛事 / 赛季</th><th>来源</th><th>记录数</th><th>数据类型</th></tr></thead><tbody id="coverage-rows"></tbody></table><div class="pagination"><button id="previous-page" type="button" disabled>上一页</button><span id="page-status"></span><button id="next-page" type="button" disabled>下一页</button></div></div>
+        <aside id="coverage-detail" class="detail-panel" aria-live="polite"><h3>来源细节</h3><p>选择一条来源记录，查看时间范围与覆盖说明。</p></aside>
+      </div>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-methods" tabindex="0" hidden id="methods" class="research-panel" data-heading="methods-heading">
+      <div class="panel-title"><div><p class="eyebrow">公开方法与参数</p><h2 id="methods-heading">预测机构和足球分析网站</h2></div><label>任务<select id="method-filter" disabled><option value="">全部方法</option><option value="prediction">比赛与赛季预测</option><option value="team">球队评估</option><option value="player">球员评估</option><option value="tactics">战术与空间</option></select></label></div>
+      <p id="methods-status" class="context-note section-status" role="status" aria-live="polite">正在读取机构方法。</p><button id="methods-retry" type="button" hidden>重试机构方法</button>
+      <p>以官方方法页和作者文章为依据。历史说明按发布版本记录，未公开的架构和参数留空，不将网站名称当成模型名称。</p>
+      <details class="diagnostic-details"><summary>xT 数值与网格样本检查</summary>
+        <p class="context-note">使用原生动作价值实验的早段训练比赛，检查 96 格的传球、射门与进球样本，以及网格重算差异和数值残差。无射门格不代表没有威胁，数值残差也不能代替统计与时间留出验证。这里没有套用论文的球员排名阈值。</p>
+        <p><a href="./models.html#xt-grid">查看网格与整场重采样范围</a> · <a href="./data/research/xt-numerics.json" download>下载 xT 数值检查与网格样本 JSON</a> · <a href="https://arxiv.org/abs/2604.21087v4" target="_blank" rel="noopener noreferrer">xT 模型质量论文 ↗</a></p>
+      </details>
+      <div id="method-cards" class="method-cards" hidden></div>
+    </section>
+<section role="tabpanel" aria-labelledby="tab-literature" tabindex="0" hidden id="literature" class="research-panel" data-heading="literature-heading">
+      <div class="panel-title"><div><p class="eyebrow">可视化与足球分析</p><h2 id="literature-heading">论文、证据与可用方向</h2></div><label>研究方向<select id="paper-filter" disabled><option value="">全部论文</option><option value="visualization">图表与可视分析</option><option value="sports-analytics">足球分析模型</option></select></label></div>
+      <div class="filters"><label>搜索已核对的论文与模型<input id="paper-search" type="search" placeholder="例如，XGBoost、U-Net、MLP" disabled></label></div>
+      <p id="paper-scope" class="context-note">正在读取论文目录。</p>
+      <p id="paper-status" class="context-note" role="status" aria-live="polite"></p>
+      <button id="paper-retry" type="button" hidden>重新读取论文目录</button><div id="paper-cards" class="method-cards"></div>
+      <details class="diagnostic-details"><summary>仅核对出版信息的后续阅读候选</summary><div id="paper-candidates"></div></details>
+    </section>  <dialog id="figure-dialog" class="figure-dialog" aria-labelledby="figure-dialog-title" aria-describedby="figure-dialog-scope">
+    <div class="figure-dialog-heading"><div><p id="figure-dialog-topic" class="eyebrow"></p><h2 id="figure-dialog-title"></h2></div><button id="close-figure" type="button" aria-label="关闭图表">关闭 <span aria-hidden="true">×</span></button></div>
+    <div class="figure-dialog-tools"><label>显示大小<select id="figure-zoom"><option value="fit">适合窗口</option><option value="actual">原图大小，可横向滚动</option><option value="large">放大至 150%，可横向滚动</option></select></label><a id="figure-download" download>下载原图</a><a id="figure-open" target="_blank" rel="noopener noreferrer">新窗口打开 ↗</a></div>
+    <div id="figure-viewport" class="figure-viewport" tabindex="0" role="region" aria-label="图表，可滚动查看"><img id="figure-dialog-image" alt=""></div>
+    <p id="figure-dialog-status" class="context-note" role="status" aria-live="polite"></p>
+    <p id="figure-dialog-scope" class="context-note"></p><p id="figure-dialog-source" class="context-note"></p>
+  </dialog>
+<p id="load-status" class="sr-only" role="status" aria-live="polite"></p><p id="snapshot-date" class="context-note"></p>
+</main><footer class="workspace-footer"><span>Touchline · 足球数据研究</span><span>公开汇总 · 原件与训练文件保留在本地</span></footer></div>
+</body></html>

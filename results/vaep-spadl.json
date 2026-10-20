@@ -1,0 +1,2712 @@
+{
+  "extractor_sha256": "ce59f0adc790e5ff70eea76ed806799e1d2e6588bbc7ee703f5c83943adfbc83",
+  "horizon": 10,
+  "implementation_url": "https://github.com/ML-KULeuven/socceraction/tree/v1.5.3",
+  "leagues": [
+    {
+      "league": "England",
+      "models": {
+        "context": {
+          "input_features": 568,
+          "settings": [
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.07162437394369954
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.0723676222853323
+                }
+              ],
+              "head": "score",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.07162437394369954
+            },
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.030995748450547554
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.031419727927562695
+                }
+              ],
+              "head": "concede",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.030995748450547554
+            }
+          ],
+          "training_variable_features": 256
+        },
+        "single": {
+          "input_features": 188,
+          "settings": [
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.07164950456320389
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.07243585380213667
+                }
+              ],
+              "head": "score",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.07164950456320389
+            },
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.03130371685253235
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.03154509928495633
+                }
+              ],
+              "head": "concede",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.03130371685253235
+            }
+          ],
+          "training_variable_features": 84
+        }
+      },
+      "paired_nonterminal_intervals": {
+        "prior": {
+          "concede": {
+            "brier": {
+              "difference": -9.652968047155036e-05,
+              "interval95": [
+                -0.00015748793628959579,
+                -4.061307837058642e-05
+              ]
+            },
+            "log_loss": {
+              "difference": -0.003009401194518812,
+              "interval95": [
+                -0.003885598471979957,
+                -0.002133349151658883
+              ]
+            }
+          },
+          "score": {
+            "brier": {
+              "difference": -0.0003367991377371413,
+              "interval95": [
+                -0.0004502328268342034,
+                -0.000224994163725778
+              ]
+            },
+            "log_loss": {
+              "difference": -0.005851548400857397,
+              "interval95": [
+                -0.006992155972207144,
+                -0.004720241326689139
+              ]
+            }
+          }
+        },
+        "single": {
+          "concede": {
+            "brier": {
+              "difference": 3.6794145302602524e-06,
+              "interval95": [
+                -2.062929073985064e-05,
+                2.8375819053719977e-05
+              ]
+            },
+            "log_loss": {
+              "difference": 3.751017062133029e-06,
+              "interval95": [
+                -0.0002602395601704466,
+                0.0002333815992385687
+              ]
+            }
+          },
+          "score": {
+            "brier": {
+              "difference": 1.999562100012552e-06,
+              "interval95": [
+                -3.01224522855111e-05,
+                3.33783716059891e-05
+              ]
+            },
+            "log_loss": {
+              "difference": -8.385652190469706e-05,
+              "interval95": [
+                -0.00038297586310616,
+                0.00018728446266085417
+              ]
+            }
+          }
+        }
+      },
+      "results": [
+        {
+          "goals_in_current_action": 257,
+          "method": "prior",
+          "metrics": {
+            "concede": {
+              "brier": 0.005053642671555281,
+              "log_loss": 0.0319015271961689,
+              "observed_rate": 0.005079415161162615,
+              "predicted_rate": 0.00524698244407773,
+              "reliability": [
+                {
+                  "count": 127180,
+                  "lower": 0.0,
+                  "mean_probability": 0.00524698244407773,
+                  "observed_rate": 0.005079415161162615,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.01512804813683033,
+              "log_loss": 0.07940313965082169,
+              "observed_rate": 0.01536405086517334,
+              "predicted_rate": 0.015140087343752384,
+              "reliability": [
+                {
+                  "count": 127180,
+                  "lower": 0.0,
+                  "mean_probability": 0.015140087343752384,
+                  "observed_rate": 0.01536405086517334,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1954,
+            646
+          ],
+          "scope": "complete_horizon",
+          "states": 127180
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "prior",
+          "metrics": {
+            "concede": {
+              "brier": 0.004993654787540436,
+              "log_loss": 0.03158355876803398,
+              "observed_rate": 0.00501879071816802,
+              "predicted_rate": 0.00524698244407773,
+              "reliability": [
+                {
+                  "count": 126923,
+                  "lower": 0.0,
+                  "mean_probability": 0.00524698244407773,
+                  "observed_rate": 0.00501879071816802,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.013255801051855087,
+              "log_loss": 0.07134213298559189,
+              "observed_rate": 0.01343334186822176,
+              "predicted_rate": 0.015140088275074959,
+              "reliability": [
+                {
+                  "count": 126923,
+                  "lower": 0.0,
+                  "mean_probability": 0.015140088275074959,
+                  "observed_rate": 0.01343334186822176,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1705,
+            637
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 126923
+        },
+        {
+          "goals_in_current_action": 257,
+          "method": "single",
+          "metrics": {
+            "concede": {
+              "brier": 0.0049296169145779875,
+              "log_loss": 0.028663868012842302,
+              "observed_rate": 0.005079415161162615,
+              "predicted_rate": 0.005193440292065261,
+              "reliability": [
+                {
+                  "count": 126933,
+                  "lower": 0.0,
+                  "mean_probability": 0.004838550727406337,
+                  "observed_rate": 0.004742659628391266,
+                  "upper": 0.1
+                },
+                {
+                  "count": 173,
+                  "lower": 0.1,
+                  "mean_probability": 0.13434170095341577,
+                  "observed_rate": 0.12138728052377701,
+                  "upper": 0.2
+                },
+                {
+                  "count": 53,
+                  "lower": 0.2,
+                  "mean_probability": 0.2370919865179855,
+                  "observed_rate": 0.2075471729040146,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 6,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.33418172586489486,
+                  "observed_rate": 0.6666666865348816,
+                  "upper": 0.4
+                },
+                {
+                  "count": 5,
+                  "lower": 0.4,
+                  "mean_probability": 0.44508213932480417,
+                  "observed_rate": 0.6000000238418579,
+                  "upper": 0.5
+                },
+                {
+                  "count": 3,
+                  "lower": 0.5,
+                  "mean_probability": 0.5423427457975797,
+                  "observed_rate": 0.6666666865348816,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 5,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6487589419538893,
+                  "observed_rate": 0.4000000059604645,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 2,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7108316568109743,
+                  "observed_rate": 0.5,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.012940458475440862,
+              "log_loss": 0.06557721170579539,
+              "observed_rate": 0.01536405086517334,
+              "predicted_rate": 0.015429778088301363,
+              "reliability": [
+                {
+                  "count": 125806,
+                  "lower": 0.0,
+                  "mean_probability": 0.01222013388320449,
+                  "observed_rate": 0.012050299905240536,
+                  "upper": 0.1
+                },
+                {
+                  "count": 884,
+                  "lower": 0.1,
+                  "mean_probability": 0.13295533921828678,
+                  "observed_rate": 0.14705882966518402,
+                  "upper": 0.2
+                },
+                {
+                  "count": 170,
+                  "lower": 0.2,
+                  "mean_probability": 0.24375568708729714,
+                  "observed_rate": 0.24705882370471954,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 55,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3425647485372486,
+                  "observed_rate": 0.290909081697464,
+                  "upper": 0.4
+                },
+                {
+                  "count": 24,
+                  "lower": 0.4,
+                  "mean_probability": 0.44100715180130406,
+                  "observed_rate": 0.4583333432674408,
+                  "upper": 0.5
+                },
+                {
+                  "count": 5,
+                  "lower": 0.5,
+                  "mean_probability": 0.560082612382031,
+                  "observed_rate": 0.800000011920929,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 3,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6153015754862822,
+                  "observed_rate": 0.6666666865348816,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 233,
+                  "lower": 0.9,
+                  "mean_probability": 0.9954956080892199,
+                  "observed_rate": 1.0,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1954,
+            646
+          ],
+          "scope": "complete_horizon",
+          "states": 127180
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "single",
+          "metrics": {
+            "concede": {
+              "brier": 0.004893445531465962,
+              "log_loss": 0.028570406630358324,
+              "observed_rate": 0.00501879071816802,
+              "predicted_rate": 0.005181421640062874,
+              "reliability": [
+                {
+                  "count": 126683,
+                  "lower": 0.0,
+                  "mean_probability": 0.004839241760645758,
+                  "observed_rate": 0.0047362311743199825,
+                  "upper": 0.1
+                },
+                {
+                  "count": 171,
+                  "lower": 0.1,
+                  "mean_probability": 0.13423032472377958,
+                  "observed_rate": 0.1111111119389534,
+                  "upper": 0.2
+                },
+                {
+                  "count": 50,
+                  "lower": 0.2,
+                  "mean_probability": 0.23773944752281376,
+                  "observed_rate": 0.1599999964237213,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 5,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.33551808180772147,
+                  "observed_rate": 0.6000000238418579,
+                  "upper": 0.4
+                },
+                {
+                  "count": 4,
+                  "lower": 0.4,
+                  "mean_probability": 0.4453700710210205,
+                  "observed_rate": 0.5,
+                  "upper": 0.5
+                },
+                {
+                  "count": 3,
+                  "lower": 0.5,
+                  "mean_probability": 0.5423427457975797,
+                  "observed_rate": 0.6666666865348816,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 5,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6487589419538893,
+                  "observed_rate": 0.4000000059604645,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 2,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7108316568109743,
+                  "observed_rate": 0.5,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.012917000682107039,
+              "log_loss": 0.06557444134075577,
+              "observed_rate": 0.01343334186822176,
+              "predicted_rate": 0.01358456103022078,
+              "reliability": [
+                {
+                  "count": 125798,
+                  "lower": 0.0,
+                  "mean_probability": 0.01222063222837924,
+                  "observed_rate": 0.012051066383719444,
+                  "upper": 0.1
+                },
+                {
+                  "count": 884,
+                  "lower": 0.1,
+                  "mean_probability": 0.13295533921828678,
+                  "observed_rate": 0.14705882966518402,
+                  "upper": 0.2
+                },
+                {
+                  "count": 164,
+                  "lower": 0.2,
+                  "mean_probability": 0.2432577263097731,
+                  "observed_rate": 0.2195121943950653,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 51,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.34097860959362963,
+                  "observed_rate": 0.23529411852359772,
+                  "upper": 0.4
+                },
+                {
+                  "count": 22,
+                  "lower": 0.4,
+                  "mean_probability": 0.4419187198473518,
+                  "observed_rate": 0.40909090638160706,
+                  "upper": 0.5
+                },
+                {
+                  "count": 3,
+                  "lower": 0.5,
+                  "mean_probability": 0.564372649169691,
+                  "observed_rate": 0.6666666865348816,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 1,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6301207158659019,
+                  "observed_rate": 0.0,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1705,
+            637
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 126923
+        },
+        {
+          "goals_in_current_action": 257,
+          "method": "context",
+          "metrics": {
+            "concede": {
+              "brier": 0.004945395942077979,
+              "log_loss": 0.028720037824430868,
+              "observed_rate": 0.005079415161162615,
+              "predicted_rate": 0.005183459372060191,
+              "reliability": [
+                {
+                  "count": 126893,
+                  "lower": 0.0,
+                  "mean_probability": 0.0048054477853797005,
+                  "observed_rate": 0.004736274015158415,
+                  "upper": 0.1
+                },
+                {
+                  "count": 237,
+                  "lower": 0.1,
+                  "mean_probability": 0.13717146998434016,
+                  "observed_rate": 0.13080169260501862,
+                  "upper": 0.2
+                },
+                {
+                  "count": 26,
+                  "lower": 0.2,
+                  "mean_probability": 0.24598740493104757,
+                  "observed_rate": 0.19230769574642181,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 12,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.34360867459811145,
+                  "observed_rate": 0.25,
+                  "upper": 0.4
+                },
+                {
+                  "count": 5,
+                  "lower": 0.4,
+                  "mean_probability": 0.44643178439457837,
+                  "observed_rate": 0.4000000059604645,
+                  "upper": 0.5
+                },
+                {
+                  "count": 3,
+                  "lower": 0.5,
+                  "mean_probability": 0.522764175225071,
+                  "observed_rate": 1.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 4,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.65640266277684,
+                  "observed_rate": 0.25,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.01292079653293292,
+              "log_loss": 0.06545125866527028,
+              "observed_rate": 0.01536405086517334,
+              "predicted_rate": 0.015367114989695228,
+              "reliability": [
+                {
+                  "count": 125931,
+                  "lower": 0.0,
+                  "mean_probability": 0.012333999485689022,
+                  "observed_rate": 0.012228919193148613,
+                  "upper": 0.1
+                },
+                {
+                  "count": 797,
+                  "lower": 0.1,
+                  "mean_probability": 0.13251772565400058,
+                  "observed_rate": 0.14052698016166687,
+                  "upper": 0.2
+                },
+                {
+                  "count": 153,
+                  "lower": 0.2,
+                  "mean_probability": 0.2369314104984884,
+                  "observed_rate": 0.23529411852359772,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 39,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3386140277361211,
+                  "observed_rate": 0.3589743673801422,
+                  "upper": 0.4
+                },
+                {
+                  "count": 15,
+                  "lower": 0.4,
+                  "mean_probability": 0.43891434068533935,
+                  "observed_rate": 0.46666666865348816,
+                  "upper": 0.5
+                },
+                {
+                  "count": 1,
+                  "lower": 0.5,
+                  "mean_probability": 0.5042903633823297,
+                  "observed_rate": 1.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 7,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6349644920940677,
+                  "observed_rate": 1.0,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 2,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7411970001883156,
+                  "observed_rate": 1.0,
+                  "upper": 0.8
+                },
+                {
+                  "count": 2,
+                  "lower": 0.8,
+                  "mean_probability": 0.845815608658505,
+                  "observed_rate": 1.0,
+                  "upper": 0.9
+                },
+                {
+                  "count": 233,
+                  "lower": 0.9,
+                  "mean_probability": 0.993034046295725,
+                  "observed_rate": 1.0,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1954,
+            646
+          ],
+          "scope": "complete_horizon",
+          "states": 127180
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "context",
+          "metrics": {
+            "concede": {
+              "brier": 0.004897124945996222,
+              "log_loss": 0.028574157647420457,
+              "observed_rate": 0.00501879071816802,
+              "predicted_rate": 0.005180809480260663,
+              "reliability": [
+                {
+                  "count": 126641,
+                  "lower": 0.0,
+                  "mean_probability": 0.004807295088625702,
+                  "observed_rate": 0.0047141131944954395,
+                  "upper": 0.1
+                },
+                {
+                  "count": 232,
+                  "lower": 0.1,
+                  "mean_probability": 0.1371473518204161,
+                  "observed_rate": 0.11206896603107452,
+                  "upper": 0.2
+                },
+                {
+                  "count": 26,
+                  "lower": 0.2,
+                  "mean_probability": 0.24598740493104757,
+                  "observed_rate": 0.19230769574642181,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 12,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.34360867459811145,
+                  "observed_rate": 0.25,
+                  "upper": 0.4
+                },
+                {
+                  "count": 5,
+                  "lower": 0.4,
+                  "mean_probability": 0.44643178439457837,
+                  "observed_rate": 0.4000000059604645,
+                  "upper": 0.5
+                },
+                {
+                  "count": 3,
+                  "lower": 0.5,
+                  "mean_probability": 0.522764175225071,
+                  "observed_rate": 1.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 4,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.65640266277684,
+                  "observed_rate": 0.25,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.012919000244207052,
+              "log_loss": 0.06549058481885106,
+              "observed_rate": 0.01343334186822176,
+              "predicted_rate": 0.013503212625343533,
+              "reliability": [
+                {
+                  "count": 125923,
+                  "lower": 0.0,
+                  "mean_probability": 0.01233452513510924,
+                  "observed_rate": 0.012229695916175842,
+                  "upper": 0.1
+                },
+                {
+                  "count": 796,
+                  "lower": 0.1,
+                  "mean_probability": 0.1324615882987696,
+                  "observed_rate": 0.13944724202156067,
+                  "upper": 0.2
+                },
+                {
+                  "count": 152,
+                  "lower": 0.2,
+                  "mean_probability": 0.23671665519708937,
+                  "observed_rate": 0.23026315867900848,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 38,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.33771389439829796,
+                  "observed_rate": 0.34210526943206787,
+                  "upper": 0.4
+                },
+                {
+                  "count": 12,
+                  "lower": 0.4,
+                  "mean_probability": 0.43698153669817635,
+                  "observed_rate": 0.3333333432674408,
+                  "upper": 0.5
+                },
+                {
+                  "count": 1,
+                  "lower": 0.5,
+                  "mean_probability": 0.5042903633823297,
+                  "observed_rate": 1.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 1,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6662947914423543,
+                  "observed_rate": 1.0,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1705,
+            637
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 126923
+        }
+      ],
+      "source": {
+        "audit": {
+          "actions": 482424,
+          "ignored_goalkeeper_goal_duplicates": 1018,
+          "incomplete_horizon_states": 6822,
+          "inferred_dribbles": 28231,
+          "native_events": 641340
+        },
+        "conversion_warning_counts": {
+          "DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.": 1516,
+          "Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`": 1516,
+          "use `parametric(<base>, <func>)` as a type instead": 2
+        },
+        "excluded_matches": 1,
+        "payloads_sha256": "bd284fecfe2ac04bb84c8c765dff94e0ede1b2ccfaa96dca4784853261ff3bf0",
+        "warehouse": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        }
+      },
+      "splits": {
+        "test": {
+          "actions": 128998,
+          "eligible_states": 127180,
+          "end": "2018-05-13",
+          "matches": 101,
+          "start": "2018-03-01"
+        },
+        "train": {
+          "actions": 265037,
+          "eligible_states": 261293,
+          "end": "2017-12-31",
+          "matches": 208,
+          "start": "2017-08-11"
+        },
+        "validation": {
+          "actions": 88389,
+          "eligible_states": 87129,
+          "end": "2018-02-25",
+          "matches": 70,
+          "start": "2018-01-01"
+        }
+      },
+      "test_action_values": {
+        "bad_touch": {
+          "actions": 8,
+          "defensive_value": -0.04633501744333362,
+          "inferred": 0,
+          "offensive_value": -0.00038501787833688725,
+          "vaep_value": -0.0467200353216705
+        },
+        "clearance": {
+          "actions": 3100,
+          "defensive_value": 0.0031151604554760536,
+          "inferred": 0,
+          "offensive_value": -0.00019609835436857598,
+          "vaep_value": 0.0029190621011074775
+        },
+        "corner_crossed": {
+          "actions": 777,
+          "defensive_value": -0.004591817628775974,
+          "inferred": 0,
+          "offensive_value": -0.005976634543664826,
+          "vaep_value": -0.010568452172440799
+        },
+        "corner_short": {
+          "actions": 215,
+          "defensive_value": -0.0020546043518508395,
+          "inferred": 0,
+          "offensive_value": -0.014301967813722982,
+          "vaep_value": -0.01635657216557382
+        },
+        "cross": {
+          "actions": 3165,
+          "defensive_value": -0.0007606082589746502,
+          "inferred": 0,
+          "offensive_value": 0.008652047909619796,
+          "vaep_value": 0.007891439650645145
+        },
+        "dribble": {
+          "actions": 8741,
+          "defensive_value": 0.0005557333568726313,
+          "inferred": 7408,
+          "offensive_value": 0.0037646987928816418,
+          "vaep_value": 0.004320432149754272
+        },
+        "foul": {
+          "actions": 1950,
+          "defensive_value": -0.010763929589108313,
+          "inferred": 0,
+          "offensive_value": -0.004984098007201556,
+          "vaep_value": -0.015748027596309867
+        },
+        "freekick_crossed": {
+          "actions": 389,
+          "defensive_value": -0.003638531654693151,
+          "inferred": 0,
+          "offensive_value": 0.04597908187242429,
+          "vaep_value": 0.04234055021773113
+        },
+        "freekick_short": {
+          "actions": 1856,
+          "defensive_value": -0.002839435333767372,
+          "inferred": 0,
+          "offensive_value": 0.00775074257175588,
+          "vaep_value": 0.004911307237988509
+        },
+        "goalkick": {
+          "actions": 1486,
+          "defensive_value": -0.0035123368959400544,
+          "inferred": 0,
+          "offensive_value": 0.004108912157071994,
+          "vaep_value": 0.000596575261131939
+        },
+        "interception": {
+          "actions": 8884,
+          "defensive_value": -0.0010241071713823612,
+          "inferred": 0,
+          "offensive_value": 0.0011161837896724123,
+          "vaep_value": 9.207661829005117e-05
+        },
+        "keeper_save": {
+          "actions": 617,
+          "defensive_value": -0.015140634354498238,
+          "inferred": 0,
+          "offensive_value": 0.0045284916762233516,
+          "vaep_value": -0.01061214267827489
+        },
+        "pass": {
+          "actions": 85783,
+          "defensive_value": 0.00094448860239562,
+          "inferred": 0,
+          "offensive_value": 0.0017129642261053245,
+          "vaep_value": 0.0026574528285009443
+        },
+        "shot": {
+          "actions": 2120,
+          "defensive_value": -0.0011730750550436229,
+          "inferred": 0,
+          "offensive_value": 0.06272635070156059,
+          "vaep_value": 0.06155327564651696
+        },
+        "shot_freekick": {
+          "actions": 94,
+          "defensive_value": -0.004641735540695745,
+          "inferred": 0,
+          "offensive_value": 0.06543773307175921,
+          "vaep_value": 0.060795997531063455
+        },
+        "shot_penalty": {
+          "actions": 18,
+          "defensive_value": -0.004660455294361847,
+          "inferred": 0,
+          "offensive_value": -0.36712479805129633,
+          "vaep_value": -0.3717852533456582
+        },
+        "tackle": {
+          "actions": 885,
+          "defensive_value": -0.0014738242111961854,
+          "inferred": 0,
+          "offensive_value": -0.0018996348777866555,
+          "vaep_value": -0.0033734590889828407
+        },
+        "take_on": {
+          "actions": 2463,
+          "defensive_value": -0.0019052584530273263,
+          "inferred": 0,
+          "offensive_value": 0.006291703263990005,
+          "vaep_value": 0.00438644481096268
+        },
+        "throw_in": {
+          "actions": 4427,
+          "defensive_value": -0.0023294069904414814,
+          "inferred": 0,
+          "offensive_value": 0.006926251170380455,
+          "vaep_value": 0.0045968441799389735
+        }
+      },
+      "training_prior": [
+        0.015140092000365257,
+        0.005246983375400305
+      ]
+    },
+    {
+      "league": "France",
+      "models": {
+        "context": {
+          "input_features": 568,
+          "settings": [
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.0648338042443411
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.06553381230069742
+                }
+              ],
+              "head": "score",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.0648338042443411
+            },
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.028610735991292904
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.028913757951325718
+                }
+              ],
+              "head": "concede",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.028610735991292904
+            }
+          ],
+          "training_variable_features": 256
+        },
+        "single": {
+          "input_features": 188,
+          "settings": [
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.06517613357286929
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.06595980283222694
+                }
+              ],
+              "head": "score",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.06517613357286929
+            },
+            {
+              "candidates": [
+                {
+                  "max_leaf_nodes": 15,
+                  "validation_log_loss": 0.028543602610766623
+                },
+                {
+                  "max_leaf_nodes": 31,
+                  "validation_log_loss": 0.028926552698315233
+                }
+              ],
+              "head": "concede",
+              "max_leaf_nodes": 15,
+              "validation_log_loss": 0.028543602610766623
+            }
+          ],
+          "training_variable_features": 84
+        }
+      },
+      "paired_nonterminal_intervals": {
+        "prior": {
+          "concede": {
+            "brier": {
+              "difference": -0.00013036400743504588,
+              "interval95": [
+                -0.00019977045022953583,
+                -6.897712569079208e-05
+              ]
+            },
+            "log_loss": {
+              "difference": -0.00201998657365763,
+              "interval95": [
+                -0.002695624742310792,
+                -0.0012387470313355744
+              ]
+            }
+          },
+          "score": {
+            "brier": {
+              "difference": -0.00027129389403891205,
+              "interval95": [
+                -0.0003493251444170725,
+                -0.0001900569255134576
+              ]
+            },
+            "log_loss": {
+              "difference": -0.005313786062749057,
+              "interval95": [
+                -0.006265353630934466,
+                -0.004454485124652548
+              ]
+            }
+          }
+        },
+        "single": {
+          "concede": {
+            "brier": {
+              "difference": 1.4846039874631139e-05,
+              "interval95": [
+                -3.500883754933399e-06,
+                3.179830038190622e-05
+              ]
+            },
+            "log_loss": {
+              "difference": -0.00015785203246267983,
+              "interval95": [
+                -0.00032646234569639715,
+                1.3232666112403811e-05
+              ]
+            }
+          },
+          "score": {
+            "brier": {
+              "difference": -1.6697086757873983e-05,
+              "interval95": [
+                -4.910443957440227e-05,
+                1.7043338920742446e-05
+              ]
+            },
+            "log_loss": {
+              "difference": -0.00023869870496193694,
+              "interval95": [
+                -0.0004651534270524641,
+                -2.04403696166201e-05
+              ]
+            }
+          }
+        }
+      },
+      "results": [
+        {
+          "goals_in_current_action": 303,
+          "method": "prior",
+          "metrics": {
+            "concede": {
+              "brier": 0.006012574303895235,
+              "log_loss": 0.03696097806096077,
+              "observed_rate": 0.006048781797289848,
+              "predicted_rate": 0.005431954748928547,
+              "reliability": [
+                {
+                  "count": 137879,
+                  "lower": 0.0,
+                  "mean_probability": 0.005431954748928547,
+                  "observed_rate": 0.006048781797289848,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.016123643144965172,
+              "log_loss": 0.08367704600095749,
+              "observed_rate": 0.01639118418097496,
+              "predicted_rate": 0.015328170731663704,
+              "reliability": [
+                {
+                  "count": 137879,
+                  "lower": 0.0,
+                  "mean_probability": 0.015328170731663704,
+                  "observed_rate": 0.01639118418097496,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            2260,
+            834
+          ],
+          "scope": "complete_horizon",
+          "states": 137879
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "prior",
+          "metrics": {
+            "concede": {
+              "brier": 0.005932285916060209,
+              "log_loss": 0.036538079380989075,
+              "observed_rate": 0.005967610515654087,
+              "predicted_rate": 0.005431955214589834,
+              "reliability": [
+                {
+                  "count": 137576,
+                  "lower": 0.0,
+                  "mean_probability": 0.005431955214589834,
+                  "observed_rate": 0.005967610515654087,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.014108287170529366,
+              "log_loss": 0.07502258569002151,
+              "observed_rate": 0.014312089420855045,
+              "predicted_rate": 0.01532816980034113,
+              "reliability": [
+                {
+                  "count": 137576,
+                  "lower": 0.0,
+                  "mean_probability": 0.01532816980034113,
+                  "observed_rate": 0.014312089420855045,
+                  "upper": 0.1
+                },
+                {
+                  "count": 0,
+                  "lower": 0.1,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.2
+                },
+                {
+                  "count": 0,
+                  "lower": 0.2,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 0,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.4
+                },
+                {
+                  "count": 0,
+                  "lower": 0.4,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.5
+                },
+                {
+                  "count": 0,
+                  "lower": 0.5,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1969,
+            821
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 137576
+        },
+        {
+          "goals_in_current_action": 303,
+          "method": "single",
+          "metrics": {
+            "concede": {
+              "brier": 0.005806012950943079,
+              "log_loss": 0.03471844121930778,
+              "observed_rate": 0.006048781797289848,
+              "predicted_rate": 0.005325915675910227,
+              "reliability": [
+                {
+                  "count": 137639,
+                  "lower": 0.0,
+                  "mean_probability": 0.00492898990604223,
+                  "observed_rate": 0.005696060135960579,
+                  "upper": 0.1
+                },
+                {
+                  "count": 166,
+                  "lower": 0.1,
+                  "mean_probability": 0.13220962696425054,
+                  "observed_rate": 0.07831325381994247,
+                  "upper": 0.2
+                },
+                {
+                  "count": 32,
+                  "lower": 0.2,
+                  "mean_probability": 0.24227929130141249,
+                  "observed_rate": 0.125,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 4,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3418576479813954,
+                  "observed_rate": 0.5,
+                  "upper": 0.4
+                },
+                {
+                  "count": 4,
+                  "lower": 0.4,
+                  "mean_probability": 0.4582647860568347,
+                  "observed_rate": 0.5,
+                  "upper": 0.5
+                },
+                {
+                  "count": 5,
+                  "lower": 0.5,
+                  "mean_probability": 0.564675375603491,
+                  "observed_rate": 0.6000000238418579,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 17,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6510398218137736,
+                  "observed_rate": 0.8823529481887817,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 11,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.748528327551185,
+                  "observed_rate": 0.9090909361839294,
+                  "upper": 0.8
+                },
+                {
+                  "count": 1,
+                  "lower": 0.8,
+                  "mean_probability": 0.8855952153013638,
+                  "observed_rate": 1.0,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.013862657325959832,
+              "log_loss": 0.06992297557292941,
+              "observed_rate": 0.01639118418097496,
+              "predicted_rate": 0.015968628349735395,
+              "reliability": [
+                {
+                  "count": 136269,
+                  "lower": 0.0,
+                  "mean_probability": 0.012561173483511873,
+                  "observed_rate": 0.013245859183371067,
+                  "upper": 0.1
+                },
+                {
+                  "count": 1096,
+                  "lower": 0.1,
+                  "mean_probability": 0.13321033333130214,
+                  "observed_rate": 0.10583941638469696,
+                  "upper": 0.2
+                },
+                {
+                  "count": 139,
+                  "lower": 0.2,
+                  "mean_probability": 0.23820529714452457,
+                  "observed_rate": 0.18705035746097565,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 50,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3501956092616001,
+                  "observed_rate": 0.2800000011920929,
+                  "upper": 0.4
+                },
+                {
+                  "count": 33,
+                  "lower": 0.4,
+                  "mean_probability": 0.4427237588376885,
+                  "observed_rate": 0.3636363744735718,
+                  "upper": 0.5
+                },
+                {
+                  "count": 16,
+                  "lower": 0.5,
+                  "mean_probability": 0.5453306462341019,
+                  "observed_rate": 0.6875,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 10,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.65262265711222,
+                  "observed_rate": 1.0,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 3,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7197635196999118,
+                  "observed_rate": 1.0,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 263,
+                  "lower": 0.9,
+                  "mean_probability": 0.9939179665384018,
+                  "observed_rate": 1.0,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            2260,
+            834
+          ],
+          "scope": "complete_horizon",
+          "states": 137879
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "single",
+          "metrics": {
+            "concede": {
+              "brier": 0.005787075172567733,
+              "log_loss": 0.03467593578909688,
+              "observed_rate": 0.005967610515654087,
+              "predicted_rate": 0.00528402609039011,
+              "reliability": [
+                {
+                  "count": 137348,
+                  "lower": 0.0,
+                  "mean_probability": 0.00493086220330337,
+                  "observed_rate": 0.00570084759965539,
+                  "upper": 0.1
+                },
+                {
+                  "count": 165,
+                  "lower": 0.1,
+                  "mean_probability": 0.13208754402129802,
+                  "observed_rate": 0.072727270424366,
+                  "upper": 0.2
+                },
+                {
+                  "count": 30,
+                  "lower": 0.2,
+                  "mean_probability": 0.24023736178797042,
+                  "observed_rate": 0.06666667014360428,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 2,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3214782660463891,
+                  "observed_rate": 0.0,
+                  "upper": 0.4
+                },
+                {
+                  "count": 4,
+                  "lower": 0.4,
+                  "mean_probability": 0.4582647860568347,
+                  "observed_rate": 0.5,
+                  "upper": 0.5
+                },
+                {
+                  "count": 4,
+                  "lower": 0.5,
+                  "mean_probability": 0.5686194042554181,
+                  "observed_rate": 0.5,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 13,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6495795182972981,
+                  "observed_rate": 0.8461538553237915,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 10,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.751451886383858,
+                  "observed_rate": 0.8999999761581421,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.01385368935674047,
+              "log_loss": 0.06994750445072369,
+              "observed_rate": 0.014312089420855045,
+              "predicted_rate": 0.013986678693032056,
+              "reliability": [
+                {
+                  "count": 136257,
+                  "lower": 0.0,
+                  "mean_probability": 0.012562095637406583,
+                  "observed_rate": 0.01324702613055706,
+                  "upper": 0.1
+                },
+                {
+                  "count": 1096,
+                  "lower": 0.1,
+                  "mean_probability": 0.13321033333130214,
+                  "observed_rate": 0.10583941638469696,
+                  "upper": 0.2
+                },
+                {
+                  "count": 138,
+                  "lower": 0.2,
+                  "mean_probability": 0.2381937797708266,
+                  "observed_rate": 0.18115942180156708,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 50,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3501956092616001,
+                  "observed_rate": 0.2800000011920929,
+                  "upper": 0.4
+                },
+                {
+                  "count": 27,
+                  "lower": 0.4,
+                  "mean_probability": 0.4402075485515506,
+                  "observed_rate": 0.2222222238779068,
+                  "upper": 0.5
+                },
+                {
+                  "count": 8,
+                  "lower": 0.5,
+                  "mean_probability": 0.5366489241269572,
+                  "observed_rate": 0.375,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1969,
+            821
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 137576
+        },
+        {
+          "goals_in_current_action": 303,
+          "method": "context",
+          "metrics": {
+            "concede": {
+              "brier": 0.005834923221246683,
+              "log_loss": 0.03460577845534813,
+              "observed_rate": 0.006048781797289848,
+              "predicted_rate": 0.005279418868390011,
+              "reliability": [
+                {
+                  "count": 137587,
+                  "lower": 0.0,
+                  "mean_probability": 0.00484175973350047,
+                  "observed_rate": 0.005683676339685917,
+                  "upper": 0.1
+                },
+                {
+                  "count": 205,
+                  "lower": 0.1,
+                  "mean_probability": 0.133617193158365,
+                  "observed_rate": 0.08780487626791,
+                  "upper": 0.2
+                },
+                {
+                  "count": 41,
+                  "lower": 0.2,
+                  "mean_probability": 0.23964468493914515,
+                  "observed_rate": 0.09756097197532654,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 12,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.35083716565596085,
+                  "observed_rate": 0.1666666716337204,
+                  "upper": 0.4
+                },
+                {
+                  "count": 10,
+                  "lower": 0.4,
+                  "mean_probability": 0.44284803112512944,
+                  "observed_rate": 0.699999988079071,
+                  "upper": 0.5
+                },
+                {
+                  "count": 7,
+                  "lower": 0.5,
+                  "mean_probability": 0.5488523475258803,
+                  "observed_rate": 0.8571428656578064,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 9,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6491190611050227,
+                  "observed_rate": 0.7777777910232544,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 5,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7391909337572983,
+                  "observed_rate": 1.0,
+                  "upper": 0.8
+                },
+                {
+                  "count": 3,
+                  "lower": 0.8,
+                  "mean_probability": 0.8407740237039167,
+                  "observed_rate": 1.0,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.013828841286319234,
+              "log_loss": 0.06964832454569328,
+              "observed_rate": 0.01639118418097496,
+              "predicted_rate": 0.015946256733838433,
+              "reliability": [
+                {
+                  "count": 136320,
+                  "lower": 0.0,
+                  "mean_probability": 0.012573363708556606,
+                  "observed_rate": 0.01316021103411913,
+                  "upper": 0.1
+                },
+                {
+                  "count": 1038,
+                  "lower": 0.1,
+                  "mean_probability": 0.13354787764451617,
+                  "observed_rate": 0.11946050077676773,
+                  "upper": 0.2
+                },
+                {
+                  "count": 166,
+                  "lower": 0.2,
+                  "mean_probability": 0.23826762428751044,
+                  "observed_rate": 0.20481927692890167,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 42,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.3392300562911683,
+                  "observed_rate": 0.3333333432674408,
+                  "upper": 0.4
+                },
+                {
+                  "count": 18,
+                  "lower": 0.4,
+                  "mean_probability": 0.43836475191720226,
+                  "observed_rate": 0.3888888955116272,
+                  "upper": 0.5
+                },
+                {
+                  "count": 5,
+                  "lower": 0.5,
+                  "mean_probability": 0.532651582309949,
+                  "observed_rate": 0.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 7,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6618467455708268,
+                  "observed_rate": 0.5714285969734192,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 7,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.7717174104809376,
+                  "observed_rate": 1.0,
+                  "upper": 0.8
+                },
+                {
+                  "count": 13,
+                  "lower": 0.8,
+                  "mean_probability": 0.8418441656533191,
+                  "observed_rate": 1.0,
+                  "upper": 0.9
+                },
+                {
+                  "count": 263,
+                  "lower": 0.9,
+                  "mean_probability": 0.9912450941885722,
+                  "observed_rate": 1.0,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            2260,
+            834
+          ],
+          "scope": "complete_horizon",
+          "states": 137879
+        },
+        {
+          "goals_in_current_action": 0,
+          "method": "context",
+          "metrics": {
+            "concede": {
+              "brier": 0.005801921212442365,
+              "log_loss": 0.0345180837566342,
+              "observed_rate": 0.005967610515654087,
+              "predicted_rate": 0.0052460948995017315,
+              "reliability": [
+                {
+                  "count": 137295,
+                  "lower": 0.0,
+                  "mean_probability": 0.004840312459853307,
+                  "observed_rate": 0.005681197624653578,
+                  "upper": 0.1
+                },
+                {
+                  "count": 202,
+                  "lower": 0.1,
+                  "mean_probability": 0.1336962064455523,
+                  "observed_rate": 0.07425742596387863,
+                  "upper": 0.2
+                },
+                {
+                  "count": 40,
+                  "lower": 0.2,
+                  "mean_probability": 0.24017735973608936,
+                  "observed_rate": 0.07500000298023224,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 12,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.35083716565596085,
+                  "observed_rate": 0.1666666716337204,
+                  "upper": 0.4
+                },
+                {
+                  "count": 6,
+                  "lower": 0.4,
+                  "mean_probability": 0.4413769665061232,
+                  "observed_rate": 0.5,
+                  "upper": 0.5
+                },
+                {
+                  "count": 7,
+                  "lower": 0.5,
+                  "mean_probability": 0.5488523475258803,
+                  "observed_rate": 0.8571428656578064,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 8,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.651707484085581,
+                  "observed_rate": 0.75,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 4,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": 0.74301065357344,
+                  "observed_rate": 1.0,
+                  "upper": 0.8
+                },
+                {
+                  "count": 2,
+                  "lower": 0.8,
+                  "mean_probability": 0.8431739601386574,
+                  "observed_rate": 1.0,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            },
+            "score": {
+              "brier": 0.013836992269982596,
+              "log_loss": 0.06970880574576174,
+              "observed_rate": 0.014312089420855045,
+              "predicted_rate": 0.013938841279816792,
+              "reliability": [
+                {
+                  "count": 136308,
+                  "lower": 0.0,
+                  "mean_probability": 0.012574243532095367,
+                  "observed_rate": 0.01316136959940195,
+                  "upper": 0.1
+                },
+                {
+                  "count": 1038,
+                  "lower": 0.1,
+                  "mean_probability": 0.13354787764451617,
+                  "observed_rate": 0.11946050077676773,
+                  "upper": 0.2
+                },
+                {
+                  "count": 164,
+                  "lower": 0.2,
+                  "mean_probability": 0.23824118714257622,
+                  "observed_rate": 0.19512194395065308,
+                  "upper": 0.30000000000000004
+                },
+                {
+                  "count": 41,
+                  "lower": 0.30000000000000004,
+                  "mean_probability": 0.33838527935039303,
+                  "observed_rate": 0.31707316637039185,
+                  "upper": 0.4
+                },
+                {
+                  "count": 17,
+                  "lower": 0.4,
+                  "mean_probability": 0.4401982980663937,
+                  "observed_rate": 0.3529411852359772,
+                  "upper": 0.5
+                },
+                {
+                  "count": 5,
+                  "lower": 0.5,
+                  "mean_probability": 0.532651582309949,
+                  "observed_rate": 0.0,
+                  "upper": 0.6000000000000001
+                },
+                {
+                  "count": 3,
+                  "lower": 0.6000000000000001,
+                  "mean_probability": 0.6551211402615781,
+                  "observed_rate": 0.0,
+                  "upper": 0.7000000000000001
+                },
+                {
+                  "count": 0,
+                  "lower": 0.7000000000000001,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.8
+                },
+                {
+                  "count": 0,
+                  "lower": 0.8,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 0.9
+                },
+                {
+                  "count": 0,
+                  "lower": 0.9,
+                  "mean_probability": null,
+                  "observed_rate": null,
+                  "upper": 1.0
+                }
+              ]
+            }
+          },
+          "positive_counts": [
+            1969,
+            821
+          ],
+          "scope": "nonterminal_complete_horizon",
+          "states": 137576
+        }
+      ],
+      "source": {
+        "audit": {
+          "actions": 476715,
+          "ignored_goalkeeper_goal_duplicates": 1034,
+          "incomplete_horizon_states": 6840,
+          "inferred_dribbles": 27269,
+          "native_events": 632807
+        },
+        "conversion_warning_counts": {
+          "DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.": 1520,
+          "Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`": 1520
+        },
+        "excluded_matches": 0,
+        "payloads_sha256": "9b56294027d19455273e84bdef1e8ba4a88099f028c821b30e3bfb26b0b548d7",
+        "warehouse": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        }
+      },
+      "splits": {
+        "test": {
+          "actions": 139859,
+          "eligible_states": 137879,
+          "end": "2018-05-19",
+          "matches": 110,
+          "start": "2018-03-02"
+        },
+        "train": {
+          "actions": 235933,
+          "eligible_states": 232513,
+          "end": "2017-12-20",
+          "matches": 190,
+          "start": "2017-08-04"
+        },
+        "validation": {
+          "actions": 100923,
+          "eligible_states": 99483,
+          "end": "2018-02-25",
+          "matches": 80,
+          "start": "2018-01-12"
+        }
+      },
+      "test_action_values": {
+        "bad_touch": {
+          "actions": 12,
+          "defensive_value": -0.3062676962133442,
+          "inferred": 0,
+          "offensive_value": -0.0016192785259508092,
+          "vaep_value": -0.30788697473929505
+        },
+        "clearance": {
+          "actions": 3076,
+          "defensive_value": 0.00036170019544846726,
+          "inferred": 0,
+          "offensive_value": -0.0006719599549777501,
+          "vaep_value": -0.00031025975952928285
+        },
+        "corner_crossed": {
+          "actions": 855,
+          "defensive_value": -0.0033158946036577755,
+          "inferred": 0,
+          "offensive_value": 0.004340010177768053,
+          "vaep_value": 0.0010241155741102777
+        },
+        "corner_short": {
+          "actions": 207,
+          "defensive_value": -0.00344122799007706,
+          "inferred": 0,
+          "offensive_value": -0.014315061726112103,
+          "vaep_value": -0.017756289716189165
+        },
+        "cross": {
+          "actions": 3546,
+          "defensive_value": -0.0009671385346427348,
+          "inferred": 0,
+          "offensive_value": 0.006973617428303442,
+          "vaep_value": 0.006006478893660708
+        },
+        "dribble": {
+          "actions": 9733,
+          "defensive_value": 0.00028028007618791366,
+          "inferred": 7922,
+          "offensive_value": 0.005548914822646223,
+          "vaep_value": 0.005829194898834136
+        },
+        "foul": {
+          "actions": 2569,
+          "defensive_value": -0.00994304664544802,
+          "inferred": 0,
+          "offensive_value": -0.007025295175426942,
+          "vaep_value": -0.01696834182087496
+        },
+        "freekick_crossed": {
+          "actions": 469,
+          "defensive_value": -0.004196319697511458,
+          "inferred": 0,
+          "offensive_value": 0.03750238566995636,
+          "vaep_value": 0.033306065972444905
+        },
+        "freekick_short": {
+          "actions": 2370,
+          "defensive_value": -0.0020768171047589657,
+          "inferred": 0,
+          "offensive_value": 0.008829285045541042,
+          "vaep_value": 0.006752467940782076
+        },
+        "goalkick": {
+          "actions": 1804,
+          "defensive_value": -0.004744966226053426,
+          "inferred": 0,
+          "offensive_value": 0.006245921331551036,
+          "vaep_value": 0.0015009551054976093
+        },
+        "interception": {
+          "actions": 9132,
+          "defensive_value": 0.00010775059872295352,
+          "inferred": 0,
+          "offensive_value": 0.00041175123935368484,
+          "vaep_value": 0.0005195018380766384
+        },
+        "keeper_save": {
+          "actions": 700,
+          "defensive_value": -0.00824508671823863,
+          "inferred": 0,
+          "offensive_value": 0.00306202154381348,
+          "vaep_value": -0.005183065174425152
+        },
+        "pass": {
+          "actions": 91475,
+          "defensive_value": 0.0009206350643701032,
+          "inferred": 0,
+          "offensive_value": 0.0016671625806588485,
+          "vaep_value": 0.0025877976450289523
+        },
+        "shot": {
+          "actions": 2471,
+          "defensive_value": -0.002383023693739995,
+          "inferred": 0,
+          "offensive_value": 0.06171624422176044,
+          "vaep_value": 0.059333220528020446
+        },
+        "shot_freekick": {
+          "actions": 118,
+          "defensive_value": -0.004134951756617379,
+          "inferred": 0,
+          "offensive_value": 0.052272394670789375,
+          "vaep_value": 0.048137442914172
+        },
+        "shot_penalty": {
+          "actions": 30,
+          "defensive_value": -0.003618428780663631,
+          "inferred": 0,
+          "offensive_value": -0.16854130125266928,
+          "vaep_value": -0.1721597300333329
+        },
+        "tackle": {
+          "actions": 878,
+          "defensive_value": 0.007009197970047553,
+          "inferred": 0,
+          "offensive_value": 0.0006448190721096895,
+          "vaep_value": 0.007654017042157241
+        },
+        "take_on": {
+          "actions": 3177,
+          "defensive_value": -0.0012951223026057578,
+          "inferred": 0,
+          "offensive_value": 0.005488037016995835,
+          "vaep_value": 0.0041929147143900765
+        },
+        "throw_in": {
+          "actions": 5037,
+          "defensive_value": -0.0012681974544706443,
+          "inferred": 0,
+          "offensive_value": 0.004407146023297549,
+          "vaep_value": 0.0031389485688269043
+        }
+      },
+      "training_prior": [
+        0.015328175388276577,
+        0.00543195428326726
+      ]
+    }
+  ],
+  "limits": [
+    "Retrospective post-action states, not pre-pass forecasts or causal effects. Current action is included in the ten-action window.",
+    "Original Opta multi-season results are not reproduced by Wyscout same-season holdouts.",
+    "The official converter inserts inferred dribbles; these are not continuous observed carries.",
+    "Period lags/labels reset; incomplete horizons and period-first action values are excluded. Match score context continues across halftime.",
+    "Own goals use any action type in labels, score context and terminal detection; they reset the next value baseline. Native goal-tagged keeper duplicates are removed before conversion.",
+    "Official penalty/corner prior constants 0.792453/0.046500 are retained, not locally estimated.",
+    "Paired intervals resample held-out matches, conditional on the fitted model. Repeated teams and training uncertainty remain.",
+    "Action-type means are descriptive conditional on action mix and model calibration; no player ranking is published."
+  ],
+  "paper_url": "https://doi.org/10.1145/3292500.3330758",
+  "run_id": "0d839841a9c08ae449b3",
+  "schema": "SoccerAnalytics.SPADLVAEP.v1",
+  "source_url": "https://doi.org/10.6084/m9.figshare.c.4415000",
+  "versions": {
+    "multimethod": "1.12",
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "pandera": "0.17.2",
+    "scikit-learn": "1.5.2",
+    "socceraction": "1.5.3"
+  }
+}

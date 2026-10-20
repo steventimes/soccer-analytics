@@ -1,0 +1,2016 @@
+{
+  "code_sha256": {
+    "comparison.py": "c1d10525bc1ec14fd075f459a76bb4a8f9166a2b89d0f969b1c4202f91d6b910",
+    "data.py": "b1382424df098b69036a699f4202a704aac9dfa46be9b9fb5b50f8adfcdc1e1a",
+    "experiment.py": "0e4c3335d4f741d05f6403145573334109a881a74f147cb5db7190223efe081f",
+    "leagues.py": "76b17ff26ab317a9d12b375db73042160f69af546476034de40acc15d4a08130",
+    "models.py": "fa5e0373d955ae61aeea76e067fb785577b16c6efcd19ba2f39ea3b6aa3b4be5"
+  },
+  "configuration": {
+    "epochs": 15,
+    "inputs": "Same eight observable event starts; one-hot event types for trees/MLP, learned type embeddings for GRU. Budgets and capacities differ.",
+    "leagues": [
+      "England",
+      "France",
+      "Germany",
+      "Italy",
+      "Spain"
+    ],
+    "models": "Existing constant, linear, HistGradientBoosting, ContextMLP and shared multi-task GRU. No source pretraining.",
+    "seeds": [
+      11,
+      29,
+      47
+    ],
+    "selection": "Existing fixed hyperparameters; target validation chooses neural checkpoints. Parameters were developed using England, before inspecting this extension.",
+    "train_cap": 8000
+  },
+  "environment": {
+    "device": "cpu",
+    "numpy": "2.5.3",
+    "python": "3.12.3",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "torch": "2.8.0+cpu",
+    "torch_threads": 2
+  },
+  "leagues": [
+    {
+      "data": {
+        "inputs": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        },
+        "provider": "wyscout",
+        "season": "2017/18",
+        "splits": {
+          "test": {
+            "completion_rate": 0.8267499804496765,
+            "date_end": "2018-05-13",
+            "date_start": "2018-03-01",
+            "label_eligibility": {
+              "eligible_completed": 72806,
+              "eligible_passes": 88056,
+              "event_rows": 171283,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 72806,
+              "known_outcome_valid_start_passes": 88056,
+              "matches_considered": 101,
+              "pass_events": 88056
+            },
+            "matches_used": 101,
+            "sequences_available": 88056,
+            "sequences_used": 8000
+          },
+          "train": {
+            "completion_rate": 0.831250011920929,
+            "date_end": "2017-12-31",
+            "date_start": "2017-08-11",
+            "label_eligibility": {
+              "eligible_completed": 149927,
+              "eligible_passes": 181180,
+              "event_rows": 352856,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 149927,
+              "known_outcome_valid_start_passes": 181180,
+              "matches_considered": 209,
+              "pass_events": 181180
+            },
+            "matches_used": 209,
+            "sequences_available": 181180,
+            "sequences_used": 8000
+          },
+          "validation": {
+            "completion_rate": 0.8151249885559082,
+            "date_end": "2018-02-25",
+            "date_start": "2018-01-01",
+            "label_eligibility": {
+              "eligible_completed": 48547,
+              "eligible_passes": 59421,
+              "event_rows": 119011,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 48547,
+              "known_outcome_valid_start_passes": 59421,
+              "matches_considered": 70,
+              "pass_events": 59421
+            },
+            "matches_used": 70,
+            "sequences_available": 59421,
+            "sequences_used": 8000
+          }
+        },
+        "test_start": "2018-03-01",
+        "validation_start": "2018-01-01"
+      },
+      "league": "England",
+      "run_id": "083730269a8008f5",
+      "summaries": [
+        {
+          "method": "constant_train_prior",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14325468242168427,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4610738754272461,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.537498980760574,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.15095625817775726,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4796100854873657,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 12.157191336154938,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "linear_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6526873992855244,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1377577781677246,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4427587389945984,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.32507175207138,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6263128257082569,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14677385985851288,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4683481752872467,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.75522431731224,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "hist_gradient_boosting_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.686785617198378,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.133822839087745,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4294370018934273,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 10.934715994340177,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6746735128065471,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14264172950702803,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.45146317979586664,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.331483099293555,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "mlp_context",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6374583051707333,
+              "seed_sd": 0.002848235059332768
+            },
+            "completion_brier": {
+              "mean": 0.13882497946421304,
+              "seed_sd": 0.00017746411995343405
+            },
+            "completion_log_loss": {
+              "mean": 0.44544897476832074,
+              "seed_sd": 0.0007090967430017897
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.398870994647345,
+              "seed_sd": 0.09349022297286601
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6201982381983459,
+              "seed_sd": 0.0007018856072194004
+            },
+            "completion_brier": {
+              "mean": 0.14701241254806519,
+              "seed_sd": 0.00014448472335389694
+            },
+            "completion_log_loss": {
+              "mean": 0.46632761756579083,
+              "seed_sd": 0.0004412194750472233
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.834795276323954,
+              "seed_sd": 0.07676428247624455
+            }
+          }
+        },
+        {
+          "method": "shared_multi_task",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6306952267792909,
+              "seed_sd": 0.004257744225861839
+            },
+            "completion_brier": {
+              "mean": 0.1396293342113495,
+              "seed_sd": 0.00043525216945504045
+            },
+            "completion_log_loss": {
+              "mean": 0.4484296540419261,
+              "seed_sd": 0.0016020866221686466
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.354316025972366,
+              "seed_sd": 0.04146744383575272
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6235114016099648,
+              "seed_sd": 0.0028013847024734887
+            },
+            "completion_brier": {
+              "mean": 0.14670170346895853,
+              "seed_sd": 0.00018205762016260205
+            },
+            "completion_log_loss": {
+              "mean": 0.4657359520594279,
+              "seed_sd": 0.0007163264302043239
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.777822176615397,
+              "seed_sd": 0.05412909946241004
+            }
+          }
+        }
+      ],
+      "test_comparisons": {
+        "cohort_sha256": "c65d1de011123acc2cb4da8020203da6f0c675d5c019f87880ae41b8aa4d3992",
+        "comparisons": [
+          {
+            "completion_brier": {
+              "difference": 0.00943184851954348,
+              "lower": 0.00758679035622844,
+              "upper": 0.01129880333377432
+            },
+            "completion_log_loss": {
+              "difference": 0.031636934930241084,
+              "lower": 0.026454331252405712,
+              "upper": 0.036911207723835646
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.6027829996684573,
+              "lower": 0.4755580787538178,
+              "upper": 0.7312956149253914
+            },
+            "method": "constant_train_prior",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.003934936195994794,
+              "lower": 0.002467744762815603,
+              "upper": 0.005350491438586837
+            },
+            "completion_log_loss": {
+              "difference": 0.013321732416679043,
+              "lower": 0.008973935908755058,
+              "upper": 0.01776809749972683
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.3903551629653235,
+              "lower": 0.31044821030104497,
+              "upper": 0.47348237542186716
+            },
+            "method": "linear_context",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.005002137914974231,
+              "lower": 0.003570607705687266,
+              "upper": 0.006449838403252278
+            },
+            "completion_log_loss": {
+              "difference": 0.01601198440587313,
+              "lower": 0.012022005662583069,
+              "upper": 0.020004075109704155
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.46415484521867506,
+              "lower": 0.37907340292531455,
+              "upper": 0.5483202936540102
+            },
+            "method": "mlp_context",
+            "runs": 3
+          },
+          {
+            "completion_brier": {
+              "difference": 0.00580649648820732,
+              "lower": 0.00432625527225358,
+              "upper": 0.007234796527041584
+            },
+            "completion_log_loss": {
+              "difference": 0.0189926451690796,
+              "lower": 0.014849680796372899,
+              "upper": 0.023080950496937952
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4195996457891261,
+              "lower": 0.34210701658804704,
+              "upper": 0.4996513694068651
+            },
+            "method": "shared_multi_task",
+            "runs": 3
+          }
+        ],
+        "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+        "interval_method": "percentile",
+        "limits": [
+          "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+          "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+          "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+          "以原英格兰实验的树基线为参照扩展到五个联赛；参数未按本扩展的测试结果调整。多项范围仅作探索比较。"
+        ],
+        "method": "paired_match_case_bootstrap",
+        "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+        "predictions_sha256": "986a573bd1c2efe2240fc46df4239e03ab778478b9903435042edc39242eb0f2",
+        "quantiles": [
+          0.025,
+          0.975
+        ],
+        "reference": "hist_gradient_boosting_context",
+        "replicates": 2000,
+        "rng": "numpy.PCG64",
+        "scipy_version": "1.18.1",
+        "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+        "seed": 20261015,
+        "seed_aggregation": "mean_loss_across_fixed_seeds",
+        "test_matches": 101,
+        "test_sequences": 8000,
+        "weighting": "pooled_sampled_passes"
+      }
+    },
+    {
+      "data": {
+        "inputs": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        },
+        "provider": "wyscout",
+        "season": "2017/18",
+        "splits": {
+          "test": {
+            "completion_rate": 0.8352500200271606,
+            "date_end": "2018-05-19",
+            "date_start": "2018-03-02",
+            "label_eligibility": {
+              "eligible_completed": 78604,
+              "eligible_passes": 93950,
+              "event_rows": 184758,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 78604,
+              "known_outcome_valid_start_passes": 93950,
+              "matches_considered": 110,
+              "pass_events": 93950
+            },
+            "matches_used": 110,
+            "sequences_available": 93950,
+            "sequences_used": 8000
+          },
+          "train": {
+            "completion_rate": 0.8233749866485596,
+            "date_end": "2017-12-20",
+            "date_start": "2017-08-04",
+            "label_eligibility": {
+              "eligible_completed": 130804,
+              "eligible_passes": 157695,
+              "event_rows": 314074,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 130804,
+              "known_outcome_valid_start_passes": 157695,
+              "matches_considered": 190,
+              "pass_events": 157695
+            },
+            "matches_used": 190,
+            "sequences_available": 157695,
+            "sequences_used": 8000
+          },
+          "validation": {
+            "completion_rate": 0.828499972820282,
+            "date_end": "2018-02-25",
+            "date_start": "2018-01-12",
+            "label_eligibility": {
+              "eligible_completed": 55849,
+              "eligible_passes": 67553,
+              "event_rows": 133975,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 55849,
+              "known_outcome_valid_start_passes": 67553,
+              "matches_considered": 80,
+              "pass_events": 67553
+            },
+            "matches_used": 80,
+            "sequences_available": 67553,
+            "sequences_used": 8000
+          }
+        },
+        "test_start": "2018-03-01",
+        "validation_start": "2018-01-01"
+      },
+      "league": "France",
+      "run_id": "02ce5ae7899a189c",
+      "summaries": [
+        {
+          "method": "constant_train_prior",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13774845004081726,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4479568600654602,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.359461396932602,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14211401343345642,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4583476483821869,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.770599335432053,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "linear_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.638196109494445,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1332775503396988,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4343658685684204,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.146102845668793,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6112866982727223,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13997626304626465,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4547252953052521,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.407453566789627,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "hist_gradient_boosting_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6982991471663731,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1268915296086817,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.41277797441169534,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 10.792179138388335,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6648590615658281,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13435031718845716,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.43300992758956464,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.148809424280365,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "mlp_context",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6158086022784923,
+              "seed_sd": 0.0008068542553085011
+            },
+            "completion_brier": {
+              "mean": 0.1346426953872045,
+              "seed_sd": 5.709044092286162e-05
+            },
+            "completion_log_loss": {
+              "mean": 0.43674489855766296,
+              "seed_sd": 0.00013567097376586886
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.167056858539581,
+              "seed_sd": 0.10089706741183242
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5995545299764875,
+              "seed_sd": 0.0028191942071630386
+            },
+            "completion_brier": {
+              "mean": 0.13960531850655875,
+              "seed_sd": 0.00016163251585388433
+            },
+            "completion_log_loss": {
+              "mean": 0.4498644669850667,
+              "seed_sd": 0.0005143908758537105
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.487947652737299,
+              "seed_sd": 0.12206107353578137
+            }
+          }
+        },
+        {
+          "method": "shared_multi_task",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6343358303216714,
+              "seed_sd": 0.004736479746389582
+            },
+            "completion_brier": {
+              "mean": 0.13360614577929178,
+              "seed_sd": 0.0003521250028274362
+            },
+            "completion_log_loss": {
+              "mean": 0.43376078208287555,
+              "seed_sd": 0.0016353566282621777
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.227238178253174,
+              "seed_sd": 0.02599558320845685
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6149272925826939,
+              "seed_sd": 0.0036866426406165814
+            },
+            "completion_brier": {
+              "mean": 0.13880903522173563,
+              "seed_sd": 0.0003507057287924095
+            },
+            "completion_log_loss": {
+              "mean": 0.44731218616167706,
+              "seed_sd": 0.001124885069658665
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.514382312695185,
+              "seed_sd": 0.03145446604624065
+            }
+          }
+        }
+      ],
+      "test_comparisons": {
+        "cohort_sha256": "a1cee18b0d5b9848aeec5221d804902d189312e8c7ae7cee659b5b4fcbcd7d6f",
+        "comparisons": [
+          {
+            "completion_brier": {
+              "difference": 0.010856923833415176,
+              "lower": 0.008879950071790692,
+              "upper": 0.012820786680708355
+            },
+            "completion_log_loss": {
+              "difference": 0.03517889245607797,
+              "lower": 0.02963757038196676,
+              "upper": 0.040283914753519445
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.567281834932193,
+              "lower": 0.4578866313877833,
+              "upper": 0.6769062070193517
+            },
+            "method": "constant_train_prior",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006386018034750831,
+              "lower": 0.004627207247623148,
+              "upper": 0.008346409268980752
+            },
+            "completion_log_loss": {
+              "difference": 0.021587896608997553,
+              "lower": 0.01610357665414284,
+              "upper": 0.027601156851720942
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.3539238324502112,
+              "lower": 0.27866631393787084,
+              "upper": 0.4255697787433923
+            },
+            "method": "linear_context",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.007751163350871616,
+              "lower": 0.005823813287563373,
+              "upper": 0.009740029669414164
+            },
+            "completion_log_loss": {
+              "difference": 0.023966926010179742,
+              "lower": 0.018718937159067955,
+              "upper": 0.0293582073323762
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.37487735339641687,
+              "lower": 0.3053993466536235,
+              "upper": 0.4473254438492773
+            },
+            "method": "mlp_context",
+            "runs": 3
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006714613811302219,
+              "lower": 0.005003985169300391,
+              "upper": 0.008516264898416764
+            },
+            "completion_log_loss": {
+              "difference": 0.020982805307882515,
+              "lower": 0.016358241640477812,
+              "upper": 0.025811630852477903
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4350590118669534,
+              "lower": 0.3611711954267344,
+              "upper": 0.5102788468545518
+            },
+            "method": "shared_multi_task",
+            "runs": 3
+          }
+        ],
+        "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+        "interval_method": "percentile",
+        "limits": [
+          "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+          "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+          "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+          "以原英格兰实验的树基线为参照扩展到五个联赛；参数未按本扩展的测试结果调整。多项范围仅作探索比较。"
+        ],
+        "method": "paired_match_case_bootstrap",
+        "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+        "predictions_sha256": "66d247cc2dd05c5d747a1376709c6d8f3e97364ee62246de14572d1aaed4d094",
+        "quantiles": [
+          0.025,
+          0.975
+        ],
+        "reference": "hist_gradient_boosting_context",
+        "replicates": 2000,
+        "rng": "numpy.PCG64",
+        "scipy_version": "1.18.1",
+        "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+        "seed": 20261015,
+        "seed_aggregation": "mean_loss_across_fixed_seeds",
+        "test_matches": 110,
+        "test_sequences": 8000,
+        "weighting": "pooled_sampled_passes"
+      }
+    },
+    {
+      "data": {
+        "inputs": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        },
+        "provider": "wyscout",
+        "season": "2017/18",
+        "splits": {
+          "test": {
+            "completion_rate": 0.8180000185966492,
+            "date_end": "2018-05-12",
+            "date_start": "2018-03-02",
+            "label_eligibility": {
+              "eligible_completed": 63512,
+              "eligible_passes": 76999,
+              "event_rows": 152829,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 63512,
+              "known_outcome_valid_start_passes": 76999,
+              "matches_considered": 90,
+              "pass_events": 76999
+            },
+            "matches_used": 90,
+            "sequences_available": 76999,
+            "sequences_used": 8000
+          },
+          "train": {
+            "completion_rate": 0.8233749866485596,
+            "date_end": "2017-12-17",
+            "date_start": "2017-08-18",
+            "label_eligibility": {
+              "eligible_completed": 106719,
+              "eligible_passes": 129729,
+              "event_rows": 256689,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 106719,
+              "known_outcome_valid_start_passes": 129729,
+              "matches_considered": 153,
+              "pass_events": 129729
+            },
+            "matches_used": 153,
+            "sequences_available": 129729,
+            "sequences_used": 8000
+          },
+          "validation": {
+            "completion_rate": 0.8190000057220459,
+            "date_end": "2018-02-26",
+            "date_start": "2018-01-12",
+            "label_eligibility": {
+              "eligible_completed": 44746,
+              "eligible_passes": 54732,
+              "event_rows": 109889,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 1,
+              "excluded_invalid_start": 1,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 44747,
+              "known_outcome_valid_start_passes": 54733,
+              "matches_considered": 63,
+              "pass_events": 54734
+            },
+            "matches_used": 63,
+            "sequences_available": 54732,
+            "sequences_used": 8000
+          }
+        },
+        "test_start": "2018-03-01",
+        "validation_start": "2018-01-01"
+      },
+      "league": "Germany",
+      "run_id": "4e325291cec2a126",
+      "summaries": [
+        {
+          "method": "constant_train_prior",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14890487492084503,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4745112359523773,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 12.025715410709381,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14825811982154846,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4729717969894409,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 12.080889195203781,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "linear_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6425303713325183,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.144213005900383,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4595816731452942,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.937643587589264,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.654024655708012,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14242666959762573,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.45709946751594543,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.822889745235443,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "hist_gradient_boosting_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6845519194665358,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1385768609895167,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.44162085162893255,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.450241454072518,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6827160236172667,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13781767822711047,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4399497805623247,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.419801454750043,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "mlp_context",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6224724665997207,
+              "seed_sd": 0.0034148925932862145
+            },
+            "completion_brier": {
+              "mean": 0.1451521118481954,
+              "seed_sd": 0.00022117018136575266
+            },
+            "completion_log_loss": {
+              "mean": 0.4612175027529399,
+              "seed_sd": 0.0006788482591373052
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.93870355685552,
+              "seed_sd": 0.07232818164925776
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6380804920601192,
+              "seed_sd": 0.0024072961970892696
+            },
+            "completion_brier": {
+              "mean": 0.14315398037433624,
+              "seed_sd": 0.00019787305083509806
+            },
+            "completion_log_loss": {
+              "mean": 0.4559723933537801,
+              "seed_sd": 0.0006059432932694322
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.841524889071783,
+              "seed_sd": 0.031637805887107275
+            }
+          }
+        },
+        {
+          "method": "shared_multi_task",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6242631591615393,
+              "seed_sd": 0.0041793369058633085
+            },
+            "completion_brier": {
+              "mean": 0.14529095590114594,
+              "seed_sd": 0.0001646522637273954
+            },
+            "completion_log_loss": {
+              "mean": 0.461797555287679,
+              "seed_sd": 0.0006927560873584215
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.941289156675339,
+              "seed_sd": 0.042100086080308595
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6438235228808432,
+              "seed_sd": 0.003903860952200029
+            },
+            "completion_brier": {
+              "mean": 0.1430779149134954,
+              "seed_sd": 0.000363212055203254
+            },
+            "completion_log_loss": {
+              "mean": 0.45563451449076336,
+              "seed_sd": 0.0009206496716061568
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.845561116933823,
+              "seed_sd": 0.006524021375442016
+            }
+          }
+        }
+      ],
+      "test_comparisons": {
+        "cohort_sha256": "26e1ae65fdaf5a1599b5c0059b497e628d0c8279c45cce4f27aa7bf519d271af",
+        "comparisons": [
+          {
+            "completion_brier": {
+              "difference": 0.010328029491955461,
+              "lower": 0.008344000575688274,
+              "upper": 0.012346063527700178
+            },
+            "completion_log_loss": {
+              "difference": 0.03289036878290466,
+              "lower": 0.02739255002533681,
+              "upper": 0.0385324008489399
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.5754740330518792,
+              "lower": 0.42784136731007655,
+              "upper": 0.7107606367230755
+            },
+            "method": "constant_train_prior",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.005636149609179895,
+              "lower": 0.0038913804797222644,
+              "upper": 0.007233330985699746
+            },
+            "completion_log_loss": {
+              "difference": 0.017960801461849096,
+              "lower": 0.013018028261748034,
+              "upper": 0.022858172337453568
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4874012557917876,
+              "lower": 0.3969710646260937,
+              "upper": 0.5733047081575041
+            },
+            "method": "linear_context",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006575253432275536,
+              "lower": 0.004834419591554885,
+              "upper": 0.008256470333069532
+            },
+            "completion_log_loss": {
+              "difference": 0.019596647415614697,
+              "lower": 0.01499033443455466,
+              "upper": 0.024233467582722837
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4884617956949036,
+              "lower": 0.40260950179766614,
+              "upper": 0.5702392708095511
+            },
+            "method": "mlp_context",
+            "runs": 3
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006714093727474447,
+              "lower": 0.005000845753838151,
+              "upper": 0.00849523967517799
+            },
+            "completion_log_loss": {
+              "difference": 0.020176699608200916,
+              "lower": 0.01550387118052121,
+              "upper": 0.02520909588159972
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.49104800523609,
+              "lower": 0.40596036457667045,
+              "upper": 0.5727923199379759
+            },
+            "method": "shared_multi_task",
+            "runs": 3
+          }
+        ],
+        "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+        "interval_method": "percentile",
+        "limits": [
+          "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+          "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+          "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+          "以原英格兰实验的树基线为参照扩展到五个联赛；参数未按本扩展的测试结果调整。多项范围仅作探索比较。"
+        ],
+        "method": "paired_match_case_bootstrap",
+        "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+        "predictions_sha256": "27071ac03cb7495a5978ed22232e6815128b559f22ff6be03f7913f2df29a7e0",
+        "quantiles": [
+          0.025,
+          0.975
+        ],
+        "reference": "hist_gradient_boosting_context",
+        "replicates": 2000,
+        "rng": "numpy.PCG64",
+        "scipy_version": "1.18.1",
+        "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+        "seed": 20261015,
+        "seed_aggregation": "mean_loss_across_fixed_seeds",
+        "test_matches": 90,
+        "test_sequences": 8000,
+        "weighting": "pooled_sampled_passes"
+      }
+    },
+    {
+      "data": {
+        "inputs": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        },
+        "provider": "wyscout",
+        "season": "2017/18",
+        "splits": {
+          "test": {
+            "completion_rate": 0.8338750004768372,
+            "date_end": "2018-05-20",
+            "date_start": "2018-03-03",
+            "label_eligibility": {
+              "eligible_completed": 88656,
+              "eligible_passes": 106275,
+              "event_rows": 205542,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 88656,
+              "known_outcome_valid_start_passes": 106275,
+              "matches_considered": 121,
+              "pass_events": 106275
+            },
+            "matches_used": 121,
+            "sequences_available": 106275,
+            "sequences_used": 8000
+          },
+          "train": {
+            "completion_rate": 0.8317499756813049,
+            "date_end": "2017-12-30",
+            "date_start": "2017-08-19",
+            "label_eligibility": {
+              "eligible_completed": 139994,
+              "eligible_passes": 167840,
+              "event_rows": 319286,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 139994,
+              "known_outcome_valid_start_passes": 167840,
+              "matches_considered": 188,
+              "pass_events": 167840
+            },
+            "matches_used": 188,
+            "sequences_available": 167840,
+            "sequences_used": 8000
+          },
+          "validation": {
+            "completion_rate": 0.8258749842643738,
+            "date_end": "2018-02-26",
+            "date_start": "2018-01-05",
+            "label_eligibility": {
+              "eligible_completed": 52234,
+              "eligible_passes": 63202,
+              "event_rows": 122544,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 52234,
+              "known_outcome_valid_start_passes": 63202,
+              "matches_considered": 71,
+              "pass_events": 63202
+            },
+            "matches_used": 71,
+            "sequences_available": 63202,
+            "sequences_used": 8000
+          }
+        },
+        "test_start": "2018-03-01",
+        "validation_start": "2018-01-01"
+      },
+      "league": "Italy",
+      "run_id": "b37be1a4ddce1b84",
+      "summaries": [
+        {
+          "method": "constant_train_prior",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13853201270103455,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.44970449805259705,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.164704710245132,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1438400149345398,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.46248912811279297,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.438923329114914,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "linear_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6124679229381262,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1360180675983429,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.44283321499824524,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.012247204780579,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6238364409563222,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13960155844688416,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.45372021198272705,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.152522265911102,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "hist_gradient_boosting_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6660018053727831,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1292698186085739,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.42127270325868005,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 10.675106894847406,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6618110770505863,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13492429221192706,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.435563351696435,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 10.889993319010163,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "mlp_context",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6020396937626359,
+              "seed_sd": 0.0023357490245081236
+            },
+            "completion_brier": {
+              "mean": 0.1359417736530304,
+              "seed_sd": 0.00019307096154522728
+            },
+            "completion_log_loss": {
+              "mean": 0.44100067019462585,
+              "seed_sd": 0.0004358331415889609
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 10.978687306245169,
+              "seed_sd": 0.04530457875602681
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6143607505407425,
+              "seed_sd": 0.003338098679166881
+            },
+            "completion_brier": {
+              "mean": 0.14019172390302023,
+              "seed_sd": 0.00037996746531568143
+            },
+            "completion_log_loss": {
+              "mean": 0.4507381816705068,
+              "seed_sd": 0.0009218526758071097
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.115751167138418,
+              "seed_sd": 0.03204037603767944
+            }
+          }
+        },
+        {
+          "method": "shared_multi_task",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6059834997394657,
+              "seed_sd": 0.0014011915990808752
+            },
+            "completion_brier": {
+              "mean": 0.1353388080994288,
+              "seed_sd": 0.00014047609837300487
+            },
+            "completion_log_loss": {
+              "mean": 0.4394235809644063,
+              "seed_sd": 0.0003475944557462025
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.107473323742548,
+              "seed_sd": 0.10211022622329534
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6204053015334335,
+              "seed_sd": 0.002022341196723475
+            },
+            "completion_brier": {
+              "mean": 0.13981332381566366,
+              "seed_sd": 0.000309086611598263
+            },
+            "completion_log_loss": {
+              "mean": 0.44970642526944477,
+              "seed_sd": 0.0006451062198639023
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.2537848452727,
+              "seed_sd": 0.13883375667404438
+            }
+          }
+        }
+      ],
+      "test_comparisons": {
+        "cohort_sha256": "0fcbcea6277bf9e3daf3e551814793bc5ce91fcd2635431435c81667e1097fbf",
+        "comparisons": [
+          {
+            "completion_brier": {
+              "difference": 0.009262181494781155,
+              "lower": 0.007267923932937194,
+              "upper": 0.011328326768740644
+            },
+            "completion_log_loss": {
+              "difference": 0.028431858410488182,
+              "lower": 0.022590679266127595,
+              "upper": 0.03412710362980797
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.489597850648284,
+              "lower": 0.3678861963331629,
+              "upper": 0.615311784466304
+            },
+            "method": "constant_train_prior",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006748248935682218,
+              "lower": 0.004955957581230981,
+              "upper": 0.00858600602583019
+            },
+            "completion_log_loss": {
+              "difference": 0.021560516579003996,
+              "lower": 0.0156842697551507,
+              "upper": 0.027610668745948766
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.3371403016676835,
+              "lower": 0.24933148528222238,
+              "upper": 0.4273800803480566
+            },
+            "method": "linear_context",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.0066719549436507685,
+              "lower": 0.005120976488521309,
+              "upper": 0.00820038063836083
+            },
+            "completion_log_loss": {
+              "difference": 0.019727944240207365,
+              "lower": 0.015277870050353668,
+              "upper": 0.02416016282962532
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.3035807772290301,
+              "lower": 0.217214213326575,
+              "upper": 0.3953310305403134
+            },
+            "method": "mlp_context",
+            "runs": 3
+          },
+          {
+            "completion_brier": {
+              "difference": 0.00606898856766252,
+              "lower": 0.004493937692962402,
+              "upper": 0.0076378066809974065
+            },
+            "completion_log_loss": {
+              "difference": 0.018150865533885417,
+              "lower": 0.013722183914924047,
+              "upper": 0.02266118337837725
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.43236629512229463,
+              "lower": 0.3513783512169937,
+              "upper": 0.513118621223932
+            },
+            "method": "shared_multi_task",
+            "runs": 3
+          }
+        ],
+        "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+        "interval_method": "percentile",
+        "limits": [
+          "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+          "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+          "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+          "以原英格兰实验的树基线为参照扩展到五个联赛；参数未按本扩展的测试结果调整。多项范围仅作探索比较。"
+        ],
+        "method": "paired_match_case_bootstrap",
+        "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+        "predictions_sha256": "3792efb041297327ab89ac1a52e1f3c1aacf87beeab749f4dcf546aabedd84f0",
+        "quantiles": [
+          0.025,
+          0.975
+        ],
+        "reference": "hist_gradient_boosting_context",
+        "replicates": 2000,
+        "rng": "numpy.PCG64",
+        "scipy_version": "1.18.1",
+        "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+        "seed": 20261015,
+        "seed_aggregation": "mean_loss_across_fixed_seeds",
+        "test_matches": 121,
+        "test_sequences": 8000,
+        "weighting": "pooled_sampled_passes"
+      }
+    },
+    {
+      "data": {
+        "inputs": {
+          "complete_assets": 27,
+          "providers": [
+            "wyscout"
+          ],
+          "sha256": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+        },
+        "provider": "wyscout",
+        "season": "2017/18",
+        "splits": {
+          "test": {
+            "completion_rate": 0.8327500224113464,
+            "date_end": "2018-05-20",
+            "date_start": "2018-03-01",
+            "label_eligibility": {
+              "eligible_completed": 86883,
+              "eligible_passes": 104295,
+              "event_rows": 205269,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 86883,
+              "known_outcome_valid_start_passes": 104295,
+              "matches_considered": 123,
+              "pass_events": 104295
+            },
+            "matches_used": 123,
+            "sequences_available": 104295,
+            "sequences_used": 8000
+          },
+          "train": {
+            "completion_rate": 0.8243749737739563,
+            "date_end": "2017-12-23",
+            "date_start": "2017-08-18",
+            "label_eligibility": {
+              "eligible_completed": 116851,
+              "eligible_passes": 140992,
+              "event_rows": 277130,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 116851,
+              "known_outcome_valid_start_passes": 140992,
+              "matches_considered": 169,
+              "pass_events": 140992
+            },
+            "matches_used": 169,
+            "sequences_available": 140992,
+            "sequences_used": 8000
+          },
+          "validation": {
+            "completion_rate": 0.828374981880188,
+            "date_end": "2018-02-28",
+            "date_start": "2018-01-06",
+            "label_eligibility": {
+              "eligible_completed": 60342,
+              "eligible_passes": 73435,
+              "event_rows": 146260,
+              "excluded_endpoint_count": 0,
+              "excluded_invalid_endpoint": 0,
+              "excluded_invalid_start": 0,
+              "excluded_outcome_tags": 0,
+              "known_outcome_valid_start_completed": 60342,
+              "known_outcome_valid_start_passes": 73435,
+              "matches_considered": 88,
+              "pass_events": 73435
+            },
+            "matches_used": 88,
+            "sequences_available": 73435,
+            "sequences_used": 8000
+          }
+        },
+        "test_start": "2018-03-01",
+        "validation_start": "2018-01-01"
+      },
+      "league": "Spain",
+      "run_id": "e83f5eb01c1e3637",
+      "summaries": [
+        {
+          "method": "constant_train_prior",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13934758305549622,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4517441391944885,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.897111684083939,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.5,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.14218585193157196,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.45850905776023865,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 12.088322639465332,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "linear_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6366174932318094,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13477757573127747,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.43709078431129456,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.704473942518234,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.626162630506576,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13908088207244873,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4484083354473114,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.779224872589111,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "hist_gradient_boosting_context",
+          "runs": 1,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6855151184304349,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.1283140494743219,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.41735539530238974,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.274244052316513,
+              "seed_sd": 0.0
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6811735214182068,
+              "seed_sd": 0.0
+            },
+            "completion_brier": {
+              "mean": 0.13282323302086874,
+              "seed_sd": 0.0
+            },
+            "completion_log_loss": {
+              "mean": 0.4278894147225199,
+              "seed_sd": 0.0
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.350503169906922,
+              "seed_sd": 0.0
+            }
+          }
+        },
+        {
+          "method": "mlp_context",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6246715563375679,
+              "seed_sd": 0.0031877958410085555
+            },
+            "completion_brier": {
+              "mean": 0.13538560271263123,
+              "seed_sd": 0.00021748604551784755
+            },
+            "completion_log_loss": {
+              "mean": 0.4384394387404124,
+              "seed_sd": 0.0007069079662871804
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.773099501927694,
+              "seed_sd": 0.07970131435156837
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6121992314577637,
+              "seed_sd": 0.002931184192219628
+            },
+            "completion_brier": {
+              "mean": 0.13927370309829712,
+              "seed_sd": 0.00018358574753618456
+            },
+            "completion_log_loss": {
+              "mean": 0.4487035671869914,
+              "seed_sd": 0.00047489132113652895
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.864540725946426,
+              "seed_sd": 0.041536370336176444
+            }
+          }
+        },
+        {
+          "method": "shared_multi_task",
+          "runs": 3,
+          "test": {
+            "completion_auc": {
+              "mean": 0.6235947375419894,
+              "seed_sd": 0.005657037063306489
+            },
+            "completion_brier": {
+              "mean": 0.13532382249832153,
+              "seed_sd": 0.00035745669437003367
+            },
+            "completion_log_loss": {
+              "mean": 0.4382146994272868,
+              "seed_sd": 0.0011603812039091112
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.768212666114172,
+              "seed_sd": 0.11366965631819856
+            }
+          },
+          "validation": {
+            "completion_auc": {
+              "mean": 0.6057509589193355,
+              "seed_sd": 0.004244439828111909
+            },
+            "completion_brier": {
+              "mean": 0.1393261899550756,
+              "seed_sd": 6.672852012130566e-05
+            },
+            "completion_log_loss": {
+              "mean": 0.44881780942281085,
+              "seed_sd": 0.00045544628513171504
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "mean": 11.900731921195984,
+              "seed_sd": 0.11400008243908716
+            }
+          }
+        }
+      ],
+      "test_comparisons": {
+        "cohort_sha256": "0a3146d1dfacbf48d63239fe2e0ff5f2d0118c8dce8631fd267128f63cdcdf98",
+        "comparisons": [
+          {
+            "completion_brier": {
+              "difference": 0.011033529089965034,
+              "lower": 0.008958208532621723,
+              "upper": 0.012961091330532803
+            },
+            "completion_log_loss": {
+              "difference": 0.03438876907114539,
+              "lower": 0.028759659414765236,
+              "upper": 0.03952440163801484
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.6228669139039861,
+              "lower": 0.4884031362518391,
+              "upper": 0.7518674541781257
+            },
+            "method": "constant_train_prior",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.006463518174049135,
+              "lower": 0.004704769728153636,
+              "upper": 0.00816536463761339
+            },
+            "completion_log_loss": {
+              "difference": 0.01973538901337809,
+              "lower": 0.014783537580038059,
+              "upper": 0.02478938503426722
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4302291705687682,
+              "lower": 0.35026296532337087,
+              "upper": 0.5102378012757329
+            },
+            "method": "linear_context",
+            "runs": 1
+          },
+          {
+            "completion_brier": {
+              "difference": 0.007071550909423344,
+              "lower": 0.0053217860963064995,
+              "upper": 0.008844738527255024
+            },
+            "completion_log_loss": {
+              "difference": 0.02108404864471239,
+              "lower": 0.016184347256086692,
+              "upper": 0.026139703638518662
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4988554285943337,
+              "lower": 0.4155325855505238,
+              "upper": 0.581652688339626
+            },
+            "method": "mlp_context",
+            "runs": 3
+          },
+          {
+            "completion_brier": {
+              "difference": 0.00700977590317136,
+              "lower": 0.005309999086805332,
+              "upper": 0.008706358715006017
+            },
+            "completion_log_loss": {
+              "difference": 0.020859306301284564,
+              "lower": 0.016147113675397645,
+              "upper": 0.025633839945587465
+            },
+            "forward_displacement_mae_pitch_pct": {
+              "difference": 0.4939686133242373,
+              "lower": 0.4105310546179369,
+              "upper": 0.5791447638430337
+            },
+            "method": "shared_multi_task",
+            "runs": 3
+          }
+        ],
+        "engine_url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+        "interval_method": "percentile",
+        "limits": [
+          "范围是逐项2.5%–97.5%重采样百分位，不是同时置信带或已验证覆盖率的置信区间。",
+          "固定已训练模型、种子和抽样传球；不覆盖训练、选参、种子总体或场内再次抽样的不确定性。",
+          "重复球队的跨场相关和时间漂移未建模；不能据此推断未来赛季或因果效果。",
+          "以原英格兰实验的树基线为参照扩展到五个联赛；参数未按本扩展的测试结果调整。多项范围仅作探索比较。"
+        ],
+        "method": "paired_match_case_bootstrap",
+        "method_url": "https://journal.r-project.org/articles/RJ-2023-015/",
+        "predictions_sha256": "2ca1e3ae1843bf46d08bbaab962806d6673d220618fa03ab7e3f8060374d86c2",
+        "quantiles": [
+          0.025,
+          0.975
+        ],
+        "reference": "hist_gradient_boosting_context",
+        "replicates": 2000,
+        "rng": "numpy.PCG64",
+        "scipy_version": "1.18.1",
+        "scope": "差值为各方法减去参照模型；正值表示误差更大。先逐传球平均固定种子的损失，再按整场测试比赛配对重采样，按抽到的传球数汇总；不是概率集成，也不是各场均值的等权平均。",
+        "seed": 20261015,
+        "seed_aggregation": "mean_loss_across_fixed_seeds",
+        "test_matches": 123,
+        "test_sequences": 8000,
+        "weighting": "pooled_sampled_passes"
+      }
+    }
+  ],
+  "limits": [
+    "Single historical season, five target leagues; not cross-season transfer or an independent benchmark-design test.",
+    "England informed the existing architecture and hyperparameters; all league results retained without test-based retuning.",
+    "Fixed-seed mean losses and conditional whole-match percentile ranges; not ensembles, simultaneous coverage or training uncertainty.",
+    "No source pretraining; loader source sampling is retained to preserve the original target sample selection.",
+    "Repeated teams and cross-match dependence are not modelled. No football outcome predictor is replaced."
+  ],
+  "observed_at": "2026-10-15T23:28:24.369614+00:00",
+  "run_id": "76efac828d6b93d5",
+  "schema": "SoccerAnalytics.RepresentationLeagues.v1",
+  "rendering": {
+    "module_sha256": "0d286069e1be9b4ee6269ddbf0947648e353c1713b92b9fe461338ff34f8ad0f",
+    "numerical_source_ast_matches_execution": true,
+    "scope": "Only the figure layout and run-ID subtitle changed after numerical execution; numerical execution source hashes and run ID retained."
+  },
+  "verification": {
+    "test_scores_replayed_exact": 45,
+    "paired_ranges_independently_replayed": 60,
+    "target_population_matches": 1826,
+    "target_population_passes": 1565354,
+    "target_population_pass_events": 1565356,
+    "excluded_passes": 2,
+    "test_matches": 545,
+    "test_sequences": 40000,
+    "db_size_mtime_unchanged": true,
+    "independent_max_abs_error": 4.996003610813204e-16
+  }
+}

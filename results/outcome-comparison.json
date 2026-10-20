@@ -1,0 +1,3033 @@
+{
+  "schema": "SoccerAnalytics.FrozenOutcomeComparisonStudy.v1",
+  "run_id": "b72b4ac0a4df45e4",
+  "recorded_at": "2026-10-17",
+  "config": {
+    "reference": "xgboost/default",
+    "models": [
+      "xgboost/default",
+      "logistic_l2/default",
+      "poisson",
+      "poisson_decay",
+      "dixon_coles"
+    ],
+    "replicates": 2000,
+    "seed": 20261017,
+    "block_lengths": [
+      1,
+      3,
+      7
+    ],
+    "hac_lags": [
+      0,
+      1,
+      3,
+      7
+    ],
+    "weighting": "match-weighted paired losses; resampled day totals/counts",
+    "scope": "Exploratory sensitivity of already frozen historical predictions; no statistical model superiority claim."
+  },
+  "source_reports": [
+    {
+      "path": "results/score-models.json",
+      "run_id": "91d106a49a897e17",
+      "sha256": "447333c3a5e5d29064ffcf2818be34df1bc3fc870396d3ab88ab63710460cc02"
+    },
+    {
+      "path": "results/regularized-search.json",
+      "run_id": "40481f7ebdfb8601",
+      "sha256": "4efda34a0cf35d29f5b3ed2cb7993beb19f41eb5a15709f97fac16cdcf39f525"
+    }
+  ],
+  "receipts": [
+    {
+      "competition": "PL",
+      "cohort_sha256": "6d5a41f5c8794537e5556572da7b3ae75c5e47da835991d64e9d017ab516020e",
+      "predictions_sha256": "3e37f3d49ecf481e56caf060da299099016c8ab6ef4910ab55fa4fba35c2321c",
+      "input_array_sha256": {
+        ".tmp/regularized-search-20261017/PL-holdout-private.npz": "1221d7ef664d762f2fa59bbb02b2fb87c126446700659441b1bd4c6144ed58d5",
+        ".tmp/score-models-20261017/PL-poisson-private.npz": "9f82e96f109bf422fa4b02ee8068859a0676f6d0ec3e04134c52969052df0bd1",
+        ".tmp/score-models-20261017/PL-poisson_decay-private.npz": "9d811fcb0712f81c9df146343ca1d1e9e3bb745b32f82d8ba0a365c7d88bc779",
+        ".tmp/score-models-20261017/PL-dixon_coles-private.npz": "d39a4fc85a80d6f0ed0187400b40fc3d3a4da5eed6dd4a8c6a33f245defc31cd"
+      },
+      "source_snapshots": [
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:16.418773+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2022",
+          "sha256": "e4619858bf01645ecf92e230f5a6cec0730cb9fd4ebf153c2bf96d783a47876d",
+          "source": "football-csv"
+        },
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:16.770405+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2023",
+          "sha256": "ab7a513b187ab7e8931d79b3de3b00333d43247acdbd3eca79592729c1724f16",
+          "source": "football-csv"
+        },
+        {
+          "competition": "PL",
+          "fetched_at": "2026-10-08T23:45:17.130081+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2024",
+          "sha256": "97e1085e7a70650ab3e4deb91b6dd1a407b526c0db9e3c6e6094a3d6cd578cc1",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "competition": "FL1",
+      "cohort_sha256": "4b3177ca1be1ada5c03a77246eda14d913d4a943e260fbd7034ab9d0454cc759",
+      "predictions_sha256": "bd5d9f51f470f0a4b8baea86a8181b85381b51ffcaefd74b859f4f6697c9acfd",
+      "input_array_sha256": {
+        ".tmp/regularized-search-20261017/FL1-holdout-private.npz": "766b2c920f45d4bf220488182139b71de65cd0577596ab991778ad9282e1be16",
+        ".tmp/score-models-20261017/FL1-poisson-private.npz": "58f9c3cb9c6bb23c9a07a51ac3fc2bb03887ed18aef00c3c339ae49eb2ad4cbe",
+        ".tmp/score-models-20261017/FL1-poisson_decay-private.npz": "06d392e309bc4d7a22b684e0b85928db7e1e3684a3f65c03a266748666005590",
+        ".tmp/score-models-20261017/FL1-dixon_coles-private.npz": "1fd3cafec070dfd93acb43e82434763dc42503bd2cf4323aa8af9d2e4f8dfcf9"
+      },
+      "source_snapshots": [
+        {
+          "competition": "FL1",
+          "fetched_at": "2026-10-08T23:45:30.371780+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2022",
+          "sha256": "a24ce36662b01a437d7f91a83fd5defb7bd3cf21cb875e7b9acacd64fe02fb6a",
+          "source": "football-csv"
+        },
+        {
+          "competition": "FL1",
+          "fetched_at": "2026-10-08T23:45:30.698081+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2023",
+          "sha256": "9a4a09220a009a178a8043ae00befb4e9edffc292f5b1b0a8f77977b57ded3c5",
+          "source": "football-csv"
+        },
+        {
+          "competition": "FL1",
+          "fetched_at": "2026-10-08T23:45:31.028716+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2024",
+          "sha256": "b520b41cf37af11cd7f906319d194985f5a70f41b104e87f981b15849603eedc",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "competition": "BL1",
+      "cohort_sha256": "29895b7d22c150c4c2b3207d06c51d441cb071a84f8ca1d209d080c5a1e9f244",
+      "predictions_sha256": "831da329a0c0503966b9428e95f9573147bd304bd2e733ebb7638311520e4562",
+      "input_array_sha256": {
+        ".tmp/regularized-search-20261017/BL1-holdout-private.npz": "fdea79d338f9f349f679bb19af822c12a400ed347519fe99fd5c48ac2958387c",
+        ".tmp/score-models-20261017/BL1-poisson-private.npz": "f9b5be0c7b17dad24f9bf0069df724d0333d815f192963e90a8bff23c683aab0",
+        ".tmp/score-models-20261017/BL1-poisson_decay-private.npz": "cca0379fa4a78b27c0bc86a403a5b5d6b13bfde53827b876982458cbd4019f01",
+        ".tmp/score-models-20261017/BL1-dixon_coles-private.npz": "4328447d4e64b77750831a0684f58b91606d1ec6440377f3428c33feda55bf51"
+      },
+      "source_snapshots": [
+        {
+          "competition": "BL1",
+          "fetched_at": "2026-10-08T23:45:26.039918+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2022",
+          "sha256": "3b6d81ea8efc1c27fdd2c7ce5ae06df13847d0fb7f621a495500673c0d645868",
+          "source": "football-csv"
+        },
+        {
+          "competition": "BL1",
+          "fetched_at": "2026-10-08T23:45:26.366306+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2023",
+          "sha256": "302eb7e5624a2c34ba5f5175f50ffdd65a067aff2873e8c28081960c8b0afc2a",
+          "source": "football-csv"
+        },
+        {
+          "competition": "BL1",
+          "fetched_at": "2026-10-08T23:45:26.699996+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2024",
+          "sha256": "50272531804425504bb5e8d3db501b8d0e2efa33c84b8da13dbbaeb52d436225",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "competition": "SA",
+      "cohort_sha256": "fc6e8b720b4bcd31c7dc7a243085469c9e2db974e62c1c6dc326ef4955091652",
+      "predictions_sha256": "42f723ea642d1717b066f1f894e6ba8417211d322c09c25dbb9fe99e886ca69b",
+      "input_array_sha256": {
+        ".tmp/regularized-search-20261017/SA-holdout-private.npz": "df3074430a2f00f7eb32f9f50acd0a33a21e71d52b0365fbb62fb63759175e7b",
+        ".tmp/score-models-20261017/SA-poisson-private.npz": "79e1c1f32e8571394cda1b6d15f83af44d9277540116f59729af29d61f079359",
+        ".tmp/score-models-20261017/SA-poisson_decay-private.npz": "5216e7131841410712ccecbb0b57cace42c2510356d3eda90dcc125c5b973add",
+        ".tmp/score-models-20261017/SA-dixon_coles-private.npz": "2641e9ee1de0fb87a55f73f37ee9e3108680d2ab4035c4d935a83ed6ae1dce48"
+      },
+      "source_snapshots": [
+        {
+          "competition": "SA",
+          "fetched_at": "2026-10-08T23:45:33.638788+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2022",
+          "sha256": "9040d052d51f175617ab65a072859237853f2af97999cc299ea9fa645d3a4cef",
+          "source": "football-csv"
+        },
+        {
+          "competition": "SA",
+          "fetched_at": "2026-10-08T23:45:33.986937+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2023",
+          "sha256": "99926562f8c6e6a7a4ac3625864f5417701a43f19ac3a7e1d62c9292ae581dc2",
+          "source": "football-csv"
+        },
+        {
+          "competition": "SA",
+          "fetched_at": "2026-10-08T23:45:34.341747+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2024",
+          "sha256": "150d54f5460e40fc718d3d57648b8d7d4f4f1d32122eea6e9c25b6947a3f34a1",
+          "source": "football-csv"
+        }
+      ]
+    },
+    {
+      "competition": "PD",
+      "cohort_sha256": "456ddfcb9f24df99a65822b8497e0fb7ae1e873ad78362cb962de333395065c9",
+      "predictions_sha256": "fa804791da8313965ea5e653e6ebf2deec985a701364f727ddd03017ae1c4a10",
+      "input_array_sha256": {
+        ".tmp/regularized-search-20261017/PD-holdout-private.npz": "0e581beee10ecdaf0a84cc23896c25314a3d76d03fd4a50e3b4840f50a8a9df0",
+        ".tmp/score-models-20261017/PD-poisson-private.npz": "e800c5636aee53999b46c4bd69d920f2aaaba65015f54d0e2009d6fb03caaf37",
+        ".tmp/score-models-20261017/PD-poisson_decay-private.npz": "8d3c706d42d5e8e1f647498849a0f13dea608e7b9887bc5200c48aa49c0acab7",
+        ".tmp/score-models-20261017/PD-dixon_coles-private.npz": "dd2c4246aa362b56ac1042b63762b493ed2db9a4bee1b5e3f5d5c2e4b9216a6e"
+      },
+      "source_snapshots": [
+        {
+          "competition": "PD",
+          "fetched_at": "2026-10-08T23:46:16.733397+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2022",
+          "sha256": "0289b067c024ef9a4a352e09d0e2dced95d317de6d91dd79c95402c036eb49dd",
+          "source": "football-csv"
+        },
+        {
+          "competition": "PD",
+          "fetched_at": "2026-10-08T23:46:17.074396+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2023",
+          "sha256": "c3128d3ffda910b4b120fb64818820bf8524da59d5db763df3012c308ed44f49",
+          "source": "football-csv"
+        },
+        {
+          "competition": "PD",
+          "fetched_at": "2026-10-08T23:46:17.421132+00:00",
+          "provider": "football-data.co.uk",
+          "season": "2024",
+          "sha256": "a3daa09b015ac66526ee8929c65bc92adc331c98a06b70efd4b5570021473741",
+          "source": "football-csv"
+        }
+      ]
+    }
+  ],
+  "code_sha256": {
+    "app/ml/comparison.py": "1f38dc4315ff45c31755fda02aca86824640e9906e081490e24ea2e0b4990a87",
+    "app/cli/arguments.py": "ae4bd9f4c48563adcd6eb71b64104bc7433eb6ac663d37692e47bd04752a4cea",
+    "app/cli/research.py": "229d7a17a6846d00b54853f27ca38978993301929b2cdc2d5e1b43734a84c890",
+    "app/data_service/history.py": "de79fcc5bae0eab49a431cdef94c461586c0d6b879ccd27a2993e260278ddfad",
+    "app/ml/score_models.py": "98aec0c1b7e432cbf8f50987fdd1a668ed1ca928edae314de1edaebfe56e51a0",
+    "app/ml/model.py": "2168142f0a8f2c996eba8d28186731830e87d11bdb83a7c458c862d5f8038483"
+  },
+  "versions": {
+    "numpy": "2.5.3",
+    "python": "3.12.3"
+  },
+  "holdout_matches": 1069,
+  "model_series": 25,
+  "paired_model_comparisons": 20,
+  "loss_differences": 60,
+  "bootstrap_ranges": 180,
+  "hac_standard_errors": 240,
+  "results": [
+    {
+      "block_unit": "Ordered observed UTC match-days, not elapsed calendar days",
+      "class_order": [
+        "L",
+        "D",
+        "W"
+      ],
+      "cohort_sha256": "6d5a41f5c8794537e5556572da7b3ae75c5e47da835991d64e9d017ab516020e",
+      "comparisons": [
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.011411937197862699,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.018127933313516056
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.017135132802299884
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.015115413156914236
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01590919815611028
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.024482182764438865,
+                  "mean_block_days": 1,
+                  "upper": 0.046139591835969204
+                },
+                {
+                  "lower": -0.021647536704204454,
+                  "mean_block_days": 3,
+                  "upper": 0.043654642619520845
+                },
+                {
+                  "lower": -0.019641506392740392,
+                  "mean_block_days": 7,
+                  "upper": 0.042365570815357266
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.018477080212729192,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.027395492054081247
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.025553234340201906
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.02204003789937027
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.022451843775124016
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.034022849187499274,
+                  "mean_block_days": 1,
+                  "upper": 0.07252674350497464
+                },
+                {
+                  "lower": -0.02908846696572249,
+                  "mean_block_days": 3,
+                  "upper": 0.06538565505481413
+                },
+                {
+                  "lower": -0.02379504451230223,
+                  "mean_block_days": 7,
+                  "upper": 0.06114733040953252
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.007423325487751271,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.006890865264854375
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.006856214572836675
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.0060205237349708
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.0062725805197235435
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0059413311745932385,
+                  "mean_block_days": 1,
+                  "upper": 0.020715071581396464
+                },
+                {
+                  "lower": -0.005269121517003008,
+                  "mean_block_days": 3,
+                  "upper": 0.020111747313839103
+                },
+                {
+                  "lower": -0.00476748559157383,
+                  "mean_block_days": 7,
+                  "upper": 0.01917903947532579
+                }
+              ]
+            }
+          },
+          "model": "logistic_l2/default"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.014124590370137538,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.014304178405596338
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014998294332737807
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.014075911739600763
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.011099468037926496
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.014090133419036885,
+                  "mean_block_days": 1,
+                  "upper": 0.04178568534272281
+                },
+                {
+                  "lower": -0.012932117729638409,
+                  "mean_block_days": 3,
+                  "upper": 0.03956782804554959
+                },
+                {
+                  "lower": -0.008502793621174126,
+                  "mean_block_days": 7,
+                  "upper": 0.03532901111075151
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.0162978689932163,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.021168070156423222
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.022530326774501317
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.021492439558241407
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.016948437563390605
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.025801669491922932,
+                  "mean_block_days": 1,
+                  "upper": 0.05713178301800955
+                },
+                {
+                  "lower": -0.02446504227967694,
+                  "mean_block_days": 3,
+                  "upper": 0.05409732743982984
+                },
+                {
+                  "lower": -0.0175349785309849,
+                  "mean_block_days": 7,
+                  "upper": 0.04901729044266212
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.011190821735759087,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005490677773468959
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005766086296160561
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.0051882196476388445
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.003760690760510361
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": 0.00032678888012702595,
+                  "mean_block_days": 1,
+                  "upper": 0.02154478125851273
+                },
+                {
+                  "lower": 0.0007463854917219144,
+                  "mean_block_days": 3,
+                  "upper": 0.020460143488289312
+                },
+                {
+                  "lower": 0.0026382029928973135,
+                  "mean_block_days": 7,
+                  "upper": 0.018789953199592358
+                }
+              ]
+            }
+          },
+          "model": "poisson"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.005618085722783064,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.013942296483094358
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014841157076582066
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.014203782183614276
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.011687653970048015
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.02155430274852023,
+                  "mean_block_days": 1,
+                  "upper": 0.03259114155490365
+                },
+                {
+                  "lower": -0.022400864426755554,
+                  "mean_block_days": 3,
+                  "upper": 0.031000045261079287
+                },
+                {
+                  "lower": -0.017092053463126596,
+                  "mean_block_days": 7,
+                  "upper": 0.027912882546433076
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.002798405302576444,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.020628521551456714
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.022325463942522186
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.021781380498837127
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.018178892075010954
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03716257684390181,
+                  "mean_block_days": 1,
+                  "upper": 0.044379851980937544
+                },
+                {
+                  "lower": -0.037988367331106006,
+                  "mean_block_days": 3,
+                  "upper": 0.04080851993881849
+                },
+                {
+                  "lower": -0.03239760981763885,
+                  "mean_block_days": 7,
+                  "upper": 0.03621385126259562
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.007063796507670663,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005055353687551503
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005399097544576209
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.004850149742522442
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.003626867270210389
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.003123344834724196,
+                  "mean_block_days": 1,
+                  "upper": 0.01628775879699621
+                },
+                {
+                  "lower": -0.0026516336917707544,
+                  "mean_block_days": 3,
+                  "upper": 0.015711269121261064
+                },
+                {
+                  "lower": -0.0005771767196365169,
+                  "mean_block_days": 7,
+                  "upper": 0.014340974070597434
+                }
+              ]
+            }
+          },
+          "model": "poisson_decay"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.005383831093854978,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.013710566007530378
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014572565118605088
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.013830812487424847
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.011252451453894825
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.021245049677837136,
+                  "mean_block_days": 1,
+                  "upper": 0.03182083690006428
+                },
+                {
+                  "lower": -0.02216572523645371,
+                  "mean_block_days": 3,
+                  "upper": 0.030278361913765834
+                },
+                {
+                  "lower": -0.0166849249482268,
+                  "mean_block_days": 7,
+                  "upper": 0.027014703878244412
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.00244508371528971,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.02016751962624678
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.021761608530097627
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.020992696580795625
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01724495045845326
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.036918681015432823,
+                  "mean_block_days": 1,
+                  "upper": 0.042877185681384974
+                },
+                {
+                  "lower": -0.037105853993447464,
+                  "mean_block_days": 3,
+                  "upper": 0.03958303192003581
+                },
+                {
+                  "lower": -0.03138610091894794,
+                  "mean_block_days": 7,
+                  "upper": 0.0346409345205691
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.006966042838124317,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005030239569356599
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005361570129737022
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.004799049358967011
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.0035682803153730992
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0031414227935680395,
+                  "mean_block_days": 1,
+                  "upper": 0.01606709525411135
+                },
+                {
+                  "lower": -0.0026843411343490434,
+                  "mean_block_days": 3,
+                  "upper": 0.015536636064696671
+                },
+                {
+                  "lower": -0.000562624653579219,
+                  "mean_block_days": 7,
+                  "upper": 0.014156667351032447
+                }
+              ]
+            }
+          },
+          "model": "dixon_coles"
+        }
+      ],
+      "difference_direction": "candidate minus reference; lower is better",
+      "first_kickoff": "2024-12-14T15:00:00+00:00",
+      "last_kickoff": "2025-05-25T15:00:00+00:00",
+      "limits": [
+        "Fixed previously fitted forecasts and paired historical labels; no refitting or selection uncertainty.",
+        "Stationary resampling assumes weak dependence across ordered observed days, wraps at the end and does not preserve calendar gaps or season breaks.",
+        "HAC uses match-weighted day-total ratio influences with Bartlett lag weights; it is a local grouped adaptation, not the original equally spaced DM test.",
+        "Lag and block grids are sensitivity settings, not estimated optimal values. Percentiles are pointwise descriptive ranges, not validated or simultaneous confidence coverage.",
+        "No p-values, rejection labels, model reselection or prospective superiority claims. Repeated historical evaluation and long-range team dependence remain limitations."
+      ],
+      "matches": 231,
+      "matches_per_day": {
+        "max": 10,
+        "min": 1
+      },
+      "max_calendar_gap_days": 16,
+      "max_input_row_mass_error": 8.940696716308594e-08,
+      "predictions_sha256": "3e37f3d49ecf481e56caf060da299099016c8ab6ef4910ab55fa4fba35c2321c",
+      "probability_floor_for_log_loss": 1e-15,
+      "probability_normalization": "Original rows retained within existing evaluator tolerance1e-6",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "reference": "xgboost/default",
+      "replicates": 2000,
+      "rng": "numpy.PCG64",
+      "schema": "SoccerAnalytics.PairedOutcomeComparison.v1",
+      "scores": [
+        {
+          "brier_score": 0.5966791933044117,
+          "log_loss": 1.0001838573932902,
+          "model": "xgboost/default",
+          "rps": 0.2056669280884362
+        },
+        {
+          "brier_score": 0.6080911305022744,
+          "log_loss": 1.0186609376060196,
+          "model": "logistic_l2/default",
+          "rps": 0.21309025357618747
+        },
+        {
+          "brier_score": 0.6108037836745493,
+          "log_loss": 1.0164817263865067,
+          "model": "poisson",
+          "rps": 0.2168577498241953
+        },
+        {
+          "brier_score": 0.6022972790271948,
+          "log_loss": 1.0029822626958667,
+          "model": "poisson_decay",
+          "rps": 0.21273072459610687
+        },
+        {
+          "brier_score": 0.6020630243982668,
+          "log_loss": 1.00262894110858,
+          "model": "dixon_coles",
+          "rps": 0.21263297092656055
+        }
+      ],
+      "seed": 20261017,
+      "utc_match_days": 69,
+      "weighting": "Pooled matches in each resampled set of days; unequal daily counts retained",
+      "competition": "PL",
+      "development_selected_score_model": "poisson"
+    },
+    {
+      "block_unit": "Ordered observed UTC match-days, not elapsed calendar days",
+      "class_order": [
+        "L",
+        "D",
+        "W"
+      ],
+      "cohort_sha256": "4b3177ca1be1ada5c03a77246eda14d913d4a943e260fbd7034ab9d0454cc759",
+      "comparisons": [
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.003258466872410003,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.019374044382922038
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.019071388679002255
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.019845092730174575
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.021669384057812123
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.033910189318346676,
+                  "mean_block_days": 1,
+                  "upper": 0.04377554094105127
+                },
+                {
+                  "lower": -0.03397068074594914,
+                  "mean_block_days": 3,
+                  "upper": 0.04436146567340438
+                },
+                {
+                  "lower": -0.03965104848473477,
+                  "mean_block_days": 7,
+                  "upper": 0.04622973647803482
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.020078569390712897,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.029998754468416634
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.028218496519819794
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.02853240330372672
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.030505635898907958
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03893916550808838,
+                  "mean_block_days": 1,
+                  "upper": 0.08344932358439594
+                },
+                {
+                  "lower": -0.03316336358803598,
+                  "mean_block_days": 3,
+                  "upper": 0.0786871277281036
+                },
+                {
+                  "lower": -0.04048104342803627,
+                  "mean_block_days": 7,
+                  "upper": 0.08098552662259408
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.0029964330835010587,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.007648028709525604
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.007427135769514145
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.007791482523803169
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.008398584366899881
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.018233006376896746,
+                  "mean_block_days": 1,
+                  "upper": 0.01264626505916745
+                },
+                {
+                  "lower": -0.018134816328412507,
+                  "mean_block_days": 3,
+                  "upper": 0.012709931371957866
+                },
+                {
+                  "lower": -0.01885248043084945,
+                  "mean_block_days": 7,
+                  "upper": 0.013123743378061416
+                }
+              ]
+            }
+          },
+          "model": "logistic_l2/default"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.05128479653493064,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.017986647233173714
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.016611240029290226
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.017410569282383697
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.015408792930234245
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0875883281741616,
+                  "mean_block_days": 1,
+                  "upper": -0.015497744654321112
+                },
+                {
+                  "lower": -0.08290328486043212,
+                  "mean_block_days": 3,
+                  "upper": -0.016387880802339456
+                },
+                {
+                  "lower": -0.07637308005234834,
+                  "mean_block_days": 7,
+                  "upper": -0.02097582575319582
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.07070839047977369,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.025689799014623232
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.023648173677010942
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.024692265443626345
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.021620356402729024
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.12245468076462462,
+                  "mean_block_days": 1,
+                  "upper": -0.019911093473492205
+                },
+                {
+                  "lower": -0.11526850936272115,
+                  "mean_block_days": 3,
+                  "upper": -0.022297030442304754
+                },
+                {
+                  "lower": -0.10680938363397356,
+                  "mean_block_days": 7,
+                  "upper": -0.028543199440299854
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.017675691514545153,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.007879408688911956
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.0073972346918296
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.007766427853410375
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.007013533088656075
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03353489109007437,
+                  "mean_block_days": 1,
+                  "upper": -0.0015541375910948902
+                },
+                {
+                  "lower": -0.03258617921059165,
+                  "mean_block_days": 3,
+                  "upper": -0.0025959837663260673
+                },
+                {
+                  "lower": -0.03077130066975439,
+                  "mean_block_days": 7,
+                  "upper": -0.0039019042370211482
+                }
+              ]
+            }
+          },
+          "model": "poisson"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.058975087118876134,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.016329280918399317
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.015350010030633339
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.015926603003150384
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01437710723010781
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.09167921679751168,
+                  "mean_block_days": 1,
+                  "upper": -0.02629533979891029
+                },
+                {
+                  "lower": -0.08800580846416207,
+                  "mean_block_days": 3,
+                  "upper": -0.026605871490582224
+                },
+                {
+                  "lower": -0.08181265108050088,
+                  "mean_block_days": 7,
+                  "upper": -0.031605093162464654
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.08239553076619291,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.0231468224413646
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.021576692467294545
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.0220768248200853
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.019678138590756046
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.12961777346729506,
+                  "mean_block_days": 1,
+                  "upper": -0.037118643756945166
+                },
+                {
+                  "lower": -0.12179786265112658,
+                  "mean_block_days": 3,
+                  "upper": -0.036970498386376505
+                },
+                {
+                  "lower": -0.1139938855504796,
+                  "mean_block_days": 7,
+                  "upper": -0.04444106605337459
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.021793559036145355,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.006867509984095289
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.006493047460941431
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.006693388394678804
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.006190618498437686
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03568173364985865,
+                  "mean_block_days": 1,
+                  "upper": -0.008044184641579978
+                },
+                {
+                  "lower": -0.03429705017585189,
+                  "mean_block_days": 3,
+                  "upper": -0.008323104840471902
+                },
+                {
+                  "lower": -0.03292208471527224,
+                  "mean_block_days": 7,
+                  "upper": -0.009734812319754397
+                }
+              ]
+            }
+          },
+          "model": "poisson_decay"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.056587798649890095,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.015718909711192785
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014854232357124754
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.015424933084996805
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.014007573078016143
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.08763009836108225,
+                  "mean_block_days": 1,
+                  "upper": -0.025267721922574978
+                },
+                {
+                  "lower": -0.08492058006499384,
+                  "mean_block_days": 3,
+                  "upper": -0.025337511648080895
+                },
+                {
+                  "lower": -0.07891230204494096,
+                  "mean_block_days": 7,
+                  "upper": -0.030340089754442336
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.07809547691808028,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.02227022476307867
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.020802137538699812
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.021254231286666894
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01906734454853775
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.12260270614306973,
+                  "mean_block_days": 1,
+                  "upper": -0.0334757897605186
+                },
+                {
+                  "lower": -0.11674169257855298,
+                  "mean_block_days": 3,
+                  "upper": -0.03494768319302455
+                },
+                {
+                  "lower": -0.11007685097661687,
+                  "mean_block_days": 7,
+                  "upper": -0.041603220720011366
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.021428286763633248,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.006811501624151461
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.006458345349274309
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.006652561577249101
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.006183885194041672
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03516715859493863,
+                  "mean_block_days": 1,
+                  "upper": -0.007697596345101455
+                },
+                {
+                  "lower": -0.03410030610559027,
+                  "mean_block_days": 3,
+                  "upper": -0.00800899316037203
+                },
+                {
+                  "lower": -0.03257349397817461,
+                  "mean_block_days": 7,
+                  "upper": -0.009456367573859474
+                }
+              ]
+            }
+          },
+          "model": "dixon_coles"
+        }
+      ],
+      "difference_direction": "candidate minus reference; lower is better",
+      "first_kickoff": "2024-11-29T19:45:00+00:00",
+      "last_kickoff": "2025-05-17T19:00:00+00:00",
+      "limits": [
+        "Fixed previously fitted forecasts and paired historical labels; no refitting or selection uncertainty.",
+        "Stationary resampling assumes weak dependence across ordered observed days, wraps at the end and does not preserve calendar gaps or season breaks.",
+        "HAC uses match-weighted day-total ratio influences with Bartlett lag weights; it is a local grouped adaptation, not the original equally spaced DM test.",
+        "Lag and block grids are sensitivity settings, not estimated optimal values. Percentiles are pointwise descriptive ranges, not validated or simultaneous confidence coverage.",
+        "No p-values, rejection labels, model reselection or prospective superiority claims. Repeated historical evaluation and long-range team dependence remain limitations."
+      ],
+      "matches": 198,
+      "matches_per_day": {
+        "max": 9,
+        "min": 1
+      },
+      "max_calendar_gap_days": 16,
+      "max_input_row_mass_error": 7.450580596923828e-08,
+      "predictions_sha256": "bd5d9f51f470f0a4b8baea86a8181b85381b51ffcaefd74b859f4f6697c9acfd",
+      "probability_floor_for_log_loss": 1e-15,
+      "probability_normalization": "Original rows retained within existing evaluator tolerance1e-6",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "reference": "xgboost/default",
+      "replicates": 2000,
+      "rng": "numpy.PCG64",
+      "schema": "SoccerAnalytics.PairedOutcomeComparison.v1",
+      "scores": [
+        {
+          "brier_score": 0.6378836499013315,
+          "log_loss": 1.0571268058165606,
+          "model": "xgboost/default",
+          "rps": 0.23283359706721307
+        },
+        {
+          "brier_score": 0.6411421167737414,
+          "log_loss": 1.0772053752072739,
+          "model": "logistic_l2/default",
+          "rps": 0.229837163983712
+        },
+        {
+          "brier_score": 0.5865988533664009,
+          "log_loss": 0.9864184153367872,
+          "model": "poisson",
+          "rps": 0.21515790555266792
+        },
+        {
+          "brier_score": 0.5789085627824553,
+          "log_loss": 0.9747312750503678,
+          "model": "poisson_decay",
+          "rps": 0.21104003803106774
+        },
+        {
+          "brier_score": 0.5812958512514415,
+          "log_loss": 0.9790313288984804,
+          "model": "dixon_coles",
+          "rps": 0.2114053103035798
+        }
+      ],
+      "seed": 20261017,
+      "utc_match_days": 64,
+      "weighting": "Pooled matches in each resampled set of days; unequal daily counts retained",
+      "competition": "FL1",
+      "development_selected_score_model": "poisson_decay"
+    },
+    {
+      "block_unit": "Ordered observed UTC match-days, not elapsed calendar days",
+      "class_order": [
+        "L",
+        "D",
+        "W"
+      ],
+      "cohort_sha256": "29895b7d22c150c4c2b3207d06c51d441cb071a84f8ca1d209d080c5a1e9f244",
+      "comparisons": [
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.029635582330295066,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.02102362818432609
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.02221109413606585
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.023970314388545726
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.02262492161348786
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.010353322098913523,
+                  "mean_block_days": 1,
+                  "upper": 0.0729812150143969
+                },
+                {
+                  "lower": -0.01176866212709278,
+                  "mean_block_days": 3,
+                  "upper": 0.07602842302386385
+                },
+                {
+                  "lower": -0.00939026612006583,
+                  "mean_block_days": 7,
+                  "upper": 0.07538854507403521
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.07590736157391516,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.04188394360605308
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.043212328455785064
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.045725739226848965
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.04243316396999647
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": 0.0016757978263634435,
+                  "mean_block_days": 1,
+                  "upper": 0.16426248201880844
+                },
+                {
+                  "lower": 0.0028800113322314837,
+                  "mean_block_days": 3,
+                  "upper": 0.17314797529294554
+                },
+                {
+                  "lower": 0.007690832928711352,
+                  "mean_block_days": 7,
+                  "upper": 0.16613091385324
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.017307514374683995,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.008842510321930513
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.00928676921813388
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.009823295479138024
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.008972544806648542
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": 0.00046100408386055006,
+                  "mean_block_days": 1,
+                  "upper": 0.03541563712652432
+                },
+                {
+                  "lower": 0.0009469454032042313,
+                  "mean_block_days": 3,
+                  "upper": 0.036725794260061284
+                },
+                {
+                  "lower": 0.0022275120108023257,
+                  "mean_block_days": 7,
+                  "upper": 0.03615563646518717
+                }
+              ]
+            }
+          },
+          "model": "logistic_l2/default"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.004328467334079077,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.020504084421073817
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.022375760282216564
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.025392554551167783
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.026335940880789867
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.032733134411602686,
+                  "mean_block_days": 1,
+                  "upper": 0.046266881719060425
+                },
+                {
+                  "lower": -0.04237261621683731,
+                  "mean_block_days": 3,
+                  "upper": 0.052373248304723244
+                },
+                {
+                  "lower": -0.04029429644618217,
+                  "mean_block_days": 7,
+                  "upper": 0.05531149727643234
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.003460777468074197,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.03239090523608175
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.034895685372224185
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.038766512182089964
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.039848449809593844
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.05509204483996742,
+                  "mean_block_days": 1,
+                  "upper": 0.06924296617898654
+                },
+                {
+                  "lower": -0.06725364183619821,
+                  "mean_block_days": 3,
+                  "upper": 0.07730614510327624
+                },
+                {
+                  "lower": -0.06359802119777838,
+                  "mean_block_days": 7,
+                  "upper": 0.08065543975143413
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.006221452218069658,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.00810435553190354
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.008638861485946472
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.009633445707604745
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.009727062365025184
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.008702180383062808,
+                  "mean_block_days": 1,
+                  "upper": 0.022595823820512295
+                },
+                {
+                  "lower": -0.010694867238369102,
+                  "mean_block_days": 3,
+                  "upper": 0.02460148198903469
+                },
+                {
+                  "lower": -0.009885653876336428,
+                  "mean_block_days": 7,
+                  "upper": 0.02532234124288097
+                }
+              ]
+            }
+          },
+          "model": "poisson"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.00017320171559053634,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.020953557894554754
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.02270756974971683
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.02555660210003522
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.026099571537137326
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.037590029033662896,
+                  "mean_block_days": 1,
+                  "upper": 0.04246106330295339
+                },
+                {
+                  "lower": -0.04801887791582561,
+                  "mean_block_days": 3,
+                  "upper": 0.04791333121332343
+                },
+                {
+                  "lower": -0.04416820259290437,
+                  "mean_block_days": 7,
+                  "upper": 0.04994672301935138
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.003243492501350953,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.03267057471699164
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.03503131027585212
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.038684922504515114
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.03911424219435339
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.06270226521474405,
+                  "mean_block_days": 1,
+                  "upper": 0.06279556584626302
+                },
+                {
+                  "lower": -0.07451634311362178,
+                  "mean_block_days": 3,
+                  "upper": 0.07055142229586008
+                },
+                {
+                  "lower": -0.06998609273701628,
+                  "mean_block_days": 7,
+                  "upper": 0.07130327903784951
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.003554501047070545,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.00805570863585103
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.008506823316780649
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.009337642240145617
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.009194114266545478
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.011113429305112887,
+                  "mean_block_days": 1,
+                  "upper": 0.019634244152182036
+                },
+                {
+                  "lower": -0.013338614002921391,
+                  "mean_block_days": 3,
+                  "upper": 0.021131781062425612
+                },
+                {
+                  "lower": -0.011659123691798405,
+                  "mean_block_days": 7,
+                  "upper": 0.02197817960645804
+                }
+              ]
+            }
+          },
+          "model": "poisson_decay"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.003789573592364137,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.01905716426727791
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.020499335663337413
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.022833053866717693
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.02288231029226762
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03750782649099328,
+                  "mean_block_days": 1,
+                  "upper": 0.03444950526889082
+                },
+                {
+                  "lower": -0.0449380923365654,
+                  "mean_block_days": 3,
+                  "upper": 0.0399447647302195
+                },
+                {
+                  "lower": -0.041544562589228305,
+                  "mean_block_days": 7,
+                  "upper": 0.04177128175122101
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.007013115526805345,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.030540794986423803
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.032455567965069904
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.03563003403542222
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.03529714373880084
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0610139645092908,
+                  "mean_block_days": 1,
+                  "upper": 0.054806374259085806
+                },
+                {
+                  "lower": -0.06992627006951457,
+                  "mean_block_days": 3,
+                  "upper": 0.061595771378422426
+                },
+                {
+                  "lower": -0.0656541615921304,
+                  "mean_block_days": 7,
+                  "upper": 0.06530630640327448
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.0026429449549537605,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.00781892008395104
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.008244669501062273
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.008997671533732505
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.008799748962121618
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.01163287285931633,
+                  "mean_block_days": 1,
+                  "upper": 0.018293207893720995
+                },
+                {
+                  "lower": -0.013234596306847299,
+                  "mean_block_days": 3,
+                  "upper": 0.02019440460957693
+                },
+                {
+                  "lower": -0.011899056473418958,
+                  "mean_block_days": 7,
+                  "upper": 0.02059734539341979
+                }
+              ]
+            }
+          },
+          "model": "dixon_coles"
+        }
+      ],
+      "difference_direction": "candidate minus reference; lower is better",
+      "first_kickoff": "2024-12-14T17:30:00+00:00",
+      "last_kickoff": "2025-05-17T13:30:00+00:00",
+      "limits": [
+        "Fixed previously fitted forecasts and paired historical labels; no refitting or selection uncertainty.",
+        "Stationary resampling assumes weak dependence across ordered observed days, wraps at the end and does not preserve calendar gaps or season breaks.",
+        "HAC uses match-weighted day-total ratio influences with Bartlett lag weights; it is a local grouped adaptation, not the original equally spaced DM test.",
+        "Lag and block grids are sensitivity settings, not estimated optimal values. Percentiles are pointwise descriptive ranges, not validated or simultaneous confidence coverage.",
+        "No p-values, rejection labels, model reselection or prospective superiority claims. Repeated historical evaluation and long-range team dependence remain limitations."
+      ],
+      "matches": 184,
+      "matches_per_day": {
+        "max": 9,
+        "min": 1
+      },
+      "max_calendar_gap_days": 19,
+      "max_input_row_mass_error": 7.450580596923828e-08,
+      "predictions_sha256": "831da329a0c0503966b9428e95f9573147bd304bd2e733ebb7638311520e4562",
+      "probability_floor_for_log_loss": 1e-15,
+      "probability_normalization": "Original rows retained within existing evaluator tolerance1e-6",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "reference": "xgboost/default",
+      "replicates": 2000,
+      "rng": "numpy.PCG64",
+      "schema": "SoccerAnalytics.PairedOutcomeComparison.v1",
+      "scores": [
+        {
+          "brier_score": 0.6350280466110726,
+          "log_loss": 1.0582657178990715,
+          "model": "xgboost/default",
+          "rps": 0.21711714175292646
+        },
+        {
+          "brier_score": 0.6646636289413678,
+          "log_loss": 1.1341730794729867,
+          "model": "logistic_l2/default",
+          "rps": 0.2344246561276105
+        },
+        {
+          "brier_score": 0.6393565139451517,
+          "log_loss": 1.0617264953671457,
+          "model": "poisson",
+          "rps": 0.22333859397099615
+        },
+        {
+          "brier_score": 0.634854844895482,
+          "log_loss": 1.0550222253977206,
+          "model": "poisson_decay",
+          "rps": 0.22067164279999704
+        },
+        {
+          "brier_score": 0.6312384730187085,
+          "log_loss": 1.0512526023722664,
+          "model": "dixon_coles",
+          "rps": 0.21976008670788025
+        }
+      ],
+      "seed": 20261017,
+      "utc_match_days": 58,
+      "weighting": "Pooled matches in each resampled set of days; unequal daily counts retained",
+      "competition": "BL1",
+      "development_selected_score_model": "dixon_coles"
+    },
+    {
+      "block_unit": "Ordered observed UTC match-days, not elapsed calendar days",
+      "class_order": [
+        "L",
+        "D",
+        "W"
+      ],
+      "cohort_sha256": "fc6e8b720b4bcd31c7dc7a243085469c9e2db974e62c1c6dc326ef4955091652",
+      "comparisons": [
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.011525007943032484,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.015928380917858996
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.015403523072407757
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.014673718577057826
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01278652124721953
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0436259106153939,
+                  "mean_block_days": 1,
+                  "upper": 0.020290668381525837
+                },
+                {
+                  "lower": -0.03989798961969221,
+                  "mean_block_days": 3,
+                  "upper": 0.01655448639360283
+                },
+                {
+                  "lower": -0.033684362306393406,
+                  "mean_block_days": 7,
+                  "upper": 0.012179357597186177
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.006338996205700937,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.027614211174194245
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.02764324917522628
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.027123087495084717
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.02528856297777362
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.059072798520761874,
+                  "mean_block_days": 1,
+                  "upper": 0.04870609856719773
+                },
+                {
+                  "lower": -0.05697442425866904,
+                  "mean_block_days": 3,
+                  "upper": 0.047784432632400745
+                },
+                {
+                  "lower": -0.04947751335146793,
+                  "mean_block_days": 7,
+                  "upper": 0.042639838428430735
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.0075008580274759425,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.006237622248682999
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.006420850558859236
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.00631760114400969
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.005553560789452561
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.01974052597096055,
+                  "mean_block_days": 1,
+                  "upper": 0.004689325922015867
+                },
+                {
+                  "lower": -0.01950816993930102,
+                  "mean_block_days": 3,
+                  "upper": 0.00429471549646858
+                },
+                {
+                  "lower": -0.017097602527947404,
+                  "mean_block_days": 7,
+                  "upper": 0.003116874950254661
+                }
+              ]
+            }
+          },
+          "model": "logistic_l2/default"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.017258889418543817,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.012865973724552626
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.013316343708336916
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.013229955320903684
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.010617018799484653
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0427106146854328,
+                  "mean_block_days": 1,
+                  "upper": 0.007939054015338873
+                },
+                {
+                  "lower": -0.0415926081862432,
+                  "mean_block_days": 3,
+                  "upper": 0.006428073872993234
+                },
+                {
+                  "lower": -0.0364387784981352,
+                  "mean_block_days": 7,
+                  "upper": 0.0042352460973340686
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.021895651178474453,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.01821049223087934
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.01880911550112505
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.018872469839287594
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.015612011350123356
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.05732438147838995,
+                  "mean_block_days": 1,
+                  "upper": 0.013904836796476604
+                },
+                {
+                  "lower": -0.056801641879235275,
+                  "mean_block_days": 3,
+                  "upper": 0.012155514275532126
+                },
+                {
+                  "lower": -0.04989516882836203,
+                  "mean_block_days": 7,
+                  "upper": 0.00954234943498554
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.006229257718088526,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005063600013514334
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005295205029899507
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.005099653410743124
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.003913738617399276
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.016133761956541755,
+                  "mean_block_days": 1,
+                  "upper": 0.003641211691021414
+                },
+                {
+                  "lower": -0.015730638345509026,
+                  "mean_block_days": 3,
+                  "upper": 0.0024705432927341377
+                },
+                {
+                  "lower": -0.013467423477476197,
+                  "mean_block_days": 7,
+                  "upper": 0.001330952954196678
+                }
+              ]
+            }
+          },
+          "model": "poisson"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.012234650907476113,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.013276754581647994
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.01396522294442872
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.014098207084382077
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01180862255963401
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03839820235334608,
+                  "mean_block_days": 1,
+                  "upper": 0.013584715072757589
+                },
+                {
+                  "lower": -0.03773621900699806,
+                  "mean_block_days": 3,
+                  "upper": 0.013317353900130812
+                },
+                {
+                  "lower": -0.033241497143499235,
+                  "mean_block_days": 7,
+                  "upper": 0.012152202646124521
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.014704657150447664,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.018827339363780657
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.019723932220713378
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.020034779745789526
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.017096558489497562
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.0514850162709518,
+                  "mean_block_days": 1,
+                  "upper": 0.021919221449397588
+                },
+                {
+                  "lower": -0.05118850035805098,
+                  "mean_block_days": 3,
+                  "upper": 0.022036610013331723
+                },
+                {
+                  "lower": -0.0446665914760472,
+                  "mean_block_days": 7,
+                  "upper": 0.021229692014807944
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.003911909551512302,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.00530692278197457
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.0056273389422641954
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.005501855725054759
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.0044889768120556055
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.014420460463199771,
+                  "mean_block_days": 1,
+                  "upper": 0.006289379280026432
+                },
+                {
+                  "lower": -0.013863112674296846,
+                  "mean_block_days": 3,
+                  "upper": 0.005859995688295596
+                },
+                {
+                  "lower": -0.012052244505486157,
+                  "mean_block_days": 7,
+                  "upper": 0.004727766929848432
+                }
+              ]
+            }
+          },
+          "model": "poisson_decay"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.013085749248897905,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.012968788224873684
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.013592501606946472
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.013562987311129503
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.011247028747818574
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.038248303015079844,
+                  "mean_block_days": 1,
+                  "upper": 0.012080382093398526
+                },
+                {
+                  "lower": -0.0377020919188506,
+                  "mean_block_days": 3,
+                  "upper": 0.01147275338140769
+                },
+                {
+                  "lower": -0.03319662882002568,
+                  "mean_block_days": 7,
+                  "upper": 0.010200796365880118
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.01643469761257281,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.018348462405482376
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.019125053722414184
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.019128326860211403
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01609598868613565
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.052291063869507846,
+                  "mean_block_days": 1,
+                  "upper": 0.01936145919593235
+                },
+                {
+                  "lower": -0.05137994553692656,
+                  "mean_block_days": 3,
+                  "upper": 0.01858564447799954
+                },
+                {
+                  "lower": -0.044976509375667106,
+                  "mean_block_days": 7,
+                  "upper": 0.017044523905584485
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.004045721825776692,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.0053078769484406615
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005610852486282833
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.005455233762562379
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.00445035046323824
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.014527950822441599,
+                  "mean_block_days": 1,
+                  "upper": 0.0061345311778069405
+                },
+                {
+                  "lower": -0.013925031609665274,
+                  "mean_block_days": 3,
+                  "upper": 0.005656690268362469
+                },
+                {
+                  "lower": -0.012175447741227901,
+                  "mean_block_days": 7,
+                  "upper": 0.004497413884949217
+                }
+              ]
+            }
+          },
+          "model": "dixon_coles"
+        }
+      ],
+      "difference_direction": "candidate minus reference; lower is better",
+      "first_kickoff": "2024-12-15T11:30:00+00:00",
+      "last_kickoff": "2025-05-25T18:45:00+00:00",
+      "limits": [
+        "Fixed previously fitted forecasts and paired historical labels; no refitting or selection uncertainty.",
+        "Stationary resampling assumes weak dependence across ordered observed days, wraps at the end and does not preserve calendar gaps or season breaks.",
+        "HAC uses match-weighted day-total ratio influences with Bartlett lag weights; it is a local grouped adaptation, not the original equally spaced DM test.",
+        "Lag and block grids are sensitivity settings, not estimated optimal values. Percentiles are pointwise descriptive ranges, not validated or simultaneous confidence coverage.",
+        "No p-values, rejection labels, model reselection or prospective superiority claims. Repeated historical evaluation and long-range team dependence remain limitations."
+      ],
+      "matches": 228,
+      "matches_per_day": {
+        "max": 9,
+        "min": 1
+      },
+      "max_calendar_gap_days": 13,
+      "max_input_row_mass_error": 7.450580596923828e-08,
+      "predictions_sha256": "42f723ea642d1717b066f1f894e6ba8417211d322c09c25dbb9fe99e886ca69b",
+      "probability_floor_for_log_loss": 1e-15,
+      "probability_normalization": "Original rows retained within existing evaluator tolerance1e-6",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "reference": "xgboost/default",
+      "replicates": 2000,
+      "rng": "numpy.PCG64",
+      "schema": "SoccerAnalytics.PairedOutcomeComparison.v1",
+      "scores": [
+        {
+          "brier_score": 0.6102918252167833,
+          "log_loss": 1.0151934673281955,
+          "model": "xgboost/default",
+          "rps": 0.2028758670049174
+        },
+        {
+          "brier_score": 0.5987668172737507,
+          "log_loss": 1.0088544711224945,
+          "model": "logistic_l2/default",
+          "rps": 0.19537500897744142
+        },
+        {
+          "brier_score": 0.5930329357982395,
+          "log_loss": 0.9932978161497211,
+          "model": "poisson",
+          "rps": 0.19664660928682887
+        },
+        {
+          "brier_score": 0.5980571743093072,
+          "log_loss": 1.000488810177748,
+          "model": "poisson_decay",
+          "rps": 0.19896395745340506
+        },
+        {
+          "brier_score": 0.5972060759678854,
+          "log_loss": 0.9987587697156227,
+          "model": "dixon_coles",
+          "rps": 0.1988301451791407
+        }
+      ],
+      "seed": 20261017,
+      "utc_match_days": 83,
+      "weighting": "Pooled matches in each resampled set of days; unequal daily counts retained",
+      "competition": "SA",
+      "development_selected_score_model": "dixon_coles"
+    },
+    {
+      "block_unit": "Ordered observed UTC match-days, not elapsed calendar days",
+      "class_order": [
+        "L",
+        "D",
+        "W"
+      ],
+      "cohort_sha256": "456ddfcb9f24df99a65822b8497e0fb7ae1e873ad78362cb962de333395065c9",
+      "comparisons": [
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": 0.018978946056063685,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.021740717498803144
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.02182439126830217
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.02012229597841771
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.015476978078929693
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.023204222549589322,
+                  "mean_block_days": 1,
+                  "upper": 0.06032517610982777
+                },
+                {
+                  "lower": -0.0182582524568092,
+                  "mean_block_days": 3,
+                  "upper": 0.0570946485809849
+                },
+                {
+                  "lower": -0.010766250529205098,
+                  "mean_block_days": 7,
+                  "upper": 0.05214439277282941
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": 0.03984076475297284,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.04085027681889797
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.040039113588747566
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.036750129198618996
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.030953605493504455
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03826158481860932,
+                  "mean_block_days": 1,
+                  "upper": 0.11917118383404027
+                },
+                {
+                  "lower": -0.02844551929096976,
+                  "mean_block_days": 3,
+                  "upper": 0.11123715603828273
+                },
+                {
+                  "lower": -0.018883858430159176,
+                  "mean_block_days": 7,
+                  "upper": 0.10353329751831272
+                }
+              ]
+            },
+            "rps": {
+              "difference": 0.0063521202478232066,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.009621942228696424
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.009567310379680376
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.008888561249967288
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.007757884757125664
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.011809398521567415,
+                  "mean_block_days": 1,
+                  "upper": 0.025121345708891057
+                },
+                {
+                  "lower": -0.010180810006860877,
+                  "mean_block_days": 3,
+                  "upper": 0.023682024033979718
+                },
+                {
+                  "lower": -0.008085746863803872,
+                  "mean_block_days": 7,
+                  "upper": 0.022330617516492846
+                }
+              ]
+            }
+          },
+          "model": "logistic_l2/default"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.008755621568377819,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.012741779301191986
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.013465813373002594
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.012713364839320496
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.009588465168676511
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.033874755383706316,
+                  "mean_block_days": 1,
+                  "upper": 0.014467429776246835
+                },
+                {
+                  "lower": -0.03202377635276243,
+                  "mean_block_days": 3,
+                  "upper": 0.01497787973326331
+                },
+                {
+                  "lower": -0.029043298509030212,
+                  "mean_block_days": 7,
+                  "upper": 0.013187117215450607
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.01215028567722479,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.018534193653006636
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.01979738452820436
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.018715957255463576
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.013718122831326172
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.049503868671227524,
+                  "mean_block_days": 1,
+                  "upper": 0.022395731446169253
+                },
+                {
+                  "lower": -0.04582471437294712,
+                  "mean_block_days": 3,
+                  "upper": 0.02355439419034241
+                },
+                {
+                  "lower": -0.041176406600313006,
+                  "mean_block_days": 7,
+                  "upper": 0.020095958850889425
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.0008569723900569333,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.00530401958208472
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005429406363464795
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.004920441796326113
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.0036908155214780145
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.01108759985040454,
+                  "mean_block_days": 1,
+                  "upper": 0.008727309164764977
+                },
+                {
+                  "lower": -0.010058000363858552,
+                  "mean_block_days": 3,
+                  "upper": 0.008473135631510212
+                },
+                {
+                  "lower": -0.009084274903636561,
+                  "mean_block_days": 7,
+                  "upper": 0.007546695575935491
+                }
+              ]
+            }
+          },
+          "model": "poisson"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.00859039649344664,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.013362260554391828
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014246034512010224
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.01355618730334378
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.010538699985003923
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.034995362406171814,
+                  "mean_block_days": 1,
+                  "upper": 0.01596623917397636
+                },
+                {
+                  "lower": -0.033587436754354195,
+                  "mean_block_days": 3,
+                  "upper": 0.017121385293807793
+                },
+                {
+                  "lower": -0.03073051268771877,
+                  "mean_block_days": 7,
+                  "upper": 0.015122038195049666
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.012075002613032569,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.019569640674262707
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.021091111904109217
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.020064569855475656
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.01517390541648782
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.05171343463276001,
+                  "mean_block_days": 1,
+                  "upper": 0.024133555312530548
+                },
+                {
+                  "lower": -0.04842187323877157,
+                  "mean_block_days": 3,
+                  "upper": 0.02551589857957357
+                },
+                {
+                  "lower": -0.04347540771598691,
+                  "mean_block_days": 7,
+                  "upper": 0.022450632457485034
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.0007957827292981189,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005580413806223277
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.00573051961832266
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.005200699447856053
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.004017573124841926
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.011547807649193876,
+                  "mean_block_days": 1,
+                  "upper": 0.009196462084396062
+                },
+                {
+                  "lower": -0.010585952244547642,
+                  "mean_block_days": 3,
+                  "upper": 0.00917921721666929
+                },
+                {
+                  "lower": -0.009402178844128627,
+                  "mean_block_days": 7,
+                  "upper": 0.00830842277621545
+                }
+              ]
+            }
+          },
+          "model": "poisson_decay"
+        },
+        {
+          "metrics": {
+            "brier_score": {
+              "difference": -0.008760216292680603,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.013199339463655152
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.014064012404999068
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.01335914079294628
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.010423727959959887
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.03480112032993385,
+                  "mean_block_days": 1,
+                  "upper": 0.01544490434336994
+                },
+                {
+                  "lower": -0.033481129529130155,
+                  "mean_block_days": 3,
+                  "upper": 0.016596209488016635
+                },
+                {
+                  "lower": -0.030658554386150182,
+                  "mean_block_days": 7,
+                  "upper": 0.01507966617828292
+                }
+              ]
+            },
+            "log_loss": {
+              "difference": -0.012214688583911474,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.019354905289810664
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.020833197182348086
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.019783738826329993
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.015063063397838338
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.05094975157505962,
+                  "mean_block_days": 1,
+                  "upper": 0.023302643904151932
+                },
+                {
+                  "lower": -0.04819079702993648,
+                  "mean_block_days": 3,
+                  "upper": 0.02539869688325263
+                },
+                {
+                  "lower": -0.043316523454627893,
+                  "mean_block_days": 7,
+                  "upper": 0.021979871435553272
+                }
+              ]
+            },
+            "rps": {
+              "difference": -0.0008331862597155134,
+              "hac": [
+                {
+                  "lag": 0,
+                  "standard_error": 0.005573829512606678
+                },
+                {
+                  "lag": 1,
+                  "standard_error": 0.005718844132813653
+                },
+                {
+                  "lag": 3,
+                  "standard_error": 0.005186682275969954
+                },
+                {
+                  "lag": 7,
+                  "standard_error": 0.004023708153293185
+                }
+              ],
+              "stationary_bootstrap": [
+                {
+                  "lower": -0.011494517484180762,
+                  "mean_block_days": 1,
+                  "upper": 0.009207885411568055
+                },
+                {
+                  "lower": -0.010639299606534878,
+                  "mean_block_days": 3,
+                  "upper": 0.009135894982777918
+                },
+                {
+                  "lower": -0.009453651955094023,
+                  "mean_block_days": 7,
+                  "upper": 0.008296585397398174
+                }
+              ]
+            }
+          },
+          "model": "dixon_coles"
+        }
+      ],
+      "difference_direction": "candidate minus reference; lower is better",
+      "first_kickoff": "2024-12-07T17:30:00+00:00",
+      "last_kickoff": "2025-05-25T19:00:00+00:00",
+      "limits": [
+        "Fixed previously fitted forecasts and paired historical labels; no refitting or selection uncertainty.",
+        "Stationary resampling assumes weak dependence across ordered observed days, wraps at the end and does not preserve calendar gaps or season breaks.",
+        "HAC uses match-weighted day-total ratio influences with Bartlett lag weights; it is a local grouped adaptation, not the original equally spaced DM test.",
+        "Lag and block grids are sensitivity settings, not estimated optimal values. Percentiles are pointwise descriptive ranges, not validated or simultaneous confidence coverage.",
+        "No p-values, rejection labels, model reselection or prospective superiority claims. Repeated historical evaluation and long-range team dependence remain limitations."
+      ],
+      "matches": 228,
+      "matches_per_day": {
+        "max": 10,
+        "min": 1
+      },
+      "max_calendar_gap_days": 12,
+      "max_input_row_mass_error": 7.450580596923828e-08,
+      "predictions_sha256": "fa804791da8313965ea5e653e6ebf2deec985a701364f727ddd03017ae1c4a10",
+      "probability_floor_for_log_loss": 1e-15,
+      "probability_normalization": "Original rows retained within existing evaluator tolerance1e-6",
+      "quantiles": [
+        0.025,
+        0.975
+      ],
+      "reference": "xgboost/default",
+      "replicates": 2000,
+      "rng": "numpy.PCG64",
+      "schema": "SoccerAnalytics.PairedOutcomeComparison.v1",
+      "scores": [
+        {
+          "brier_score": 0.602648358273611,
+          "log_loss": 1.0094463888033591,
+          "model": "xgboost/default",
+          "rps": 0.2054592130451963
+        },
+        {
+          "brier_score": 0.6216273043296747,
+          "log_loss": 1.049287153556332,
+          "model": "logistic_l2/default",
+          "rps": 0.21181133329301952
+        },
+        {
+          "brier_score": 0.5938927367052331,
+          "log_loss": 0.9972961031261345,
+          "model": "poisson",
+          "rps": 0.2046022406551394
+        },
+        {
+          "brier_score": 0.5940579617801642,
+          "log_loss": 0.9973713861903266,
+          "model": "poisson_decay",
+          "rps": 0.20466343031589823
+        },
+        {
+          "brier_score": 0.5938881419809304,
+          "log_loss": 0.9972317002194476,
+          "model": "dixon_coles",
+          "rps": 0.2046260267854808
+        }
+      ],
+      "seed": 20261017,
+      "utc_match_days": 82,
+      "weighting": "Pooled matches in each resampled set of days; unequal daily counts retained",
+      "competition": "PD",
+      "development_selected_score_model": "poisson"
+    }
+  ],
+  "verification": {
+    "original_metrics_recalculated": 75,
+    "max_original_metric_delta": 2.220446049250313e-16,
+    "models_refitted": 0,
+    "independent_replay": {
+      "independent_scalar_values": 660,
+      "max_scalar_delta": 1.1102230246251565e-16,
+      "independently_expanded_day_resampling_series": 15,
+      "resampled_cohorts": 30000,
+      "models_refitted": 0,
+      "method": "Scalar per-match loss formulas; dense Bartlett covariance matrices; independently replay restart/circular draws then expand whole days back to actual matches before averaging."
+    }
+  },
+  "limits": [
+    "Historical snapshots reused across earlier studies; reference and displayed configurations chosen after earlier results. Exploratory and conditional, no p-values or multiple-comparison significance claim.",
+    "Observed UTC match-days preserve contemporaneous matches, not equal calendar spacing. Circular bootstrap can cross the end of this historical cohort; seasonal breaks and long-range repeated-team dependence are not modeled.",
+    "Pointwise percentile ranges and grouped Bartlett standard errors are descriptive sensitivity diagnostics; no coverage validation, fixed-b critical values, original DM test or full ForeComp reproduction.",
+    "Training, tuning, selection and parameter uncertainty are conditioned away; no frozen predictions, production bundle or database record changed."
+  ],
+  "provenance_enrichment": {
+    "prior_private_identity": "f40f91ea63fc34cb",
+    "reason": "Include reused probability-validator dependency app/ml/model.py in code receipts. Its hash matches the incoming manifest and remained unchanged during execution.",
+    "numerical_results_or_refits_changed": false
+  }
+}

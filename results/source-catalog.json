@@ -1,0 +1,594 @@
+{
+  "snapshot_date": "2026-10-09",
+  "soccerdata_runs": {
+    "Understat-details": {
+      "provider": "Understat",
+      "soccerdata_version": "1.9.1",
+      "status": "collected",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [
+        {
+          "method": "schedule",
+          "rows": 380,
+          "columns": 17
+        },
+        {
+          "method": "player_season_stats",
+          "rows": 562,
+          "columns": 19
+        },
+        {
+          "method": "team_match_stats",
+          "rows": 380,
+          "columns": 26
+        },
+        {
+          "method": "shot_events",
+          "rows": 9878,
+          "columns": 16
+        },
+        {
+          "method": "player_match_stats",
+          "rows": 11567,
+          "columns": 19
+        }
+      ],
+      "errors": []
+    },
+    "ClubElo": {
+      "provider": "ClubElo",
+      "soccerdata_version": "1.9.1",
+      "status": "unavailable_in_probe",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [],
+      "errors": [
+        {
+          "type": "SourceStopped",
+          "reason": "http_502"
+        }
+      ]
+    },
+    "FBref": {
+      "provider": "FBref",
+      "soccerdata_version": "1.9.1",
+      "status": "unavailable_in_probe",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": [
+        "2425"
+      ],
+      "tables": [],
+      "errors": [
+        {
+          "type": "SourceStopped",
+          "reason": "browser_human_verification_required"
+        }
+      ]
+    },
+    "MatchHistory": {
+      "provider": "MatchHistory",
+      "soccerdata_version": "1.9.1",
+      "status": "collected",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [
+        {
+          "method": "games",
+          "rows": 380,
+          "columns": 118
+        }
+      ],
+      "errors": []
+    },
+    "SoFIFA": {
+      "provider": "SoFIFA",
+      "soccerdata_version": "1.9.1",
+      "status": "unavailable_in_probe",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [],
+      "errors": [
+        {
+          "type": "SourceStopped",
+          "reason": "invalid_browser_page:CAPTCHA detected"
+        }
+      ]
+    },
+    "Understat": {
+      "provider": "Understat",
+      "soccerdata_version": "1.9.1",
+      "status": "collected",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [
+        {
+          "method": "schedule",
+          "rows": 380,
+          "columns": 17
+        },
+        {
+          "method": "player_season_stats",
+          "rows": 562,
+          "columns": 19
+        },
+        {
+          "method": "team_match_stats",
+          "rows": 380,
+          "columns": 26
+        },
+        {
+          "method": "sample_shot_events",
+          "rows": 24,
+          "columns": 16
+        }
+      ],
+      "errors": []
+    },
+    "WhoScored": {
+      "provider": "WhoScored",
+      "soccerdata_version": "1.9.1",
+      "status": "unavailable_in_probe",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": [
+        "2425"
+      ],
+      "tables": [],
+      "errors": [
+        {
+          "type": "SourceStopped",
+          "reason": "invalid_browser_page:Message: javascript error: allRegions is not defined"
+        }
+      ]
+    },
+    "Sofascore": {
+      "provider": "Sofascore",
+      "soccerdata_version": "1.9.1",
+      "status": "unavailable_in_probe",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": null,
+      "tables": [],
+      "errors": [
+        {
+          "type": "SourceStopped",
+          "reason": "http_403"
+        }
+      ]
+    },
+    "ESPN": {
+      "provider": "ESPN",
+      "soccerdata_version": "1.9.1",
+      "status": "collected",
+      "requested_leagues": [
+        "ENG-Premier League"
+      ],
+      "requested_seasons": [
+        2024
+      ],
+      "resolved_seasons": [
+        "2425"
+      ],
+      "tables": [
+        {
+          "method": "schedule",
+          "rows": 380,
+          "columns": 5
+        },
+        {
+          "method": "matchsheets",
+          "rows": 760,
+          "columns": 33
+        },
+        {
+          "method": "lineups",
+          "rows": 15188,
+          "columns": 20
+        }
+      ],
+      "errors": []
+    },
+    "Understat-history": {
+      "provider": "Understat",
+      "soccerdata_version": "1.9.1",
+      "status": "collected",
+      "requested_leagues": [
+        "ENG-Premier League",
+        "ESP-La Liga",
+        "FRA-Ligue 1",
+        "GER-Bundesliga",
+        "ITA-Serie A"
+      ],
+      "requested_seasons": [
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "resolved_seasons": [
+        "1415",
+        "1516",
+        "1617",
+        "1718",
+        "1819",
+        "1920",
+        "2021",
+        "2122",
+        "2223",
+        "2324",
+        "2425",
+        "2526"
+      ],
+      "tables": [
+        {
+          "method": "schedule",
+          "rows": 21690,
+          "columns": 17
+        },
+        {
+          "method": "player_season_stats",
+          "rows": 32574,
+          "columns": 19
+        },
+        {
+          "method": "team_match_stats",
+          "rows": 21589,
+          "columns": 26
+        },
+        {
+          "method": "sample_shot_events",
+          "rows": 18,
+          "columns": 16
+        }
+      ],
+      "errors": []
+    }
+  },
+  "understat_coverage": {
+    "records": 32574,
+    "league_season_groups": 60,
+    "seasons": [
+      "1415",
+      "1516",
+      "1617",
+      "1718",
+      "1819",
+      "1920",
+      "2021",
+      "2122",
+      "2223",
+      "2324",
+      "2425",
+      "2526"
+    ],
+    "fpstreams_version": "2.2.1",
+    "fpstreams_parity": true,
+    "group_rows": {
+      "ENG-Premier League/1415": 531,
+      "ENG-Premier League/1516": 550,
+      "ENG-Premier League/1617": 524,
+      "ENG-Premier League/1718": 515,
+      "ENG-Premier League/1819": 505,
+      "ENG-Premier League/1920": 515,
+      "ENG-Premier League/2021": 524,
+      "ENG-Premier League/2122": 537,
+      "ENG-Premier League/2223": 554,
+      "ENG-Premier League/2324": 570,
+      "ENG-Premier League/2425": 562,
+      "ENG-Premier League/2526": 537,
+      "ESP-La Liga/1415": 523,
+      "ESP-La Liga/1516": 539,
+      "ESP-La Liga/1617": 541,
+      "ESP-La Liga/1718": 557,
+      "ESP-La Liga/1819": 531,
+      "ESP-La Liga/1920": 556,
+      "ESP-La Liga/2021": 570,
+      "ESP-La Liga/2122": 603,
+      "ESP-La Liga/2223": 584,
+      "ESP-La Liga/2324": 598,
+      "ESP-La Liga/2425": 590,
+      "ESP-La Liga/2526": 600,
+      "FRA-Ligue 1/1415": 536,
+      "FRA-Ligue 1/1516": 575,
+      "FRA-Ligue 1/1617": 559,
+      "FRA-Ligue 1/1718": 540,
+      "FRA-Ligue 1/1819": 548,
+      "FRA-Ligue 1/1920": 531,
+      "FRA-Ligue 1/2021": 575,
+      "FRA-Ligue 1/2122": 589,
+      "FRA-Ligue 1/2223": 585,
+      "FRA-Ligue 1/2324": 525,
+      "FRA-Ligue 1/2425": 542,
+      "FRA-Ligue 1/2526": 553,
+      "GER-Bundesliga/1415": 453,
+      "GER-Bundesliga/1516": 476,
+      "GER-Bundesliga/1617": 470,
+      "GER-Bundesliga/1718": 472,
+      "GER-Bundesliga/1819": 468,
+      "GER-Bundesliga/1920": 487,
+      "GER-Bundesliga/2021": 496,
+      "GER-Bundesliga/2122": 511,
+      "GER-Bundesliga/2223": 506,
+      "GER-Bundesliga/2324": 494,
+      "GER-Bundesliga/2425": 481,
+      "GER-Bundesliga/2526": 499,
+      "ITA-Serie A/1415": 574,
+      "ITA-Serie A/1516": 551,
+      "ITA-Serie A/1617": 560,
+      "ITA-Serie A/1718": 533,
+      "ITA-Serie A/1819": 543,
+      "ITA-Serie A/1920": 572,
+      "ITA-Serie A/2021": 594,
+      "ITA-Serie A/2122": 608,
+      "ITA-Serie A/2223": 577,
+      "ITA-Serie A/2324": 590,
+      "ITA-Serie A/2425": 599,
+      "ITA-Serie A/2526": 586
+    },
+    "scope": "Returned player-league-season rows, potentially across clubs, not unique players; coverage and aggregation correctness only. Upstream CSV rows were materialized; no performance benchmark.",
+    "schedule_check": {
+      "league_season_groups": 60,
+      "duplicate_source_league_season_match_ids": 0,
+      "fixture_rows_without_team_match_stats": 101,
+      "minimum_date": "2014-08-08",
+      "maximum_date": "2026-05-24",
+      "grain": "league-season-source game ID; scheduled fixtures can lack played statistics"
+    }
+  },
+  "community_ingest": {
+    "catalogued_files": 9667,
+    "new_payloads": 7574,
+    "mirrored_files": 2093,
+    "unique_csv_assets": 6072,
+    "files_by_family": {
+      "jokecamp/FootballData/epl_1992_-_2015": 1104,
+      "jokecamp/FootballData/epl_2011-2019": 1,
+      "jokecamp/FootballData/epl_2015_-_2016": 954,
+      "jokecamp/FootballData/epl_2016_-_2017": 109,
+      "jokecamp/FootballData/football-results_(22_countries)": 578,
+      "jokecamp/FootballData/footystats": 4,
+      "jokecamp/FootballData/germany": 30,
+      "jokecamp/FootballData/other": 9,
+      "jokecamp/FootballData/mls": 445,
+      "jokecamp/FootballData/turkey": 2,
+      "jokecamp/FootballData/uefa_european_championship": 32,
+      "jokecamp/FootballData/world_cups": 90,
+      "jokecamp/FootballData/espn": 13,
+      "jokecamp/FootballData/football-data.co.uk": 464,
+      "jokecamp/FootballData/footballstats": 5,
+      "jokecamp/FootballData/italy": 3,
+      "jokecamp/FootballData/openfootballdata": 70,
+      "jokecamp/FootballData/random_docs": 1,
+      "jokecamp/FootballData/sports-open-data": 19,
+      "jokecamp/FootballData/video-game-data": 1,
+      "eddwebster/football_analytics/other": 1,
+      "eddwebster/football_analytics/capology": 917,
+      "eddwebster/football_analytics/davies": 6,
+      "eddwebster/football_analytics/elo": 1058,
+      "eddwebster/football_analytics/fbref": 30,
+      "eddwebster/football_analytics/fifa": 15,
+      "eddwebster/football_analytics/guardian": 1,
+      "eddwebster/football_analytics/metrica-sports": 3,
+      "eddwebster/football_analytics/opta": 2997,
+      "eddwebster/football_analytics/reference": 39,
+      "eddwebster/football_analytics/sb": 1,
+      "eddwebster/football_analytics/shots": 4,
+      "eddwebster/football_analytics/stats-perform": 16,
+      "eddwebster/football_analytics/stratabet": 54,
+      "eddwebster/football_analytics/tm": 482,
+      "eddwebster/football_analytics/touchline-analytics": 1,
+      "eddwebster/football_analytics/twenty-first-group": 4,
+      "eddwebster/football_analytics/understat": 96,
+      "eddwebster/football_analytics/wyscout": 8
+    },
+    "issues": [
+      {
+        "repo": "jokecamp/FootballData",
+        "path": "espn/players0-50.json",
+        "error": "Expecting value: line 1 column 1 (char 0)"
+      }
+    ],
+    "interpretation": "File/CSV population counts, not unique matches or independent sources. Exact byte mirrors use one canonical asset. Reordered or transformed copies still need semantic review."
+  },
+  "reviewed_repositories": {
+    "hudl/open-data": {
+      "url": "https://github.com/hudl/open-data",
+      "commit": "4b73468fc5b0f1950f9f66fada70ad3a4f9327cb",
+      "commit_date": "2026-09-07T16:27:15Z",
+      "archived": false,
+      "declared_license": "NOASSERTION"
+    },
+    "google-research/football": {
+      "url": "https://github.com/google-research/football",
+      "commit": "3d9e754720a95621bba6475c4d3b0d56fe919014",
+      "commit_date": "2025-06-17T08:34:25Z",
+      "archived": true,
+      "declared_license": "Apache-2.0"
+    },
+    "eddwebster/football_analytics": {
+      "url": "https://github.com/eddwebster/football_analytics",
+      "commit": "47cac1ba5c9748b057b7cfa366dd3d7a21d73575",
+      "commit_date": "2025-10-09T10:51:46Z",
+      "archived": false,
+      "declared_license": null
+    },
+    "jokecamp/FootballData": {
+      "url": "https://github.com/jokecamp/FootballData",
+      "commit": "53a64a101e064879bade9458bdaf7a76662a7523",
+      "commit_date": "2023-12-12T02:02:05Z",
+      "archived": false,
+      "declared_license": "MIT"
+    },
+    "probberechts/soccerdata": {
+      "url": "https://github.com/probberechts/soccerdata",
+      "commit": "e120471e424a173e83e8aeeaaf4d954ab9d38ee4",
+      "commit_date": "2026-08-06T01:07:55Z",
+      "archived": false,
+      "declared_license": "NOASSERTION"
+    },
+    "architv/soccer-cli": {
+      "url": "https://github.com/architv/soccer-cli",
+      "commit": "04932b677eed1fef032eaccffebabfcaeec2d48b",
+      "commit_date": "2021-11-29T17:06:16Z",
+      "archived": false,
+      "declared_license": "MIT"
+    }
+  },
+  "sofascore_direct_probe": {
+    "provider": "sofascore",
+    "observed_at": "2026-10-09T16:58:08.263045+00:00",
+    "authentication": "fresh anonymous session; no API key or login cookies",
+    "requests": [
+      {
+        "name": "website",
+        "url": "https://www.sofascore.com/football",
+        "http_status": 403,
+        "content_type": "application/json",
+        "bytes": 48,
+        "json_keys": [
+          "error"
+        ],
+        "error": {
+          "code": 403,
+          "reason": "Forbidden"
+        }
+      },
+      {
+        "name": "api_schedule",
+        "url": "https://api.sofascore.com/api/v1/sport/football/scheduled-events/2024-07-14",
+        "http_status": 403,
+        "content_type": "application/json",
+        "bytes": 48,
+        "json_keys": [
+          "error"
+        ],
+        "error": {
+          "code": 403,
+          "reason": "Forbidden"
+        }
+      },
+      {
+        "name": "website_schedule",
+        "url": "https://www.sofascore.com/api/v1/sport/football/scheduled-events/2024-07-14",
+        "http_status": 403,
+        "content_type": "application/json",
+        "bytes": 48,
+        "json_keys": [
+          "error"
+        ],
+        "error": {
+          "code": 403,
+          "reason": "Forbidden"
+        }
+      }
+    ],
+    "scope": "Access probe, not a bulk collection or supported adapter"
+  },
+  "warehouse": {
+    "bytes": 62968524800,
+    "datasets": 35,
+    "assets": 20651,
+    "quarantined_assets": 3,
+    "sdk_frame_rows": {
+      "ESPN": 16328,
+      "MatchHistory": 380,
+      "Understat": 99984
+    },
+    "scope": "Counts recorded before archiving this catalogue; frame scopes can overlap. Dataset tags include derived results and access diagnostics."
+  },
+  "counting_rules": [
+    "SDKs and repositories are distribution/collection channels, not automatically independent publishers.",
+    "Frame rows, file counts and rating updates are not unique matches or unique players.",
+    "Exact mirror payloads are shared; changed formatting still requires semantic deduplication.",
+    "Blocked-provider reports are diagnostics and do not count as collected observations.",
+    "Archived community data does not prove that the current original endpoint is accessible."
+  ],
+  "understat_schedule_check": {
+    "league_season_groups": 60,
+    "duplicate_source_league_season_match_ids": 0,
+    "fixture_rows_without_team_match_stats": 101,
+    "minimum_date": "2014-08-08",
+    "maximum_date": "2026-05-24",
+    "grain": "league-season-source game ID; scheduled fixtures can lack played statistics"
+  },
+  "quality_review": {
+    "recovered_penalty_labels": 83,
+    "multi_team_player_season_rows": 882,
+    "player_season_grain": "league/player/source-season totals, potentially multiple clubs; SDK team label is first-listed club and must not receive all those totals",
+    "invalid_espn_possession_fixtures": 12,
+    "shot_sum_vs_reported_team_xg": {
+      "team_rows_differing_more_than_0_001": 314,
+      "mean_shot_sum_minus_team_reported": 0.0260906426160371,
+      "maximum_absolute_difference": 0.82553597977072,
+      "note": "Both measures are preserved. Publisher aggregation corrections are unverified; shot quality uses the sum of the same shot values as its denominator, excluding own goals and penalties."
+    },
+    "source_originals_changed": false,
+    "findings": "new-source-findings.json"
+  },
+  "latest_research_increment": {
+    "observed_at": "2026-10-11",
+    "primary_competitions": "Mens Big Five, UCL, Euros, World Cup, Club World Cup 2025",
+    "fifa_report_series": [
+      "fcwc2025",
+      "fwc2026"
+    ],
+    "official_reports": 167,
+    "parsed_team_metric_rows": 19038,
+    "physical_player_match_rows": 5287,
+    "raw_trajectories_acquired_from_reports": false,
+    "tactical_evidence_sources": 20,
+    "tactical_evidence_cards": 26,
+    "coverage": "core-coverage.json",
+    "case": "chelsea-psg-final.json",
+    "report_receipts": "fifa-reports.json",
+    "current_warehouse_assets": 21671,
+    "scope": "Earlier warehouse_snapshot remains dated to its own collection. Overlapping sources/frames must not be summed."
+  }
+}

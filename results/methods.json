@@ -1,0 +1,364 @@
+{
+  "checked_at": "2026-10-14",
+  "scope": "Primary-source method disclosures; historical articles describe their published versions, not guaranteed current production implementations.",
+  "methods": [
+    {
+      "id": "opta-season",
+      "organization": "Opta Analyst",
+      "name": "赛季概率",
+      "task": "prediction",
+      "method": "比赛概率与蒙特卡洛赛季模拟",
+      "features": [
+        "赔率市场",
+        "Opta Power Rankings",
+        "剩余对手和赛程"
+      ],
+      "disclosed_parameters": [
+        "2026/27 英超文章明确进行了 10,000 次模拟；预测快照为 2026-08-13。"
+      ],
+      "unknown": [
+        "赔率与评级的融合权重",
+        "完整概率校准与更新参数"
+      ],
+      "application": "在比赛概率外增加赛季情境；模拟本身不是神经网络。",
+      "evidence_scope": "2026/27 赛季预测文章",
+      "published_date": null,
+      "sources": [
+        {
+          "title": "Opta 2026/27 predictions",
+          "url": "https://theanalyst.com/articles/premier-league-predictions-2026-27-opta-supercomputer"
+        }
+      ]
+    },
+    {
+      "id": "opta-rating",
+      "organization": "Opta Analyst",
+      "name": "跨联赛实力评级",
+      "task": "team",
+      "method": "分层 Elo 与 xG 评级更新",
+      "features": [
+        "实际赛果和比分",
+        "机会质量 xG",
+        "球队、联赛、国家、洲的层级关系"
+      ],
+      "disclosed_parameters": [
+        "有 xG 时，评级变化由实际比分产生的 Elo 变化占 80%、xG 分布产生的变化占 20%；无 xG 时全用赛果。",
+        "展示评级为 0–100，男女足分别计算。"
+      ],
+      "unknown": [
+        "完整更新系数",
+        "所有层级修正参数"
+      ],
+      "application": "作为有日期的对手难度与跨联赛参照；0–100 评级不能当成胜率。",
+      "evidence_scope": "2026 年官方评级解释",
+      "published_date": "2026-07-24",
+      "sources": [
+        {
+          "title": "Opta Power Rankings explained",
+          "url": "https://theanalyst.com/articles/power-rankings-your-club-ranked"
+        }
+      ]
+    },
+    {
+      "id": "statsbomb-xg",
+      "organization": "Hudl StatsBomb",
+      "name": "射门与门将评估",
+      "task": "player",
+      "method": "梯度提升树、软遮挡特征与单调约束",
+      "features": [
+        "射门距离、角度与情境",
+        "门将及防守人位置",
+        "以二维高斯表示防守遮挡",
+        "射后模型另含落点和球速"
+      ],
+      "disclosed_parameters": [
+        "分别比较含门将位置和不含门将位置的模型。"
+      ],
+      "unknown": [
+        "树数、深度、学习率",
+        "高斯宽度及完整训练样本",
+        "2026 生产版本是否保持全部细节"
+      ],
+      "application": "区分机会质量、射门执行与门将站位；瞬时模型无法完整衡量提前出击迫使对手改变射门。",
+      "evidence_scope": "2022 年模型升级说明",
+      "published_date": "2022-05-16",
+      "sources": [
+        {
+          "title": "Upgrading Expected Goals",
+          "url": "https://www.hudl.com/blog/upgrading-expected-goals"
+        }
+      ],
+      "reading_review": {
+        "checked_at": "2026-10-18",
+        "status": "article_body_read",
+        "scope": "Article body and text tables/captions read through conclusion; navigation/footer excluded. Embedded images/animations were not inspected or played.",
+        "source": {
+          "url": "https://www.hudl.com/blog/upgrading-expected-goals",
+          "resolved_url": "https://www.hudl.com/blog/upgrading-expected-goals",
+          "fetched_at": "2026-10-18T01:38:25.210418+00:00",
+          "bytes": 93383,
+          "sha256": "70b7a43e1269a1d4185c5d6d3dfd14b61bd198c49ea8f2c2252d05a0f1c6654a"
+        },
+        "figures_viewed": [],
+        "video_viewed": false,
+        "customer_whitepaper_obtained": false,
+        "source_version_scope": "Historical public article only; not confirmed current2026production architecture.",
+        "decision": "保留机会质量、射后执行与门将站位的区别。高斯遮挡/反事实曲面依赖额外位置及球速，不据公开稿虚构完整商业实现或因果效应。",
+        "final_testing": "deferred_until_all_registered_references_read_and_applicable_changes_finished"
+      }
+    },
+    {
+      "id": "statsbomb-obv",
+      "organization": "Hudl StatsBomb",
+      "name": "有球行动价值 OBV",
+      "task": "tactics",
+      "method": "分别建模本方和对方进球价值",
+      "features": [
+        "行动坐标、距离和角度",
+        "运动战或定位球",
+        "身体部位",
+        "受压迫状态"
+      ],
+      "disclosed_parameters": [
+        "使用 xG 目标降低实际进球标签的方差；排除控球历史特征。"
+      ],
+      "unknown": [
+        "所查官方发布稿没有披露确切模型架构和超参数"
+      ],
+      "application": "衡量推进的机会收益与失球风险；发布稿不直接给接球者或无球跑动记价值。",
+      "evidence_scope": "2021 年产品发布稿",
+      "published_date": "2021-09-16",
+      "sources": [
+        {
+          "title": "Introducing On-Ball Value",
+          "url": "https://blogarchive.statsbomb.com/news/introducing-on-ball-value-obv/"
+        }
+      ],
+      "reading_review": {
+        "checked_at": "2026-10-18",
+        "status": "article_body_read",
+        "scope": "Article body and text tables/captions read through conclusion; navigation/footer excluded.",
+        "source": {
+          "url": "https://blogarchive.statsbomb.com/news/introducing-on-ball-value-obv/",
+          "resolved_url": "https://blogarchive.statsbomb.com/news/introducing-on-ball-value-obv/",
+          "fetched_at": "2026-10-18T01:38:24.826420+00:00",
+          "bytes": 20592,
+          "sha256": "cebcd574178df1d56fa386070c7b0b30b9c1597de9d242fa3f9ad3dbdbdec1ec"
+        },
+        "figures_viewed": [
+          {
+            "file": "statsbomb-obv-OBV-Team-Strength-New.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2021/09/OBV-Team-Strength-New.png",
+            "bytes": 222120,
+            "sha256": "d1bc2312555c75f03de028bf9becb83e0f57f704e4b1b1922bb604e4b5ef9998"
+          },
+          {
+            "file": "statsbomb-obv-OBV-Team-Strength-2-NEW.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2021/09/OBV-Team-Strength-2-NEW.png",
+            "bytes": 268201,
+            "sha256": "d06d1d5393dec5a6c54632dd666f10a69a6c03634ae4065a6dd6994fffa50cda"
+          },
+          {
+            "file": "statsbomb-obv-OBV-ENG1-NEW.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2021/09/OBV-ENG1-NEW.png",
+            "bytes": 99850,
+            "sha256": "6383c03bbaa6389f1b1b68c252e39942582833d83202171a28c136511465b9bc"
+          },
+          {
+            "file": "statsbomb-obv-OBV-DC-ENG2-NEW.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2021/09/OBV-DC-ENG2-NEW.png",
+            "bytes": 93004,
+            "sha256": "069c02a0589d130440d1fd0d3f07692c135c4c18d243788857c359d9a1ad426d"
+          }
+        ],
+        "video_viewed": false,
+        "customer_whitepaper_obtained": false,
+        "source_version_scope": "Historical public article only; not confirmed current2026production architecture.",
+        "decision": "保留与本地进球目标 VAEP 的区别；使用 xG 监督且排除控球历史。公开稿未提供完整白皮书或超参数，不能据排名与相关图宣称泛化或因果优势。",
+        "final_testing": "deferred_until_all_registered_references_read_and_applicable_changes_finished",
+        "source_caveats": [
+          "Body says top20seasons but embedded overall ranking contains15rows; body says top15dribblers but embedded carry/dribble ranking contains14rows. No inferred missing rows or copied ranking conclusions.",
+          "Team-strength correlations and product superiority claims were not independently reproduced."
+        ]
+      }
+    },
+    {
+      "id": "statsbomb-xspace",
+      "organization": "StatsBomb · Thom Lawrence",
+      "name": "对手与接球空间 XSpace",
+      "task": "tactics",
+      "method": "梯度提升树预测可用空间",
+      "features": [
+        "行动类型与球场位置",
+        "球员位置信息与当前 OBV",
+        "对手身份"
+      ],
+      "disclosed_parameters": [
+        "监督目标为事件时刻到最近防守人的距离，观测值来自360；该实测距离不是同一预测的输入。",
+        "使用传球、带球、接球和射门事件训练；SAX为实测空间与预测空间之比。"
+      ],
+      "unknown": [
+        "树数、深度、学习率",
+        "原型未单独控制己方整体创造空间的能力"
+      ],
+      "application": "研究接球空间相对特定对手是否异常；360 是事件时刻快照，不能替代连续跑位轨迹。",
+      "evidence_scope": "作者原型分析，未确认是当前商业生产模型",
+      "published_date": "2022-07-19",
+      "sources": [
+        {
+          "title": "Revisiting Pressure With StatsBomb 360",
+          "url": "https://blogarchive.statsbomb.com/articles/soccer/revisiting-pressure-with-statsbomb-360/"
+        }
+      ],
+      "reading_review": {
+        "checked_at": "2026-10-18",
+        "status": "article_body_read",
+        "scope": "Article body and text tables/captions read through conclusion; navigation/footer excluded.",
+        "source": {
+          "url": "https://blogarchive.statsbomb.com/articles/soccer/revisiting-pressure-with-statsbomb-360/",
+          "resolved_url": "https://blogarchive.statsbomb.com/articles/soccer/revisiting-pressure-with-statsbomb-360/",
+          "fetched_at": "2026-10-18T01:38:24.816808+00:00",
+          "bytes": 18774,
+          "sha256": "554abcca5b01950f7dbce0ed85da36dcbb157a4d47730ca13c0467c928f881aa"
+        },
+        "figures_viewed": [
+          {
+            "file": "statsbomb-xspace-example-frame.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/example-frame.png",
+            "bytes": 29865,
+            "sha256": "e828ce07594288c46a1425599d89accf2d1a0f7a1bd80ffe1dc9be881fcdaec4"
+          },
+          {
+            "file": "statsbomb-xspace-position-pressure.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/position-pressure.png",
+            "bytes": 44515,
+            "sha256": "bcfe75240e4f827efd77be32618bd0cb1490e3123785782e6b0b7ce16b2584af"
+          },
+          {
+            "file": "statsbomb-xspace-team-pressure.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/team-pressure.png",
+            "bytes": 115670,
+            "sha256": "10514d39dbbbba3eb85bf6234e8bb65eb0b1166c596f801365dcd01f7819b9f9"
+          },
+          {
+            "file": "statsbomb-xspace-player-space-value.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/player-space-value.png",
+            "bytes": 98498,
+            "sha256": "170d42b547c2d649b456b9b686f275b4917a75123412177f242e71cea31723c0"
+          },
+          {
+            "file": "statsbomb-xspace-attacker-space-map.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/attacker-space-map.png",
+            "bytes": 405687,
+            "sha256": "09e0695292b41c43b3805578a3fc0abdc1417cff28541fa897bf860cc30dc0cd"
+          },
+          {
+            "file": "statsbomb-xspace-full-back-space-map.png",
+            "url": "https://blogarchive.statsbomb.com/uploads/2022/07/full-back-space-map.png",
+            "bytes": 317081,
+            "sha256": "feed50e2ebb649d13d6f621213e508cd1c301fcb5ccc9b9309e2612ff5bdbb66"
+          }
+        ],
+        "video_viewed": false,
+        "customer_whitepaper_obtained": false,
+        "source_version_scope": "Historical public article only; not confirmed current2026production architecture.",
+        "decision": "把360最近防守人距离从输入移到监督目标说明；SAX保留实测/预期之比。未训练 XSpace，也未把本地连续追踪空间模型改称该商业原型。",
+        "final_testing": "deferred_until_all_registered_references_read_and_applicable_changes_finished",
+        "visual_findings": "Small multiples share pitch orientation; original dense labels, dark overlapping marks and missing numeric color scale are not adopted as local defaults."
+      }
+    },
+    {
+      "id": "understat-xg",
+      "organization": "Understat",
+      "name": "射门机会质量",
+      "task": "player",
+      "method": "神经网络 xG",
+      "features": [
+        "官网仅说明每次射门超过十项参数，未给完整训练输入清单"
+      ],
+      "disclosed_parameters": [
+        "官网说明训练样本超过 100,000 次射门。"
+      ],
+      "unknown": [
+        "网络层数、宽度、学习率",
+        "确切训练特征和训练时间范围"
+      ],
+      "application": "已有跨赛季 xG 可作外部对照；下载字段不等同于官方训练特征清单。",
+      "evidence_scope": "官网方法简介，未标注版本日期",
+      "published_date": null,
+      "sources": [
+        {
+          "title": "Understat",
+          "url": "https://understat.com/"
+        }
+      ]
+    },
+    {
+      "id": "cies-value",
+      "organization": "CIES Football Observatory",
+      "name": "球员转会估值",
+      "task": "player",
+      "method": "基于历史成交的统计估值模型",
+      "features": [
+        "年龄、剩余合同、国家队经历和职业发展",
+        "出场、进球、助攻、传球、盘带",
+        "球队竞技及财务水平",
+        "交易赛季和买方财力"
+      ],
+      "disclosed_parameters": [
+        "2020 报告样本为 2012-07 至 2020-01 的 1,790 笔有偿交易。",
+        "报告采用随机 80%/20% 切分验证。"
+      ],
+      "unknown": [
+        "完整方程系数",
+        "当前版本训练集合和更新参数"
+      ],
+      "application": "估值与能力、发展潜力和战术适配分别评估；本项目仍需按时间验证，不能直接沿用随机切分。",
+      "evidence_scope": "Monthly Report 53，历史方法版本",
+      "published_date": "2020-03",
+      "sources": [
+        {
+          "title": "Scientific evaluation of transfer value",
+          "url": "https://football-observatory.com/IMG/sites/mr/mr53/en/"
+        }
+      ]
+    },
+    {
+      "id": "spi-archive",
+      "organization": "FiveThirtyEight",
+      "name": "SPI 历史输出字段",
+      "task": "team",
+      "method": "历史攻防评级与比赛预测数据接口",
+      "features": [
+        "README 列出赛前 SPI、攻防评级、比赛概率和预计进球",
+        "赛后字段包含 xG、非射门 xG 和经比赛状态调整的进球"
+      ],
+      "disclosed_parameters": [
+        "README 指明俱乐部比赛记录回溯至 2016 年。"
+      ],
+      "unknown": [
+        "本轮方法文章链接已跳转，未确认确切算法或权重",
+        "README 的 latest/current 字样不证明 2026 年仍更新"
+      ],
+      "application": "作为历史字段与评估接口参照；赛后字段不得进入同场赛前预测。",
+      "evidence_scope": "官方数据仓库 README，未视为活跃预测服务",
+      "published_date": null,
+      "sources": [
+        {
+          "title": "Official SPI data README",
+          "url": "https://github.com/fivethirtyeight/data/tree/master/soccer-spi"
+        }
+      ]
+    }
+  ],
+  "unverified_candidates": [
+    {
+      "organization": "ClubElo",
+      "url": "http://clubelo.com/System",
+      "status": "2026-10-19 重新读取方法链接重定向到首页，仍未取得方法正文，未确认K值、主场修正或净胜球公式。",
+      "followup_checked_at": "2026-10-19",
+      "resolved_url": "https://clubelo.com/",
+      "method_text_obtained": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "collected_on": "2026-10-19",
+  "scope": {
+    "leagues": [
+      "Premier League",
+      "La Liga",
+      "Bundesliga",
+      "Serie A",
+      "Ligue 1"
+    ],
+    "season_start_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ]
+  },
+  "native_summary_asset": {
+    "asset_id": 20145,
+    "sha256": "5b6d3bd22242393df699adbe5420d8eaeb1b106c6d8daa90590d134f06ef72f1",
+    "path": "Understat-history/tables/player_season_stats.csv",
+    "source_rows": 29799,
+    "cross_league_player_seasons": 581,
+    "fpstreams_pandas_aggregation_agree": true
+  },
+  "players": 8901,
+  "global_player_seasons": 29217,
+  "supplement": {
+    "dataset_key": "position-transition-supplement-20261019",
+    "source_entries": 48,
+    "parsed_rows": 436772,
+    "tables_prefix": "position_supplement_"
+  },
+  "positions": {
+    "dataset_key": "understat-position-history-20261019",
+    "sources": 8901,
+    "study_match_rows": 575896,
+    "source_errors": [],
+    "scope_match_ids": 19938,
+    "schedule_asset_id": 20143,
+    "issues": {
+      "duplicate_roster_same_team": 30
+    },
+    "normalized_table": "position_history_matches",
+    "source_table": "position_history_sources",
+    "issues_table": "position_history_issues"
+  },
+  "identity": {
+    "registry_study_ids": 1947,
+    "identity_repaired_player_seasons": 399,
+    "defensive_records_before": 26823,
+    "defensive_records_after": 27218,
+    "ambiguous_register_ids": {
+      "fbref": 0,
+      "whoscored": 1
+    },
+    "retained_all_player_seasons": 29217,
+    "method": "provider IDs first; unique explicit aliases require matching birth year and active league/season"
+  },
+  "source_quality": {
+    "duplicate_roster_player_matches": 30,
+    "analysis_exposure_corrected_seasons": 30,
+    "original_statistics_preserved": true,
+    "conflicting_match_statistics": "NULL; original variants retained in position_history_issues",
+    "provisional_cross_provider_links_remain": true
+  },
+  "remaining_gaps": [
+    "pre-2017/18 progressive passes, progressive carries, penalty-area touches, shot-creating actions",
+    "independent within-position tactical-role conversion labels"
+  ],
+  "environment": {
+    "fpstreams": "2.4.1",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "verification": {
+    "status": "passed",
+    "all_core_rows_retained": 29217,
+    "players": 8901,
+    "source_duplicate_exposure_repaired": 30,
+    "season_exposures_checked_from_database": 29217,
+    "future_labels_independently_recomputed": 101408,
+    "source_metadata_hashes_checked": 8901,
+    "stored_response_bytes_hash_checked": 20,
+    "tableau_unique_rows": 29217,
+    "checks": [
+      "past-only reference",
+      "no future rows beyond 2024/25",
+      "censored outcomes not negatives",
+      "substitute tags not positions",
+      "dominant-position ties flagged",
+      "base and augmented cohorts identical",
+      "provider IDs and provenance",
+      "all player seasons retained",
+      "duplicate exposure correction",
+      "matched transformation and feature comparisons",
+      "three PNG and PDF figure pairs"
+    ]
+  },
+  "existing_models_retrained": false,
+  "existing_native_source_assets_modified": false
+}

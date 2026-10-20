@@ -3,10 +3,13 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Any, Sequence
 
-from app.config import load_settings, parse_training_seasons, resolve_competitions
+from app.config import load_settings, resolve_competitions
+from app.cli.arguments import build_parser, _positive_int, _add_competition_argument
+from app.cli.research import run_research_command
 from app.ml.prediction import PredictionEngine, PredictionRun
 from app.ml.training import ModelTrainer
 from app.web.export_site import export_site_data
@@ -64,9 +67,7 @@ def run_training_pipeline(
                     "backtest_elo_baseline_accuracy"
                 ),
                 "backtest_log_loss": bundle.metrics.get("backtest_log_loss"),
-                "backtest_brier_score": bundle.metrics.get(
-                    "backtest_brier_score"
-                ),
+                "backtest_brier_score": bundle.metrics.get("backtest_brier_score"),
                 "backtest_calibration_error": bundle.metrics.get(
                     "backtest_calibration_error"
                 ),
@@ -144,7 +145,9 @@ def run_export_site_pipeline(
         "output_dir": settings.site_data_dir,
     }
     if competition_codes is not None:
-        export_kwargs["competitions"] = resolve_competitions(competition_codes, settings)
+        export_kwargs["competitions"] = resolve_competitions(
+            competition_codes, settings
+        )
     if refresh_errors:
         export_kwargs["refresh_errors"] = list(refresh_errors)
     outputs = export_site_data(
@@ -175,61 +178,27 @@ def run_full_pipeline(
     return {"training": training, "outputs": outputs}
 
 
-def _positive_int(value: str) -> int:
-    parsed = int(value)
-    if parsed <= 0:
-        raise argparse.ArgumentTypeError("必须大于 0")
-    return parsed
-
-
-def _add_competition_argument(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument(
-        "--competitions",
-        help="逗号分隔的联赛代码，例如 PL,PD,SA。",
-    )
-
-
-def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Soccer Analytics：采集、训练、预测与静态站点导出。"
-    )
-    subparsers = parser.add_subparsers(dest="command", required=True)
-
-    train_parser = subparsers.add_parser("train", help="训练并保存所选联赛模型。")
-    _add_competition_argument(train_parser)
-    train_parser.add_argument(
-        "--seasons",
-        type=parse_training_seasons,
-        help="逗号分隔的赛季起始年，例如 2022,2023,2024。",
-    )
-
-    predict_parser = subparsers.add_parser("predict", help="预测未来赛程。")
-    _add_competition_argument(predict_parser)
-    predict_parser.add_argument("--days", type=_positive_int)
-
-    export_parser = subparsers.add_parser(
-        "export-site",
-        help="预测并原子导出静态仪表盘数据。",
-    )
-    _add_competition_argument(export_parser)
-    export_parser.add_argument("--days", type=_positive_int, default=None)
-
-    full_parser = subparsers.add_parser(
-        "all",
-        help="训练所选联赛并导出仪表盘。",
-    )
-    _add_competition_argument(full_parser)
-    full_parser.add_argument("--seasons", type=parse_training_seasons)
-    full_parser.add_argument("--days", type=_positive_int)
-    return parser
-
-
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.source is not None:
+        os.environ["SOCCER_ANALYTICS_DATA_SOURCE"] = args.source
+    research_status = run_research_command(args, trainer_type=ModelTrainer)
+    if research_status is not None:
+        return research_status
+    trainer = None
+    if args.command in {"train", "all"} and not isinstance(args.params, dict):
+        raise ValueError("--params 必须是 JSON 对象")
+    if args.command in {"train", "all"} and (args.model != "xgboost" or args.params):
+        from app.ml.alternatives import estimator_factory
+
+        trainer = ModelTrainer(
+            model_factory=estimator_factory(args.model, params=args.params)
+        )
     if args.command == "train":
         result = run_training_pipeline(
             competition_codes=args.competitions,
             seasons=args.seasons,
+            trainer=trainer,
         )
         return 0 if result["trained_count"] > 0 else 1
     if args.command == "predict":
@@ -250,6 +219,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             days=args.days,
             competition_codes=args.competitions,
             seasons=args.seasons,
+            trainer=trainer,
         )
         return 0 if result["training"]["trained_count"] > 0 else 1
     raise AssertionError("未知命令")

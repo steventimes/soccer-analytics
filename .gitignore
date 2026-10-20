@@ -29,6 +29,9 @@ share/python-wheels/
 venv/
 env/
 .venv/
+.tmp/
+.playwright-cli/
+output/playwright/
 .env
 
 # PyCharm
@@ -66,9 +69,18 @@ coverage.xml
 
 # db files
 *.db
+*.sqlite3
+*.sqlite3-*
+*.joblib
+*.pkl
 data/*
 
 log/*
 models/*
 archive/*
 matches/*
+
+# Local verification runtimes and disposable tool caches
+node_modules/
+.pytest_cache/
+.ruff_cache/

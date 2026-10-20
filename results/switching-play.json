@@ -1,0 +1,2319 @@
+{
+  "competition_id": 55,
+  "season": "2024",
+  "metadata_matches": 51,
+  "event_matches": 51,
+  "eligible_passes": 36615,
+  "overall": {
+    "cross_field": {
+      "passes": 873,
+      "shot_windows": 70,
+      "shot_window_rate": 0.08018327605956473
+    },
+    "other_completed_passes": {
+      "passes": 35742,
+      "shot_windows": 1986,
+      "shot_window_rate": 0.05556488165183817
+    },
+    "raw_rate_difference": 0.024618394407726556
+  },
+  "spatial_context_coverage": {
+    "snapshot_pass_windows": 32539,
+    "cross_field_with_snapshot": 768,
+    "cross_field_target_local_visible": 308
+  },
+  "pressure_flag_comparisons": [
+    {
+      "event_under_pressure_marked": false,
+      "cross_field": {
+        "passes": 812,
+        "shot_windows": 67,
+        "shot_window_rate": 0.08251231527093596
+      },
+      "other_completed_passes": {
+        "passes": 31403,
+        "shot_windows": 1684,
+        "shot_window_rate": 0.05362544979779002
+      },
+      "raw_rate_difference": 0.028886865473145937
+    },
+    {
+      "event_under_pressure_marked": true,
+      "cross_field": {
+        "passes": 61,
+        "shot_windows": 3,
+        "shot_window_rate": 0.04918032786885246
+      },
+      "other_completed_passes": {
+        "passes": 4339,
+        "shot_windows": 302,
+        "shot_window_rate": 0.06960129061995851
+      },
+      "raw_rate_difference": -0.020420962751106053
+    }
+  ],
+  "target_density_comparisons": [
+    {
+      "visible_opponents_within5_units": "0_to1",
+      "cross_field": {
+        "passes": 308,
+        "shot_windows": 20,
+        "shot_window_rate": 0.06493506493506493
+      },
+      "other_completed_passes": {
+        "passes": 18385,
+        "shot_windows": 1094,
+        "shot_window_rate": 0.05950503127549633
+      },
+      "raw_rate_difference": 0.005430033659568602
+    },
+    {
+      "visible_opponents_within5_units": "2_or_more",
+      "cross_field": {
+        "passes": 0,
+        "shot_windows": 0,
+        "shot_window_rate": null
+      },
+      "other_completed_passes": {
+        "passes": 353,
+        "shot_windows": 96,
+        "shot_window_rate": 0.2719546742209632
+      },
+      "raw_rate_difference": null
+    }
+  ],
+  "start_zone_comparisons": [
+    {
+      "start_x_zone": 0,
+      "cross_field": {
+        "passes": 239,
+        "shot_windows": 2,
+        "shot_window_rate": 0.008368200836820083
+      },
+      "other_completed_passes": {
+        "passes": 8683,
+        "shot_windows": 78,
+        "shot_window_rate": 0.008983070367384544
+      },
+      "raw_rate_difference": -0.000614869530564461
+    },
+    {
+      "start_x_zone": 1,
+      "cross_field": {
+        "passes": 471,
+        "shot_windows": 25,
+        "shot_window_rate": 0.05307855626326964
+      },
+      "other_completed_passes": {
+        "passes": 19559,
+        "shot_windows": 656,
+        "shot_window_rate": 0.033539547011605914
+      },
+      "raw_rate_difference": 0.019539009251663728
+    },
+    {
+      "start_x_zone": 2,
+      "cross_field": {
+        "passes": 163,
+        "shot_windows": 43,
+        "shot_window_rate": 0.26380368098159507
+      },
+      "other_completed_passes": {
+        "passes": 7500,
+        "shot_windows": 1252,
+        "shot_window_rate": 0.16693333333333332
+      },
+      "raw_rate_difference": 0.09687034764826175
+    }
+  ],
+  "team_coach_profiles": [
+    {
+      "team_id": "2138",
+      "team": "Georgia",
+      "coach_id": "752",
+      "coach_name": "Willy Sagnol",
+      "matches": 4,
+      "cross_field": {
+        "passes": 25,
+        "shot_windows": 3,
+        "shot_window_rate": 0.12
+      },
+      "other_completed_passes": {
+        "passes": 884,
+        "shot_windows": 50,
+        "shot_window_rate": 0.05656108597285068
+      },
+      "raw_rate_difference": 0.06343891402714932
+    },
+    {
+      "team_id": "768",
+      "team": "England",
+      "coach_id": "277",
+      "coach_name": "Gareth Southgate",
+      "matches": 7,
+      "cross_field": {
+        "passes": 84,
+        "shot_windows": 6,
+        "shot_window_rate": 0.07142857142857142
+      },
+      "other_completed_passes": {
+        "passes": 3129,
+        "shot_windows": 100,
+        "shot_window_rate": 0.03195909236177692
+      },
+      "raw_rate_difference": 0.0394694790667945
+    },
+    {
+      "team_id": "770",
+      "team": "Germany",
+      "coach_id": "445",
+      "coach_name": "Julian Nagelsmann",
+      "matches": 5,
+      "cross_field": {
+        "passes": 31,
+        "shot_windows": 2,
+        "shot_window_rate": 0.06451612903225806
+      },
+      "other_completed_passes": {
+        "passes": 2454,
+        "shot_windows": 161,
+        "shot_window_rate": 0.06560717196414018
+      },
+      "raw_rate_difference": -0.0010910429318821135
+    },
+    {
+      "team_id": "771",
+      "team": "France",
+      "coach_id": "545",
+      "coach_name": "Didier Deschamps",
+      "matches": 6,
+      "cross_field": {
+        "passes": 69,
+        "shot_windows": 3,
+        "shot_window_rate": 0.043478260869565216
+      },
+      "other_completed_passes": {
+        "passes": 2360,
+        "shot_windows": 163,
+        "shot_window_rate": 0.06906779661016949
+      },
+      "raw_rate_difference": -0.02558953574060427
+    },
+    {
+      "team_id": "772",
+      "team": "Spain",
+      "coach_id": "5588",
+      "coach_name": "Luis de la Fuente Castillo",
+      "matches": 7,
+      "cross_field": {
+        "passes": 92,
+        "shot_windows": 11,
+        "shot_window_rate": 0.11956521739130435
+      },
+      "other_completed_passes": {
+        "passes": 2991,
+        "shot_windows": 219,
+        "shot_window_rate": 0.0732196589769308
+      },
+      "raw_rate_difference": 0.04634555841437356
+    },
+    {
+      "team_id": "773",
+      "team": "Switzerland",
+      "coach_id": "2832",
+      "coach_name": "Murat Yakin",
+      "matches": 5,
+      "cross_field": {
+        "passes": 25,
+        "shot_windows": 2,
+        "shot_window_rate": 0.08
+      },
+      "other_completed_passes": {
+        "passes": 1620,
+        "shot_windows": 100,
+        "shot_window_rate": 0.06172839506172839
+      },
+      "raw_rate_difference": 0.01827160493827161
+    },
+    {
+      "team_id": "776",
+      "team": "Denmark",
+      "coach_id": "255",
+      "coach_name": "Kasper Hjulmand",
+      "matches": 4,
+      "cross_field": {
+        "passes": 34,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 1609,
+        "shot_windows": 99,
+        "shot_window_rate": 0.061528899937849595
+      },
+      "raw_rate_difference": -0.061528899937849595
+    },
+    {
+      "team_id": "780",
+      "team": "Portugal",
+      "coach_id": "263",
+      "coach_name": "Roberto Martínez Montoliú",
+      "matches": 5,
+      "cross_field": {
+        "passes": 88,
+        "shot_windows": 7,
+        "shot_window_rate": 0.07954545454545454
+      },
+      "other_completed_passes": {
+        "passes": 2543,
+        "shot_windows": 117,
+        "shot_window_rate": 0.04600865119937082
+      },
+      "raw_rate_difference": 0.03353680334608372
+    },
+    {
+      "team_id": "782",
+      "team": "Belgium",
+      "coach_id": "48",
+      "coach_name": "Domenico Tedesco",
+      "matches": 4,
+      "cross_field": {
+        "passes": 41,
+        "shot_windows": 4,
+        "shot_window_rate": 0.0975609756097561
+      },
+      "other_completed_passes": {
+        "passes": 1551,
+        "shot_windows": 83,
+        "shot_window_rate": 0.05351386202450032
+      },
+      "raw_rate_difference": 0.04404711358525578
+    },
+    {
+      "team_id": "785",
+      "team": "Croatia",
+      "coach_id": "307",
+      "coach_name": "Zlatko Dalić",
+      "matches": 3,
+      "cross_field": {
+        "passes": 19,
+        "shot_windows": 3,
+        "shot_window_rate": 0.15789473684210525
+      },
+      "other_completed_passes": {
+        "passes": 1335,
+        "shot_windows": 75,
+        "shot_window_rate": 0.056179775280898875
+      },
+      "raw_rate_difference": 0.10171496156120638
+    },
+    {
+      "team_id": "786",
+      "team": "Serbia",
+      "coach_id": "5908",
+      "coach_name": "Dragan Stojković",
+      "matches": 3,
+      "cross_field": {
+        "passes": 35,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 1163,
+        "shot_windows": 39,
+        "shot_window_rate": 0.03353396388650043
+      },
+      "raw_rate_difference": -0.03353396388650043
+    },
+    {
+      "team_id": "789",
+      "team": "Poland",
+      "coach_id": "363",
+      "coach_name": "Michał Probierz",
+      "matches": 3,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 721,
+        "shot_windows": 57,
+        "shot_window_rate": 0.07905686546463246
+      },
+      "raw_rate_difference": -0.07905686546463246
+    },
+    {
+      "team_id": "905",
+      "team": "Romania",
+      "coach_id": "6237",
+      "coach_name": "Edward Iordănescu",
+      "matches": 4,
+      "cross_field": {
+        "passes": 20,
+        "shot_windows": 1,
+        "shot_window_rate": 0.05
+      },
+      "other_completed_passes": {
+        "passes": 719,
+        "shot_windows": 47,
+        "shot_window_rate": 0.06536856745479833
+      },
+      "raw_rate_difference": -0.015368567454798324
+    },
+    {
+      "team_id": "906",
+      "team": "Albania",
+      "coach_id": "1877",
+      "coach_name": "Sylvio Mendes Campos Junior",
+      "matches": 3,
+      "cross_field": {
+        "passes": 14,
+        "shot_windows": 2,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 760,
+        "shot_windows": 38,
+        "shot_window_rate": 0.05
+      },
+      "raw_rate_difference": 0.09285714285714285
+    },
+    {
+      "team_id": "908",
+      "team": "Slovakia",
+      "coach_id": "1002171",
+      "coach_name": "Francesco Calzona",
+      "matches": 4,
+      "cross_field": {
+        "passes": 49,
+        "shot_windows": 6,
+        "shot_window_rate": 0.12244897959183673
+      },
+      "other_completed_passes": {
+        "passes": 1068,
+        "shot_windows": 57,
+        "shot_window_rate": 0.05337078651685393
+      },
+      "raw_rate_difference": 0.06907819307498281
+    },
+    {
+      "team_id": "909",
+      "team": "Turkey",
+      "coach_id": "232",
+      "coach_name": "Vincenzo Montella",
+      "matches": 5,
+      "cross_field": {
+        "passes": 42,
+        "shot_windows": 2,
+        "shot_window_rate": 0.047619047619047616
+      },
+      "other_completed_passes": {
+        "passes": 1650,
+        "shot_windows": 98,
+        "shot_window_rate": 0.059393939393939395
+      },
+      "raw_rate_difference": -0.011774891774891778
+    },
+    {
+      "team_id": "911",
+      "team": "Ukraine",
+      "coach_id": "2672",
+      "coach_name": "Sergiy Rebrov",
+      "matches": 3,
+      "cross_field": {
+        "passes": 24,
+        "shot_windows": 4,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 1030,
+        "shot_windows": 72,
+        "shot_window_rate": 0.06990291262135923
+      },
+      "raw_rate_difference": 0.09676375404530743
+    },
+    {
+      "team_id": "912",
+      "team": "Czech Republic",
+      "coach_id": "1000468",
+      "coach_name": "Ivan Hašek",
+      "matches": 3,
+      "cross_field": {
+        "passes": 13,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 595,
+        "shot_windows": 47,
+        "shot_window_rate": 0.07899159663865546
+      },
+      "raw_rate_difference": -0.07899159663865546
+    },
+    {
+      "team_id": "914",
+      "team": "Italy",
+      "coach_id": "399",
+      "coach_name": "Luciano Spalletti",
+      "matches": 4,
+      "cross_field": {
+        "passes": 34,
+        "shot_windows": 3,
+        "shot_window_rate": 0.08823529411764706
+      },
+      "other_completed_passes": {
+        "passes": 1833,
+        "shot_windows": 80,
+        "shot_window_rate": 0.0436442989634479
+      },
+      "raw_rate_difference": 0.04459099515419916
+    },
+    {
+      "team_id": "915",
+      "team": "Austria",
+      "coach_id": "380",
+      "coach_name": "Ralf Rangnick",
+      "matches": 4,
+      "cross_field": {
+        "passes": 20,
+        "shot_windows": 1,
+        "shot_window_rate": 0.05
+      },
+      "other_completed_passes": {
+        "passes": 1349,
+        "shot_windows": 63,
+        "shot_window_rate": 0.04670126019273536
+      },
+      "raw_rate_difference": 0.003298739807264646
+    },
+    {
+      "team_id": "916",
+      "team": "Hungary",
+      "coach_id": "3616",
+      "coach_name": "Marco Rossi",
+      "matches": 3,
+      "cross_field": {
+        "passes": 19,
+        "shot_windows": 2,
+        "shot_window_rate": 0.10526315789473684
+      },
+      "other_completed_passes": {
+        "passes": 712,
+        "shot_windows": 43,
+        "shot_window_rate": 0.060393258426966294
+      },
+      "raw_rate_difference": 0.04486989946777054
+    },
+    {
+      "team_id": "941",
+      "team": "Netherlands",
+      "coach_id": "676",
+      "coach_name": "Ronald Koeman",
+      "matches": 6,
+      "cross_field": {
+        "passes": 46,
+        "shot_windows": 5,
+        "shot_window_rate": 0.10869565217391304
+      },
+      "other_completed_passes": {
+        "passes": 2249,
+        "shot_windows": 120,
+        "shot_window_rate": 0.053357047576700754
+      },
+      "raw_rate_difference": 0.055338604597212286
+    },
+    {
+      "team_id": "942",
+      "team": "Scotland",
+      "coach_id": "510",
+      "coach_name": "Steve Clarke",
+      "matches": 3,
+      "cross_field": {
+        "passes": 13,
+        "shot_windows": 1,
+        "shot_window_rate": 0.07692307692307693
+      },
+      "other_completed_passes": {
+        "passes": 745,
+        "shot_windows": 16,
+        "shot_window_rate": 0.021476510067114093
+      },
+      "raw_rate_difference": 0.05544656685596283
+    },
+    {
+      "team_id": "944",
+      "team": "Slovenia",
+      "coach_id": "1733",
+      "coach_name": "Matjaž Kek",
+      "matches": 4,
+      "cross_field": {
+        "passes": 28,
+        "shot_windows": 2,
+        "shot_window_rate": 0.07142857142857142
+      },
+      "other_completed_passes": {
+        "passes": 672,
+        "shot_windows": 42,
+        "shot_window_rate": 0.0625
+      },
+      "raw_rate_difference": 0.008928571428571425
+    }
+  ],
+  "opponent_profiles": [
+    {
+      "team": "Albania",
+      "opponent": "Croatia",
+      "coach_id": "1877",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 1,
+        "shot_window_rate": 0.3333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 198,
+        "shot_windows": 20,
+        "shot_window_rate": 0.10101010101010101
+      },
+      "raw_rate_difference": 0.23232323232323232
+    },
+    {
+      "team": "Albania",
+      "opponent": "Italy",
+      "coach_id": "1877",
+      "matches": 1,
+      "cross_field": {
+        "passes": 10,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 279,
+        "shot_windows": 8,
+        "shot_window_rate": 0.02867383512544803
+      },
+      "raw_rate_difference": -0.02867383512544803
+    },
+    {
+      "team": "Albania",
+      "opponent": "Spain",
+      "coach_id": "1877",
+      "matches": 1,
+      "cross_field": {
+        "passes": 1,
+        "shot_windows": 1,
+        "shot_window_rate": 1.0
+      },
+      "other_completed_passes": {
+        "passes": 283,
+        "shot_windows": 10,
+        "shot_window_rate": 0.0353356890459364
+      },
+      "raw_rate_difference": 0.9646643109540636
+    },
+    {
+      "team": "Austria",
+      "opponent": "France",
+      "coach_id": "380",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 356,
+        "shot_windows": 9,
+        "shot_window_rate": 0.025280898876404494
+      },
+      "raw_rate_difference": -0.025280898876404494
+    },
+    {
+      "team": "Austria",
+      "opponent": "Netherlands",
+      "coach_id": "380",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 256,
+        "shot_windows": 7,
+        "shot_window_rate": 0.02734375
+      },
+      "raw_rate_difference": -0.02734375
+    },
+    {
+      "team": "Austria",
+      "opponent": "Poland",
+      "coach_id": "380",
+      "matches": 1,
+      "cross_field": {
+        "passes": 2,
+        "shot_windows": 1,
+        "shot_window_rate": 0.5
+      },
+      "other_completed_passes": {
+        "passes": 338,
+        "shot_windows": 22,
+        "shot_window_rate": 0.0650887573964497
+      },
+      "raw_rate_difference": 0.4349112426035503
+    },
+    {
+      "team": "Austria",
+      "opponent": "Turkey",
+      "coach_id": "380",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 399,
+        "shot_windows": 25,
+        "shot_window_rate": 0.06265664160401002
+      },
+      "raw_rate_difference": -0.06265664160401002
+    },
+    {
+      "team": "Belgium",
+      "opponent": "France",
+      "coach_id": "48",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 1,
+        "shot_window_rate": 0.25
+      },
+      "other_completed_passes": {
+        "passes": 391,
+        "shot_windows": 14,
+        "shot_window_rate": 0.03580562659846547
+      },
+      "raw_rate_difference": 0.21419437340153452
+    },
+    {
+      "team": "Belgium",
+      "opponent": "Romania",
+      "coach_id": "48",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 3,
+        "shot_window_rate": 0.3333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 326,
+        "shot_windows": 27,
+        "shot_window_rate": 0.08282208588957055
+      },
+      "raw_rate_difference": 0.25051124744376274
+    },
+    {
+      "team": "Belgium",
+      "opponent": "Slovakia",
+      "coach_id": "48",
+      "matches": 1,
+      "cross_field": {
+        "passes": 13,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 407,
+        "shot_windows": 23,
+        "shot_window_rate": 0.056511056511056514
+      },
+      "raw_rate_difference": -0.056511056511056514
+    },
+    {
+      "team": "Belgium",
+      "opponent": "Ukraine",
+      "coach_id": "48",
+      "matches": 1,
+      "cross_field": {
+        "passes": 15,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 427,
+        "shot_windows": 19,
+        "shot_window_rate": 0.04449648711943794
+      },
+      "raw_rate_difference": -0.04449648711943794
+    },
+    {
+      "team": "Croatia",
+      "opponent": "Albania",
+      "coach_id": "307",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 1,
+        "shot_window_rate": 0.25
+      },
+      "other_completed_passes": {
+        "passes": 517,
+        "shot_windows": 46,
+        "shot_window_rate": 0.08897485493230174
+      },
+      "raw_rate_difference": 0.16102514506769827
+    },
+    {
+      "team": "Croatia",
+      "opponent": "Italy",
+      "coach_id": "307",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 1,
+        "shot_window_rate": 0.125
+      },
+      "other_completed_passes": {
+        "passes": 405,
+        "shot_windows": 4,
+        "shot_window_rate": 0.009876543209876543
+      },
+      "raw_rate_difference": 0.11512345679012345
+    },
+    {
+      "team": "Croatia",
+      "opponent": "Spain",
+      "coach_id": "307",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 1,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 413,
+        "shot_windows": 25,
+        "shot_window_rate": 0.06053268765133172
+      },
+      "raw_rate_difference": 0.08232445520581114
+    },
+    {
+      "team": "Czech Republic",
+      "opponent": "Georgia",
+      "coach_id": "1000468",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 355,
+        "shot_windows": 28,
+        "shot_window_rate": 0.07887323943661972
+      },
+      "raw_rate_difference": -0.07887323943661972
+    },
+    {
+      "team": "Czech Republic",
+      "opponent": "Portugal",
+      "coach_id": "1000468",
+      "matches": 1,
+      "cross_field": {
+        "passes": 1,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 120,
+        "shot_windows": 7,
+        "shot_window_rate": 0.058333333333333334
+      },
+      "raw_rate_difference": -0.058333333333333334
+    },
+    {
+      "team": "Czech Republic",
+      "opponent": "Turkey",
+      "coach_id": "1000468",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 120,
+        "shot_windows": 12,
+        "shot_window_rate": 0.1
+      },
+      "raw_rate_difference": -0.1
+    },
+    {
+      "team": "Denmark",
+      "opponent": "England",
+      "coach_id": "255",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 425,
+        "shot_windows": 44,
+        "shot_window_rate": 0.10352941176470588
+      },
+      "raw_rate_difference": -0.10352941176470588
+    },
+    {
+      "team": "Denmark",
+      "opponent": "Germany",
+      "coach_id": "255",
+      "matches": 1,
+      "cross_field": {
+        "passes": 10,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 309,
+        "shot_windows": 17,
+        "shot_window_rate": 0.05501618122977346
+      },
+      "raw_rate_difference": -0.05501618122977346
+    },
+    {
+      "team": "Denmark",
+      "opponent": "Serbia",
+      "coach_id": "255",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 422,
+        "shot_windows": 25,
+        "shot_window_rate": 0.05924170616113744
+      },
+      "raw_rate_difference": -0.05924170616113744
+    },
+    {
+      "team": "Denmark",
+      "opponent": "Slovenia",
+      "coach_id": "255",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 453,
+        "shot_windows": 13,
+        "shot_window_rate": 0.02869757174392936
+      },
+      "raw_rate_difference": -0.02869757174392936
+    },
+    {
+      "team": "England",
+      "opponent": "Denmark",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 2,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 384,
+        "shot_windows": 19,
+        "shot_window_rate": 0.049479166666666664
+      },
+      "raw_rate_difference": 0.1171875
+    },
+    {
+      "team": "England",
+      "opponent": "Netherlands",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 15,
+        "shot_windows": 3,
+        "shot_window_rate": 0.2
+      },
+      "other_completed_passes": {
+        "passes": 490,
+        "shot_windows": 15,
+        "shot_window_rate": 0.030612244897959183
+      },
+      "raw_rate_difference": 0.16938775510204082
+    },
+    {
+      "team": "England",
+      "opponent": "Serbia",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 451,
+        "shot_windows": 10,
+        "shot_window_rate": 0.022172949002217297
+      },
+      "raw_rate_difference": -0.022172949002217297
+    },
+    {
+      "team": "England",
+      "opponent": "Slovakia",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 575,
+        "shot_windows": 12,
+        "shot_window_rate": 0.020869565217391306
+      },
+      "raw_rate_difference": -0.020869565217391306
+    },
+    {
+      "team": "England",
+      "opponent": "Slovenia",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 24,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 616,
+        "shot_windows": 18,
+        "shot_window_rate": 0.02922077922077922
+      },
+      "raw_rate_difference": -0.02922077922077922
+    },
+    {
+      "team": "England",
+      "opponent": "Spain",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 194,
+        "shot_windows": 8,
+        "shot_window_rate": 0.041237113402061855
+      },
+      "raw_rate_difference": -0.041237113402061855
+    },
+    {
+      "team": "England",
+      "opponent": "Switzerland",
+      "coach_id": "277",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 1,
+        "shot_window_rate": 0.1111111111111111
+      },
+      "other_completed_passes": {
+        "passes": 419,
+        "shot_windows": 18,
+        "shot_window_rate": 0.04295942720763723
+      },
+      "raw_rate_difference": 0.06815168390347387
+    },
+    {
+      "team": "France",
+      "opponent": "Austria",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 315,
+        "shot_windows": 17,
+        "shot_window_rate": 0.05396825396825397
+      },
+      "raw_rate_difference": -0.05396825396825397
+    },
+    {
+      "team": "France",
+      "opponent": "Belgium",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 1,
+        "shot_window_rate": 0.09090909090909091
+      },
+      "other_completed_passes": {
+        "passes": 513,
+        "shot_windows": 45,
+        "shot_window_rate": 0.08771929824561403
+      },
+      "raw_rate_difference": 0.0031897926634768814
+    },
+    {
+      "team": "France",
+      "opponent": "Netherlands",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 1,
+        "shot_window_rate": 0.09090909090909091
+      },
+      "other_completed_passes": {
+        "passes": 544,
+        "shot_windows": 32,
+        "shot_window_rate": 0.058823529411764705
+      },
+      "raw_rate_difference": 0.03208556149732621
+    },
+    {
+      "team": "France",
+      "opponent": "Poland",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 17,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 401,
+        "shot_windows": 31,
+        "shot_window_rate": 0.0773067331670823
+      },
+      "raw_rate_difference": -0.0773067331670823
+    },
+    {
+      "team": "France",
+      "opponent": "Portugal",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 341,
+        "shot_windows": 27,
+        "shot_window_rate": 0.07917888563049853
+      },
+      "raw_rate_difference": -0.07917888563049853
+    },
+    {
+      "team": "France",
+      "opponent": "Spain",
+      "coach_id": "545",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 1,
+        "shot_window_rate": 0.08333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 246,
+        "shot_windows": 11,
+        "shot_window_rate": 0.044715447154471545
+      },
+      "raw_rate_difference": 0.038617886178861784
+    },
+    {
+      "team": "Georgia",
+      "opponent": "Czech Republic",
+      "coach_id": "752",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 205,
+        "shot_windows": 10,
+        "shot_window_rate": 0.04878048780487805
+      },
+      "raw_rate_difference": -0.04878048780487805
+    },
+    {
+      "team": "Georgia",
+      "opponent": "Portugal",
+      "coach_id": "752",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 172,
+        "shot_windows": 11,
+        "shot_window_rate": 0.06395348837209303
+      },
+      "raw_rate_difference": -0.06395348837209303
+    },
+    {
+      "team": "Georgia",
+      "opponent": "Spain",
+      "coach_id": "752",
+      "matches": 1,
+      "cross_field": {
+        "passes": 0,
+        "shot_windows": 0,
+        "shot_window_rate": null
+      },
+      "other_completed_passes": {
+        "passes": 176,
+        "shot_windows": 5,
+        "shot_window_rate": 0.028409090909090908
+      },
+      "raw_rate_difference": null
+    },
+    {
+      "team": "Georgia",
+      "opponent": "Turkey",
+      "coach_id": "752",
+      "matches": 1,
+      "cross_field": {
+        "passes": 16,
+        "shot_windows": 3,
+        "shot_window_rate": 0.1875
+      },
+      "other_completed_passes": {
+        "passes": 331,
+        "shot_windows": 24,
+        "shot_window_rate": 0.07250755287009064
+      },
+      "raw_rate_difference": 0.11499244712990936
+    },
+    {
+      "team": "Germany",
+      "opponent": "Denmark",
+      "coach_id": "445",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 414,
+        "shot_windows": 18,
+        "shot_window_rate": 0.043478260869565216
+      },
+      "raw_rate_difference": -0.043478260869565216
+    },
+    {
+      "team": "Germany",
+      "opponent": "Hungary",
+      "coach_id": "445",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 602,
+        "shot_windows": 34,
+        "shot_window_rate": 0.05647840531561462
+      },
+      "raw_rate_difference": -0.05647840531561462
+    },
+    {
+      "team": "Germany",
+      "opponent": "Scotland",
+      "coach_id": "445",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 1,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 560,
+        "shot_windows": 29,
+        "shot_window_rate": 0.05178571428571429
+      },
+      "raw_rate_difference": 0.09107142857142855
+    },
+    {
+      "team": "Germany",
+      "opponent": "Spain",
+      "coach_id": "445",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 352,
+        "shot_windows": 45,
+        "shot_window_rate": 0.1278409090909091
+      },
+      "raw_rate_difference": -0.1278409090909091
+    },
+    {
+      "team": "Germany",
+      "opponent": "Switzerland",
+      "coach_id": "445",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 1,
+        "shot_window_rate": 0.1111111111111111
+      },
+      "other_completed_passes": {
+        "passes": 526,
+        "shot_windows": 35,
+        "shot_window_rate": 0.06653992395437262
+      },
+      "raw_rate_difference": 0.04457118715673848
+    },
+    {
+      "team": "Hungary",
+      "opponent": "Germany",
+      "coach_id": "3616",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 208,
+        "shot_windows": 9,
+        "shot_window_rate": 0.04326923076923077
+      },
+      "raw_rate_difference": -0.04326923076923077
+    },
+    {
+      "team": "Hungary",
+      "opponent": "Scotland",
+      "coach_id": "3616",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 1,
+        "shot_window_rate": 0.25
+      },
+      "other_completed_passes": {
+        "passes": 208,
+        "shot_windows": 23,
+        "shot_window_rate": 0.11057692307692307
+      },
+      "raw_rate_difference": 0.13942307692307693
+    },
+    {
+      "team": "Hungary",
+      "opponent": "Switzerland",
+      "coach_id": "3616",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 1,
+        "shot_window_rate": 0.09090909090909091
+      },
+      "other_completed_passes": {
+        "passes": 296,
+        "shot_windows": 11,
+        "shot_window_rate": 0.037162162162162164
+      },
+      "raw_rate_difference": 0.05374692874692875
+    },
+    {
+      "team": "Italy",
+      "opponent": "Albania",
+      "coach_id": "399",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 1,
+        "shot_window_rate": 0.08333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 701,
+        "shot_windows": 33,
+        "shot_window_rate": 0.047075606276747506
+      },
+      "raw_rate_difference": 0.03625772705658582
+    },
+    {
+      "team": "Italy",
+      "opponent": "Croatia",
+      "coach_id": "399",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 1,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 428,
+        "shot_windows": 30,
+        "shot_window_rate": 0.07009345794392523
+      },
+      "raw_rate_difference": 0.09657320872274143
+    },
+    {
+      "team": "Italy",
+      "opponent": "Spain",
+      "coach_id": "399",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 1,
+        "shot_window_rate": 0.09090909090909091
+      },
+      "other_completed_passes": {
+        "passes": 312,
+        "shot_windows": 1,
+        "shot_window_rate": 0.003205128205128205
+      },
+      "raw_rate_difference": 0.0877039627039627
+    },
+    {
+      "team": "Italy",
+      "opponent": "Switzerland",
+      "coach_id": "399",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 392,
+        "shot_windows": 16,
+        "shot_window_rate": 0.04081632653061224
+      },
+      "raw_rate_difference": -0.04081632653061224
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "Austria",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 2,
+        "shot_window_rate": 0.2857142857142857
+      },
+      "other_completed_passes": {
+        "passes": 310,
+        "shot_windows": 17,
+        "shot_window_rate": 0.054838709677419356
+      },
+      "raw_rate_difference": 0.23087557603686634
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "England",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 341,
+        "shot_windows": 5,
+        "shot_window_rate": 0.01466275659824047
+      },
+      "raw_rate_difference": -0.01466275659824047
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "France",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 318,
+        "shot_windows": 10,
+        "shot_window_rate": 0.031446540880503145
+      },
+      "raw_rate_difference": -0.031446540880503145
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "Poland",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 2,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 463,
+        "shot_windows": 40,
+        "shot_window_rate": 0.08639308855291576
+      },
+      "raw_rate_difference": 0.0802735781137509
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "Romania",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 1,
+        "shot_window_rate": 0.125
+      },
+      "other_completed_passes": {
+        "passes": 399,
+        "shot_windows": 24,
+        "shot_window_rate": 0.06015037593984962
+      },
+      "raw_rate_difference": 0.06484962406015038
+    },
+    {
+      "team": "Netherlands",
+      "opponent": "Turkey",
+      "coach_id": "676",
+      "matches": 1,
+      "cross_field": {
+        "passes": 4,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 418,
+        "shot_windows": 24,
+        "shot_window_rate": 0.05741626794258373
+      },
+      "raw_rate_difference": -0.05741626794258373
+    },
+    {
+      "team": "Poland",
+      "opponent": "Austria",
+      "coach_id": "363",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 247,
+        "shot_windows": 24,
+        "shot_window_rate": 0.09716599190283401
+      },
+      "raw_rate_difference": -0.09716599190283401
+    },
+    {
+      "team": "Poland",
+      "opponent": "France",
+      "coach_id": "363",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 317,
+        "shot_windows": 18,
+        "shot_window_rate": 0.056782334384858045
+      },
+      "raw_rate_difference": -0.056782334384858045
+    },
+    {
+      "team": "Poland",
+      "opponent": "Netherlands",
+      "coach_id": "363",
+      "matches": 1,
+      "cross_field": {
+        "passes": 2,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 157,
+        "shot_windows": 15,
+        "shot_window_rate": 0.09554140127388536
+      },
+      "raw_rate_difference": -0.09554140127388536
+    },
+    {
+      "team": "Portugal",
+      "opponent": "Czech Republic",
+      "coach_id": "263",
+      "matches": 1,
+      "cross_field": {
+        "passes": 23,
+        "shot_windows": 2,
+        "shot_window_rate": 0.08695652173913043
+      },
+      "other_completed_passes": {
+        "passes": 537,
+        "shot_windows": 37,
+        "shot_window_rate": 0.06890130353817504
+      },
+      "raw_rate_difference": 0.01805521820095539
+    },
+    {
+      "team": "Portugal",
+      "opponent": "France",
+      "coach_id": "263",
+      "matches": 1,
+      "cross_field": {
+        "passes": 13,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 555,
+        "shot_windows": 9,
+        "shot_window_rate": 0.016216216216216217
+      },
+      "raw_rate_difference": -0.016216216216216217
+    },
+    {
+      "team": "Portugal",
+      "opponent": "Georgia",
+      "coach_id": "263",
+      "matches": 1,
+      "cross_field": {
+        "passes": 14,
+        "shot_windows": 2,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 554,
+        "shot_windows": 31,
+        "shot_window_rate": 0.05595667870036101
+      },
+      "raw_rate_difference": 0.08690046415678185
+    },
+    {
+      "team": "Portugal",
+      "opponent": "Slovenia",
+      "coach_id": "263",
+      "matches": 1,
+      "cross_field": {
+        "passes": 23,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 445,
+        "shot_windows": 16,
+        "shot_window_rate": 0.035955056179775284
+      },
+      "raw_rate_difference": -0.035955056179775284
+    },
+    {
+      "team": "Portugal",
+      "opponent": "Turkey",
+      "coach_id": "263",
+      "matches": 1,
+      "cross_field": {
+        "passes": 15,
+        "shot_windows": 3,
+        "shot_window_rate": 0.2
+      },
+      "other_completed_passes": {
+        "passes": 452,
+        "shot_windows": 24,
+        "shot_window_rate": 0.05309734513274336
+      },
+      "raw_rate_difference": 0.14690265486725665
+    },
+    {
+      "team": "Romania",
+      "opponent": "Belgium",
+      "coach_id": "6237",
+      "matches": 1,
+      "cross_field": {
+        "passes": 7,
+        "shot_windows": 1,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 227,
+        "shot_windows": 22,
+        "shot_window_rate": 0.09691629955947137
+      },
+      "raw_rate_difference": 0.04594084329767148
+    },
+    {
+      "team": "Romania",
+      "opponent": "Netherlands",
+      "coach_id": "6237",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 161,
+        "shot_windows": 7,
+        "shot_window_rate": 0.043478260869565216
+      },
+      "raw_rate_difference": -0.043478260869565216
+    },
+    {
+      "team": "Romania",
+      "opponent": "Slovakia",
+      "coach_id": "6237",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 190,
+        "shot_windows": 9,
+        "shot_window_rate": 0.04736842105263158
+      },
+      "raw_rate_difference": -0.04736842105263158
+    },
+    {
+      "team": "Romania",
+      "opponent": "Ukraine",
+      "coach_id": "6237",
+      "matches": 1,
+      "cross_field": {
+        "passes": 1,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 141,
+        "shot_windows": 9,
+        "shot_window_rate": 0.06382978723404255
+      },
+      "raw_rate_difference": -0.06382978723404255
+    },
+    {
+      "team": "Scotland",
+      "opponent": "Germany",
+      "coach_id": "510",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 150,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "raw_rate_difference": 0.0
+    },
+    {
+      "team": "Scotland",
+      "opponent": "Hungary",
+      "coach_id": "510",
+      "matches": 1,
+      "cross_field": {
+        "passes": 2,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 364,
+        "shot_windows": 6,
+        "shot_window_rate": 0.016483516483516484
+      },
+      "raw_rate_difference": -0.016483516483516484
+    },
+    {
+      "team": "Scotland",
+      "opponent": "Switzerland",
+      "coach_id": "510",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 1,
+        "shot_window_rate": 0.125
+      },
+      "other_completed_passes": {
+        "passes": 231,
+        "shot_windows": 10,
+        "shot_window_rate": 0.04329004329004329
+      },
+      "raw_rate_difference": 0.0817099567099567
+    },
+    {
+      "team": "Serbia",
+      "opponent": "Denmark",
+      "coach_id": "5908",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 351,
+        "shot_windows": 8,
+        "shot_window_rate": 0.022792022792022793
+      },
+      "raw_rate_difference": -0.022792022792022793
+    },
+    {
+      "team": "Serbia",
+      "opponent": "England",
+      "coach_id": "5908",
+      "matches": 1,
+      "cross_field": {
+        "passes": 10,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 394,
+        "shot_windows": 9,
+        "shot_window_rate": 0.02284263959390863
+      },
+      "raw_rate_difference": -0.02284263959390863
+    },
+    {
+      "team": "Serbia",
+      "opponent": "Slovenia",
+      "coach_id": "5908",
+      "matches": 1,
+      "cross_field": {
+        "passes": 17,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 418,
+        "shot_windows": 22,
+        "shot_window_rate": 0.05263157894736842
+      },
+      "raw_rate_difference": -0.05263157894736842
+    },
+    {
+      "team": "Slovakia",
+      "opponent": "Belgium",
+      "coach_id": "1002171",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 1,
+        "shot_window_rate": 0.125
+      },
+      "other_completed_passes": {
+        "passes": 218,
+        "shot_windows": 17,
+        "shot_window_rate": 0.0779816513761468
+      },
+      "raw_rate_difference": 0.04701834862385321
+    },
+    {
+      "team": "Slovakia",
+      "opponent": "England",
+      "coach_id": "1002171",
+      "matches": 1,
+      "cross_field": {
+        "passes": 2,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 160,
+        "shot_windows": 9,
+        "shot_window_rate": 0.05625
+      },
+      "raw_rate_difference": -0.05625
+    },
+    {
+      "team": "Slovakia",
+      "opponent": "Romania",
+      "coach_id": "1002171",
+      "matches": 1,
+      "cross_field": {
+        "passes": 15,
+        "shot_windows": 3,
+        "shot_window_rate": 0.2
+      },
+      "other_completed_passes": {
+        "passes": 295,
+        "shot_windows": 13,
+        "shot_window_rate": 0.04406779661016949
+      },
+      "raw_rate_difference": 0.15593220338983052
+    },
+    {
+      "team": "Slovakia",
+      "opponent": "Ukraine",
+      "coach_id": "1002171",
+      "matches": 1,
+      "cross_field": {
+        "passes": 24,
+        "shot_windows": 2,
+        "shot_window_rate": 0.08333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 395,
+        "shot_windows": 18,
+        "shot_window_rate": 0.04556962025316456
+      },
+      "raw_rate_difference": 0.03776371308016877
+    },
+    {
+      "team": "Slovenia",
+      "opponent": "Denmark",
+      "coach_id": "1733",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 1,
+        "shot_window_rate": 0.08333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 176,
+        "shot_windows": 13,
+        "shot_window_rate": 0.07386363636363637
+      },
+      "raw_rate_difference": 0.009469696969696961
+    },
+    {
+      "team": "Slovenia",
+      "opponent": "England",
+      "coach_id": "1733",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 166,
+        "shot_windows": 12,
+        "shot_window_rate": 0.07228915662650602
+      },
+      "raw_rate_difference": -0.07228915662650602
+    },
+    {
+      "team": "Slovenia",
+      "opponent": "Portugal",
+      "coach_id": "1733",
+      "matches": 1,
+      "cross_field": {
+        "passes": 1,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 112,
+        "shot_windows": 3,
+        "shot_window_rate": 0.026785714285714284
+      },
+      "raw_rate_difference": -0.026785714285714284
+    },
+    {
+      "team": "Slovenia",
+      "opponent": "Serbia",
+      "coach_id": "1733",
+      "matches": 1,
+      "cross_field": {
+        "passes": 10,
+        "shot_windows": 1,
+        "shot_window_rate": 0.1
+      },
+      "other_completed_passes": {
+        "passes": 218,
+        "shot_windows": 14,
+        "shot_window_rate": 0.06422018348623854
+      },
+      "raw_rate_difference": 0.03577981651376147
+    },
+    {
+      "team": "Spain",
+      "opponent": "Albania",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 14,
+        "shot_windows": 2,
+        "shot_window_rate": 0.14285714285714285
+      },
+      "other_completed_passes": {
+        "passes": 467,
+        "shot_windows": 22,
+        "shot_window_rate": 0.047109207708779445
+      },
+      "raw_rate_difference": 0.09574793514836341
+    },
+    {
+      "team": "Spain",
+      "opponent": "Croatia",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 1,
+        "shot_window_rate": 0.1111111111111111
+      },
+      "other_completed_passes": {
+        "passes": 337,
+        "shot_windows": 15,
+        "shot_window_rate": 0.04451038575667656
+      },
+      "raw_rate_difference": 0.06660072535443454
+    },
+    {
+      "team": "Spain",
+      "opponent": "England",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 17,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 420,
+        "shot_windows": 31,
+        "shot_window_rate": 0.07380952380952381
+      },
+      "raw_rate_difference": -0.07380952380952381
+    },
+    {
+      "team": "Spain",
+      "opponent": "France",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 2,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 401,
+        "shot_windows": 9,
+        "shot_window_rate": 0.022443890274314215
+      },
+      "raw_rate_difference": 0.14422277639235245
+    },
+    {
+      "team": "Spain",
+      "opponent": "Georgia",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 15,
+        "shot_windows": 4,
+        "shot_window_rate": 0.26666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 598,
+        "shot_windows": 69,
+        "shot_window_rate": 0.11538461538461539
+      },
+      "raw_rate_difference": 0.15128205128205127
+    },
+    {
+      "team": "Spain",
+      "opponent": "Germany",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 1,
+        "shot_window_rate": 0.16666666666666666
+      },
+      "other_completed_passes": {
+        "passes": 309,
+        "shot_windows": 28,
+        "shot_window_rate": 0.09061488673139159
+      },
+      "raw_rate_difference": 0.07605177993527507
+    },
+    {
+      "team": "Spain",
+      "opponent": "Italy",
+      "coach_id": "5588",
+      "matches": 1,
+      "cross_field": {
+        "passes": 19,
+        "shot_windows": 1,
+        "shot_window_rate": 0.05263157894736842
+      },
+      "other_completed_passes": {
+        "passes": 459,
+        "shot_windows": 45,
+        "shot_window_rate": 0.09803921568627451
+      },
+      "raw_rate_difference": -0.04540763673890609
+    },
+    {
+      "team": "Switzerland",
+      "opponent": "England",
+      "coach_id": "2832",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 370,
+        "shot_windows": 21,
+        "shot_window_rate": 0.05675675675675676
+      },
+      "raw_rate_difference": -0.05675675675675676
+    },
+    {
+      "team": "Switzerland",
+      "opponent": "Germany",
+      "coach_id": "2832",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 210,
+        "shot_windows": 7,
+        "shot_window_rate": 0.03333333333333333
+      },
+      "raw_rate_difference": -0.03333333333333333
+    },
+    {
+      "team": "Switzerland",
+      "opponent": "Hungary",
+      "coach_id": "2832",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 332,
+        "shot_windows": 25,
+        "shot_window_rate": 0.07530120481927711
+      },
+      "raw_rate_difference": -0.07530120481927711
+    },
+    {
+      "team": "Switzerland",
+      "opponent": "Italy",
+      "coach_id": "2832",
+      "matches": 1,
+      "cross_field": {
+        "passes": 2,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 422,
+        "shot_windows": 32,
+        "shot_window_rate": 0.07582938388625593
+      },
+      "raw_rate_difference": -0.07582938388625593
+    },
+    {
+      "team": "Switzerland",
+      "opponent": "Scotland",
+      "coach_id": "2832",
+      "matches": 1,
+      "cross_field": {
+        "passes": 6,
+        "shot_windows": 2,
+        "shot_window_rate": 0.3333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 286,
+        "shot_windows": 15,
+        "shot_window_rate": 0.05244755244755245
+      },
+      "raw_rate_difference": 0.28088578088578087
+    },
+    {
+      "team": "Turkey",
+      "opponent": "Austria",
+      "coach_id": "232",
+      "matches": 1,
+      "cross_field": {
+        "passes": 9,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 247,
+        "shot_windows": 2,
+        "shot_window_rate": 0.008097165991902834
+      },
+      "raw_rate_difference": -0.008097165991902834
+    },
+    {
+      "team": "Turkey",
+      "opponent": "Czech Republic",
+      "coach_id": "232",
+      "matches": 1,
+      "cross_field": {
+        "passes": 11,
+        "shot_windows": 2,
+        "shot_window_rate": 0.18181818181818182
+      },
+      "other_completed_passes": {
+        "passes": 383,
+        "shot_windows": 20,
+        "shot_window_rate": 0.05221932114882506
+      },
+      "raw_rate_difference": 0.12959886066935677
+    },
+    {
+      "team": "Turkey",
+      "opponent": "Georgia",
+      "coach_id": "232",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 450,
+        "shot_windows": 40,
+        "shot_window_rate": 0.08888888888888889
+      },
+      "raw_rate_difference": -0.08888888888888889
+    },
+    {
+      "team": "Turkey",
+      "opponent": "Netherlands",
+      "coach_id": "232",
+      "matches": 1,
+      "cross_field": {
+        "passes": 12,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 253,
+        "shot_windows": 10,
+        "shot_window_rate": 0.039525691699604744
+      },
+      "raw_rate_difference": -0.039525691699604744
+    },
+    {
+      "team": "Turkey",
+      "opponent": "Portugal",
+      "coach_id": "232",
+      "matches": 1,
+      "cross_field": {
+        "passes": 5,
+        "shot_windows": 0,
+        "shot_window_rate": 0.0
+      },
+      "other_completed_passes": {
+        "passes": 317,
+        "shot_windows": 26,
+        "shot_window_rate": 0.08201892744479496
+      },
+      "raw_rate_difference": -0.08201892744479496
+    },
+    {
+      "team": "Ukraine",
+      "opponent": "Belgium",
+      "coach_id": "2672",
+      "matches": 1,
+      "cross_field": {
+        "passes": 8,
+        "shot_windows": 1,
+        "shot_window_rate": 0.125
+      },
+      "other_completed_passes": {
+        "passes": 267,
+        "shot_windows": 22,
+        "shot_window_rate": 0.08239700374531835
+      },
+      "raw_rate_difference": 0.042602996254681655
+    },
+    {
+      "team": "Ukraine",
+      "opponent": "Romania",
+      "coach_id": "2672",
+      "matches": 1,
+      "cross_field": {
+        "passes": 3,
+        "shot_windows": 1,
+        "shot_window_rate": 0.3333333333333333
+      },
+      "other_completed_passes": {
+        "passes": 455,
+        "shot_windows": 27,
+        "shot_window_rate": 0.05934065934065934
+      },
+      "raw_rate_difference": 0.27399267399267396
+    },
+    {
+      "team": "Ukraine",
+      "opponent": "Slovakia",
+      "coach_id": "2672",
+      "matches": 1,
+      "cross_field": {
+        "passes": 13,
+        "shot_windows": 2,
+        "shot_window_rate": 0.15384615384615385
+      },
+      "other_completed_passes": {
+        "passes": 308,
+        "shot_windows": 23,
+        "shot_window_rate": 0.07467532467532467
+      },
+      "raw_rate_difference": 0.07917082917082918
+    }
+  ],
+  "exclusions": {
+    "incomplete_or_special_pass": 12383,
+    "shot_already_observed": 939
+  },
+  "source_asset_fingerprint": "9b8ac66294e0e7dc10263d1bb475835731d1ed052b569b95632bf42ac83f79c5",
+  "source_assets": 103,
+  "extractor_sha256": "665162296ae01d0dc72e2bb7136fd3571c3c86e4ca8e62c185bea5a19291b73e",
+  "source_claim_ids": [
+    "switch-draw"
+  ],
+  "method": "Completed non-special passes in regulation periods, from one outer y-third to the opposite on StatsBomb120x80 coordinates. Decision is pass end; outcome is a later non-penalty shot within10s by the same possession owner. Passes after an already observed shot are excluded.",
+  "limits": [
+    "A single cross-field pass is a ball-movement candidate, not proof of defensive displacement, weak-side exploitation or coach intent.",
+    "360 context reports visible outfield players at pass time; shape spans are partial. Ball side/far side counts do not establish overloads or off-ball runs. Local visibility is polygon coverage, not proof that every player was detected.",
+    "Distances use StatsBomb normalized pitch units, not metres. The binary event pressure flag is not pressing intensity; absent marking is not a measured low-pressure condition.",
+    "Other completed passes are descriptive controls, not matched tactical alternatives. Starting locations, pressure, score, personnel and opponents differ.",
+    "Pass windows overlap within possessions; no independent-sample significance or causal coaching effect is claimed.",
+    "Coach IDs remain StatsBomb-specific. Opponent profiles can have one match; rates are not coach rankings.",
+    "2024 tournament findings do not validate2026 source statements or describe current national-team styles."
+  ]
+}

@@ -1,0 +1,3 @@
+-r requirements-experiments.txt
+lightgbm==4.7.0
+catboost==1.2.10

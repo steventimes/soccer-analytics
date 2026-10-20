@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import json
+import math
 import os
-import unittest
-from datetime import date
+import pickle
+import random
+from datetime import timedelta, date, UTC, datetime
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+
+import requests
 
 from app.config import (
     DEFAULT_COMPETITIONS_MAP,
@@ -15,13 +20,27 @@ from app.config import (
     load_settings,
     resolve_competitions,
 )
+from app.data_service.fetch.fetcher import DataSourceError, FootballDataClient
+from app.ml.evaluation import (
+    EvaluationError,
+    classwise_reliability,
+    evaluate_expanding_window,
+    top_label_calibration_error,
+)
+from app.ml.feature_engineering import FeatureEngineer, FeatureEngineeringError
+from app.ml.model import (
+    ModelTrainingError,
+    XGBoostClassifier,
+    accuracy_score,
+    multiclass_brier_score,
+    multiclass_log_loss,
+    ranked_probability_score,
+)
+
+from tests.support import ContractTestCase
 
 
-class TestConfig(unittest.TestCase):
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+class TestConfig(ContractTestCase):
 
     def test_settings_loading_contracts(self):
         self._run_contracts(
@@ -163,16 +182,6 @@ class TestConfig(unittest.TestCase):
                 self.assertIn(key, str(context.exception))
 
 
-import unittest
-
-from app.ml.evaluation import (
-    EvaluationError,
-    classwise_reliability,
-    evaluate_expanding_window,
-    top_label_calibration_error,
-)
-
-
 class _BoundaryEstimator:
     def __init__(self, boundaries: list[tuple[tuple[int, ...], tuple[int, ...]]]) -> None:
         self.boundaries = boundaries
@@ -204,11 +213,7 @@ class _BoundaryCalibrationEstimator:
         return [0 for _ in rows]
 
 
-class TestTemporalEvaluation(unittest.TestCase):
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+class TestTemporalEvaluation(ContractTestCase):
 
     def test_metric_and_calibration_contracts(self) -> None:
         self._run_contracts(
@@ -347,15 +352,6 @@ class TestTemporalEvaluation(unittest.TestCase):
             )
 
 
-import json
-import math
-import pickle
-import unittest
-from datetime import UTC, datetime
-
-from app.ml.feature_engineering import FeatureEngineer, FeatureEngineeringError
-
-
 def api_match(
     match_id,
     kickoff,
@@ -385,14 +381,10 @@ def api_match(
     }
 
 
-class TestFeatureEngineer(unittest.TestCase):
+class TestFeatureEngineer(ContractTestCase):
     def setUp(self):
         self.engineer = FeatureEngineer(window=5)
 
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
 
     def test_temporal_feature_contracts(self):
         self._run_contracts(
@@ -507,6 +499,16 @@ class TestFeatureEngineer(unittest.TestCase):
         self.assertEqual(dataset.rows[1]["home_elo"], 1500.0)
 
     def _check_serialized_states_round_trip_and_corruption_is_domain_error(self):
+        from app.data_service.match_records import normalize_match
+        from app.ml.feature_engineering import MatchRecord
+
+        record = normalize_match(api_match(7, "2026-01-01T12:00:00Z", 10, 20, 2, 0))
+        legacy = pickle.dumps(record, protocol=0).replace(
+            b"app.data_service.match_records\nMatchRecord\n",
+            b"app.ml.feature_engineering\nMatchRecord\n",
+        )
+        self.assertIsInstance(pickle.loads(legacy), MatchRecord)
+        self.assertEqual(pickle.loads(legacy), record)
         dataset = self.engineer.build_training_dataset(
             [api_match(1, "2026-01-01T12:00:00Z", 10, 20, 2, 0)]
         )
@@ -537,12 +539,43 @@ class TestFeatureEngineer(unittest.TestCase):
             self.engineer.build_training_dataset([incomplete])
         self.assertIn("比分", str(context.exception))
 
+    def test_randomized_feature_and_model_invariants(self):
+        engineer = FeatureEngineer()
+        for seed in range(10):
+            with self.subTest(seed=seed):
+                matches = _random_matches(seed)
+                dataset = engineer.build_training_dataset(matches)
+                self.assertEqual(len(dataset.rows), 90)
+                self.assertEqual(tuple(dataset.rows[0]), engineer.features)
+                self.assertTrue(
+                    all(
+                        math.isfinite(value)
+                        for row in dataset.rows
+                        for value in row.values()
+                    )
+                )
 
-import unittest
+        matches = _random_matches(42, 30)
+        self.assertEqual(
+            engineer.build_training_dataset(matches),
+            engineer.build_training_dataset(reversed(matches)),
+        )
 
-import requests
-
-from app.data_service.fetch.fetcher import DataSourceError, FootballDataClient
+        dataset = engineer.build_training_dataset(_random_matches(7, 120))
+        model = XGBoostClassifier(engineer.features, rounds=40).fit(
+            dataset.rows[:100],
+            dataset.targets[:100],
+        )
+        self.assertTrue(
+            all(
+                math.isclose(sum(row), 1.0, abs_tol=1e-6)
+                and all(
+                    math.isfinite(value) and 0 <= value <= 1
+                    for value in row
+                )
+                for row in model.predict_proba(dataset.rows[100:])
+            )
+        )
 
 
 class FakeResponse:
@@ -583,7 +616,7 @@ class NoopLimiter:
         self.after_count += 1
 
 
-class TestFootballDataClient(unittest.TestCase):
+class TestFootballDataClient(ContractTestCase):
     def make_client(self, outcomes, **overrides):
         session = FakeSession(outcomes)
         limiter = NoopLimiter()
@@ -596,14 +629,70 @@ class TestFootballDataClient(unittest.TestCase):
             "max_retries": 2,
             "backoff_factor": 0.25,
             "sleep": sleeps.append,
+            "retry_jitter": False,
         }
         options.update(overrides)
         return FootballDataClient(**options), session, limiter, sleeps
 
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+    def test_shared_retry_dates_jitter_and_wait_limits_across_api_and_public_files(self):
+        from datetime import UTC, datetime, timedelta
+        from email.utils import format_datetime
+        from app.data_service.fetch.public import FootballCSVClient
+        from app.data_service.fetch.retry import RetryPolicy
+
+        now = datetime(2026, 1, 1, tzinfo=UTC)
+        future = now + timedelta(seconds=12)
+        for header in [format_datetime(future, usegmt=True), future.strftime('%A, %d-%b-%y %H:%M:%S GMT'),
+                       future.strftime('%a %b %d %H:%M:%S %Y')]:
+            policy = RetryPolicy(wall_clock=lambda: now.timestamp(), random_value=lambda: 0.)
+            self.assertEqual(policy.delay(FakeResponse(503, headers={'Retry-After': header}), 0), 12.)
+        for client_type in [FootballDataClient, FootballCSVClient]:
+            failed = [FakeResponse(429, {}, headers={'Retry-After': format_datetime(future, usegmt=True)}), FakeResponse(503, {})]
+            for response in failed: response.close = Mock()
+            successful = FakeResponse(200, {'matches': []}); successful.close = Mock()
+            session, waits = FakeSession([*failed, successful]), []
+            options = dict(session=session, limiter=NoopLimiter(), sleep=waits.append,
+                           wall_clock=lambda: now.timestamp(), random_value=lambda: .5, max_retries=2)
+            if client_type is FootballDataClient: options['api_key'] = 'synthetic-key'
+            client = client_type(**options)
+            result = client.get('matches') if client_type is FootballDataClient else client._download('https://public.invalid')
+            self.assertEqual(waits, [12., .25])
+            self.assertEqual(len(session.calls), 3)
+            for response in failed: response.close.assert_called_once()
+            successful.close.assert_not_called()
+            for retries in [0, 2]:
+                delayed = FakeResponse(429, {}, headers={'Retry-After': '120'}); delayed.close = Mock()
+                session.outcomes = [delayed, successful]; session.calls.clear(); waits.clear()
+                client.max_retries = retries
+                with self.assertRaises(DataSourceError) as error:
+                    client.get('matches') if client_type is FootballDataClient else client._download('https://public.invalid')
+                self.assertEqual(error.exception.retry_after_seconds, 120.)
+                self.assertEqual(error.exception.status_code, 429)
+                self.assertTrue(error.exception.retryable)
+                self.assertEqual(len(session.calls), 1)
+                self.assertEqual(waits, [])
+                delayed.close.assert_called_once()
+        bounded = RetryPolicy(backoff_factor=1e300, jitter=False)
+        self.assertEqual(bounded.delay(None, 1000000), 60.)
+        tiny = RetryPolicy(backoff_factor=1e-307, jitter=False)
+        self.assertAlmostEqual(tiny.delay(None, 1024), 17.976931348623157)
+        for clock, target in [
+            (now, datetime(2070, 1, 1, tzinfo=UTC)),
+            (now, datetime(1977, 1, 1, tzinfo=UTC)),
+            (datetime(2099, 1, 1, tzinfo=UTC), datetime(2110, 1, 1, tzinfo=UTC)),
+            (now, datetime(1976, 1, 1, 0, 0, 1, tzinfo=UTC)),
+            (now, datetime(2076, 1, 1, tzinfo=UTC)),
+            (datetime(2040, 2, 29, tzinfo=UTC), datetime(2090, 2, 28, tzinfo=UTC)),
+            (datetime(2050, 1, 1, tzinfo=UTC), datetime(2000, 2, 29, tzinfo=UTC)),
+        ]:
+            policy = RetryPolicy(wall_clock=lambda: clock.timestamp())
+            header = target.strftime('%A, %d-%b-%y %H:%M:%S GMT')
+            response = FakeResponse(503, headers={'Retry-After': header})
+            self.assertEqual(policy.retry_after(response), max(0., target.timestamp() - clock.timestamp()))
+        for options in [dict(timeout=float('nan')), dict(timeout=float('inf')), dict(max_retries=True),
+                        dict(backoff_factor=float('inf')), dict(max_retry_delay=-1), dict(retry_jitter=1)]:
+            with self.assertRaises(ValueError): self.make_client([], **options)
+
 
     def test_request_and_retry_contracts(self):
         self._run_contracts(
@@ -628,8 +717,6 @@ class TestFootballDataClient(unittest.TestCase):
             )
         )
 
-    def test_client_surface_has_no_obsolete_helpers(self):
-        self._check_obsolete_client_helpers_are_not_public()
 
     def _check_successful_request_uses_auth_timeout_and_normalized_url(self):
         client, session, limiter, sleeps = self.make_client(
@@ -759,39 +846,75 @@ class TestFootballDataClient(unittest.TestCase):
         })
         self.assertTrue(session.calls[0][0].endswith("competitions/PL/matches"))
 
-    def _check_obsolete_client_helpers_are_not_public(self):
-        client, _, _, _ = self.make_client([])
-        for name in (
-            "_get",
-            "fetch_multiple_seasons",
-            "fetch_competition_details",
-            "fetch_team_squad",
-            "fetch_standings",
-            "fetch_top_scorers",
-        ):
-            with self.subTest(name=name):
-                self.assertFalse(hasattr(client, name))
 
+class TestXGBoostClassifier(ContractTestCase):
+    def test_early_stopping_keeps_whole_kickoff_groups(self):
+        class CapturingClassifier(XGBoostClassifier):
+            def __init__(self):
+                super().__init__(("value",), rounds=2)
+                self.matrices = []
 
-import math
-import pickle
-import unittest
+            def _dmatrix(self, rows, targets=None, weights=None):
+                matrix = super()._dmatrix(rows, targets, weights)
+                self.matrices.append(matrix)
+                return matrix
 
-from app.ml.model import (
-    ModelTrainingError,
-    XGBoostClassifier,
-    accuracy_score,
-    multiclass_brier_score,
-    multiclass_log_loss,
-    ranked_probability_score,
-)
+        rows = [{"value": float(index)} for index in range(20)]
+        targets = [index % 3 for index in range(20)]
+        origin = datetime(2025, 1, 1, tzinfo=UTC)
+        times = [(origin + timedelta(hours=12 if 12 <= i <= 17 else i)).isoformat()
+                 for i in range(20)]
+        # An equivalent offset must belong to the same timestamp group.
+        times[16] = "2025-01-01T13:00:00+01:00"
+        model = CapturingClassifier()
+        try:
+            model.fit(rows, targets, kickoffs=times)
+        except TypeError as error:
+            self.fail(f"Temporal fit must accept kickoff metadata: {error}")
+        training, validation, refit = model.matrices
+        self.assertEqual([m.num_row() for m in model.matrices], [12, 8, 20])
+        self.assertEqual(training.get_label().tolist(), targets[:12])
+        self.assertEqual(validation.get_label().tolist(), targets[12:])
+        self.assertEqual(validation.get_weight().size, 0)
+        self.assertEqual(refit.get_label().tolist(), targets)
+        for invalid in [None, False, "", times[:-1], times[::-1],
+                        ["not-a-time"] + times[1:],
+                        ["2025-01-01T00:00:00"] + times[1:],
+                        [times[0]] * 20]:
+            with self.subTest(kickoffs=invalid), self.assertRaises(ModelTrainingError):
+                CapturingClassifier().fit(rows, targets, kickoffs=invalid)
 
+    def test_early_stopping_weights_do_not_use_validation_labels(self):
+        class CapturingClassifier(XGBoostClassifier):
+            def __init__(self):
+                super().__init__(("value",), rounds=2)
+                self.matrices = []
 
-class TestXGBoostClassifier(unittest.TestCase):
-    def _run_contracts(self, names: tuple[str, ...]) -> None:
-        for name in names:
-            with self.subTest(contract=name):
-                getattr(self, name)()
+            def _dmatrix(self, rows, targets=None, weights=None):
+                matrix = super()._dmatrix(rows, targets, weights)
+                self.matrices.append(matrix)
+                return matrix
+
+        rows = [{"value": float(index)} for index in range(20)]
+        prefix = [0] * 8 + [1] * 4 + [2] * 4
+        recorded = []
+        for suffix, refit_class_weights in [
+            ([0] * 4, (5 / 9, 5 / 3, 5 / 3)),
+            ([1] * 4, (5 / 6, 5 / 6, 5 / 3)),
+        ]:
+            model = CapturingClassifier().fit(rows, prefix + suffix)
+            training, validation, refit = model.matrices
+            self.assertEqual(training.get_label().tolist(), prefix)
+            self.assertEqual(training.get_weight().size, 16)
+            for actual, expected in zip(training.get_weight(), [2 / 3] * 8 + [4 / 3] * 8):
+                self.assertAlmostEqual(float(actual), expected, places=6)
+            self.assertEqual(validation.get_weight().size, 0)
+            self.assertEqual(refit.num_row(), 20)
+            for actual, target in zip(refit.get_weight(), prefix + suffix):
+                self.assertAlmostEqual(float(actual), refit_class_weights[target], places=6)
+            recorded.append(training.get_weight().tolist())
+        self.assertEqual(*recorded)
+
 
     def test_fit_and_explanation_contracts(self):
         self._run_contracts(
@@ -945,3 +1068,28 @@ class TestXGBoostClassifier(unittest.TestCase):
             0.0625,
             places=12,
         )
+
+
+def _random_matches(seed: int, count: int = 90) -> list[dict]:
+    rng = random.Random(seed)
+    teams = list(range(1, 11))
+    start = datetime(2025, 1, 1, 12, tzinfo=UTC)
+    matches = []
+    for index in range(count):
+        home, away = rng.sample(teams, 2)
+        matches.append(
+            {
+                "id": index + 1,
+                "utcDate": (start + timedelta(days=index)).isoformat(),
+                "status": "FINISHED",
+                "homeTeam": {"id": home},
+                "awayTeam": {"id": away},
+                "score": {
+                    "fullTime": {
+                        "home": rng.randrange(0, 5),
+                        "away": rng.randrange(0, 5),
+                    }
+                },
+            }
+        )
+    return matches

@@ -1,0 +1,3022 @@
+{
+  "schema": "SoccerAnalytics.FootballLiterature.v1",
+  "checked_at": "2026-10-15",
+  "scope": "足球相关机器学习、深度学习与可用于足球图表的可视化研究。阅读覆盖所列方法、验证和部分图例，不等于复现，不是穷尽式综述。论文报告的分数与本地验证结果分别记录。",
+  "papers": [
+    {
+      "id": "heer-bostock-2010",
+      "citation_key": "heer_bostock_2010",
+      "title": "Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design",
+      "authors": "Jeffrey Heer, Michael Bostock",
+      "year": 2010,
+      "venue": "ACM CHI",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "本地作者公开版本全部10页已逐页通读、查看；原实验未复现，最终本地验证待集中进行。",
+      "source_url": "https://hci.stanford.edu/publications/2010/crowd-perception/heer-chi2010.pdf",
+      "publication_url": "https://hci.stanford.edu/publications/paper.php?id=142",
+      "data": "在线比例估计实验，比较位置、长度、角度、面积等编码，并复核此前实验。",
+      "validation": "比例判断中，位置编码比面积编码更准确；图尺寸和矩形形状也影响判断。",
+      "limitations": "控制实验中的感知结果，不等于所有交互界面或任务都有同一排序。",
+      "application": "需要精确比较时保留共用刻度的点图、条形图和数值表。场地图继续负责空间关系。",
+      "code_links": [
+        "docs/fifa-offers.js",
+        "docs/explore.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        3,
+        4
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://hci.stanford.edu/publications/2010/crowd-perception/heer-chi2010.pdf",
+          "private_path": ".tmp/football-style-research-20261015/papers/heer2010.pdf",
+          "version": "Author-hosted CHI2010article",
+          "bytes": 621961,
+          "sha256": "afb3134793b87e1a6bb869eee2f64498f32717a384d732d293a7e9b5a1ac52a5",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        "supplement": {
+          "status": "no_separate_article_supplement_acquired_or_read",
+          "scope": "Article itself fully read; externally linked study material/code/data not reproduced or treated as a reviewed repository."
+        },
+        "code_inspected": [
+          "docs/fifa-offers.js",
+          "docs/research.js",
+          "docs/research.html"
+        ],
+        "implementation_state": "existing_shared_scale_labels_tables_static_reviewed_final_runtime_verification_pending",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "decision": "保留精确比较中的共用刻度与直接查值；现有接应条形图和指标点图已具备。未据此改写统一图高/透明度或宣称完成网站用户体验研究。",
+        "limits": [
+          "Controlled proportional-judgment/grid/size findings depend on stimuli, scale and display conditions; not universal chart rankings or fixed80px/alpha.2rules.",
+          "Original crowdsourced response/error/interval analysis was read, not rerun."
+        ],
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "saket-2019",
+      "citation_key": "saket_2019",
+      "title": "Task-Based Effectiveness of Basic Visualizations",
+      "authors": "Bahador Saket, Alex Endert, Çağatay Demiralp",
+      "year": 2019,
+      "venue": "IEEE TVCG 25(7)",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "本地作者公开版本全部9页已逐页通读、查看；原实验未复现，最终本地验证待集中进行。",
+      "source_url": "https://arxiv.org/pdf/1709.08546",
+      "publication_url": "https://doi.org/10.1109/TVCG.2018.2829750",
+      "data": "180 名完成者，5 种图表，10 种分析任务，2 份真实数据。",
+      "validation": "速度、准确率和偏好随任务变化，论文不支持一种图表在所有任务中最好。",
+      "limitations": "公开全文是作者预印本。实验主要使用静态图表，交互效果需要另验。",
+      "application": "把精确查值交给数值表，趋势和两队指标比较分别选择适合任务的图，不把喜欢某种样式当作效果证据。",
+      "code_links": [
+        "docs/research.js",
+        "docs/fifa-offers.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        4,
+        7,
+        8
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/1709.08546",
+          "private_path": ".tmp/football-style-research-20261015/papers/taskvis2019.pdf",
+          "version": "Local archived arXiv1709.08546v3,24April2018,not byte-matched to2019publisher PDF",
+          "bytes": 2073989,
+          "sha256": "b5a92a6ff51b6d5235f9228a000c916fc961a3f1d6d94fb6d23d05c1faf04441",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "supplement": {
+          "status": "no_separate_article_supplement_acquired_or_read",
+          "scope": "Article itself fully read; externally linked study material/code/data not reproduced or treated as a reviewed repository."
+        },
+        "code_inspected": [
+          "docs/fifa-offers.js",
+          "docs/research.js",
+          "docs/research.html"
+        ],
+        "implementation_state": "existing_shared_scale_labels_tables_static_reviewed_final_runtime_verification_pending",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "decision": "按查值、比较和关系任务保留数值表/标签与当前图形分工；静态核对未发现需要按该论文更换编码的缺口，实际交互和导出仍待最终检查。",
+        "limits": [
+          "Static5–34mark/two-dataset study does not establish interactive, dense-calendar or mobile behavior.",
+          "Speed, accuracy and preference differ; mark labels/tick layouts affect comparisons. Do not turn one significant comparison into universal chart superiority.",
+          "Externally linked study repository/materials were not reviewed in this pass."
+        ],
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "soccerstories-2013",
+      "citation_key": "soccerstories_2013",
+      "title": "SoccerStories: A Kick-off for Visual Soccer Analysis",
+      "authors": "Charles Perin, Romain Vuillemot, Jean-Daniel Fekete",
+      "year": 2013,
+      "venue": "IEEE TVCG / InfoVis",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "作者公开稿全部10页已读，含图1–16、动作表、两项定性研究与参考文献。",
+      "source_url": "https://aviz.fr/wiki/uploads/Research/soccerstories.pdf",
+      "publication_url": "https://doi.org/10.1109/TVCG.2013.192",
+      "data": "真实赛事案例，4 位专家参与需求访谈，2 项定性研究。",
+      "validation": "以比赛阶段连接概览和细节。第一项研究产出 4 篇战术文章；专家否定过同时铺开多种视图的早期网格界面。",
+      "limitations": "这是定性设计研究，没有证明统一的耗时提升幅度或预测准确率。",
+      "application": "比赛页已增加射门前控球段、逐步查看和保留顺序的步骤表，继续使用单一主图。控球段采用 StatsBomb 定义，不声称复现论文的完整系统。",
+      "code_links": [
+        "docs/explore.js",
+        "docs/research.html",
+        "docs/sequences.js",
+        "app/analytics/exploration.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        1,
+        5,
+        7
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://aviz.fr/wiki/uploads/Research/soccerstories.pdf",
+          "private_path": ".tmp/football-style-research-20261015/papers/soccerstories2013.pdf",
+          "version": "Author-hosted complete article manuscript",
+          "bytes": 4990234,
+          "sha256": "4709b6d7378b54fbe2a4bcf985030d14ab584172acb9e5804b014609106fb5de",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "pages_viewed": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_external_linked_material_not_acquired_or_read"
+        },
+        "code_inspected": [
+          "docs/explore.js",
+          "docs/research.html",
+          "docs/sequences.js",
+          "app/analytics/exploration.py"
+        ],
+        "decision": "保留单一主图、有序步骤表和动作回看；本地仅取含射门的StatsBomb控球段，不等于原文逐次对方触球断开的分段。",
+        "limits": [
+          "One analyst wrote four articles with technical assistance; follow-up13participants/preferences do not establish general speed or accuracy gains.",
+          "Endpoint links are recorded actions, not continuous trajectories; off-ball positions are unavailable.",
+          "Original software, videos and external study materials not reproduced."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "passvizor-2021",
+      "citation_key": "passvizor_2021",
+      "title": "PassVizor: Toward Better Understanding of the Dynamics of Soccer Passes",
+      "authors": "Xiao Xie et al.",
+      "year": 2021,
+      "venue": "IEEE TVCG 27(2)",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "作者稿全部10页已读，含NMF定义、图1–9、两场U15专家案例、限制与参考文献。",
+      "source_url": "https://ssxiexiao.github.io/papers/passvizor.pdf",
+      "publication_url": "https://doi.org/10.1109/TVCG.2020.3030359",
+      "data": "需求阶段访谈 4 位专家。评估由 2 位专家分析阿根廷对巴西、阿根廷对秘鲁两场 U15 比赛。",
+      "validation": "模式时间线联动进攻阶段细节，案例显示整场网络会掩盖传球模式的时间变化。",
+      "limitations": "小规模专家案例，不是职业五大联赛的效果基准。防守覆盖和速度等视图还依赖追踪数据。",
+      "application": "已增加三传球模式的分时段计数、筛选与逐步回看，使用有序事件而非累计传球矩阵。模式按接力身份规则分类，不是论文的 NMF 主题；没有复现防守覆盖区或视频分析。",
+      "code_links": [
+        "docs/passing.js",
+        "docs/explore.js",
+        "app/analytics/passing_motifs.py",
+        "docs/motifs.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        3,
+        5,
+        6
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://ssxiexiao.github.io/papers/passvizor.pdf",
+          "private_path": ".tmp/football-style-research-20261015/papers/passvizor2021.pdf",
+          "version": "Author manuscript with placeholder publication dates/DOI, not final typeset copy",
+          "bytes": 2192379,
+          "sha256": "4876ab33afd94bb8a6f934f6a6293c99f1571646ff3946c28f5a37a1cff682fe",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "pages_viewed": [
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_external_linked_material_not_acquired_or_read"
+        },
+        "code_inspected": [
+          "docs/passing.js",
+          "docs/explore.js",
+          "app/analytics/passing_motifs.py",
+          "docs/motifs.js"
+        ],
+        "decision": "保留五类有序三传球计数和原始回看；不称为论文忽略顺序的球员共现NMF主题、人工反击标签或追踪防守分析。",
+        "limits": [
+          "NMF bag-of-player representation explicitly ignores order; topic weights are not the native identity-free ordered motifs.",
+          "Counter-attacks were manually video-labeled and topic count visually chosen; no automatic tactical labels or universalK.",
+          "Covered area, pressure, speed, opponent positions and video require data absent from event-only views.",
+          "TwoU15matches/two evaluation experts are qualitative cases, not BigFive accuracy or causal evidence."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "event-tracking-heatmaps-2022",
+      "citation_key": "event_tracking_heatmaps_2022",
+      "title": "Heatmaps in soccer: Event vs tracking datasets",
+      "authors": "D. Garrido, B. Burriel, R. Resta, R. López del Campo, J. M. Buldú",
+      "year": 2022,
+      "venue": "Chaos, Solitons & Fractals 165",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "作者v1预印本全部6页已读，含方法、图1–5、结论及参考文献；2022出版版未作字节对照。",
+      "source_url": "https://arxiv.org/pdf/2106.04558",
+      "publication_url": "https://doi.org/10.1016/j.chaos.2022.112827",
+      "data": "西班牙两个级别共 60 场，1,320 条球员出场观测，比较事件位置与 25Hz 追踪位置。",
+      "validation": "网格尺度会改变两类热图的相关性。即使在最佳尺度，平均相关也只是中等，球员间差异很大。",
+      "limitations": "方法和结果核对使用 2021 作者预印本，正式发表于 2022。事件密度不等于实际驻留时间。",
+      "application": "保留事件与追踪驻留图的明确区别，比较热图时说明网格、归一化分母、坐标方向和数据缺口。",
+      "code_links": [
+        "app/analytics/visualization/football.py",
+        "docs/explore.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        2,
+        3,
+        4
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2106.04558",
+          "private_path": ".tmp/football-style-research-20261015/papers/event-tracking-heatmaps2022.pdf",
+          "version": "arXiv2106.04558v1,8June2021; 2022journal article not byte-matched",
+          "bytes": 5964841,
+          "sha256": "47dc189f3d4bb0718a3e1f03b5b561847ed93d5a16c2daaa72a088e76344f5f8",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "pages_viewed": [
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_external_linked_material_not_acquired_or_read"
+        },
+        "code_inspected": [
+          "app/analytics/visualization/football.py",
+          "docs/explore.js"
+        ],
+        "decision": "保留事件位置与追踪样本驻留的区别；为驻留图和球风基底图补充网格、平滑、数值单位及显示插值说明，尚未改代码。",
+        "limits": [
+          "60matches/1320player-match observations, not1320distinct players;25Hztracking and event counts measure different quantities.",
+          "Results/figure3 identify25cells while conclusion says36; retain version-local inconsistency, no publisher erratum claim or universal optimum.",
+          "Correlation heterogeneity and event-countR2=.154 do not justify replacing tracking by sufficiently many events.",
+          "Original proprietary paired data and correlation experiments not reproduced."
+        ],
+        "implementation_state": "static_reviewed_heatmap_provenance_change_pending",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "topics-2025",
+      "citation_key": "topics_2025",
+      "title": "Visually-supported topic modeling for understanding behavioral patterns from spatio–temporal events",
+      "authors": "Laleh Moussavi, Gennady Andrienko, Natalia Andrienko, Aidan Slingsby",
+      "year": 2025,
+      "venue": "Computers & Graphics 129",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "机构公开归档全部16个物理页已读，含封面、正文、图1–7、两表及参考文献。",
+      "source_url": "https://openaccess.city.ac.uk/id/eprint/35224/8/1-s2.0-S009784932500086X-main.pdf",
+      "publication_url": "https://doi.org/10.1016/j.cag.2025.104245",
+      "data": "公开 Wyscout 数据，1,941 场，包含五大联赛 2017/18 与两项国家队赛事。",
+      "validation": "跨多种主题数比较空间足迹，案例选择 16 个主题，并展示单场到跨队比较。",
+      "limitations": "主要是工作流与案例展示，正式专家用户研究被列为后续工作。词袋表示不保留动作顺序，16 不是通用最优值。",
+      "application": "借鉴跨次拟合比较，为已有球风 NMF 增加三个明确随机起点和早段分量的一对一余弦匹配。持球进攻对抗的最小匹配相似度为 0.559，不能因检索率接近就断言空间模式稳定。没有复现论文的跨主题数布局或时序主题模型。",
+      "code_links": [
+        "app/analytics/spatial_style.py",
+        "docs/style-retrieval.js",
+        "app/web/research.py"
+      ],
+      "priority": 2,
+      "evidence_pages": [
+        4,
+        6,
+        15
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://openaccess.city.ac.uk/id/eprint/35224/8/1-s2.0-S009784932500086X-main.pdf",
+          "private_path": ".tmp/football-style-research-20261015/papers/topics2025.pdf",
+          "version": "City institutional published-article archive: cover+15article pages",
+          "bytes": 5189031,
+          "sha256": "a24551757c7ad41c53a2a57fe9dd631487976ac18b8a83cd9c9c65d445260d78",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "pages_viewed": [
+            6,
+            8,
+            9,
+            12,
+            13,
+            14,
+            15
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_external_linked_material_not_acquired_or_read"
+        },
+        "code_inspected": [
+          "app/analytics/spatial_style.py",
+          "docs/style-retrieval.js",
+          "app/web/research.py"
+        ],
+        "decision": "固定K的早段基底种子匹配与跨K主题选择分别记录；保留共用色阶和单位L1基底，补充网格与平滑说明待实现。",
+        "limits": [
+          "Original all-match episode/spatial-cellNMF with15x12grid and<10sopposition tolerance differs from native early-only per-player maps.",
+          "Bags do not preserve event order; activity in defensive zones does not prove defensive intent or performance.",
+          "SelectedK16and1Dprojection parameters are case choices; local fixedKseed matching is not crossKtopic selection or original workflow reproduction.",
+          "Whole-season rank, average and min-max are retrospective context, not prospective features; baseline deviations are not causal effects.",
+          "Structured expert study and automated topic-to-outcome inference are future work; external high-resolution site/additional examples not reviewed."
+        ],
+        "implementation_state": "static_reviewed_heatmap_provenance_change_pending",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "player-vectors-2019",
+      "citation_key": "player_vectors_2019",
+      "title": "Player Vectors: Characterizing Soccer Players’ Playing Style from Match Event Streams",
+      "authors": "Tom Decroos, Jesse Davis",
+      "year": 2019,
+      "venue": "ECML PKDD",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "作者公开稿全部16页已读，含方法、图1–4、两表、跨赛季检索、案例及参考文献。",
+      "source_url": "https://tomdecroos.github.io/reports/ecml19_tomd.pdf",
+      "publication_url": "https://dtai.cs.kuleuven.be/sports/player_vectors/",
+      "data": "五大联赛 9,155 场。跨季检索实验仅保留同队且两季都至少 900 分钟的 741 名球员。",
+      "validation": "同一检索任务中，曼哈顿距离 Top-1 为 38.2%，欧氏距离为 33.0%。",
+      "limitations": "风格检索不是球员实力或未来潜力评估。原方法包含四类动作、每 90 分钟热图，传球同时使用起点与终点。",
+      "application": "已据论文独立实现 50×50 每 90 分钟热图与 18 维 NMF 对照。Wyscout 2017/18 的 598 名稳定俱乐部非门将，在 2018-01-01 前拟合、之后检索，同联赛 Top-1 为动作频率 21.9%、空间热图 45.3%、仅起点 NMF 46.4%、传球起终点 NMF 43.2%。NMF 使用三个明确随机起点，数字为种子均值。加入终点没有提高本批数据的识别率。该实验是同赛季前后段的闭集球风稳定性检索，持球进攻对抗也不同于原文的带球运输，不能称为原跨赛季实验的复现。",
+      "code_links": [
+        "app/analytics/spatial_style_data.py",
+        "app/analytics/spatial_style.py",
+        "app/analytics/visualization/spatial_style.py",
+        "docs/style-retrieval.js"
+      ],
+      "priority": 2,
+      "evidence_pages": [
+        6,
+        7,
+        8,
+        14
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://tomdecroos.github.io/reports/ecml19_tomd.pdf",
+          "private_path": ".tmp/football-style-research-20261015/papers/playervectors2019.pdf",
+          "version": "Author-hosted complete16page manuscript",
+          "bytes": 599848,
+          "sha256": "85b0d857b6aa2329c1c1c4d43f0fbbda3b6eec1961177fadb27d19031297e5bc",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "pages_viewed": [
+            6,
+            7,
+            9,
+            10,
+            11,
+            13,
+            14,
+            15
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_no_external_material_reproduced"
+        },
+        "code_inspected": [
+          "app/analytics/spatial_style_data.py",
+          "app/analytics/spatial_style.py",
+          "app/analytics/visualization/spatial_style.py",
+          "docs/style-retrieval.js"
+        ],
+        "decision": "保留每90分钟归一化、传球起终点、单位L1基底与冻结早段拟合。补充4/4/5/5分量为固定参考设置，未在本地重估70%解释方差。热图参数说明待统一实现。",
+        "limits": [
+          "Original9155matches/five seasons and741same-club900minute cross-season retrieval differ from native598player2017/18early-late cohort.",
+          "Ground attacking duel is not SPADLdribble/transport; two marginal pass maps do not preserve start-end pairing.",
+          "Identity/style retrieval and illustrative scouting/development claims do not establish ability, causal development, future performance or transfer suitability.",
+          "Original70%variance component selection was not rerun locally; count18andManhattan are reference choices, not local universal optima.",
+          "NMF arbitrary scale is handled locally by joint-unitL1basis and compensated loadings; paper matrix/vector orientation prose not copied as an algorithm."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_parameter_provenance_change_pending",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "soccermap-2021",
+      "citation_key": "soccermap_2021",
+      "title": "SoccerMap: A Deep Learning Architecture for Visually-Interpretable Analysis in Soccer",
+      "authors": "Javier Fernández, Luke Bornn",
+      "year": 2021,
+      "venue": "ECML PKDD 2020 论文集",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "arXiv v1 全部16页已读，含三种输出、网络、图1–6、表1–3、限制及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2010.10202",
+      "publication_url": "https://doi.org/10.1007/978-3-030-67670-4_30",
+      "data": "433,295 次传球及同步时空输入，包含双方球员位置、速度和球。",
+      "validation": "论文表 1 的传球成功 log loss，SoccerMap 0.217，Logistic Net 0.384，Dense2 Net 0.349。",
+      "limitations": "正式论文集发表于 2021，作者预印本为 2020。这是该数据集上的结果，局部事件或 360 快照不能替代完整连续输入。",
+      "application": "图层应区分传球成功概率、传球选择分布和预期价值，先验证概率校准，再考虑全场概率面。",
+      "code_links": [
+        "app/analytics/passing_context.py",
+        "app/analytics/receiving_space.py"
+      ],
+      "priority": 3,
+      "evidence_pages": [
+        7,
+        9
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2010.10202v1",
+          "private_path": ".tmp/football-style-research-20261015/papers/soccermap2020.pdf",
+          "version": "arXiv2010.10202v1,20October2020;2021proceedings publication",
+          "bytes": 2969358,
+          "sha256": "e9e26074d9d22fa21789e61ab0487cbf9c102c943be2940343c4a8e12868f03e",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "pages_viewed": [
+            3,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        },
+        "supplement": {
+          "status": "appendix_in_main_read_external_linked_material_not_separately_reviewed"
+        },
+        "code_inspected": [
+          "app/analytics/receiving_space.py:module docstring and report metadata",
+          "app/analytics/passing_context.py:report metric definitions and limits"
+        ],
+        "decision": "区分逐位置成功概率、归一化选择分布和有符号价值；现有示教控制面不是SoccerMap训练结果。完整同步追踪、校准和反事实验证仍属额外能力。",
+        "limits": [
+          "Uses740EPLmatches,433295passes,10Hz full tracking and13channels on104x68grid; event-only or occasional360frames are not equivalent inputs.",
+          "Original random-match60/20/20split is not prospective temporal validation. Preserve native training-only frequency baselines rather than copying original whole-dataset80% prior.",
+          "Single observed destination supervises each pass; unobserved-location surfaces and receiver-relocation illustrations do not identify causal counterfactual effects. Ten-bin reliability does not validate every location.",
+          "Sigmoid completion surfaces do not sum to1; spatial-choice softmax does; possession-ending xG value is signed and not a probability. Visual-smoothing ablations and TeslaM60 timing are dataset/hardware specific. No original FCN trained."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "vaep-2019",
+      "citation_key": "vaep_2019",
+      "title": "Actions Speak Louder than Goals: Valuing Player Actions in Soccer",
+      "authors": "Tom Decroos, Lotte Bransen, Jan Van Haaren, Jesse Davis",
+      "year": 2019,
+      "venue": "ACM KDD",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "arXiv v2 全部11页已读，含图表、特征和模型比较、附录A1–A3及参考文献。",
+      "source_url": "https://arxiv.org/pdf/1802.07127",
+      "publication_url": "https://doi.org/10.1145/3292500.3330758",
+      "data": "7 个欧洲联赛，11,565 场，2012/13 至 2017/18。以前序赛季训练并在后续赛季应用。",
+      "validation": "表 3 中，进球概率的 Brier 从无特征基线 0.01632 降为全特征 0.01376。动作值结合进球与失球概率的前后变化。",
+      "limitations": "状态价值与单次动作的增量价值不同，也不构成动作因果效应。不能直接套用于本地不同定义的序列。",
+      "application": "新增独立 SPADL/VAEP 本地对照。Wyscout 2017/18 英超、法甲共 759 场通过比分审计，测试 211 场。固定日期划分训练、验证、测试，比较训练频率、单动作与三动作模型。排除当前进球状态后，三动作模型在两地均好于频率基线；相对单动作，仅法甲进球 log loss 的配对区间未跨零，其余七项区间跨零。修正 bad_touch 乌龙球的标签、比分和后续增量，以及重复门将记录。原 action_value.py 仍为原生传球前状态预测。当前结果不能直接与原论文的 Opta 跨赛季分数比较。",
+      "code_links": [
+        "app/analytics/spadl_vaep.py",
+        "app/analytics/visualization/vaep_spadl.py",
+        "app/analytics/action_value.py"
+      ],
+      "priority": 2,
+      "evidence_pages": [
+        5,
+        8
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/1802.07127v2",
+          "private_path": ".tmp/football-style-research-20261015/papers/vaep2019.pdf",
+          "version": "arXiv1802.07127v2,10July2019",
+          "bytes": 1364141,
+          "sha256": "7c4e4942c8ecb9f2c3c0e9b3d4cfe753f0212238abb7007fea8bd98268bf1b7f",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "pages_viewed": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        "supplement": {
+          "status": "appendix_in_main_read_external_linked_material_not_separately_reviewed"
+        },
+        "code_inspected": [
+          "app/analytics/spadl_vaep.py",
+          "app/analytics/visualization/vaep_spadl.py",
+          "app/analytics/action_value.py"
+        ],
+        "decision": "保留独立SPADL/VAEP对照及当前动作完成后的状态、完整标签窗和时间划分；不把原生传球前任务或当前赛季排名称为原文复现。",
+        "limits": [
+          "Three post-action states include current result/endpoints. The article defines subsequent-ten-action notation while its goal-state example sets scoring probability to1; native current-plus-nine labels follow the selected socceraction convention and are explicitly disclosed, not silently redefined.",
+          "Native two-league single-season chronological experiments, incomplete-horizon exclusions and own-goal handling differ from original seven-league cross-season CatBoost benchmarks; no original player rankings, market-value correlations or causal ability claims reproduced.",
+          "Brier/AUC performance does not certify probability calibration; player90 aggregation alone does not adjust team, league, role or off-ball contributions."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "tacticai-2024",
+      "citation_key": "tacticai_2024",
+      "title": "TacticAI: an AI assistant for football tactics",
+      "authors": "Zhe Wang et al.",
+      "year": 2024,
+      "venue": "Nature Communications 15, 1906",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "作者arXiv v2全部32页已逐页读完、查看，含正文、S1.1–S1.3、五项补充图、三项补充表及参考文献；2024出版版未作字节对照。",
+      "source_url": "https://arxiv.org/pdf/2310.10553",
+      "publication_url": "https://doi.org/10.1038/s41467-024-45965-x",
+      "data": "7,176 次英超角球。建模采用随机 80%/20% 划分。另有 5 位专家评估 50 个战术调整案例。",
+      "validation": "50 个案例中，45 个获得专家多数认可，即 90%。",
+      "limitations": "90% 是案例偏好，不是胜率或进球提升。数据随机切分也不是时间外验证；需要完整球员情境。",
+      "application": "将真实观测、模型预测和建议调整用不同图层表示。当前数据不足以声称复现其战术生成效果。",
+      "code_links": [
+        "app/analytics/visualization/football.py",
+        "app/analytics/receiving_space.py"
+      ],
+      "priority": 3,
+      "evidence_pages": [
+        4,
+        8,
+        10
+      ],
+      "historical_read_scope": "作者或机构公开版本，已核对方法与验证部分",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2310.10553v2",
+          "private_path": ".tmp/football-style-research-20261015/papers/tacticai2024.pdf",
+          "version": "arXiv2310.10553v2,17October2023;selected author manuscript,not byte-compared with2024journal",
+          "bytes": 1651268,
+          "sha256": "79960619ffa23b75b0f328ba702a2434220369bbefec295cf89b96ddd5db7227",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32
+          ]
+        },
+        "supplement": {
+          "status": "bundled_appendices_supplement_read_no_separate_required_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/receiving_space.py:method/limitations540–561",
+          "app/analytics/visualization/football.py:scoped reference inventory",
+          "results/literature.json:observed/predicted/suggested-layer application"
+        ],
+        "decision": "保留观测、预测与建议的分层；完整角球追踪、GAT生成与专家实验未复现，90%案例偏好不当作实战增益。",
+        "limits": [
+          "Uses7176valid corners after filtering2517of9693,2020/21EPL,25Hzcomplete tracking plus lineup attributes;random corner80/20split does not establish match/date isolation.",
+          "D2reflections transform coordinates and velocity signs;receiver/shot outputs invariant but generated coordinates equivariant. Three task encoders have same architecture,not shared trained weights. Native teaching surfaces are not trained GATmodels.",
+          "First-contact receiver can be attacker or defender. Conditional shot training uses known receiver;inference marginalizes predicted receiver probabilities over all players. Selected version mainF1.64and supplementTable3F1.712 differ and are not merged or imported as local results.",
+          "GuidedVAE holds one team fixed,assumes complete current geometry and does not model responsive opponents or prove causal interventions. Predicted own-model shot changes are not real match gains.",
+          "FiveLiverpoolexperts judged50situations;45of50majority preference is90%case preference,not win/scoring improvement. Failing to reject real/generated differences is not an equivalence test. Retrieval comparison uses latent distance versus raw-feature cosine.",
+          "SupplementTable1selects models on evaluation loss,lists randomseed42;random corner evaluation and qualitative tSNE separation are not independent prospective transfer evidence. No original network,private data,expert study or tactical-generation benchmark reproduced."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "corp-2021",
+      "citation_key": "DimitriadisGneitingJordan2021CORP",
+      "title": "Stable reliability diagrams for probabilistic classifiers",
+      "authors": "Timo Dimitriadis, Tilmann Gneiting, Alexander I. Jordan",
+      "year": 2021,
+      "venue": "PNAS 118(8), e2016191118",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "出版正文全部10页及官方SI全部23页已逐页读完、查看，含主文附录A–C、SI S1–S6、14项补充图、一表、两项定理证明与全部参考文献。",
+      "source_url": "https://publikationen.bibliothek.kit.edu/1000130510/106591216",
+      "publication_url": "https://doi.org/10.1073/pnas.2016191118",
+      "data": "Niamey 2016 年 7–9 月的 92 个 24 小时降水概率预报，包含 ENS、EPC、Logistic 与 EMOS。",
+      "validation": "同一 EMOS 样本使用 9、10、11 个等宽分箱，图形明显不同。论文提出按概率顺序做 PAV 拟合，并给出精确的 Brier 分解。",
+      "limitations": "原例不是足球。这里没有移用独立样本的置信带或显著性结论，足球状态与重复球队有相关性。",
+      "application": "已为冻结的英超、法甲 SPADL 测试预测增加 12 组校准诊断。网页并排呈现 PAV 曲线和可切换分箱，提供概率分布、低概率坐标、完整数值表与 MCB/DSC/UNC 分解。同样本 PAV 分数不作为校准后的留出成绩。",
+      "code_links": [
+        "app/analytics/calibration.py",
+        "docs/vaep-calibration.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "historical_read_scope": "作者机构公开全文，已核对第 1–6 页的方法、图例与公式 3",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://publikationen.bibliothek.kit.edu/1000130510/106591216",
+          "private_path": ".tmp/paper-full-reading-20261018/L11-corp-main.pdf",
+          "version": "PNAS118(8)e2016191118,2021,publisher article institutional public copy",
+          "bytes": 813073,
+          "sha256": "c85abb01dab5679495a37ec01528c4299aeb7b133739528a0af117b77386b1de",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        "supplement": {
+          "status": "completed",
+          "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7923594/supplementaryFiles",
+          "private_path": ".tmp/paper-full-reading-20261018/L11-corp-official-supplement.pdf",
+          "version": "OfficialPNASpnas.2016191118.sapp.pdf archived byEuropePMC;S1–S6",
+          "bytes": 858775,
+          "sha256": "ebaf01a01b1d7de9b22cf49fc873228aa3d2963bdc0d8559d4c05a4eb7ad027c",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ]
+        },
+        "code_inspected": [
+          "app/analytics/calibration.py:binary_diagnostics/build_spadl1–98",
+          "docs/vaep-calibration.js:draw/render/load1–86"
+        ],
+        "decision": "保留相同概率加权合并后的PAV、精确同样本Brier分解、分箱敏感性与全量表格；不添加不满足独立条件的置信带，不把回顾拟合分数当作校准后的留出成绩。",
+        "limits": [
+          "CORPestimates nondecreasing binary conditional event probabilities;grouping identical probabilities with counts prevents outcome-order tie artifacts. Finite-sample PAVoptimality differs from universally correct shape assumptions or future deployment calibration.",
+          "BrierMCB=rawscore−PAVscore,DSC=cohortfrequencyreference−PAVscore,UNC=cohortvariance is exact on the same diagnostic sample. Binwise decomposition with varying probabilities has different within-bin terms;do not interchange the two.",
+          "Algorithm1consistency bands generate Bernoulli outcomes under original probabilities;confidence bands generate under estimatedCEP. They are pointwise,not simultaneous;default100replicates anddiscrete/continuous thresholds are source software choices,not native accuracy guarantees.",
+          "Asymptotics and parametric resampling assume independent/at least exchangeable forecast cases,with additional discrete or strict-monotonicity/smoothness conditions. SIshows undercoverage/breakpoints/flatCEPexceptions. Repeated states,teams and chronological shift preclude blindly importing these guarantees.",
+          "Empirical average coverage over forecast values in1000simulations is not simultaneous-curve coverage. Native provides no bands or significance claim;lowMCBdoes not imply discrimination or strong probability prediction.",
+          "Native plots connect observed-support blocks and retain full-support histograms/tables when zoomed;same-samplePAVnotproductioncalibrator. No original four-domain datasets,simulation,replicationRpackage,statisticaltests or original benchmark reproduced. Authorrepo tree metadata only,not repository audit."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "flow-motifs-2014",
+      "citation_key": "GyarmatiKwakRodriguez2014FlowMotifs",
+      "title": "Searching for a Unique Style in Soccer",
+      "authors": "Laszlo Gyarmati, Haewoon Kwak, Pablo Rodriguez",
+      "year": 2014,
+      "venue": "arXiv:1409.0308",
+      "topic": "sports-analytics",
+      "publication_status": "preprint",
+      "read_scope": "v1全部4页已读，含图1–6、五类模式、随机网络说明、聚类、结论与参考文献。",
+      "source_url": "https://arxiv.org/pdf/1409.0308",
+      "publication_url": "https://arxiv.org/abs/1409.0308",
+      "data": "2012/13 欧洲五大联赛，文中西甲部分含 20 队、380 场及超过 25 万次传球。",
+      "validation": "原文用保度数随机网络作对照。巴塞罗那的 ABAC 更常见，ABCD 较少，球队聚类也显示差异。",
+      "limitations": "本地仅使用五类模式、接球队员连续性和 5 秒阈值，没有复现随机网络 Z 分数或球队聚类。另加半场、原生控球权和中断边界。",
+      "application": "2024 男足欧洲杯 51 场生成 21,832 个可重叠三传球窗口。按第三次传球归入时段，保留完整三次传球回看，缺坐标仍计数但不补画。次数不代表战术效果或风格显著性。",
+      "code_links": [
+        "app/analytics/passing_motifs.py",
+        "app/web/research.py",
+        "docs/motifs.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        1,
+        2,
+        3
+      ],
+      "historical_read_scope": "作者公开预印本，已核对第 1–3 页的定义、5 秒阈值与比较",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/1409.0308v1",
+          "private_path": ".tmp/paper-full-reading-20261018/L12-flow-motifs-2014.pdf",
+          "version": "arXiv1409.0308v1,1September2014",
+          "bytes": 107935,
+          "sha256": "940978ad118cfd05d8ef03b62f96bbac5586a072e0a7759eec9fb6e071608cbd",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "pages_viewed": [
+            2,
+            3,
+            4
+          ]
+        },
+        "supplement": {
+          "status": "article_fully_read_external_linked_material_not_acquired_or_read"
+        },
+        "code_inspected": [
+          "app/analytics/passing_motifs.py",
+          "app/web/research.py",
+          "docs/motifs.js"
+        ],
+        "decision": "保留接球队员连续、相邻发起不超过5秒和可重叠三传球窗口；原始频数不称为随机网络Z分数或显著球风。",
+        "limits": [
+          "Original1000random-network comparisons and meanZ/PCA/k-means/Ward clustering not reproduced.",
+          "Null procedure is described at high level as degree-preserving label perturbation; no fully specified generator imported or invented.",
+          "StatsBomb period/possession/interruption boundaries are additional local restrictions;2012/13results do not describe current teams."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "xt-quality-2026",
+      "citation_key": "vanArem2026XTQuality",
+      "title": "Model quality in football: Quantifying the quality of an Expected Threat model",
+      "authors": "Koen van Arem, Jakob Söhl, Mirjam Bruinsma, Geurt Jongbloed",
+      "year": 2026,
+      "venue": "arXiv，v4，2026-07-24",
+      "topic": "sports-analytics",
+      "publication_status": "preprint",
+      "read_scope": "arXiv v4全部21页已逐页读完、查看，含图1–10、四表、附录A中命题1–4和定理5证明及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2604.21087v4",
+      "publication_url": "https://arxiv.org/abs/2604.21087v4",
+      "data": "StatsBomb 五大联赛约 400 万事件。13 种网格与 8 种样本量产生 104,000 个模拟模型，另以 47 名法甲中锋研究排名变化。",
+      "validation": "模拟比较真值模型与重采样模型的最大绝对误差。进球向量误差的相关系数为 0.9935，加权转移误差为 0.8069。更细网格与更少数据通常产生更大估计误差。",
+      "limitations": "模拟把大样本拟合模型视作真值，状态和采样假设有限。数值残差、统计估计与建模误差不同，经验阈值不能直接认证另一种动作口径或样本。",
+      "application": "增加 xT 计数守恒检查和目标可达状态的直接求解，修复小迭代步长误报收敛。原实验208场训练比赛的网格重算最大差约3.0×10⁻⁹。另借整簇 case bootstrap 的重采样定义，按整场比赛重采样1,000次，展示96格的数值、样本与逐格百分位范围；这是本地敏感性分析，不是论文的真值模拟或统计覆盖率认证。",
+      "code_links": [
+        "app/analytics/tactics.py",
+        "app/analytics/xt_numerics.py",
+        "app/web/research.py",
+        "docs/xt-grid.js"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        5,
+        9,
+        11,
+        13
+      ],
+      "historical_read_scope": "v4 公开全文，选读并核对数值误差、模拟方法与结果部分，PDF 页码已核对",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2604.21087v4",
+          "private_path": ".tmp/xt-numerics-20261015/xt-quality-v4.pdf",
+          "version": "arXiv2604.21087v4,24July2026",
+          "bytes": 11376863,
+          "sha256": "ed3de0d62ae13a22ed7a8db079bbec72abc2e3a5ecfdf58eae02f8a8988dcdfc",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ]
+        },
+        "supplement": {
+          "status": "bundled_appendices_supplement_read_no_separate_required_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/tactics.py:fit_expected_threat292–377",
+          "app/analytics/xt_numerics.py:resample_grids,audit_grid and report limits",
+          "docs/xt-grid.js:scoped reference inventory"
+        ],
+        "decision": "保留计数约束、目标可达状态求解与数值误差界；整场重采样只作本地条件敏感性，不复制模拟阈值为普遍精度或覆盖率认证。",
+        "limits": [
+          "Separates truncation/numerical,statistical and modeling errors. Statistical bounds assume uniform per-state counts and independent Bernoulli sampling,not observed native football guarantees.",
+          "Version-local proof concerns:Proposition4printed event inequality direction and Theorem5two failure events without explicit alpha/2allocation are not transplanted as native guarantees or asserted publisher errata.",
+          "Parametric simulations treat fittedStatsBombmodel as truth;8samplecounts×13grids×1000replicates,76000retained under a stated asymptotic-domain filter. Lognormal coefficients are simulation-specific,not native Wyscout estimates.",
+          "EEmax.0192derives an expert10%quartile-error criterion on47France2015/16centre-forwards with300minutes;16×12and3.35million-event recommendations do not certify native12×8grid,other action definitions,penalties/directFK or other cohorts.",
+          "Native whole-match case bootstrap estimates conditional observed-collection sensitivity,not paper parametric truth simulation or coverage. Unobserved and closed non-scoring states at minimal nonnegative zero do not prove real no-threat states. No new refit or bootstrap run."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "lem-2024",
+      "citation_key": "MendesNeves2024LEM",
+      "title": "Towards a foundation large events model for soccer",
+      "authors": "Tiago Mendes-Neves, Luís Meireles, João Mendes-Moreira",
+      "year": 2024,
+      "venue": "Machine Learning 113,8687–8709",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "出版原文全部23页已逐页读完、查看，含图1–11、表1–6、三模型、模拟、声明及参考文献。",
+      "source_url": "https://link.springer.com/content/pdf/10.1007/s10994-024-06606-y.pdf",
+      "publication_url": "https://doi.org/10.1007/s10994-024-06606-y",
+      "data": "Wyscout2017/18。法、德、意共1,718,640事件训练，英、西共1,214,838事件测试，按联赛留出。",
+      "validation": "LEM用三个分阶段 MLP 预测事件类型、结果、时间与位置。事件类型准确率55.7%，默认MLP55.5%，随机森林49.9%，多数类40.8%。",
+      "limitations": "使用最近一个事件，不是Transformer或长历史模型。基线使用默认参数，部分随机森林结果因内存不足缺失；联赛留出不等于未来赛季验证。",
+      "application": "本地补充同八事件输入的32单元MLP和梯度提升树，对照原GRU与线性基线。保留原时间划分与种子，不把事件类型准确率当作本地传球概率质量，也未复现比赛模拟或xP+排名。",
+      "code_links": [
+        "app/analytics/action_value.py",
+        "app/analytics/spadl_vaep.py",
+        "app/analytics/representation/experiment.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        10,
+        12,
+        13,
+        14
+      ],
+      "historical_read_scope": "出版方 PDF，选读数据划分、网络结构、表1–3及限制；相关物理页码已核对",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://link.springer.com/content/pdf/10.1007/s10994-024-06606-y.pdf",
+          "private_path": ".tmp/ml-dl-papers-20261015/papers/lem-2024.pdf",
+          "version": "MachineLearning113(2024),8687–8709,DOI10.1007/s10994-024-06606-y",
+          "bytes": 2785071,
+          "sha256": "96c27e1d00b92143c7b6c119046f9b38393812bddc6cbab954750273349cd924",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ]
+        },
+        "supplement": {
+          "status": "bundled_appendices_supplement_read_no_separate_required_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/representation/data.py:pass_sequences/load_dataset",
+          "app/analytics/representation/experiment.py:baselines47–97/train_seed/pretraining call inventory",
+          "app/analytics/spadl_vaep.py:report limits290–334"
+        ],
+        "decision": "保留相同八事件输入的本地对照和起点输入约束；完整事件模拟、xP+及单事件MLP架构不冒称已复现，同预算与成本记录仍待实现。",
+        "limits": [
+          "Three small feedforwardMLPs use one previous completed event,n=1,33types,42inputs and33/2/264outputs;not Transformer or native eight-eventGRU. Previous-event accuracy/goal are valid next-event context,not permission to add current outcomes to native pre-pass inputs.",
+          "Trains2017/18France/Germany/Italy1718640events;testsEngland/Spain1214838events. Cross-league same-season split is not future chronological validation;native pretraining remains before target cutoff.",
+          "OptunaTPE40trials onItaly70/30split tunes three heads,100epochs/patience3 and layer penalty. Tuned models versus defaultsklearn baselines and RFdata-headOOM are not equal-budget comparisons. Original CPU/RTX3060costs are not measured local costs.",
+          "253simulations per test state,307354014total;MonteCarlo averages and matching distributions are not calibrated model uncertainty or identified real dynamics. Simulations simplify half/game endings,no added/extratime/shootouts and no team identity.",
+          "xP+uses before/after neighboring event states around an action,not a single native VAEPdelta. Rankings and generative examples do not establish causal player ability,transfer performance or original benchmark reproduction. Upstream repository not executed or fully reviewed this pass."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "ojn-epv-2025",
+      "citation_key": "Overmeer2025OJNEPV",
+      "title": "Revisiting Expected Possession Value in Football: Introducing a Benchmark, U-Net Architecture, and Reward and Risk for Passes",
+      "authors": "Thijs Overmeer, Tim Janssen, Wim P.M. Nuijten",
+      "year": 2025,
+      "venue": "arXiv:2502.02565v1",
+      "topic": "sports-analytics",
+      "publication_status": "preprint",
+      "read_scope": "arXiv v1 全部16页已逐页读完、查看，含U-Net、图1–3、表1–5、场景基准、Definition1及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2502.02565v1",
+      "publication_url": "https://arxiv.org/abs/2502.02565v1",
+      "data": "624场荷甲、63场2022世界杯，10Hz球员和球追踪加事件；另有50对专家标注的传球场景基准。",
+      "validation": "加入距门和角度后，场景基准由68%/70%升至78%，整体损失和ECE变化较小。世界杯微调对概率模型的收益不一致。",
+      "limitations": "依赖同步完整追踪、速度和球高，目标为15秒有效比赛时间。50对专家场景含越位失效，且用于特征修改；78%一致率不是独立未来验证。净值ECE也不证明联合校准。",
+      "application": "借鉴单列场景检查和收益/风险分开呈现；原文场景用于特征修订后不再是独立验收。现有VAEP十动作攻防增量与15秒有效时间EPV分别保留。没有训练U-Net、复现场景基准或从事件间隔虚构速度。",
+      "source_checks": [
+        {
+          "label": "作者公开场景基准",
+          "url": "https://github.com/EAISI/OJN-EPV-benchmark",
+          "note": "提供专家判断的场景对；本地尚未运行其EPV模型。"
+        }
+      ],
+      "code_links": [
+        "app/analytics/spadl_vaep.py",
+        "app/analytics/calibration.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        5,
+        6,
+        7,
+        9,
+        12
+      ],
+      "historical_read_scope": "v1 PDF，选读数据、U-Net结构、训练划分、表1–3和50对场景基准结果；未本地复现",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2502.02565v1",
+          "private_path": ".tmp/ml-dl-papers-20261015/papers/ojn-epv-2025.pdf",
+          "version": "arXiv2502.02565v1,4February2025",
+          "bytes": 1050689,
+          "sha256": "1af3f840136f902a15f4eabaced5484a179a5cd7f94497f29887adaa6a61ef18",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ]
+        },
+        "supplement": {
+          "status": "appendices_in_main_if_present_read_no_separate_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/spadl_vaep.py:report limits, action-value aggregation",
+          "app/analytics/calibration.py:binary diagnostics module and binary_diagnostics",
+          "app/analytics/receiving_space.py:report input/geometry limits"
+        ],
+        "decision": "把场景检查与独立验收区分，保留进球和失球的独立概率诊断；不把VAEP攻防增量称为15秒有效比赛时间的EPV收益风险面。",
+        "limits": [
+          "Uses624Eredivisie and63WorldCupmatches with synchronized10Hztracking, complete velocity/positions and ball height. Native sparse events/360snapshots do not reproduce these inputs or U-Net.",
+          "Match-based80/10/10and60/20/20splits do not establish chronology. Savitzky-Golay preprocessing is not assumed causal or copied into native online velocity estimation.",
+          "Fifty expert-modified state pairs rank relative passEPV, not true realized causal goal gains. Features were refined after inspecting this benchmark, so78%agreement is not an untouched independent final score.",
+          "Ten-bin calibration of signed Pscore−Pconcede does not certify the three-class joint law; native temperature selection remains proper-loss based, not copied ECE grid.",
+          "Offside failures and missing intended receiver remain explicit. No model, expert-pair benchmark, commercial/full tracking data or original network reproduced."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      },
+      "historical_application": "借鉴独立场景检查与收益/风险分解，结合现有概率和动作增量视图。360可见站位不足以复现完整U-Net输入，不从事件间隔虚构球员速度；本轮核对论文与数据要求。"
+    },
+    {
+      "id": "tabtransformer-2026",
+      "citation_key": "Yang2026FootballTabTransformer",
+      "title": "A Universal Dense Football Event Representation Based on TabTransformer",
+      "authors": "Weiran Yang, Daniel Memmert, Maximilian Klemp-Weins",
+      "year": 2026,
+      "venue": "arXiv:2606.09327v1",
+      "topic": "sports-analytics",
+      "publication_status": "preprint",
+      "read_scope": "arXiv v1 全部12页已逐页读完、查看，含架构图、表1–4、数据与遮蔽协议、结果、限制和参考文献。",
+      "source_url": "https://arxiv.org/pdf/2606.09327v1",
+      "publication_url": "https://arxiv.org/abs/2606.09327v1",
+      "data": "作者报告2015/16五大联赛6,391,338事件、1,823场预训练；用欧洲杯、世界杯与美洲杯测试。44维事件产生911维表示。",
+      "validation": "进球VAEP的AUC为0.830（表示+CatBoost）与0.845（原特征XGBoost）。xG的Brier为0.0923，对照MLP为0.1010；ROC-AUC则由0.8142降至0.7806。",
+      "limitations": "发表日前官方快照的同范围只有1,551条比赛记录，德甲34条，尚缺作者样本清单来解释1,823场。只核对公开来源，不能排除额外数据。Brier较低也不能单独证明校准更好。",
+      "application": "本地补充同可观测历史的树模型与MLP对照；表示学习仍移除球员/球队身份。字段级自监督遮蔽可继续研究。论文数据来源尚需澄清，分数不替换本地基准；定性近邻也不替代时间留出检索验证。",
+      "source_checks": [
+        {
+          "label": "发表日前的StatsBomb官方快照",
+          "url": "https://github.com/statsbomb/open-data/tree/b0bc9f22dd77c206ddedc1d742893b3bbe64baec/data/matches",
+          "note": "固定版本2026-05-26；男足2015/16五大联赛目录合计1,551条比赛记录。"
+        },
+        {
+          "label": "该版本德甲2015/16比赛目录",
+          "url": "https://raw.githubusercontent.com/statsbomb/open-data/b0bc9f22dd77c206ddedc1d742893b3bbe64baec/data/matches/9/27.json",
+          "note": "公开目录34条；这里只核对公开数据，尚不能确定作者是否使用了额外来源。"
+        }
+      ],
+      "code_links": [
+        "app/analytics/representation/experiment.py",
+        "app/analytics/spadl_vaep.py",
+        "app/analytics/spatial_style.py"
+      ],
+      "priority": 3,
+      "evidence_pages": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "historical_read_scope": "v1 PDF，选读数据、匿名字段遮蔽、xG/VAEP表2–3和球风检索；另核对发表日前官方数据快照",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2606.09327v1",
+          "private_path": ".tmp/ml-dl-papers-20261015/papers/tabtransformer-2026.pdf",
+          "version": "arXiv2606.09327v1,8June2026",
+          "bytes": 245854,
+          "sha256": "85a0c69550938eb9d99df655a1b1d282447124842897b1e0247b143666bb69ca",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        "supplement": {
+          "status": "appendices_in_main_if_present_read_no_separate_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/representation/data.py:pass_sequences and date splits",
+          "app/analytics/representation/experiment.py:baselines and static pretraining call inventory",
+          "app/analytics/spadl_vaep.py:report methodological limits"
+        ],
+        "decision": "保留移除身份的时间表示学习及同可观测历史的树/MLP对照；不把较低Brier当作校准证明，未明确的字段与数据清单不复制为已复现实验。",
+        "limits": [
+          "Attention is over categorical fields within one event, not native eight-event GRU history;28categorical×32+15continuous=911dimensions, while downstream prose calls raw input44dimensional. Exact schema/masking and PCAfit boundaries are not fully specified here.",
+          "Earlier pinned pre-publication official StatsBomb catalogue comparison found1551matching records rather than claimed1823; that historical discrepancy remains unresolved without author sample IDs and does not rule out extra data.",
+          "Brier/logloss are proper scores, not pure calibration measures. VAEP table includes previously reported Wyscout results from different cohorts; no common-cohort superiority is inferred.",
+          "Near-one cosine examples and positional coherence are qualitative, with no independently held-out retrieval/stability benchmark. Removing IDs alone does not prove ability-free or universally transferable representation.",
+          "Native event-start SSL/GRU and early-onlyNMF adaptations remain distinct; no911dimensional TabTransformer, paper PCA128pipeline or claimed dataset reproduced."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "cawley-talbot-2010",
+      "citation_key": "cawley_talbot_2010",
+      "title": "On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation",
+      "authors": "Gavin C. Cawley, Nicola L. C. Talbot",
+      "year": 2010,
+      "venue": "Journal of Machine Learning Research 11(70)",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "JMLR 原文全部29页已逐页读完、查看，含图1–14、表1–8、公式、评估协议和参考文献。",
+      "source_url": "https://www.jmlr.org/papers/volume11/cawley10a/cawley10a.pdf",
+      "publication_url": "https://www.jmlr.org/papers/v11/cawley10a.html",
+      "data": "13 组通用分类基准与核岭回归等模型，非足球数据。",
+      "validation": "表5的 heart 基准中，中位数选模协议的错误率为15.720%，逐次内部选模为16.730%，说明复用选模信息可能使评估偏乐观。",
+      "limitations": "这是协议偏差示例，不能推算本项目的分数变化。",
+      "application": "用于足球赛果训练的开发回测、最终留出及内部早停边界复核。现为XGBoost传入开球时间，内部早停保留完整时间组；固定1,140场样本原有五处切点中的四处切开同一时间组，修复后为零。旧、新流程都未通过强基线检查，没有保存新模型。",
+      "source_checks": [
+        {
+          "label": "XGBoost官方早停说明",
+          "url": "https://xgboost.readthedocs.io/en/stable/python/python_intro.html#early-stopping",
+          "note": "官方说明验证集用于选择迭代轮数；本地据此把早停也纳入时间边界检查。完整时间组划分是本地实现，没有把论文当成该修复的准确率证据。"
+        }
+      ],
+      "code_links": [
+        "app/ml/training.py",
+        "app/ml/model.py",
+        "app/ml/evaluation.py",
+        "app/ml/experiments.py",
+        "app/ml/seasonal.py",
+        "tests/test_model_pipeline.py",
+        "tests/test_core.py",
+        "tests/test_experiments.py",
+        "tests/test_history.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        2,
+        16,
+        18,
+        19
+      ],
+      "historical_read_scope": "核对第1节、第4.4节、第5.2节与表5；未复现实验。",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://www.jmlr.org/papers/volume11/cawley10a/cawley10a.pdf",
+          "private_path": ".tmp/temporal-holdout-20261015/cawley2010.pdf",
+          "version": "JMLR11(2010),2079–2107",
+          "bytes": 759286,
+          "sha256": "db01ac8fabef3064a0297bfcf64fb9791bf35c4d03be7a51f5862260adfca206",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ]
+        },
+        "supplement": {
+          "status": "appendices_in_main_if_present_read_no_separate_supplement_identified"
+        },
+        "code_inspected": [
+          "app/ml/experiments.py:run_experiments objective, selection lock and holdout fit",
+          "app/ml/training.py:development/holdout fit boundary",
+          "app/ml/seasonal.py:protocol metadata",
+          "app/analytics/representation/leagues.py:fixed-design and conditional-range limits"
+        ],
+        "decision": "保留开发集内搜索、独立时间留出和早停边界；复用已查看的历史结果须披露探索范围，固定预测重采样不称为完整选模流程不确定性。",
+        "limits": [
+          "Unbiased fixed-parameter criteria can still overfit under adaptive selection; variance matters, not just bias. Original iid synthetic/UCI/KRR/GPC experiments are not native football results.",
+          "Median hyperparameters across folds evaluate a different procedure; bias can occur even without overlapping raw test samples. Data transformations, search and checkpoint selection belong inside each training procedure.",
+          "Existing native candidate selection is locked on development expanding-window loss before holdout evaluation. Reusing already observed historical holdouts for further development is exploratory, not fresh independent future validation.",
+          "No new nested-football experiment, original MATLAB toolbox, critical-difference analysis or original statistical tests reproduced."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "peters-temporal-leakage-2026",
+      "citation_key": "peters_etal_2026_timing",
+      "title": "When Timing Matters: Evaluating Temporal Leakage in Machine Learning Models of Football Pass Turnovers",
+      "authors": "Andrew Peters, Nimai Parmar, Michael Davies, Nic James",
+      "year": 2026,
+      "venue": "Research Quarterly for Exercise and Sport",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "机构公开出版版全部13个物理页已逐页读完、查看，含封面、正文、图1–4、表1–6与参考文献；正文引用的补充S1–S3尚未取得。",
+      "source_url": "https://repository.mdx.ac.uk/download/5550b2f03b34cdfe6dc2f592970267bae4c8f244d656c72f841c5784aad2e177/5552000/When%20Timing%20Matters%20%20Evaluating%20Temporal%20Leakage%20in%20Machine%20Learning%20Models%20of%20Football%20Pass%20Turnovers.pdf",
+      "publication_url": "https://doi.org/10.1080/02701367.2026.2677718",
+      "data": "StatsBomb360的2020/21英超，380场比赛、256,433次传球。",
+      "validation": "表4–6：去除四个出球后特征，XGBoost ROC-AUC由0.924降至0.742。按比赛分组交叉验证，未另设最终测试集。",
+      "limitations": "单赛季，分组验证不等于未来赛季验证。静态代码显示混合效应与默认yardstick指标可能采用不同正类，不直接横比敏感度。",
+      "application": "核对本地GRU、MLP和树模型的事件起点输入，发现时钟倒退时停止编码。原历史模型与分数保留。",
+      "source_checks": [
+        {
+          "label": "大学仓库公开出版版",
+          "url": "https://repository.mdx.ac.uk/item/36873v",
+          "note": "正文已取得，核对特征与验证部分；此前出版社403记录不再作为全文缺失状态。"
+        },
+        {
+          "label": "作者固定版本源码",
+          "url": "https://github.com/andypetes94/xTurnovers_Models/blob/6d1e7144b0f622424433f7a07da5ec4b81e629d0/R/turnover_pipeline.R",
+          "note": "静态核对特征、分组与指标代码；未运行作者R环境。README的under review字样已落后于出版记录。"
+        },
+        {
+          "label": "yardstick正类定义",
+          "url": "https://yardstick.tidymodels.org/reference/sens.html",
+          "note": "官方默认正类为第一个因子水平。作者代码先列no_turnover，混合效应手算则以1为正；这是静态核对得到的口径疑点。"
+        },
+        {
+          "label": "Crossref出版元数据",
+          "url": "https://api.crossref.org/works/10.1080/02701367.2026.2677718",
+          "note": "正式发表日期2026-06-03，与大学仓库出版记录一致。"
+        }
+      ],
+      "code_links": [
+        "app/analytics/representation/data.py",
+        "app/analytics/representation/experiment.py",
+        "tests/test_representation_learning.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        3,
+        4,
+        5,
+        6,
+        11
+      ],
+      "historical_read_scope": "机构仓库公开出版版，选读方法、特征集、分组验证、表4–6及限制；另静态核对作者代码，未运行R流程。",
+      "full_text_reading": {
+        "status": "excluded_by_user",
+        "completed_at": null,
+        "main_text": {
+          "url": "https://repository.mdx.ac.uk/download/5550b2f03b34cdfe6dc2f592970267bae4c8f244d656c72f841c5784aad2e177/5552000/When%20Timing%20Matters%20%20Evaluating%20Temporal%20Leakage%20in%20Machine%20Learning%20Models%20of%20Football%20Pass%20Turnovers.pdf",
+          "private_path": ".tmp/pass-feature-timing-20261015/peters2026.pdf",
+          "version": "Publisher version,3June2026;institutional public copy",
+          "bytes": 5552000,
+          "sha256": "5550b2f03b34cdfe6dc2f592970267bae4c8f244d656c72f841c5784aad2e177",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ]
+        },
+        "supplement": {
+          "status": "unread_access_pending",
+          "required_scope": "SupplementaryTablesS1/S2/S3 referenced in main article",
+          "catalog_url": "https://www.tandfonline.com/doi/suppl/10.1080/02701367.2026.2677718",
+          "access_evidence": [
+            "L18-publisher-supplement-catalog.receipt.json",
+            "L18-figshare.receipt.json",
+            "L18-figshare-api.json",
+            "L18-figshare-title.json",
+            "L18-crossref-metadata.json"
+          ],
+          "latest_access_review": {
+            "date": "2026-10-18",
+            "attempts": [
+              {
+                "label": "L18-publisher-landing",
+                "url": "https://www.tandfonline.com/doi/10.1080/02701367.2026.2677718",
+                "final_url": "https://www.tandfonline.com/doi/10.1080/02701367.2026.2677718",
+                "status": 403,
+                "pdf": false,
+                "bytes": 5583,
+                "sha256": "c05cf48ff9eaa4cd1b00cf215d9980f6df746783767b55fc0732325e222deb37",
+                "path": ".tmp/paper-full-reading-20261018/L18-publisher-landing.html",
+                "receipt": ".tmp/paper-full-reading-20261018/remaining-three-final-access-receipt.json"
+              }
+            ],
+            "status": "still_unread_public_access_unavailable",
+            "local_materials_location_requested": true,
+            "isolated_browser": {
+              "status": "403_security_verification_interstitial_after_real_wall_clock_wait",
+              "page_title": "Just a moment...",
+              "private_snapshot": ".tmp/paper-full-reading-20261018/.playwright-cli/page-2026-10-18T04-57-21-679Z.yml",
+              "authentication_or_challenge_interaction": false,
+              "project_browser_acceptance": false
+            },
+            "additional_index_review": {
+              "date": "2026-10-18",
+              "europepmc": {
+                "label": "L18-europepmc-core-audit2",
+                "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A42234845%20AND%20SRC%3AMED&format=json&resultType=core&pageSize=1",
+                "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A42234845%20AND%20SRC%3AMED&format=json&resultType=core&pageSize=1",
+                "status": 200,
+                "pdf": false,
+                "bytes": 4817,
+                "sha256": "92f524377dabf0536bf95aa7d9248b07096dde52bb8166039de7ecc086e7dfb8",
+                "path": ".tmp/paper-full-reading-20261018/L18-europepmc-core-audit2.json",
+                "metadata": {
+                  "version": "6.9",
+                  "hitCount": 1,
+                  "request": {
+                    "queryString": "EXT_ID:42234845 AND SRC:MED",
+                    "internalQuery": "EXT_ID:42234845 AND SRC:MED",
+                    "resultType": "CORE",
+                    "cursorMark": "*",
+                    "pageSize": 1,
+                    "sort": "",
+                    "synonym": false
+                  },
+                  "resultList": {
+                    "result": [
+                      {
+                        "id": "42234845",
+                        "source": "MED",
+                        "pmid": "42234845",
+                        "doi": "10.1080/02701367.2026.2677718",
+                        "title": "When Timing Matters: Evaluating Temporal Leakage in Machine Learning Models of Football Pass Turnovers.",
+                        "authorString": "Peters A, Parmar N, Davies M, James N.",
+                        "authorList": {
+                          "author": [
+                            {
+                              "fullName": "Peters A",
+                              "lastName": "Peters",
+                              "firstName": "Andrew",
+                              "initials": "A",
+                              "authorId": {
+                                "type": "ORCID",
+                                "value": "0000-0002-2586-1523"
+                              },
+                              "authorAffiliationDetailsList": {
+                                "authorAffiliation": [
+                                  {
+                                    "affiliation": "Middlesex University."
+                                  },
+                                  {
+                                    "affiliation": "Leicester City Football Club."
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "fullName": "Parmar N",
+                              "lastName": "Parmar",
+                              "firstName": "Nimai",
+                              "initials": "N",
+                              "authorId": {
+                                "type": "ORCID",
+                                "value": "0000-0001-5540-123X"
+                              },
+                              "authorAffiliationDetailsList": {
+                                "authorAffiliation": [
+                                  {
+                                    "affiliation": "Middlesex University."
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "fullName": "Davies M",
+                              "lastName": "Davies",
+                              "firstName": "Michael",
+                              "initials": "M",
+                              "authorAffiliationDetailsList": {
+                                "authorAffiliation": [
+                                  {
+                                    "affiliation": "Middlesex University."
+                                  },
+                                  {
+                                    "affiliation": "Leicester City Football Club."
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "fullName": "James N",
+                              "lastName": "James",
+                              "firstName": "Nic",
+                              "initials": "N",
+                              "authorId": {
+                                "type": "ORCID",
+                                "value": "0000-0002-4181-9501"
+                              },
+                              "authorAffiliationDetailsList": {
+                                "authorAffiliation": [
+                                  {
+                                    "affiliation": "Middlesex University."
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        "authorIdList": {
+                          "authorId": [
+                            {
+                              "type": "ORCID",
+                              "value": "0000-0001-5540-123X"
+                            },
+                            {
+                              "type": "ORCID",
+                              "value": "0000-0002-2586-1523"
+                            },
+                            {
+                              "type": "ORCID",
+                              "value": "0000-0002-4181-9501"
+                            }
+                          ]
+                        },
+                        "journalInfo": {
+                          "journalIssueId": 4205604,
+                          "dateOfPublication": "2026 Jun",
+                          "monthOfPublication": 6,
+                          "yearOfPublication": 2026,
+                          "journal": {
+                            "medlineAbbreviation": "Res Q Exerc Sport",
+                            "title": "Research quarterly for exercise and sport",
+                            "essn": "2168-3824",
+                            "issn": "0270-1367",
+                            "isoabbreviation": "Res Q Exerc Sport",
+                            "nlmid": "8006373"
+                          },
+                          "printPublicationDate": "2026-06-01"
+                        },
+                        "pubYear": "2026",
+                        "pageInfo": "1-12",
+                        "abstractText": "The Expected Pass Turnovers (xPT) model advances turnover probability quantification in professional football, but the inclusion of post-pass descriptive features such as ball speed and distance moved introduces temporal leakage and limits real-time tactical utility. This study compares the original xPT framework with leakage-corrected alternatives across four modeling approaches: mixed-effects logistic regression, penalized logistic regression, random forest, and gradient boosting. Using 256,433 passes from the 2020-21 English Premier League, we evaluated the performance of leakage-inclusive and leakage-corrected feature sets using grouped cross-validation and cross-validated ROC-AUC, accuracy, sensitivity, specificity, F-measure, and Brier score. Removing post-execution features reduced ROC-AUC by 0.082-0.183 (mean = 0.136), with tree-based methods experiencing larger performance losses than logistic approaches. The best-performing alternative model, gradient boosting (ROC-AUC = 0.742), approached the default mixed-effects logistic model (ROC-AUC = 0.789), indicating that substantial predictive signal remains after leakage correction. Alternative models retained acceptable sensitivity and calibration, supporting their use in prospective tactical deployment. SHAP analysis showed that default models relied heavily on four post-pass descriptive variables, whereas leakage-corrected models shifted toward pressing intensity and tactical context variables that are available before pass execution. The findings suggest that default xPT-style models are well suited to retrospective analysis, while leakage-corrected models are more appropriate for real-time tactical decision-making.",
+                        "affiliation": "Middlesex University.",
+                        "publicationStatus": "aheadofprint",
+                        "language": "eng",
+                        "pubModel": "Print-Electronic",
+                        "pubTypeList": {
+                          "pubType": [
+                            "Journal Article"
+                          ]
+                        },
+                        "keywordList": {
+                          "keyword": [
+                            "Machine Learning",
+                            "Data Leakage",
+                            "Football Analytics",
+                            "Pressing Strategy",
+                            "Expected Pass Turnovers",
+                            "Temporal Validity"
+                          ]
+                        },
+                        "subsetList": {
+                          "subset": [
+                            {
+                              "code": "IM",
+                              "name": "Index Medicus"
+                            }
+                          ]
+                        },
+                        "fullTextUrlList": {
+                          "fullTextUrl": [
+                            {
+                              "availability": "Subscription required",
+                              "availabilityCode": "S",
+                              "documentStyle": "doi",
+                              "site": "DOI",
+                              "url": "https://doi.org/10.1080/02701367.2026.2677718"
+                            }
+                          ]
+                        },
+                        "isOpenAccess": "N",
+                        "inEPMC": "N",
+                        "inPMC": "N",
+                        "citedByCount": 0,
+                        "hasReferences": "N",
+                        "hasTextMinedTerms": "N",
+                        "hasDbCrossReferences": "N",
+                        "hasPDF": "N",
+                        "hasBook": "N",
+                        "hasSuppl": "N",
+                        "hasLabsLinks": "N",
+                        "hasData": "N",
+                        "authMan": "N",
+                        "epmcAuthMan": "N",
+                        "nihAuthMan": "N",
+                        "hasTMAccessionNumbers": "N",
+                        "dateOfCreation": "2026-06-03",
+                        "dateOfRevision": "2026-06-03",
+                        "electronicPublicationDate": "2026-06-03",
+                        "firstPublicationDate": "2026-06-03",
+                        "firstIndexDate": "2026-06-05",
+                        "hasEvaluations": "N"
+                      }
+                    ]
+                  }
+                }
+              },
+              "europepmc_scope": "PMID42234845 exact DOI/title match;no PMCID,inEPMC=N,hasSuppl=N. This means no archived supplement at this service,not absence of publisher supplements or definitive subscription status.",
+              "s2": {
+                "label": "L18-s2-audit2",
+                "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1080/02701367.2026.2677718?fields=title,externalIds,openAccessPdf,authors",
+                "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1080/02701367.2026.2677718?fields=title,externalIds,openAccessPdf,authors",
+                "status": 429,
+                "pdf": false,
+                "bytes": 174,
+                "sha256": "65ab993d12c5c2cc9b68e6da2bb79b326930283e520363ffcdc145f88cd5a148",
+                "path": ".tmp/paper-full-reading-20261018/L18-s2-audit2.json"
+              },
+              "s2_scope": "HTTP429;rate limit is not a missing-record result. No repeated retry."
+            }
+          }
+        },
+        "code_inspected": [
+          "app/analytics/representation/data.py:pass_sequences/load_dataset",
+          ".tmp/pass-feature-timing-20261015/author/turnover_evaluation_suite.R:chosen-configOOFcollection80–111 (pinned6d1e7144b0f622424433f7a07da5ec4b81e629d0)"
+        ],
+        "decision": "按用户要求排除本轮未能补齐S1–S3的阅读项，保留已读出版正文结论：预测输入受可用时点约束，比赛分组交叉验证和选定配置的OOF结果不能代替独立时间留出。未读补充表不作为实现依据。",
+        "limits": [
+          "256433passes from2020/21EPLand380matches; commercial360freeze frames, not continuous tracking. Four post-pass descriptors excluded only for the prospective task.",
+          "Grouped-by-match cross-validation is not chronological validation. Threefoldmixed-logistic and fivefoldother models differ; no independent holdout. Selected upstream evaluation lines use OOFpredictions from chosen CVconfiguration, not fresh outer validation.",
+          "SHAP/PDP describe fitted associations, not causal pressing effects or validated alternate release-time interventions. Binned calibration plots and proper scores do not prove prospective deployment reliability.",
+          "Publisher supplement/full catalogues403;institution lists mainPDFonly;Figsharepublicportal202empty and APIresource DOI/title search no records, Crossrefno supplement relation. S1–S3positions/hyperparameters remain unread; canonical paper not counted completed."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "no_required_implementation_or_validation_from_unread_excluded_materials",
+        "goal_reading_phase_status": {
+          "date": "2026-10-18",
+          "status": "paused",
+          "original_canonical_papers": 52,
+          "excluded_by_user": 3,
+          "scoped_canonical_papers": 49,
+          "full_text_papers_read": 49,
+          "remaining_required_paper_reviews": 0,
+          "reading_pause_condition_satisfied": true,
+          "implementation_and_concentrated_testing": "pending_explicit_user_resumption",
+          "reason": "User excluded the three inaccessible paper/supplement sets and requested reading-wrap cleanup before a later implementation request.",
+          "goal_pause_receipt_updated_at": 1792300773
+        },
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        },
+        "exclusion": {
+          "date": "2026-10-18",
+          "reason": "User explicitly excluded inaccessible papers/supplements from this reading round.",
+          "previous_reading_status": "main_read_supplement_pending",
+          "partial_findings_retained": true,
+          "counts_as_completed": false
+        },
+        "counts_as_completed": false,
+        "included_in_current_reading_scope": false
+      }
+    },
+    {
+      "id": "affordable-outdoor-team-sports-2025",
+      "citation_key": "langmead_2025_affordable",
+      "title": "Affordable Outdoor Team Sports Visualisation",
+      "authors": "Joshua Langmead",
+      "year": 2025,
+      "venue": "OSF Preprints，v1，2025-03-11",
+      "topic": "visualization",
+      "publication_status": "preprint",
+      "read_scope": "OSF v1 全部9页已读，含两俱乐部访谈、GPS处理、原型、图1–6、两表、反馈及参考文献。",
+      "source_url": "https://osf.io/download/67be5f152b437c0abf5566c1/",
+      "publication_url": "https://doi.org/10.31219/osf.io/aw6et_v1",
+      "data": "两家业余足球俱乐部的4名教练和2名球员参与访谈；原型使用手表GPS与Metrica样本。",
+      "validation": "4名教练观看演示视频后回复，均给有用性5/5，均将动画列为最有用、时间线列为最不有用的视图之一。",
+      "limitations": "小规模视频反馈，没有对照任务或速度、准确率测量。OSF接受状态不是同行评审。与2026年会议论文的版本关系未证实。",
+      "application": "据需求部分检查输入和恢复成本。本地修复四个摘要一起失败的问题，增加各区域重试；论文没有测试此加载机制，浏览器检查也不等于用户效果实验。",
+      "source_checks": [
+        {
+          "label": "OSF预印本元数据",
+          "url": "https://api.osf.io/v2/preprints/aw6et/",
+          "note": "核对公开状态、标题、2025-03-11发布日期和版本DOI；PDF署名单作者。"
+        },
+        {
+          "label": "不同标题的2026年会议记录",
+          "url": "https://api.crossref.org/works/10.1109/PacificVis68791.2026.00035",
+          "note": "三名作者、PacificVis页码263–268；仅有出版信息，未以本预印本代替会议正文。"
+        }
+      ],
+      "code_links": [
+        "docs/research.js",
+        "docs/research.html",
+        "tests/test_research_export.py"
+      ],
+      "priority": 2,
+      "evidence_pages": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "historical_read_scope": "取得9页公开预印本，选读需求访谈、GPS处理、原型与第4.4节反馈，查看图1和图5；未复现。",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://osf.io/download/67be5f152b437c0abf5566c1/",
+          "private_path": ".tmp/affordable-football-20261015/osf-paper.pdf",
+          "version": "OSFaw6et_v1,2025,one author",
+          "bytes": 2077124,
+          "sha256": "aeee5e43f8b2107de9a15ef7c0a0150b9e0cbb66c3eca26649e4de007a770418",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "pages_viewed": [
+            1,
+            4,
+            6,
+            7,
+            8
+          ]
+        },
+        "supplement": {
+          "status": "appendix_in_main_read_external_linked_material_not_separately_reviewed"
+        },
+        "code_inspected": [
+          "docs/research.js:loadResearchSection/loadResearch"
+        ],
+        "decision": "保留独立摘要加载、重试与焦点恢复，最后集中验证实际交互；小规模视频反馈不替代本地用户效果研究。",
+        "limits": [
+          "Four coaches and two players from two Australian clubs interviewed; four coaches evaluated a demo video, not controlled hands-on speed/accuracy tasks.",
+          "Researcher-watch GPS and downsampled Metrica GPX demonstrate a workflow; the paper20fps statement is not used to overwrite actual source sampling metadata.",
+          "Leading animation lines use future positions retrospectively; they are not prospective features or validated velocity completion.",
+          "Linked GitLab prototype/deployment/video not separately reviewed or reproduced. The differently titled three-author2026conference article remains unread and is not closed by this preprint."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "velocity-completion-2025",
+      "citation_key": "umemoto_fujii_2025_velocity",
+      "title": "Velocity Completion Task and Method for Event-based Player Positional Data in Soccer",
+      "authors": "Rikuhei Umemoto, Keisuke Fujii",
+      "year": 2025,
+      "venue": "arXiv:2505.16199v1，2025-05-22",
+      "topic": "sports-analytics",
+      "publication_status": "preprint",
+      "read_scope": "arXiv v1 全部24页已逐页读完、查看，含图1–7、表1–6、附录A–D及参考文献。",
+      "source_url": "https://arxiv.org/pdf/2505.16199v1",
+      "publication_url": "https://arxiv.org/abs/2505.16199v1",
+      "data": "DataStadium的2019日本J1联赛55场事件与25Hz追踪数据，按比赛40/8/7划分。目标为进攻三区事件；非RNN与RNN训练样本为17,118与14,616，测试均对齐为2,958。",
+      "validation": "表2的速度误差：规则4.51、MLP 2.29、RNN 1.98、图网络结合GRU的GRNN 1.90 m/s。按式1先在每次事件内计算球员向量误差的均方根，再跨事件平均；表中平均10次推断，不是10次独立训练。",
+      "limitations": "需要事件时刻球与所有球员的位置及追踪速度真值，训练样本数也随模型结构而变。加入动作类型和当前终点特征的GRNN误差为1.93，未优于1.90。当前终点用于事后补全，不能视作出球前可用输入；不完整可见站位还需额外处理。",
+      "application": "借鉴样本筛选披露和对齐比较，增加共享编码器的排除计数。对原实验1,080场、924,913次Pass只读核对，排除数均为零，改动前后编码数组及原运行的比赛与采样行归属一致。没有重训、改写成绩或复现速度补全；事件位移不等于瞬时速度。",
+      "code_links": [
+        "app/analytics/representation/data.py",
+        "tests/test_representation_learning.py"
+      ],
+      "priority": 2,
+      "evidence_pages": [
+        6,
+        8,
+        9,
+        10,
+        11,
+        15,
+        16
+      ],
+      "historical_read_scope": "取得24页v1预印本，选读物理页6、8–11、15–16的方法、数据、表1–3与限制；实际查看第11页表2–3，未复现。",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://arxiv.org/pdf/2505.16199v1",
+          "private_path": ".tmp/pass-cohort-eligibility-20261015/velocity-2025.pdf",
+          "version": "arXiv2505.16199v1,22May2025",
+          "bytes": 2373244,
+          "sha256": "18b3deba0e4e22ee932bb5bbb36acc90c9d6170122ede2699aad23e0226aa576",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        },
+        "supplement": {
+          "status": "appendices_in_main_if_present_read_no_separate_supplement_identified"
+        },
+        "code_inspected": [
+          "app/analytics/representation/data.py:pass_sequences and load_dataset",
+          "app/analytics/receiving_space.py:causal velocity and uncalibrated-field limits"
+        ],
+        "decision": "保留共享编码器排除计数、事件起点输入和标签分离；完整追踪监督的速度补全未实现，事件位移不标作瞬时速度。",
+        "limits": [
+          "Uses55private2019J1matches,25Hztracking and complete player/ball positions, with40/8/7game partitions; ordering is not documented sufficiently to assert a date-based prospective split.",
+          "Single-event and ten-event-history cohorts differ for training/validation; test cohort2958aligned. Reported10inferences are not10independent training seeds.",
+          "Additional-endpoint graph variants are retrospective inputs. Current-only public360visibility is not full player geometry; irregular event displacement is not instantaneous velocity.",
+          "PPCF/OBSO comparison measures agreement with fields computed from tracking velocities, not observed reception/scoring truth. No neural velocity-completion model or original benchmark reproduced.",
+          "Variational loss formulas subtract a term defined as positive KL; this version-local algebraic concern is not imported as an implementation objective or a verified publisher erratum."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_by_user_until_resumed_after_full_paper_reading",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    },
+    {
+      "id": "tree-tabular-benchmark-2022",
+      "citation_key": "grinsztajn_etal_2022_tabular",
+      "title": "Why do tree-based models still outperform deep learning on typical tabular data?",
+      "authors": "Léo Grinsztajn, Edouard Oyallon, Gaël Varoquaux",
+      "year": 2022,
+      "venue": "NeurIPS 2022 Datasets and Benchmarks",
+      "topic": "sports-analytics",
+      "publication_status": "published",
+      "read_scope": "会议正文全部14页和官方补充PDF全部48页已读；后者前14页与正文相同，附录A1–A10为第15–48页。",
+      "source_url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf",
+      "publication_url": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/0378c7692da36807bdec87ab043cdadc-Abstract-Datasets_and_Benchmarks.html",
+      "data": "45个通用表格数据集，非足球数据；主要研究训练集最多10,000行的规模。排除时间序列、删除缺失数据，分类任务平衡二元类别。",
+      "validation": "每模型、数据集约400次随机搜索，按验证集选参。图1按四类任务汇总归一化测试准确率或R²，树集成在不同搜索预算下仍高于所比较的神经模型。",
+      "limitations": "图1范围来自同一搜索结果的15次顺序重排，不是15次独立训练。其独立同分布任务、预处理和搜索预算不等同于足球事件时间留出，也不支持所有数据上树模型必胜。",
+      "application": "借鉴多数据集对照，把现有固定参数扩展到五个足球联赛，含均值、线性、树、MLP与共享GRU，共45条评估。五个联赛的树基线在两个主要误差指标上均较低，原英格兰实验保留。没有复现原论文的搜索、变换或模型集合，不把同赛季结果外推为跨赛季优势。",
+      "code_links": [
+        "app/analytics/representation/leagues.py",
+        "tests/test_representation_learning.py",
+        "app/web/research.py"
+      ],
+      "priority": 1,
+      "evidence_pages": [
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      "historical_read_scope": "取得14页公开会议版，选读物理页3–6的数据、调参与结果，以及第8页特征变换讨论；实际查看第5页图1，未复现。",
+      "full_text_reading": {
+        "status": "completed",
+        "completed_at": "2026-10-18",
+        "main_text": {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Paper-Datasets_and_Benchmarks.pdf",
+          "private_path": ".tmp/representation-leagues-20261015/tree-tabular-2022.pdf",
+          "version": "NeurIPS2022DatasetsandBenchmarks official main",
+          "bytes": 1334905,
+          "sha256": "9c640759c303b9c783559a0da5d8327fdcea01e7a718322f08a746bc9f37a0b0",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "pages_viewed": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ]
+        },
+        "supplement": {
+          "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/0378c7692da36807bdec87ab043cdadc-Supplemental-Datasets_and_Benchmarks.pdf",
+          "private_path": ".tmp/paper-full-reading-20261018/L21-tree-tabular-official-supplement.pdf",
+          "version": "Official supplement includes identical main14pages followed by34appendix pages",
+          "bytes": 5215922,
+          "sha256": "6940e2127afe2f9dc60a218a99d3fbf1f15e2e5b4c572e3edaba1765f0035b16",
+          "pages_read": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
+          ],
+          "pages_viewed": [
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
+          ],
+          "status": "read_in_full",
+          "duplicate_main_pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "distinct_appendix_pages": [
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
+          ]
+        },
+        "code_inspected": [
+          "app/analytics/representation/leagues.py",
+          "app/analytics/representation/experiment.py:linear_inputs/baselines"
+        ],
+        "decision": "保留五联赛固定参数、时间留出和已声明的预算差异；相同预算的可选树模型与分阶段成本记录仍待实现，不把通用iid基准排名当作足球证据。",
+        "limits": [
+          "45unique curated tabular datasets; overlapping task subsets must not be summed as independent datasets. Time series/streams excluded; classification balanced binary, missing rows removed, medium train cap10000 and restricted larger50000 cases.",
+          "Main ribbons are15reshuffles of one search pool, not confidence intervals or independent retraining; ablation figures use30orders. Model selection uses validation, and internal early-stop20% training partition is separate.",
+          "Neural quantile-Gaussian preprocessing, input transformations and roughly400random-search trials differ from native fixed-parameter historical football experiments. Do not balance football labels or alter temporal partitions merely to imitate this iid benchmark.",
+          "CPU/GPU hardware differs by model; reported timing is not a rigorous matched-speed comparison. Bayesian-optimization check uses200GP-Matern steps, not OptunaTPE superiority evidence.",
+          "Appendix ablations, RF-derived hyperparameter importance and stronger-tree runs are descriptive benchmark findings, not universal causal explanations, tuned local defaults or local runtime measurements. External code/data not executed."
+        ],
+        "implementation_state": "existing_scoped_adaptation_static_reviewed_runtime_unverified",
+        "original_benchmarks_reproduced": false,
+        "final_testing": "deferred_until_all_scoped_papers_read_and_entire_report_implemented",
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        }
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "id": "affordable-football-2026",
+      "citation_key": "LangmeadGoodwinTag2026Affordable",
+      "title": "Affordable Visual Analytics for Amateur Football (Soccer)",
+      "authors": "Joshua Langmead, Sarah Goodwin, Benjamin Tag",
+      "year": 2026,
+      "venue": "IEEE PacificVis",
+      "topic": "visualization",
+      "publication_status": "published",
+      "read_scope": "metadata_only",
+      "source_url": "https://www.unsw.edu.au/staff/benjamin-tag",
+      "publication_url": "https://doi.org/10.1109/PacificVis68791.2026.00035",
+      "data": "尚未取得并阅读正文，不记录数据规模。",
+      "validation": "核对作者机构和Crossref的出版信息，未读正文，不推断实验结果。",
+      "limitations": "同作者2025年公开预印本已单列；标题与作者数量不同，版本关系未证实，本条仍为后续阅读候选。",
+      "application": "关注低成本足球分析的输入与交互，待读正文后再决定是否采用。",
+      "code_links": [],
+      "priority": 3,
+      "evidence_pages": [],
+      "full_text_reading": {
+        "status": "excluded_by_user",
+        "completed_at": null,
+        "required_scope": "2026 PacificVis published paper, pages263–268; distinct from L19 OSF2025preprint",
+        "publication_metadata": {
+          "doi": "10.1109/PacificVis68791.2026.00035",
+          "ieee_document_number": "11558733",
+          "pages": "263–268",
+          "authors": "Joshua Langmead, Sarah Goodwin, Benjamin Tag"
+        },
+        "main_text": null,
+        "access_attempts": [
+          {
+            "label": "L22-monash",
+            "url": "https://research.monash.edu/en/publications/affordable-visual-analytics-for-amateur-football-soccer/",
+            "final_url": "https://research.monash.edu/en/publications/affordable-visual-analytics-for-amateur-football-soccer/",
+            "status": 404,
+            "pdf": false,
+            "bytes": 13600,
+            "sha256": "d0309f44d5a11658adda9108433df0de735f261d5218351487e52b08e8b398eb",
+            "path": ".tmp/paper-full-reading-20261018/L22-monash.html",
+            "receipt": ".tmp/paper-full-reading-20261018/remaining-three-batch1-receipt.json"
+          },
+          {
+            "label": "L22-ieee-doi",
+            "url": "https://doi.org/10.1109/PacificVis68791.2026.00035",
+            "final_url": "https://ieeexplore.ieee.org/document/11558733/",
+            "status": 202,
+            "pdf": false,
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "path": ".tmp/paper-full-reading-20261018/L22-ieee-doi.html",
+            "receipt": ".tmp/paper-full-reading-20261018/remaining-three-batch1-receipt.json"
+          },
+          {
+            "label": "L22-ieee-stamp",
+            "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11558733",
+            "final_url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=11558733",
+            "status": 418,
+            "pdf": false,
+            "bytes": 15410,
+            "sha256": "5f73adfb968edbfeebb8db267597acc39a201f20566dac83c80e62b4dd5a659a",
+            "path": ".tmp/paper-full-reading-20261018/L22-ieee-stamp.html",
+            "receipt": ".tmp/paper-full-reading-20261018/remaining-three-batch2-receipt.json"
+          },
+          {
+            "label": "L22-ieee-pdf",
+            "url": "https://ieeexplore.ieee.org/stampPDF/getPDF.jsp?tp=&arnumber=11558733",
+            "final_url": "https://ieeexplore.ieee.org/stampPDF/getPDF.jsp?tp=&arnumber=11558733",
+            "status": 418,
+            "pdf": false,
+            "bytes": 15410,
+            "sha256": "fb8c8a20edd3b31ec1811561ebf449d29d8ea1640365d67e0aed493fbb1e6a5c",
+            "path": ".tmp/paper-full-reading-20261018/L22-ieee-pdf.html",
+            "receipt": ".tmp/paper-full-reading-20261018/remaining-three-final-access-receipt.json"
+          }
+        ],
+        "local_materials_location_requested": true,
+        "counts_as_completed": false,
+        "original_benchmarks_reproduced": false,
+        "final_testing": "no_required_implementation_or_validation_from_unread_excluded_materials",
+        "additional_index_review": {
+          "date": "2026-10-18",
+          "s2": {
+            "label": "L22-s2-audit2",
+            "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1109/PacificVis68791.2026.00035?fields=title,externalIds,openAccessPdf,authors",
+            "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1109/PacificVis68791.2026.00035?fields=title,externalIds,openAccessPdf,authors",
+            "status": 200,
+            "pdf": false,
+            "bytes": 484,
+            "sha256": "d43c9ce3cc069ee39a74d42fcdf6c6114fcb56a17b484bfd1813236287075bdb",
+            "path": ".tmp/paper-full-reading-20261018/L22-s2-audit2.json",
+            "metadata": {
+              "paperId": "0000c8d301ae82665e4b140c637b888c430318c0",
+              "externalIds": {
+                "DBLP": "conf/pacificvis/LangmeadGT26",
+                "DOI": "10.1109/PacificVis68791.2026.00035",
+                "CorpusId": 289330765
+              },
+              "title": "Affordable Visual Analytics for Amateur Football (Soccer)",
+              "openAccessPdf": {
+                "url": "",
+                "status": "CLOSED",
+                "license": null
+              },
+              "authors": [
+                {
+                  "authorId": "147098636",
+                  "name": "Joshua Langmead"
+                },
+                {
+                  "authorId": "2273992977",
+                  "name": "Sarah Goodwin"
+                },
+                {
+                  "authorId": "2244619392",
+                  "name": "B. Tag"
+                }
+              ]
+            }
+          },
+          "s2_scope": "Exact title/DOI/authors;openAccessPdf.url empty and status CLOSED.",
+          "figshare_title_query_receipt": ".tmp/paper-full-reading-20261018/L22-figshare-title-audit2-receipt.json",
+          "figshare_scope": "One exact-title POST search returned empty array;not a claim that all repositories lack copies.",
+          "osf_version_list": {
+            "label": "L22-osf-version-list-audit2",
+            "url": "https://api.osf.io/v2/preprints/aw6et_v1/versions/",
+            "final_url": "https://api.osf.io/v2/preprints/aw6et_v1/versions/",
+            "status": 200,
+            "pdf": false,
+            "bytes": 5192,
+            "sha256": "10961682f52cf73ca31370a1635d4425fffc7c15b253c7ee4f9eab827c64125d",
+            "path": ".tmp/paper-full-reading-20261018/L22-osf-version-list-audit2.json",
+            "metadata": {
+              "data": [
+                {
+                  "id": "aw6et_v1",
+                  "type": "preprints",
+                  "attributes": {
+                    "date_created": "2025-02-26T00:23:30.292101",
+                    "date_modified": "2025-07-26T06:07:44.143518",
+                    "date_published": "2025-03-11T18:33:28.936466",
+                    "original_publication_date": null,
+                    "custom_publication_citation": null,
+                    "doi": null,
+                    "title": "Affordable Outdoor Team Sports Visualisation",
+                    "description": "The use of GPS in sports through personal fitness trackers has become widespread. For amateur team sports, decreases in the cost of GPS devices are making tracking devices a more viable option. However, once the data is generated there are still potential barriers in accessing tools that can be used to explore the group trajectories in ways that allow a user to gain positional information with strategic relevance. This paper presents an investigation into the requirements of amateur football coaches and\nplayers by conducting semi-structured interviews of 6 people involved in amateur football at two different football clubs. Interviews were subjected to thematic analysis and organised as case studies. Requirements from this process were used to develop a prototype and participants evaluation of that prototype are discussed. The participants agreed that the tool would be useful for amateur football.\nRemaining barriers to using the tools, improvements for the prototype, and future works are discussed.",
+                    "is_published": true,
+                    "is_preprint_orphan": false,
+                    "license_record": {
+                      "copyright_holders": [],
+                      "year": null
+                    },
+                    "tags": [],
+                    "preprint_doi_created": "2025-07-26T06:07:44.095489",
+                    "date_withdrawn": null,
+                    "current_user_permissions": [],
+                    "public": true,
+                    "reviews_state": "accepted",
+                    "date_last_transitioned": "2025-03-11T18:33:28.936466",
+                    "version": 1,
+                    "is_latest_version": true,
+                    "has_coi": null,
+                    "conflict_of_interest_statement": null,
+                    "has_data_links": "no",
+                    "why_no_data": "Please contact the corresponding author for requests about the data used in this research.",
+                    "data_links": [],
+                    "has_prereg_links": "no",
+                    "why_no_prereg": "No preregistration of this research design is available in a public registry. The procedure was exploratory in nature and evolved as described in the paper.",
+                    "prereg_links": [],
+                    "prereg_link_info": null,
+                    "default_license_id": "563c1cf88c5e4a3877f9e96c",
+                    "subjects": [
+                      [
+                        {
+                          "id": "584240d954be81056ceca9a1",
+                          "text": "Physical Sciences and Mathematics"
+                        },
+                        {
+                          "id": "584240da54be81056cecabbb",
+                          "text": "Computer Sciences"
+                        },
+                        {
+                          "id": "584240d954be81056ceca851",
+                          "text": "Other Computer Sciences"
+                        }
+                      ],
+                      [
+                        {
+                          "id": "584240d954be81056ceca9a1",
+                          "text": "Physical Sciences and Mathematics"
+                        },
+                        {
+                          "id": "584240d954be81056ceca973",
+                          "text": "Statistics and Probability"
+                        }
+                      ],
+                      [
+                        {
+                          "id": "584240da54be81056cecac48",
+                          "text": "Social and Behavioral Sciences"
+                        },
+                        {
+                          "id": "584240d954be81056ceca99c",
+                          "text": "Sports Studies"
+                        }
+                      ],
+                      [
+                        {
+                          "id": "584240d954be81056ceca9a1",
+                          "text": "Physical Sciences and Mathematics"
+                        },
+                        {
+                          "id": "584240da54be81056cecabbb",
+                          "text": "Computer Sciences"
+                        },
+                        {
+                          "id": "584240da54be81056cecabca",
+                          "text": "Software Engineering"
+                        }
+                      ],
+                      [
+                        {
+                          "id": "584240d954be81056ceca9a1",
+                          "text": "Physical Sciences and Mathematics"
+                        },
+                        {
+                          "id": "584240da54be81056cecabbb",
+                          "text": "Computer Sciences"
+                        },
+                        {
+                          "id": "584240db54be81056cecacd4",
+                          "text": "Databases and Information Systems"
+                        }
+                      ]
+                    ]
+                  },
+                  "relationships": {
+                    "contributors": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/contributors/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "bibliographic_contributors": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/bibliographic_contributors/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "versions": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/versions/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "citation": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/citation/",
+                          "meta": {}
+                        }
+                      },
+                      "data": {
+                        "id": "aw6et_v1",
+                        "type": "citation"
+                      }
+                    },
+                    "identifiers": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/identifiers/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "node": {
+                      "links": {
+                        "self": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/relationships/node/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "license": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/licenses/563c1cf88c5e4a3877f9e96a/",
+                          "meta": {}
+                        }
+                      },
+                      "data": {
+                        "id": "563c1cf88c5e4a3877f9e96a",
+                        "type": "licenses"
+                      }
+                    },
+                    "provider": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/providers/preprints/osf/",
+                          "meta": {}
+                        }
+                      },
+                      "data": {
+                        "id": "osf",
+                        "type": "preprint-providers"
+                      }
+                    },
+                    "files": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/files/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "primary_file": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/files/67be5f152b437c0abf5566c1/",
+                          "meta": {}
+                        }
+                      },
+                      "data": {
+                        "id": "67be5f152b437c0abf5566c1",
+                        "type": "files"
+                      }
+                    },
+                    "review_actions": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/review_actions/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "requests": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/requests/",
+                          "meta": {}
+                        }
+                      }
+                    },
+                    "affiliated_institutions": {
+                      "links": {
+                        "related": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/institutions/",
+                          "meta": {}
+                        },
+                        "self": {
+                          "href": "https://api.osf.io/v2/preprints/aw6et_v1/relationships/institutions/",
+                          "meta": {}
+                        }
+                      }
+                    }
+                  },
+                  "links": {
+                    "self": "https://api.osf.io/v2/preprints/aw6et_v1/",
+                    "html": "https://osf.io/aw6et_v1/",
+                    "preprint_doi": "https://doi.org/10.31219/osf.io/aw6et_v1",
+                    "iri": "https://osf.io/aw6et"
+                  }
+                }
+              ],
+              "links": {
+                "first": null,
+                "last": null,
+                "prev": null,
+                "next": null,
+                "meta": {
+                  "total": 1,
+                  "per_page": 10
+                }
+              },
+              "meta": {
+                "version": "2.0"
+              }
+            }
+          },
+          "osf_scope": "Complete one-item version list has only aw6et_v1,title Affordable Outdoor Team Sports Visualisation;one storage file AffordableTeamVis.pdf,modified2025-03-11. No new2026version found,do not substituteL19.",
+          "osf_file_list_receipt": ".tmp/paper-full-reading-20261018/L22-osf-files-osfstorage-audit2-receipt.json"
+        },
+        "goal_reading_phase_status": {
+          "date": "2026-10-18",
+          "status": "paused",
+          "original_canonical_papers": 52,
+          "excluded_by_user": 3,
+          "scoped_canonical_papers": 49,
+          "full_text_papers_read": 49,
+          "remaining_required_paper_reviews": 0,
+          "reading_pause_condition_satisfied": true,
+          "implementation_and_concentrated_testing": "pending_explicit_user_resumption",
+          "reason": "User excluded the three inaccessible paper/supplement sets and requested reading-wrap cleanup before a later implementation request.",
+          "goal_pause_receipt_updated_at": 1792300773
+        },
+        "artifact_retention": {
+          "date": "2026-10-18",
+          "policy": "Source documents/pinned reference code retained;disposable page renders/text/browser caches/backups removed in user-authorized reading cleanup.",
+          "historical_cache_paths_may_no_longer_exist": true,
+          "cleanup_record": "results/public-manifest.json#implementation_workflow_2026_10_18.reading_cleanup"
+        },
+        "exclusion": {
+          "date": "2026-10-18",
+          "reason": "User explicitly excluded inaccessible papers/supplements from this reading round.",
+          "previous_reading_status": "unread_full_text_access_pending",
+          "partial_findings_retained": false,
+          "counts_as_completed": false
+        },
+        "included_in_current_reading_scope": false,
+        "decision": "按用户要求排除本轮无法取得全文的2026会议论文，保留出版元数据；不从未读正文提取实现要求，也不以2025年L19预印本替代。"
+      }
+    }
+  ],
+  "reading_updated_at": "2026-10-18",
+  "reading_phase_summary": {
+    "updated_at": "2026-10-19",
+    "original_paper_records": 54,
+    "original_canonical_papers": 52,
+    "excluded_by_user": [
+      "user-football-reference-20261017-06",
+      "peters-temporal-leakage-2026",
+      "affordable-football-2026"
+    ],
+    "scoped_canonical_papers": 49,
+    "completed_canonical_papers": 49,
+    "remaining_required_paper_reviews": 0,
+    "all_extracted_paper_findings_recorded": true,
+    "findings_locations": [
+      "IMPLEMENTATION_REPORT.md",
+      "results/resource-reviews.json",
+      "results/literature.json"
+    ],
+    "nonpaper_targets": 75,
+    "nonpaper_reviews": "related_scope_reviews_recorded;partial_source_and_candidate_limits_preserved",
+    "implementation_and_testing": "completed_verified_and_cleaned",
+    "excluded_items_are_not_completed_readings": true,
+    "goal_status": "complete",
+    "goal_pause_receipt_updated_at": 1792300773,
+    "implementation_completed_at": "2026-10-19"
+  }
+}

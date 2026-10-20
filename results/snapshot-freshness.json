@@ -1,0 +1,437 @@
+{
+  "schema": "SoccerAnalytics.SnapshotFreshness.v1",
+  "run_id": "2d3637676a3866b4",
+  "config": {
+    "default": "Pinned verified snapshots; expiry is explicit, no autonomous background refresh.",
+    "max_age_hours": "Optional global lifetime; zero expires immediately.",
+    "active_max_age_hours": "Optional current/future European starting-year override, UTC July rollover.",
+    "live_run": {
+      "source": "football-csv",
+      "season": "2026",
+      "competitions": [
+        "PL",
+        "FL1",
+        "BL1",
+        "SA",
+        "PD"
+      ],
+      "active_max_age_hours": 6
+    },
+    "scope": [
+      "collect-history normalized season JSON",
+      "collect-open-data football-csv ZIP and derived JSON"
+    ],
+    "no_stale_on_error": true,
+    "no_http_conditional_requests": true
+  },
+  "code_sha256": {
+    "app/data_service/freshness.py": "bcb351863285a24de28cf53806787477b499a3f155a273305d29a2fb53940128",
+    "app/data_service/history.py": "aec66f20472f02b3acdf4869b6beff1e566d9e8bdabd09af974042d80dca8554",
+    "app/data_service/bulk_history.py": "a7660b1cb85d642fd102aa9d6791712507cc2b7f85c82ef71e5d6ef5cc975f55",
+    "app/data_service/fetch/public.py": "b48cf1be429a4b89106a7a54285a834889c71f669164024d111934678d1033de",
+    "app/data_service/fetch/retry.py": "a0a02668e0ce41707cf34d75b5f75257e26ca5de7e942f64a139af60f2af8dad",
+    "app/file_io.py": "feb3d5b037108a52351ce2ffd3eea84be1ec36e1ee71f2428a0efab9aa35cc51",
+    "app/cli/arguments.py": "f3599e7f4c5fa44ebf2ec4502bc32ca1411737ac9953f1b1fb2431e3fcb4bbcd",
+    "app/cli/research.py": "caaf3ba201f1b0da9ff1ccf5b4269cef05b004a94f62911863aeb0581273fb5b"
+  },
+  "versions": {
+    "python": "3.12.3",
+    "requests": "2.32.5",
+    "requests_cache_installed_in_project_env": false,
+    "requests_cache_executed": false
+  },
+  "current_source_receipts": [
+    {
+      "competition": "PL",
+      "season": "2026",
+      "completed_matches": 60,
+      "raw_completed_rows": 60,
+      "raw_unique_completed_fixtures": 60,
+      "earliest_kickoff": "2026-08-21T19:00:00+00:00",
+      "latest_kickoff": "2026-10-12T19:00:00+00:00",
+      "fetched_at": "2026-10-17T23:39:01.234228+00:00",
+      "snapshot_sha256": "c5c7f485071ea95923f0bf09907e6275d85ab1bd41c33ad2e7d3988b53535cf6",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/E0.csv",
+      "observed_at": "2026-10-17T23:40:11.338186+00:00",
+      "sha256": "6731e95dd7120f5c7dc9f37650cc11ccccda8e7e0a3626830263c2cd77daa787",
+      "bytes": 29659,
+      "response_last_modified": "Mon, 12 Oct 2026 22:48:44 GMT",
+      "etag": "\"73db-65dac800d3888\""
+    },
+    {
+      "competition": "FL1",
+      "season": "2026",
+      "completed_matches": 54,
+      "raw_completed_rows": 54,
+      "raw_unique_completed_fixtures": 54,
+      "earliest_kickoff": "2026-08-21T18:45:00+00:00",
+      "latest_kickoff": "2026-10-11T18:45:00+00:00",
+      "fetched_at": "2026-10-17T23:39:01.520642+00:00",
+      "snapshot_sha256": "36589448da6253dd064e666da8402626efeedf2352c7a9b74f3a3102883b4af9",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/F1.csv",
+      "observed_at": "2026-10-17T23:40:11.599012+00:00",
+      "sha256": "821dd8fb2d734b9389e80504c6eb39cfe26936305c27e383a76eff9b6b8e1d20",
+      "bytes": 26136,
+      "response_last_modified": "Mon, 12 Oct 2026 22:48:47 GMT",
+      "etag": "\"6618-65dac803fe1cb\""
+    },
+    {
+      "competition": "BL1",
+      "season": "2026",
+      "completed_matches": 45,
+      "raw_completed_rows": 45,
+      "raw_unique_completed_fixtures": 45,
+      "earliest_kickoff": "2026-08-28T18:30:00+00:00",
+      "latest_kickoff": "2026-10-11T15:30:00+00:00",
+      "fetched_at": "2026-10-17T23:39:01.794215+00:00",
+      "snapshot_sha256": "172101e2e341f602f32f3747d3225b08e7540caf23ca80ea20318bc10a253df3",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/D1.csv",
+      "observed_at": "2026-10-17T23:40:11.852216+00:00",
+      "sha256": "5eda3818e95fea577b46e9af172c8190d007c4e48b486d65418423e55d66acf9",
+      "bytes": 22029,
+      "response_last_modified": "Mon, 12 Oct 2026 22:48:47 GMT",
+      "etag": "\"560d-65dac803a731d\""
+    },
+    {
+      "competition": "SA",
+      "season": "2026",
+      "completed_matches": 60,
+      "raw_completed_rows": 60,
+      "raw_unique_completed_fixtures": 60,
+      "earliest_kickoff": "2026-08-22T16:30:00+00:00",
+      "latest_kickoff": "2026-10-12T18:45:00+00:00",
+      "fetched_at": "2026-10-17T23:39:02.078333+00:00",
+      "snapshot_sha256": "8c422e4afe3c144710db2aa4f3b4e5fc37353f561a2af4ea7b069b43b59aa7f2",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/I1.csv",
+      "observed_at": "2026-10-17T23:40:12.118448+00:00",
+      "sha256": "9faa2c5914ba4925721a81a1618d2531eec6bd4a59c430a964a6815cb2f3dc75",
+      "bytes": 28711,
+      "response_last_modified": "Mon, 12 Oct 2026 22:48:46 GMT",
+      "etag": "\"7027-65dac8029b9b2\""
+    },
+    {
+      "competition": "PD",
+      "season": "2026",
+      "completed_matches": 78,
+      "raw_completed_rows": 78,
+      "raw_unique_completed_fixtures": 78,
+      "earliest_kickoff": "2026-08-15T17:30:00+00:00",
+      "latest_kickoff": "2026-10-12T19:00:00+00:00",
+      "fetched_at": "2026-10-17T23:39:02.391770+00:00",
+      "snapshot_sha256": "ac6405de1e2571f3f5aea0f6e1cf15757394b715476833d19297ddcf2968bef0",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2627/SP1.csv",
+      "observed_at": "2026-10-17T23:40:12.394671+00:00",
+      "sha256": "a2a27803e477b9a671f7fc1fdcd0b9a6a9bb52a3ff50806b4151845716b60abb",
+      "bytes": 37529,
+      "response_last_modified": "Mon, 12 Oct 2026 22:48:46 GMT",
+      "etag": "\"9299-65dac8032d1e9\""
+    }
+  ],
+  "wire_cases": [
+    {
+      "path": "single-season",
+      "hours": 0,
+      "network_requests": 1,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "single-season",
+      "hours": 5,
+      "network_requests": 0,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "single-season",
+      "hours": 6,
+      "network_requests": 1,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "single-season",
+      "hours": 6,
+      "network_requests": 1,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "single-season",
+      "hours": 12,
+      "network_requests": 1,
+      "rows": 0,
+      "errors": 1
+    },
+    {
+      "path": "ZIP",
+      "hours": 0,
+      "network_requests": 2,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "ZIP",
+      "hours": 5,
+      "network_requests": 1,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "ZIP",
+      "hours": 6,
+      "network_requests": 2,
+      "rows": 1,
+      "errors": 0
+    },
+    {
+      "path": "ZIP",
+      "hours": 12,
+      "network_requests": 2,
+      "rows": 0,
+      "errors": 1
+    },
+    {
+      "path": "ZIP",
+      "hours": 12.01,
+      "network_requests": 1,
+      "rows": 0,
+      "errors": 1
+    },
+    {
+      "path": "ZIP",
+      "hours": 18.01,
+      "network_requests": 2,
+      "rows": 0,
+      "errors": 1
+    }
+  ],
+  "source_reading": {
+    "reference_number": 56,
+    "upstream_runtime_tested": false,
+    "urls": [
+      "https://requests-cache.readthedocs.io/en/stable/user_guide/expiration.html",
+      "https://requests-cache.readthedocs.io/en/stable/user_guide/headers.html"
+    ],
+    "scope": "Selected expiration values/precedence, manual refresh, stale-response and conditional-header documentation1.3.3. Native season TTL adaptation; no source-code/library-runtime or fullHTTPcache implementation claim."
+  },
+  "verification": {
+    "wire": {
+      "cases": [
+        {
+          "path": "single-season",
+          "hours": 0,
+          "network_requests": 1,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "single-season",
+          "hours": 5,
+          "network_requests": 0,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "single-season",
+          "hours": 6,
+          "network_requests": 1,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "single-season",
+          "hours": 6,
+          "network_requests": 1,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "single-season",
+          "hours": 12,
+          "network_requests": 1,
+          "rows": 0,
+          "errors": 1
+        },
+        {
+          "path": "ZIP",
+          "hours": 0,
+          "network_requests": 2,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "ZIP",
+          "hours": 5,
+          "network_requests": 1,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "ZIP",
+          "hours": 6,
+          "network_requests": 2,
+          "rows": 1,
+          "errors": 0
+        },
+        {
+          "path": "ZIP",
+          "hours": 12,
+          "network_requests": 2,
+          "rows": 0,
+          "errors": 1
+        },
+        {
+          "path": "ZIP",
+          "hours": 12.01,
+          "network_requests": 1,
+          "rows": 0,
+          "errors": 1
+        },
+        {
+          "path": "ZIP",
+          "hours": 18.01,
+          "network_requests": 2,
+          "rows": 0,
+          "errors": 1
+        }
+      ],
+      "case_count": 11,
+      "http_requests": 14,
+      "requests_by_resource": {
+        "CSV": 4,
+        "index": 6,
+        "ZIP": 4
+      },
+      "result": "passed",
+      "scope": "Actual loopback HTTP plus native CSV/ZIP parsing and atomic file writes; controlled clock, not real waiting or provider performance."
+    },
+    "live": {
+      "result": "passed",
+      "current_completed_matches": 297,
+      "independent_fields_reconciled": 1782,
+      "fresh_cache_network_requests": 0,
+      "fresh_cache_snapshot_hashes_unchanged": 5,
+      "protected_historical_snapshots_verified": 15,
+      "source_results": [
+        {
+          "competition": "PL",
+          "season": "2026",
+          "completed_matches": 60,
+          "raw_completed_rows": 60,
+          "raw_unique_completed_fixtures": 60,
+          "earliest_kickoff": "2026-08-21T19:00:00+00:00",
+          "latest_kickoff": "2026-10-12T19:00:00+00:00",
+          "fetched_at": "2026-10-17T23:39:01.234228+00:00",
+          "snapshot_sha256": "c5c7f485071ea95923f0bf09907e6275d85ab1bd41c33ad2e7d3988b53535cf6",
+          "source_url": "https://www.football-data.co.uk/mmz4281/2627/E0.csv",
+          "observed_at": "2026-10-17T23:40:11.338186+00:00",
+          "sha256": "6731e95dd7120f5c7dc9f37650cc11ccccda8e7e0a3626830263c2cd77daa787",
+          "bytes": 29659,
+          "response_last_modified": "Mon, 12 Oct 2026 22:48:44 GMT",
+          "etag": "\"73db-65dac800d3888\""
+        },
+        {
+          "competition": "FL1",
+          "season": "2026",
+          "completed_matches": 54,
+          "raw_completed_rows": 54,
+          "raw_unique_completed_fixtures": 54,
+          "earliest_kickoff": "2026-08-21T18:45:00+00:00",
+          "latest_kickoff": "2026-10-11T18:45:00+00:00",
+          "fetched_at": "2026-10-17T23:39:01.520642+00:00",
+          "snapshot_sha256": "36589448da6253dd064e666da8402626efeedf2352c7a9b74f3a3102883b4af9",
+          "source_url": "https://www.football-data.co.uk/mmz4281/2627/F1.csv",
+          "observed_at": "2026-10-17T23:40:11.599012+00:00",
+          "sha256": "821dd8fb2d734b9389e80504c6eb39cfe26936305c27e383a76eff9b6b8e1d20",
+          "bytes": 26136,
+          "response_last_modified": "Mon, 12 Oct 2026 22:48:47 GMT",
+          "etag": "\"6618-65dac803fe1cb\""
+        },
+        {
+          "competition": "BL1",
+          "season": "2026",
+          "completed_matches": 45,
+          "raw_completed_rows": 45,
+          "raw_unique_completed_fixtures": 45,
+          "earliest_kickoff": "2026-08-28T18:30:00+00:00",
+          "latest_kickoff": "2026-10-11T15:30:00+00:00",
+          "fetched_at": "2026-10-17T23:39:01.794215+00:00",
+          "snapshot_sha256": "172101e2e341f602f32f3747d3225b08e7540caf23ca80ea20318bc10a253df3",
+          "source_url": "https://www.football-data.co.uk/mmz4281/2627/D1.csv",
+          "observed_at": "2026-10-17T23:40:11.852216+00:00",
+          "sha256": "5eda3818e95fea577b46e9af172c8190d007c4e48b486d65418423e55d66acf9",
+          "bytes": 22029,
+          "response_last_modified": "Mon, 12 Oct 2026 22:48:47 GMT",
+          "etag": "\"560d-65dac803a731d\""
+        },
+        {
+          "competition": "SA",
+          "season": "2026",
+          "completed_matches": 60,
+          "raw_completed_rows": 60,
+          "raw_unique_completed_fixtures": 60,
+          "earliest_kickoff": "2026-08-22T16:30:00+00:00",
+          "latest_kickoff": "2026-10-12T18:45:00+00:00",
+          "fetched_at": "2026-10-17T23:39:02.078333+00:00",
+          "snapshot_sha256": "8c422e4afe3c144710db2aa4f3b4e5fc37353f561a2af4ea7b069b43b59aa7f2",
+          "source_url": "https://www.football-data.co.uk/mmz4281/2627/I1.csv",
+          "observed_at": "2026-10-17T23:40:12.118448+00:00",
+          "sha256": "9faa2c5914ba4925721a81a1618d2531eec6bd4a59c430a964a6815cb2f3dc75",
+          "bytes": 28711,
+          "response_last_modified": "Mon, 12 Oct 2026 22:48:46 GMT",
+          "etag": "\"7027-65dac8029b9b2\""
+        },
+        {
+          "competition": "PD",
+          "season": "2026",
+          "completed_matches": 78,
+          "raw_completed_rows": 78,
+          "raw_unique_completed_fixtures": 78,
+          "earliest_kickoff": "2026-08-15T17:30:00+00:00",
+          "latest_kickoff": "2026-10-12T19:00:00+00:00",
+          "fetched_at": "2026-10-17T23:39:02.391770+00:00",
+          "snapshot_sha256": "ac6405de1e2571f3f5aea0f6e1cf15757394b715476833d19297ddcf2968bef0",
+          "source_url": "https://www.football-data.co.uk/mmz4281/2627/SP1.csv",
+          "observed_at": "2026-10-17T23:40:12.394671+00:00",
+          "sha256": "a2a27803e477b9a671f7fc1fdcd0b9a6a9bb52a3ff50806b4151845716b60abb",
+          "bytes": 37529,
+          "response_last_modified": "Mon, 12 Oct 2026 22:48:46 GMT",
+          "etag": "\"9299-65dac8032d1e9\""
+        }
+      ],
+      "scope": "Independent stdlib csv/date/timezone reconstruction of six fields per completed fixture. Raw CSVs downloaded again after collection; both fetches compare exactly. Not a league-completeness or provider-delay guarantee.",
+      "script_sha256": "2cdfae916fe6a0e537717d71f94236fe30681a6903208d31927b6aa43d247e29"
+    },
+    "full_suite": {
+      "tests": 358,
+      "passed": 354,
+      "skipped": 4,
+      "seconds": 35.383,
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "log_sha256": "14e966b5d6a6a1b29c53262023b2ab5e95a7cb4a5ff3b2abd2204510e80525ae"
+    },
+    "regressions": "Two consolidated tests in existing test_history: TTL boundary/zero/UTC rollover/timezone/invalid/future timestamp semantics and failure byte preservation; ZIP+JSON refresh, legacy archive-hash repair, CRC-before-replacement, raw-file reuse, response closure and unknown legacy fetch time.",
+    "independent_review": {
+      "status": "Source and final artifact reviews passed; no remaining actionable issue.",
+      "scope": "Reviewer reproduced legacy JSON incorrectly marked fresh after ZIP refresh plus normalization failure; fixed receipt-backed hash association. Reviewed TTL boundaries, failure exclusion and atomicity, then artifact counts/privacy/time limits. Corrected a blanket missing/corrupt-snapshot documentation claim. Parent loopback verifies failed-normalization retry; no duplicate suites, live fetches or main DB access."
+    },
+    "prose": "Chinese humanizer-zh and English stop-slop. Offline Harper initially found6 suggestions: fixed one serial comma, removed a sentence during factual review, and retained technical ZIP/CSV spelling and existing sentence-case heading style."
+  },
+  "tests_sha256": "0263cb360fbf914f7e7e57a4e54a2780339d130792717986c9d5233965cd0591",
+  "limits": [
+    "297completed fixtures are what the five2026/27publicCSVfiles currently contain. Latest kickoffs range2026-10-11to12; fetched2026-10-17 does not establish up-to-the-minute completeness.",
+    "Updated data remains in an isolated task snapshot directory. Main warehouse, production model and website are unchanged; no Champions League/API/event/tracking refresh in this batch.",
+    "Lifetime is opt-in. Defaults preserve pinned historical caches; active-season classification uses UTC July, not a provider-specific calendar or a completion guarantee.",
+    "Cache state describes the pre-request decision. Successful fetched_at is separate from prior-cache age; pinned does not mean fresh.",
+    "No HTTP ETag/Last-Modified revalidation, server Cache-Control interpretation, stale-on-error, asynchronous refresh or requests-cache storage backend.",
+    "ZIP bytes pass CRC before replacement. Normalized JSON commits per league only after validation, not as one all-league transaction. A valid ZIP can be stored while a member fails normalization; failed members are excluded from success receipts.",
+    "Legacy ZIPs without a validated fetch receipt remain pinned with unknown archive age. Newly derived snapshots then have fetched_at=null and a separate normalized_at; enabling TTL requires a real download.",
+    "Loopback requests use a controlled clock and synthetic bodies; not provider performance or six-hour real waiting. Index HTML is still requested for bulk archive discovery."
+  ],
+  "execution_scripts_sha256": {
+    "wire.py": "22adea20eb7e657fe6d3ba41aa135f0a1ffd3f8c6bbd57fcaac3df242ea5366b",
+    "verify_live.py": "2cdfae916fe6a0e537717d71f94236fe30681a6903208d31927b6aa43d247e29",
+    "live_raw.py": "712b495f14a2964e3919ee367b62a65ab50cad0a6c4c94158bbfa6a4f932d5dd"
+  }
+}

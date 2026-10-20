@@ -1,0 +1,1223 @@
+{
+  "case_id": "fcwc2025-final-chelsea-psg",
+  "match": {
+    "match_number": 63,
+    "date": "2025-07-13",
+    "teams": [
+      "Chelsea FC",
+      "Paris Saint-Germain"
+    ],
+    "goals": [
+      3,
+      0
+    ],
+    "score_duration": "as_reported; extra_time/shootouts not inferred from score alone",
+    "stage": "Final",
+    "in_contest_pct": 6.7,
+    "source_url": "https://www.fifatrainingcentre.com/media/native/tournaments/fcwc/2025/M63 CHE V PSG POST MATCH REPORT.pdf",
+    "source_sha256": "a5e9bf582a2954628216dc8968e1996d5b7e87fbe995880a683608076c6532ff",
+    "report_pages": 52,
+    "metrics": 114,
+    "physical_player_rows": 30,
+    "data_grain": "whole-match tracking-derived aggregates, not raw event/trajectory coordinates",
+    "asset_id": 21552,
+    "metrics_by_team": [
+      {
+        "attempts": 9.0,
+        "completed_passes": 263.0,
+        "controlled_possession_pct": 32.3,
+        "direct_pressures": 44.0,
+        "in_possession_long_ball": 9.0,
+        "on_target_attempts": 5.0,
+        "out_of_possession_counter_press": 6.0,
+        "out_of_possession_high_press": 6.0,
+        "out_of_possession_mid_block": 27.0,
+        "passes": 327.0,
+        "total_distance_covered": 111.2,
+        "total_pressures": 287.0
+      },
+      {
+        "attempts": 9.0,
+        "completed_passes": 567.0,
+        "controlled_possession_pct": 61.0,
+        "direct_pressures": 49.0,
+        "in_possession_long_ball": 1.0,
+        "on_target_attempts": 6.0,
+        "out_of_possession_counter_press": 15.0,
+        "out_of_possession_high_press": 10.0,
+        "out_of_possession_mid_block": 5.0,
+        "passes": 620.0,
+        "total_distance_covered": 109.8,
+        "total_pressures": 199.0
+      }
+    ]
+  },
+  "team_comparisons": [
+    {
+      "team": "Chelsea FC",
+      "pre_final_form": {
+        "matches": 6,
+        "wins": 5,
+        "draws": 0,
+        "goals_for": 14,
+        "goals_against": 5,
+        "definition": "reported match scores; includes extra time where played, not per90 or opponent-adjusted paper strength"
+      },
+      "pre_final_matches": [
+        {
+          "match_number": 6,
+          "date": "2025-06-16",
+          "opponent": "LAFC",
+          "goals_for": 2,
+          "goals_against": 0
+        },
+        {
+          "match_number": 22,
+          "date": "2025-06-20",
+          "opponent": "CR Flamengo",
+          "goals_for": 1,
+          "goals_against": 3
+        },
+        {
+          "match_number": 40,
+          "date": "2025-06-24",
+          "opponent": "Espérance de Tunisie",
+          "goals_for": 3,
+          "goals_against": 0
+        },
+        {
+          "match_number": 50,
+          "date": "2025-06-28",
+          "opponent": "SL Benfica",
+          "goals_for": 4,
+          "goals_against": 1
+        },
+        {
+          "match_number": 58,
+          "date": "2025-07-04",
+          "opponent": "Palmeiras",
+          "goals_for": 2,
+          "goals_against": 1
+        },
+        {
+          "match_number": 61,
+          "date": "2025-07-08",
+          "opponent": "Fluminense FC",
+          "goals_for": 2,
+          "goals_against": 0
+        }
+      ],
+      "metrics": {
+        "attempts": {
+          "final": 9.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 16.666666666666668,
+          "final_minus_pre_final": -7.666666666666668
+        },
+        "completed_passes": {
+          "final": 263.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 569.5,
+          "final_minus_pre_final": -306.5
+        },
+        "controlled_possession_pct": {
+          "final": 32.3,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 56.016666666666666,
+          "final_minus_pre_final": -23.71666666666667
+        },
+        "direct_pressures": {
+          "final": 44.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 44.0,
+          "final_minus_pre_final": 0.0
+        },
+        "in_possession_long_ball": {
+          "final": 9.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 1.5,
+          "final_minus_pre_final": 7.5
+        },
+        "on_target_attempts": {
+          "final": 5.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 6.333333333333333,
+          "final_minus_pre_final": -1.333333333333333
+        },
+        "out_of_possession_counter_press": {
+          "final": 6.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 9.5,
+          "final_minus_pre_final": -3.5
+        },
+        "out_of_possession_high_press": {
+          "final": 6.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 7.5,
+          "final_minus_pre_final": -1.5
+        },
+        "out_of_possession_mid_block": {
+          "final": 27.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 18.833333333333332,
+          "final_minus_pre_final": 8.166666666666668
+        },
+        "passes": {
+          "final": 327.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 625.8333333333334,
+          "final_minus_pre_final": -298.83333333333337
+        },
+        "total_distance_covered": {
+          "final": 111.2,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 109.18333333333334,
+          "final_minus_pre_final": 2.0166666666666657
+        },
+        "total_pressures": {
+          "final": 287.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 206.16666666666666,
+          "final_minus_pre_final": 80.83333333333334
+        }
+      }
+    },
+    {
+      "team": "Paris Saint-Germain",
+      "pre_final_form": {
+        "matches": 6,
+        "wins": 5,
+        "draws": 0,
+        "goals_for": 16,
+        "goals_against": 1,
+        "definition": "reported match scores; includes extra time where played, not per90 or opponent-adjusted paper strength"
+      },
+      "pre_final_matches": [
+        {
+          "match_number": 3,
+          "date": "2025-06-15",
+          "opponent": "Atlético de Madrid",
+          "goals_for": 4,
+          "goals_against": 0
+        },
+        {
+          "match_number": 20,
+          "date": "2025-06-19",
+          "opponent": "Botafogo",
+          "goals_for": 0,
+          "goals_against": 1
+        },
+        {
+          "match_number": 33,
+          "date": "2025-06-23",
+          "opponent": "Seattle Sounders FC",
+          "goals_for": 2,
+          "goals_against": 0
+        },
+        {
+          "match_number": 51,
+          "date": "2025-06-29",
+          "opponent": "Inter Miami CF",
+          "goals_for": 4,
+          "goals_against": 0
+        },
+        {
+          "match_number": 59,
+          "date": "2025-07-05",
+          "opponent": "FC Bayern München",
+          "goals_for": 2,
+          "goals_against": 0
+        },
+        {
+          "match_number": 62,
+          "date": "2025-07-09",
+          "opponent": "Real Madrid C. F.",
+          "goals_for": 4,
+          "goals_against": 0
+        }
+      ],
+      "metrics": {
+        "attempts": {
+          "final": 9.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 15.166666666666666,
+          "final_minus_pre_final": -6.166666666666666
+        },
+        "completed_passes": {
+          "final": 567.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 652.6666666666666,
+          "final_minus_pre_final": -85.66666666666663
+        },
+        "controlled_possession_pct": {
+          "final": 61.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 62.33333333333333,
+          "final_minus_pre_final": -1.3333333333333286
+        },
+        "direct_pressures": {
+          "final": 49.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 43.0,
+          "final_minus_pre_final": 6.0
+        },
+        "in_possession_long_ball": {
+          "final": 1.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 1.5,
+          "final_minus_pre_final": -0.5
+        },
+        "on_target_attempts": {
+          "final": 6.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 6.5,
+          "final_minus_pre_final": -0.5
+        },
+        "out_of_possession_counter_press": {
+          "final": 15.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 13.0,
+          "final_minus_pre_final": 2.0
+        },
+        "out_of_possession_high_press": {
+          "final": 10.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 10.0,
+          "final_minus_pre_final": 0.0
+        },
+        "out_of_possession_mid_block": {
+          "final": 5.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 9.5,
+          "final_minus_pre_final": -4.5
+        },
+        "passes": {
+          "final": 620.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 710.8333333333334,
+          "final_minus_pre_final": -90.83333333333337
+        },
+        "total_distance_covered": {
+          "final": 109.8,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 110.86666666666667,
+          "final_minus_pre_final": -1.066666666666677
+        },
+        "total_pressures": {
+          "final": 199.0,
+          "pre_final_available_matches": 6,
+          "pre_final_mean": 204.66666666666666,
+          "final_minus_pre_final": -5.666666666666657
+        }
+      }
+    }
+  ],
+  "coaches": {
+    "Chelsea FC": {
+      "name": "Enzo Maresca",
+      "source_url": "https://www.chelseafc.com/en/news/article/maresca-explains-how-club-world-cup-final-was-won"
+    },
+    "Paris Saint-Germain": {
+      "name": "Luis Enrique",
+      "source_url": "https://www.chelseafc.com/en/news/article/club-world-cup-final-report-chelsea-3-0-paris-saint-germain"
+    }
+  },
+  "mechanisms": [
+    {
+      "theme": "opening_man_marking",
+      "evidence_level": "coach_self_report",
+      "source_url": "https://www.chelseafc.com/en/news/article/maresca-explains-how-club-world-cup-final-was-won",
+      "statement_zh": "Maresca 说明开场十分钟采用强度较高的人盯人压迫；天气使长期维持这一强度困难。",
+      "required_test": "Opening ten-minute pressure sequences plus PSG recipient positions; whole-match PDF pressure totals do not measure this interval."
+    },
+    {
+      "theme": "midfield_matchup",
+      "evidence_level": "coach_self_report",
+      "source_url": "https://www.chelseafc.com/en/news/article/maresca-explains-how-club-world-cup-final-was-won",
+      "statement_zh": "教练说明中场逐人对位，并由 Enzo 负责 Vitinha。",
+      "required_test": "Match-day marking assignments and role changes rather than nominal formation labels."
+    },
+    {
+      "theme": "right_side_overload_and_runs",
+      "evidence_level": "coach_self_report_and_club_match_narrative",
+      "source_url": "https://www.chelseafc.com/en/news/article/maresca-explains-how-club-world-cup-final-was-won",
+      "sequence_source_url": "https://www.chelseafc.com/en/news/article/club-world-cup-final-report-chelsea-3-0-paris-saint-germain",
+      "statement_zh": "Palmer 与 Gusto 的同侧配合针对边路空间；官方战报描述第二球前 Gusto、Joao Pedro 的跑动牵制。",
+      "required_test": "At release, defender distances/pressing, own-side support, far-side run timing and rest-defence; the report lacks raw synchronized trajectories."
+    }
+  ],
+  "goal_timeline": [
+    {
+      "minute": 22,
+      "player": "Cole Palmer"
+    },
+    {
+      "minute": 30,
+      "player": "Cole Palmer"
+    },
+    {
+      "minute": 43,
+      "player": "Joao Pedro"
+    }
+  ],
+  "score_state_context": {
+    "half_time": [
+      3,
+      0
+    ],
+    "source_url": "https://www.chelseafc.com/en/news/article/club-world-cup-final-report-chelsea-3-0-paris-saint-germain",
+    "note": "Club report describes a deeper second-half defence. The late PSG red card cannot explain the earlier 3-0 lead."
+  },
+  "interpretation_limits": [
+    "A single selected final cannot estimate a causal tactical-matchup advantage.",
+    "Pre-final form is descriptive, unadjusted for opponent difficulty and extra time; it is not a calibrated paper-strength rating.",
+    "Separate coaching plan, player execution/finishing, score state, temperature, substitutions and opponent absences.",
+    "Do not turn whole-match pressure counts into intensity without possession exposure and time windows.",
+    "Phase shares retain FIFA definitions and are not renormalized to sum to100.",
+    "Game ratings may only serve as dated pre-match priors after verified identity joins; future updates/outcome fields must be excluded."
+  ],
+  "run_id": "23dab04734f7f726",
+  "observed_at": "2026-10-11T04:31:22.785321+00:00",
+  "inputs": {
+    "extractor_sha256": "2132f2022ba15fe8e358ecb7147c714998e0c59fe452540b8038df4673691c47",
+    "fifa_parser_sha256": "2ce9ace5b8a86da2dc1248860ca15e489848b497cf1913dfe1105699472a5871",
+    "report_assets": [
+      [
+        "fcwc2025",
+        1,
+        "a2a996229d57a51995dfce9298267630dbd5786b376f87dfa62e129758e4da5f"
+      ],
+      [
+        "fcwc2025",
+        2,
+        "fb93bed9f0307d713ee2bb1b550192e9a85bec41b357134db70e4a6967cd6469"
+      ],
+      [
+        "fcwc2025",
+        3,
+        "faa016ef308795a6c83cee679abbaa2162fb0b0d5dbce6707b61ba03310803b9"
+      ],
+      [
+        "fcwc2025",
+        4,
+        "2614e06d91a5f2bd5805217fefc1842ca5723ca48f52567a10b46856860eec9d"
+      ],
+      [
+        "fcwc2025",
+        5,
+        "5ad9aa0d2221e677c939b19e87f7e3f5335c75d74680717f719aaa82398b426d"
+      ],
+      [
+        "fcwc2025",
+        6,
+        "b7cc10380ad59bcc9994da763ad728dcfec508fcf4e51b5f6670c33276bc32fe"
+      ],
+      [
+        "fcwc2025",
+        7,
+        "4e37fed6c997a1cd0cca962b49f220aecf58e6dd87791c3410397822a4899ad3"
+      ],
+      [
+        "fcwc2025",
+        8,
+        "10c84102d9f9dfbfb58fba400ddccc65548f2cc2e3a2e134bceb1776a9d26e52"
+      ],
+      [
+        "fcwc2025",
+        9,
+        "fecee94e96415253d191b72912cd817ca36ba33d210464cb4c33000343c6d9bb"
+      ],
+      [
+        "fcwc2025",
+        10,
+        "590b520cd1f3ff6dddb6470cf7318f2c72b712fdfad5312b494fa3ca966d4e4c"
+      ],
+      [
+        "fcwc2025",
+        11,
+        "5af2a84bd7912f7421ca7b31b867059eb3a9f7f6e53961ae69e60a24e514c03d"
+      ],
+      [
+        "fcwc2025",
+        12,
+        "8461e98ab58a76a57f5c3160da9a9bf259152ec57ba1efd3baa7d054ab89efb9"
+      ],
+      [
+        "fcwc2025",
+        13,
+        "157a8c87dd7a8eb535d12f7c00e976d7f7dac2f7941f0d52100339d6bbc252dd"
+      ],
+      [
+        "fcwc2025",
+        14,
+        "fb3638e7abf4c30f74dbc6dead8664fd0c1263a290d2e7586d658a0b905e29c3"
+      ],
+      [
+        "fcwc2025",
+        15,
+        "f6abdb128c3fca7a43ca205c218c9ae72d90de90948a2233903d61be5e493a70"
+      ],
+      [
+        "fcwc2025",
+        16,
+        "fecf0738856527e0c5644e109c3272c153d84c49efdb8f76b90900df89500c24"
+      ],
+      [
+        "fcwc2025",
+        17,
+        "3d7958050181939ed862c1cedb54078c7128f190d843a552f514694327e45fe1"
+      ],
+      [
+        "fcwc2025",
+        18,
+        "eac2bbcba1397dc1e79a213c18a2331d7790e7455858b331a0400c790be5e132"
+      ],
+      [
+        "fcwc2025",
+        19,
+        "a551f475b2aedb59bb6786d2803b7f91f3f126fb33368eb1aab81b49fdd6564a"
+      ],
+      [
+        "fcwc2025",
+        20,
+        "00b773fd5f8c7a00055308ece75d48f364d073e635a88b71a57411f16b37e940"
+      ],
+      [
+        "fcwc2025",
+        21,
+        "96034b7c5eeac2cf55cace684d8bf45c38d9707679689fa22a643d0c7a783fa0"
+      ],
+      [
+        "fcwc2025",
+        22,
+        "e987db13f703b609caaa81bbe2df4123d11335ebd8d605d182014b5cf9f80945"
+      ],
+      [
+        "fcwc2025",
+        23,
+        "bc7c5325e1917d120e6ce9b2e5b2d8884ee59c929e151eaa4c03fc8b2a6c4cf8"
+      ],
+      [
+        "fcwc2025",
+        24,
+        "45303121fce9a544f926c616baecb085d0affd3da289d1d32175159fd4fd5fa6"
+      ],
+      [
+        "fcwc2025",
+        25,
+        "f2476670e2b969ae5dd6117e246d094c4a6af227e910664e67cd505c3ff6417c"
+      ],
+      [
+        "fcwc2025",
+        26,
+        "65a9017fd9c5e08bc83f644d93ec5e0407babc1a7ac3e10da6816299dbbc53bd"
+      ],
+      [
+        "fcwc2025",
+        27,
+        "e7a6c1bc3c9d84c68b9e8bc6d91b6c5c52c2f0fb003ff69043acab86c3a41b28"
+      ],
+      [
+        "fcwc2025",
+        28,
+        "cd9e557a421cccc6a6599182af62d5cab653e927d16f13ae050c474044e1ee80"
+      ],
+      [
+        "fcwc2025",
+        29,
+        "38f466984ccdee309480878f29aafff3a13d714612079802d8130efe38847485"
+      ],
+      [
+        "fcwc2025",
+        30,
+        "6a86dba5280ee266c48b1fc0333c4ceabff9ae98cee338b93ae39137dc4f1532"
+      ],
+      [
+        "fcwc2025",
+        31,
+        "1090c0f438327dcc540a6b1bef8f5a6dc4325e1b4552f3ecc95ae1eb2a088e57"
+      ],
+      [
+        "fcwc2025",
+        32,
+        "d4ee2aba234332267c727f5920f66ffad8028b63ec78c00b89a0a86ff89b9146"
+      ],
+      [
+        "fcwc2025",
+        33,
+        "3a43a487f6950a42cc5acebbb65d74bc4a4f2cfcc23ae9f3174630c16e8e3477"
+      ],
+      [
+        "fcwc2025",
+        34,
+        "83a7cb934969ab84c1e80dc347b81146d67cd91489059a304dc3def026f26bd9"
+      ],
+      [
+        "fcwc2025",
+        35,
+        "aac91e38667bc9c4cc5aa45ac09fd31cc0e15084eec865bb5fe01a4dc7703ece"
+      ],
+      [
+        "fcwc2025",
+        36,
+        "fdba3f598d2f50115f6f5a57275336070d0daadd6166559305f5cb1312c3bb0a"
+      ],
+      [
+        "fcwc2025",
+        37,
+        "17007066cdd031b4087ccf7ce33e440a343f553092d6ff0542289a3ac186a1fc"
+      ],
+      [
+        "fcwc2025",
+        38,
+        "06d681e3b3b5dc7ccee345add28fc012eaa0bb97046fc6bbb15b0e4501fe4d21"
+      ],
+      [
+        "fcwc2025",
+        39,
+        "1cf33c1c0325b1a65cc1b29e172c84346f246ccb48ec27a64f6b2d09f142dca5"
+      ],
+      [
+        "fcwc2025",
+        40,
+        "e62c6591d77a20cede14e409acc89eb52100b22e1487e84b643db114226123a1"
+      ],
+      [
+        "fcwc2025",
+        41,
+        "e4bbccf10d9b35fc8483824ab01c7346cf8b45d6e957ea01ebadfe3b8bcb5d89"
+      ],
+      [
+        "fcwc2025",
+        42,
+        "2bcd98f00b4aa3b7759ce3ebc67f467528b2ce2ecb6e961686331dd01abfd0b3"
+      ],
+      [
+        "fcwc2025",
+        43,
+        "7c49963799b60d3fa66c257806c0e194e6f90b6c272492f26fe60ab8143151df"
+      ],
+      [
+        "fcwc2025",
+        44,
+        "389ee8e2fb1d32afd2ab252c6082f08625f7f05d207be4b3f5a38c24c575823e"
+      ],
+      [
+        "fcwc2025",
+        45,
+        "3f47e9963475d5f562c434443c0e29c1541fd1cb7680c75ecb9385a9a9392140"
+      ],
+      [
+        "fcwc2025",
+        46,
+        "78daab1bc58a11f982c3cb79a965e59bcbb0617c6c17ce73b2606ea5833a6d30"
+      ],
+      [
+        "fcwc2025",
+        47,
+        "6b2316d101a2c1fa1d7635ca79012ecfe0163c045b1ccd6014fe3197b0a0c1b4"
+      ],
+      [
+        "fcwc2025",
+        48,
+        "85f358395a4b8ecd94a7e2398fd5fa812787115ab968cf587a03396418120b03"
+      ],
+      [
+        "fcwc2025",
+        49,
+        "3cbea90ca395f4f078fb20fa755f31fda078d10f0b47f4f2fc0ff9e1fdbc58c6"
+      ],
+      [
+        "fcwc2025",
+        50,
+        "211515de86489292e3f9c01fc354da29f3f1611dd45c99ab8ea1064b2aeb6e42"
+      ],
+      [
+        "fcwc2025",
+        51,
+        "a48e4d4ad5bb3f49e6db007ad4223fd5e9699f8bebf8c2f86cf545ffdfdd2b8c"
+      ],
+      [
+        "fcwc2025",
+        52,
+        "6b5b6a6084b5470201032bfcecf85030c7408c9e4bcafc5347ff03a92a1c6bf3"
+      ],
+      [
+        "fcwc2025",
+        53,
+        "5ea8487a2526193622d6eb4331bc8f450a0d5021ea3f6bda3609b081d2aa61a2"
+      ],
+      [
+        "fcwc2025",
+        54,
+        "70b72682c6764cd7ebad6c0d7a8702463261e3d18c052c8b8ac5ec2402866428"
+      ],
+      [
+        "fcwc2025",
+        55,
+        "c1e299c8792eaaebd0e74c962a3c986d4f42ece365bb89303bbca9f595a28a55"
+      ],
+      [
+        "fcwc2025",
+        56,
+        "8ab8ac22266f3ffcc581e519cd0253759ed11dc662c72d1e51bde6bacb11349c"
+      ],
+      [
+        "fcwc2025",
+        57,
+        "557a8411cd4d1191365f49801910ef9b5013ec4dae97d3e2779e877c8fb0abd9"
+      ],
+      [
+        "fcwc2025",
+        58,
+        "7837e90aa6a404cc5cf1738df272d9de5536982c491a8ce4eab7bd212bd3f718"
+      ],
+      [
+        "fcwc2025",
+        59,
+        "acfd7dc743bbc7a10b06adeb0a97490ebced7d1326faae4083e3b133b675a7f9"
+      ],
+      [
+        "fcwc2025",
+        60,
+        "029974b3ae86ef186aac7e1d6cf6633c0dd9159645ef7fc69568ee631d8431ef"
+      ],
+      [
+        "fcwc2025",
+        61,
+        "e35eef4c84fce0dcff071e87846493a00bfe50b677cd6a4bf521a31481466242"
+      ],
+      [
+        "fcwc2025",
+        62,
+        "12d2475cf54fa2351272e315e802d7e5a70db82d089f2d47824c72a50f501d1d"
+      ],
+      [
+        "fcwc2025",
+        63,
+        "a5e9bf582a2954628216dc8968e1996d5b7e87fbe995880a683608076c6532ff"
+      ],
+      [
+        "fwc2026",
+        1,
+        "0f56ac3c6c8b5b9cd0ce3f2ff1bd45def775401e126706c4f2b5db3257c4fbf7"
+      ],
+      [
+        "fwc2026",
+        2,
+        "5849fff9425cd6a797405787f7a723e216af5b74c1d6b94279d81557b6ccbc3a"
+      ],
+      [
+        "fwc2026",
+        3,
+        "742bf05848b6cdaee5480d5708d893a66ddf6f9b1a4f66f2074573e563f66d29"
+      ],
+      [
+        "fwc2026",
+        4,
+        "4ea51b7fd475efd225578b862bb09abbe791de72c96183fccaf124bd4b6b1085"
+      ],
+      [
+        "fwc2026",
+        5,
+        "116a4af71e1a68c9f264599176ef6ce07b26c382ce16ca858a7ff31aaff16307"
+      ],
+      [
+        "fwc2026",
+        6,
+        "572c9314a930a03edb03cf2f73c3c51b197075f9cc5a060f6e37d6e9aac12a30"
+      ],
+      [
+        "fwc2026",
+        7,
+        "bcc41c89dbd371b28d7037ba59ae820dd00aa7610ab9908e0128c4b0b1fbfa31"
+      ],
+      [
+        "fwc2026",
+        8,
+        "550a64c9b5f87ec4fd9761ae3b429467d013fbc488800299730f996dbf666d99"
+      ],
+      [
+        "fwc2026",
+        9,
+        "da3653a93f68d5e463ecb65a318e5ae4d36e17717baf9f6d499aac4d57c4745b"
+      ],
+      [
+        "fwc2026",
+        10,
+        "f82717a0dd1373b12000c7bff2d033c1f96cbc9d6a57efaf18c682638201e792"
+      ],
+      [
+        "fwc2026",
+        11,
+        "d485e6956019f57b78db7b6a4b8cd9ae727e7b902cabb96213472f31376a4d6d"
+      ],
+      [
+        "fwc2026",
+        12,
+        "c7df69fd2b01b6da7f506d68b76e8877e4d8e168beca9406a8335c9e219301f6"
+      ],
+      [
+        "fwc2026",
+        13,
+        "a58f676edb1460327344c549a9d4b5c65175f6a46308313ada37fb44ba0ad0d2"
+      ],
+      [
+        "fwc2026",
+        14,
+        "058506bfa1f40a4b856d8b30606577e475b790c16c808e4353df525d34399288"
+      ],
+      [
+        "fwc2026",
+        15,
+        "0badcf1b7a99158840574738455dbd9fe65ef3cb5efcbc528d8c787003d6bb67"
+      ],
+      [
+        "fwc2026",
+        16,
+        "7f6ff9a1345e11aaf7b8488220e4955efb2626534700358c6266f95eee208897"
+      ],
+      [
+        "fwc2026",
+        17,
+        "b70af7a5dc5e2be286d79696c2852476de01c1888fbbd9e8560ccf6baecae1f4"
+      ],
+      [
+        "fwc2026",
+        18,
+        "4641858c3fbf56cf4c750f078bb90d4327f032b5f29871dbb6d554318d3af211"
+      ],
+      [
+        "fwc2026",
+        19,
+        "6c0c440e35827b4075f45d8de477ab8b70b0e44a581a2d8252aee4d1d63bba5d"
+      ],
+      [
+        "fwc2026",
+        20,
+        "450841597bc0cf6225a94650b0801c07c1c3971f196a08e90e96b78f473dda1a"
+      ],
+      [
+        "fwc2026",
+        21,
+        "04fc97bde0636aaf1286d680955fd7147ee69ab305ddd8d2b5963f48d72d4e4f"
+      ],
+      [
+        "fwc2026",
+        22,
+        "7417d70599307bcfc9e2de146da9293eea5ca05dd753d3cad68226152505c701"
+      ],
+      [
+        "fwc2026",
+        23,
+        "2813415716a176b54d25846229df928d23444f955c9b352a97db8460c473c8ba"
+      ],
+      [
+        "fwc2026",
+        24,
+        "ca2f44b20c63e709ee430cdd6408eacbd199018f0c803d1c95761cb4f6e32b89"
+      ],
+      [
+        "fwc2026",
+        25,
+        "70eac257248c9e8f5eb7df07d660f3224ebd04306fe4f195ff8c5b146f7ef857"
+      ],
+      [
+        "fwc2026",
+        26,
+        "ef2e8713092b94e6137bc12c78fc8e12e7760b2af4c1a17f17b39a2bcc09957e"
+      ],
+      [
+        "fwc2026",
+        27,
+        "066e71c7d48b42e0e212936a5dc3aecfa2a7dd9e7f872565c033b27123bf9a67"
+      ],
+      [
+        "fwc2026",
+        28,
+        "40e5663887806285da56121cd2e97a45e7c7094933bec0fcf925e9ac5cb684bc"
+      ],
+      [
+        "fwc2026",
+        29,
+        "ac5989ef2df2cc020961e981f259e92865bcd266250d292f70380ff461494b8d"
+      ],
+      [
+        "fwc2026",
+        30,
+        "240846401cf3095ecd2baf0e0d1134aa1f56b8603f4951762d6be0085211cba1"
+      ],
+      [
+        "fwc2026",
+        31,
+        "2a5040a8ac24fe4f7dad6098c20a648fb7d6325820163b190ffe20e630766416"
+      ],
+      [
+        "fwc2026",
+        32,
+        "974552242de3f1fd7b6d0b7de9d0c1841c418104305bd4dc548d965d85dd374b"
+      ],
+      [
+        "fwc2026",
+        33,
+        "dfc2161b71c4059064e3bbc4b33457f7d6ceb38886c3eee1f3613c66f3f3298e"
+      ],
+      [
+        "fwc2026",
+        34,
+        "d98135ddb7e008238d46584d563072fc80180bc686585371450cb79c335887c4"
+      ],
+      [
+        "fwc2026",
+        35,
+        "c11fa8f6584718bfb4f0d2059ec27867198ca1583746d385f6aab037a9461ed3"
+      ],
+      [
+        "fwc2026",
+        36,
+        "6f9bbf81af14c9b70f4a5b66bd37a7b23bcf9eee93020af8b525b8d8e2fae1c2"
+      ],
+      [
+        "fwc2026",
+        37,
+        "d2d439bc66d491b514ffa1b4ab6762ec698586afd61b0b987ad9ddfda8da7cc8"
+      ],
+      [
+        "fwc2026",
+        38,
+        "99b9c43b74392c76ae78acd33b307cb9c8d4d3871a06124978061ed343ee7d4a"
+      ],
+      [
+        "fwc2026",
+        39,
+        "29963f254d28b82565b0a970abad7fe6d459ae149c596a82cfed22d70525efa2"
+      ],
+      [
+        "fwc2026",
+        40,
+        "20f970de2015584d6fa9f09d88d49e322bc1e04aef7c08ce81430d3ab93592c9"
+      ],
+      [
+        "fwc2026",
+        41,
+        "6e90dd4608e03262346b077e7d5d771470334c395cf589fcfa8ab42055ef1bb0"
+      ],
+      [
+        "fwc2026",
+        42,
+        "282ead2aee46e1fb3a9733a440067d83cb170bd12b6626ac301bfeda7c580ba2"
+      ],
+      [
+        "fwc2026",
+        43,
+        "a35ea802d168b38aa104504389f6ecc61dd58c02d4ec8e29eec16eeee7376d5b"
+      ],
+      [
+        "fwc2026",
+        44,
+        "5e61235d17705878e07c8671c6034cbb745d159b549c4b470fdcf941f03d6364"
+      ],
+      [
+        "fwc2026",
+        45,
+        "cf5ac74bf07a878d4400b1a58ea1222e9ef1048de5ed5aec1810e8ad348ce5cf"
+      ],
+      [
+        "fwc2026",
+        46,
+        "e525798dab4d99807229c7ca1029a7ff61a70df262024b9e1f0d38c86c85214a"
+      ],
+      [
+        "fwc2026",
+        47,
+        "8f47f93c678c0981c05496b6b7bc855cd18de394334edcb36f3217702d79198a"
+      ],
+      [
+        "fwc2026",
+        48,
+        "fab2cbe65a32c85c76448ed9ec4be3557f206b9c1c0fbd2d330455969ba41cbb"
+      ],
+      [
+        "fwc2026",
+        49,
+        "92ad819664f83c1a8800fd37ccd791a7975cbd12c8745542f0c0f24e6c410385"
+      ],
+      [
+        "fwc2026",
+        50,
+        "d24499e38be4737cde30f837cc04b9a846ad1df230d5e6a518bc0a8d7297f007"
+      ],
+      [
+        "fwc2026",
+        51,
+        "aca541c2dcbcf2639eb16fafd3ceb19ab65195bd988dffe0a647ec2924ceca1f"
+      ],
+      [
+        "fwc2026",
+        52,
+        "84dbf4711a042f54758936974f2f4f999ed9c90837b763af56754409b03efc66"
+      ],
+      [
+        "fwc2026",
+        53,
+        "d5580faa39e2c591d30600206bdf7be3bb655bcadcdfa93d3c9f535fe4c8b7c9"
+      ],
+      [
+        "fwc2026",
+        54,
+        "87349fd902d13d8e093cb8286d279a6a04656097ba68cfebab2a37b4d82c089e"
+      ],
+      [
+        "fwc2026",
+        55,
+        "7be3e6e3f07f0dc38152cfd08e5b8a9f5957a7198ac15edef898d659014416a0"
+      ],
+      [
+        "fwc2026",
+        56,
+        "d2db5501ed8dc92a0bc059c1499b230ff652ab2badf44c89fa23057b7c2d0764"
+      ],
+      [
+        "fwc2026",
+        57,
+        "cec05fad778d9d7373b2b284abf3c3d3cbf35e76535c9162444f3f60e7afe494"
+      ],
+      [
+        "fwc2026",
+        58,
+        "1222ed5a51cf6a444b6459f6fe2132e150e943aed6a5f80fb05ab41dde382325"
+      ],
+      [
+        "fwc2026",
+        59,
+        "ccacf3fddd5f6067d54f3e407017f025ef8861d3a30893b13c007c0860ae2143"
+      ],
+      [
+        "fwc2026",
+        60,
+        "c57f3a90201208c6d20a296840ac4684e8ad346532f7b1dd7e15003321eaa584"
+      ],
+      [
+        "fwc2026",
+        61,
+        "ccf07c879fb39b1e6f53b7beb60785ab6f384be8cb2bcc2b8032045e9ceabc7b"
+      ],
+      [
+        "fwc2026",
+        62,
+        "04dbe2594e4df345cd89b62b7ebe830cfc9d83b3092afb87ee40a73ff2e8130f"
+      ],
+      [
+        "fwc2026",
+        63,
+        "29b8b41d7e9744477e15f83c8d1c3ada03fe68d5be99b91a0c94f26a896e7bab"
+      ],
+      [
+        "fwc2026",
+        64,
+        "fea43f5d0b150dae31d8d165fa7a864b657ba69de5048725f6edc658a73b748b"
+      ],
+      [
+        "fwc2026",
+        65,
+        "7b2b7a19f34341a6da8b718ec9340105772493e2fed96e4c06ebd1b3e251b13b"
+      ],
+      [
+        "fwc2026",
+        66,
+        "28c1f41f11adc0b20a8045c1de155630846c2ba7b2ec7706ed364896e25b16f8"
+      ],
+      [
+        "fwc2026",
+        67,
+        "d58e818ade9f00b14993995bdd3116d7b459c967f77c47d2465b21ad0cde84d6"
+      ],
+      [
+        "fwc2026",
+        68,
+        "fc930a19734c566dbb15c5ae6617dcde43408cb8a3a41ebca412dfe1db04d4f6"
+      ],
+      [
+        "fwc2026",
+        69,
+        "ee3e4b8d0b168a8c78c889f787ad6be6880e17d54cfa284dc4bfa51a66a353dd"
+      ],
+      [
+        "fwc2026",
+        70,
+        "4c91179ee0bdac3883c9c4c690b49e69b2a1872501e427d9a1be5a0c26ad8bdb"
+      ],
+      [
+        "fwc2026",
+        71,
+        "443d363a607ddf3d1e627504eb0e466599fd0a1ec2a5ed39aea87817ff98a91d"
+      ],
+      [
+        "fwc2026",
+        72,
+        "56a9f77d17f2c942036b288e8ca1d8b19f4ce43775078a2d82dd9d347e10537a"
+      ],
+      [
+        "fwc2026",
+        73,
+        "648089a482dcf170fbcd34f05ecb2e5c4f29317005a0c366367164f50c762e57"
+      ],
+      [
+        "fwc2026",
+        74,
+        "61bcf3ee539d104626aaa7341c0507df81c85e7a6947b3dc2bb04c7202115625"
+      ],
+      [
+        "fwc2026",
+        75,
+        "ab400dda48e19279037469402866c77470643eb959ddb24d48a46eff2c4bc655"
+      ],
+      [
+        "fwc2026",
+        76,
+        "861d0532e8863df4378973d2d65de91925f024c4f2e1b2af2aa09afa5da7179d"
+      ],
+      [
+        "fwc2026",
+        77,
+        "3b5f90d435cf43049145a9266bfdf6cb6e933d560d2165158b09cd0ce39ecf2f"
+      ],
+      [
+        "fwc2026",
+        78,
+        "ee5339826a6127e3225c7df722d6daef5ac5420df7974b8cda3a8044d5eb1a41"
+      ],
+      [
+        "fwc2026",
+        79,
+        "1563547368929f4e56c351b3d006e14ded81b226c2bed9563128602eb4278d01"
+      ],
+      [
+        "fwc2026",
+        80,
+        "58edfc56a0294ac9c1ca3be58b16e4d270800798b38cdff8583ecd8f58829b05"
+      ],
+      [
+        "fwc2026",
+        81,
+        "60c35e52614f8a87541970d239da48e6f45e7bf45f89aaccf171cf1f8512954d"
+      ],
+      [
+        "fwc2026",
+        82,
+        "816725ae35bcf5885d98694df0bf8edf31ea4f16decdcd80961ec9e3e6e1b7c9"
+      ],
+      [
+        "fwc2026",
+        83,
+        "79ee447b367238165094d717342743049f4c5e250bb4e181621660f79ec466c6"
+      ],
+      [
+        "fwc2026",
+        84,
+        "c4606b48b5bde4a82eab5a16058daeb596da7a44bd8fed6b6e5eac77b8be0f9f"
+      ],
+      [
+        "fwc2026",
+        85,
+        "9c784130b71ad407277e37d1f7d973c1339ddf636f6d144e8dea03999dd9b0f1"
+      ],
+      [
+        "fwc2026",
+        86,
+        "405e646b135516af4b299a8e31e1b56a9f439685061cee4692fef6c4fb1c1f10"
+      ],
+      [
+        "fwc2026",
+        87,
+        "309a6db33ca202b5a43358a3ae792539d8082b34558c7519defefe79742ebc3c"
+      ],
+      [
+        "fwc2026",
+        88,
+        "c06e66b8394447ea75c7ccd6c1551b576c93ac1a8bf688eacc754452cd63db3e"
+      ],
+      [
+        "fwc2026",
+        89,
+        "eb8d99f75e300c33a37ee56665e29d2a3fe9b188cdcc5cf2f3fc2fe19ef4cb2a"
+      ],
+      [
+        "fwc2026",
+        90,
+        "b9ca17e4644fbbb2384ab12d819e319a5d0cdce1bf2f7a1fb8c0a3e993e0e904"
+      ],
+      [
+        "fwc2026",
+        91,
+        "05ed8f7a10afe829d92c9662693dade8e36ec3b01c48310bbd7ddee2316fc134"
+      ],
+      [
+        "fwc2026",
+        92,
+        "7c4f96f154cb3f7ca659e5a88e02a85fd4a6afbacfcfb3e2f9b2bcd61276e33a"
+      ],
+      [
+        "fwc2026",
+        93,
+        "233c81b23421092c3961357591f049d30f7508fdc339ac09da6d4b31651e41d4"
+      ],
+      [
+        "fwc2026",
+        94,
+        "fbff7086e39ec150a4f1226d6c5dde97a5a07d552d45d9c6f21cc770e6961487"
+      ],
+      [
+        "fwc2026",
+        95,
+        "21bc978a6755c2db930156803b683e41e9b03d59b11041fe43d4e7a78b1aaf47"
+      ],
+      [
+        "fwc2026",
+        96,
+        "0fb297d5b149c3a3d6dc0841a4542c37da3e831c6a968a14d4ac1e618aa84715"
+      ],
+      [
+        "fwc2026",
+        97,
+        "2b8b3dd5d1ff695daf357f0756ce12e7ac99f3f73f2037b89696aba995cb28a5"
+      ],
+      [
+        "fwc2026",
+        98,
+        "cf5c5f5b46fa80a2d0870c007fd000f460f9552506f108448b6b741b5e4c105a"
+      ],
+      [
+        "fwc2026",
+        99,
+        "969b834022c1832684129aa048733292dd82663362600328a57752546b211ac3"
+      ],
+      [
+        "fwc2026",
+        100,
+        "8048e87b60e4a235d05403b8312fa81128efe76dcb32e0f7b5a7816cdd91c668"
+      ],
+      [
+        "fwc2026",
+        101,
+        "83e5bec0d2a5de1d20994641856e4b32d6c0b4a5d074e271dfdffb613d7e2d19"
+      ],
+      [
+        "fwc2026",
+        102,
+        "316ba42a972f2173e72d1383f94e5828c2ae4a1b68b829f725adceb43eca5419"
+      ],
+      [
+        "fwc2026",
+        103,
+        "d6dd6a2b69e48b2e22dbaa4f4584fc03668e6779106dd9e1127551a17910cd9f"
+      ],
+      [
+        "fwc2026",
+        104,
+        "778c6ad09412293cc4995eda133352e98351debcb333601d99e7d9168bb42a8d"
+      ]
+    ]
+  },
+  "public_scope": "Selected match metrics, derived means and source fingerprints. Full per-match metric arrays and physical player rows remain in the local warehouse."
+}

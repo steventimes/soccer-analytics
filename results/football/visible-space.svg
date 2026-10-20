@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns2="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" width="936pt" height="525.6pt" viewBox="0 0 936 525.6" version="1.1" role="img" aria-labelledby="figure-visible-space-title figure-visible-space-desc">
+ <title id="figure-visible-space-title">The camera sees only part of the pitch</title><desc id="figure-visible-space-desc">Spain  ·  Unai Simón Mendibil  ·  123:51 Source: StatsBomb 360 / Open Data. Illustrative frame: the match's largest forward completed pass by x displacement.
+Player locations are event-time snapshots, not trajectories or pitch control. Coordinates: 120 × 80 provider units.</desc><metadata>
+  <rdf:RDF>
+   <ns2:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <ns2:Agent>
+      <dc:title>soccer-analytics</dc:title>
+     </ns2:Agent>
+    </dc:creator>
+   </ns2:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 525.6  L 936 525.6  L 936 0  L 0 0  z " style="fill: #ffffff" />
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 134.307857 420.48  L 595.772143 420.48  L 595.772143 110.376  L 134.307857 110.376  z " style="fill: #f6f8fa" />
+   </g>
+   <g id="patch_3">
+    <path d="M 143.537143 117.759429  L 586.542857 117.759429  L 586.542857 413.096571  L 143.537143 413.096571  z " clip-path="url(#p146c51e0f8)" style="fill: #dfe5eb; stroke: #dfe5eb; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_4">
+    <path d="M 224.292455 413.096571  L 143.537143 294.351295  L 143.537143 117.759429  L 285.413724 117.759429  L 332.7039 387.60265  L 274.707219 413.096571  z " clip-path="url(#p146c51e0f8)" style="fill: #ffffff; stroke: #647382; stroke-width: 1.1; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_5">
+    <path d="M 143.537143 117.759429  L 586.542857 117.759429  L 586.542857 413.096571  L 143.537143 413.096571  L 143.537143 117.759429  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="line2d_1">
+    <path d="M 365.04 117.759429  L 365.04 413.096571  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linecap: square" />
+   </g>
+   <g id="patch_6">
+    <path d="M 365.04 228.510857  C 374.830541 228.510857 384.221404 232.40068 391.144362 239.323638  C 398.06732 246.246596 401.957143 255.637459 401.957143 265.428  C 401.957143 275.218541 398.06732 284.609404 391.144362 291.532362  C 384.221404 298.45532 374.830541 302.345143 365.04 302.345143  C 355.249459 302.345143 345.858596 298.45532 338.935638 291.532362  C 332.01268 284.609404 328.122857 275.218541 328.122857 265.428  C 328.122857 255.637459 332.01268 246.246596 338.935638 239.323638  C 345.858596 232.40068 355.249459 228.510857 365.04 228.510857  L 365.04 228.510857  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m3089c98b19" d="M 0 1.118034  C 0.296506 1.118034 0.580908 1.000231 0.790569 0.790569  C 1.000231 0.580908 1.118034 0.296506 1.118034 0  C 1.118034 -0.296506 1.000231 -0.580908 0.790569 -0.790569  C 0.580908 -1.000231 0.296506 -1.118034 0 -1.118034  C -0.296506 -1.118034 -0.580908 -1.000231 -0.790569 -0.790569  C -1.000231 -0.580908 -1.118034 -0.296506 -1.118034 0  C -1.118034 0.296506 -1.000231 0.580908 -0.790569 0.790569  C -0.580908 1.000231 -0.296506 1.118034 0 1.118034  z " style="stroke: #b6c2cd" />
+    </defs>
+    <g clip-path="url(#p146c51e0f8)">
+     <use xlink:href="#m3089c98b19" x="365.04" y="265.428" style="fill: #b6c2cd; stroke: #b6c2cd" />
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 143.537143 184.210286  L 209.988 184.210286  L 209.988 346.645714  L 143.537143 346.645714  L 143.537143 184.210286  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_8">
+    <path d="M 143.537143 228.510857  L 165.687429 228.510857  L 165.687429 302.345143  L 143.537143 302.345143  L 143.537143 228.510857  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_9">
+    <path d="M 137.6304 250.661143  L 143.537143 250.661143  L 143.537143 280.194857  L 137.6304 280.194857  L 137.6304 250.661143  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="PathCollection_2">
+    <g clip-path="url(#p146c51e0f8)">
+     <use xlink:href="#m3089c98b19" x="187.837714" y="265.428" style="fill: #b6c2cd; stroke: #b6c2cd" />
+    </g>
+   </g>
+   <g id="patch_10">
+    <path d="M 209.988 235.894286  C 214.572755 239.332852 218.294455 243.79224 220.857411 248.918152  C 223.420367 254.044064 224.754857 259.697056 224.754857 265.428  C 224.754857 271.158944 223.420367 276.811936 220.857411 281.937848  C 218.294455 287.06376 214.572755 291.523148 209.988 294.961714  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_11">
+    <path d="M 520.092 184.210286  L 586.542857 184.210286  L 586.542857 346.645714  L 520.092 346.645714  L 520.092 184.210286  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_12">
+    <path d="M 564.392571 228.510857  L 586.542857 228.510857  L 586.542857 302.345143  L 564.392571 302.345143  L 564.392571 228.510857  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_13">
+    <path d="M 586.542857 250.661143  L 592.4496 250.661143  L 592.4496 280.194857  L 586.542857 280.194857  L 586.542857 250.661143  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="PathCollection_3">
+    <g clip-path="url(#p146c51e0f8)">
+     <use xlink:href="#m3089c98b19" x="542.242286" y="265.428" style="fill: #b6c2cd; stroke: #b6c2cd" />
+    </g>
+   </g>
+   <g id="patch_14">
+    <path d="M 520.092 294.961714  C 515.507245 291.523148 511.785545 287.06376 509.222589 281.937848  C 506.659633 276.811936 505.325143 271.158944 505.325143 265.428  C 505.325143 259.697056 506.659633 254.044064 509.222589 248.918152  C 511.785545 243.79224 515.507245 239.332852 520.092 235.894286  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_15">
+    <path d="M 147.228857 117.759429  C 147.228857 118.738157 146.839644 119.6778 146.147579 120.369865  C 145.455514 121.06193 144.515871 121.451143 143.537143 121.451143  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-width: 0.8; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_16">
+    <path d="M 586.542857 121.451143  C 585.564129 121.451143 584.624486 121.06193 583.932421 120.369865  C 583.240356 119.6778 582.851143 118.738157 582.851143 117.759429  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-width: 0.8; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_17">
+    <path d="M 582.851143 413.096571  C 582.851143 412.117843 583.240356 411.1782 583.932421 410.486135  C 584.624486 409.79407 585.564129 409.404857 586.542857 409.404857  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-width: 0.8; stroke-linejoin: miter" />
+   </g>
+   <g id="patch_18">
+    <path d="M 143.537143 409.404857  C 144.515871 409.404857 145.455514 409.79407 146.147579 410.486135  C 146.839644 411.1782 147.228857 412.117843 147.228857 413.096571  " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #b6c2cd; stroke-width: 0.8; stroke-linejoin: miter" />
+   </g>
+   <g id="matplotlib.axis_1" />
+   <g id="matplotlib.axis_2" />
+   <g id="PathCollection_4">
+    <defs>
+     <path id="m7adfca94bd" d="M 0 4.472136  C 1.186024 4.472136 2.323632 4.000923 3.162278 3.162278  C 4.000923 2.323632 4.472136 1.186024 4.472136 0  C 4.472136 -1.186024 4.000923 -2.323632 3.162278 -3.162278  C 2.323632 -4.000923 1.186024 -4.472136 0 -4.472136  C -1.186024 -4.472136 -2.323632 -4.000923 -3.162278 -3.162278  C -4.000923 -2.323632 -4.472136 -1.186024 -4.472136 0  C -4.472136 1.186024 -4.000923 2.323632 -3.162278 3.162278  C -2.323632 4.000923 -1.186024 4.472136 0 4.472136  z " style="stroke: #ffffff; stroke-width: 0.8" />
+    </defs>
+    <g clip-path="url(#p146c51e0f8)">
+     <use xlink:href="#m7adfca94bd" x="165.687429" y="248.07694" style="fill: #2468a0; stroke: #ffffff; stroke-width: 0.8" />
+    </g>
+   </g>
+   <g id="patch_19">
+    <path d="M 265.516203 437.53572  Q 365.040631 437.53572 463.447025 437.53572  " style="fill: none; stroke: #647382; stroke-linecap: round" />
+    <path d="M 459.047025 435.33572  L 463.447025 437.53572  L 459.047025 439.73572  " style="fill: none; stroke: #647382; stroke-linecap: round" />
+   </g>
+   <g id="text_1">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #647382" x="365.04" y="455.987798" transform="rotate(-0 365.04 455.987798)">Attacking direction</text>
+   </g>
+   <g id="PathCollection_5">
+    <path d="M 452.533629 158.16242  C 454.045519 158.16242 455.49569 157.56174 456.564757 156.492672  C 457.633825 155.423604 458.234506 153.973433 458.234506 152.461543  C 458.234506 150.949653 457.633825 149.499482 456.564757 148.430414  C 455.49569 147.361346 454.045519 146.760666 452.533629 146.760666  C 451.021738 146.760666 449.571568 147.361346 448.5025 148.430414  C 447.433432 149.499482 446.832751 150.949653 446.832751 152.461543  C 446.832751 153.973433 447.433432 155.423604 448.5025 156.492672  C 449.571568 157.56174 451.021738 158.16242 452.533629 158.16242  L 452.533629 158.16242  z " clip-path="url(#p146c51e0f8)" style="fill: none; stroke: #203344; stroke-width: 1.5" />
+   </g>
+   <g id="patch_20">
+    <path d="M 167.582637 247.445207  Q 309.108093 200.270055 448.724361 153.731299  " style="fill: none; stroke: #203344; stroke-width: 1.8; stroke-linecap: round" />
+    <path d="M 443.854454 153.035598  L 448.724361 153.731299  L 445.245856 157.209804  " style="fill: none; stroke: #203344; stroke-width: 1.8; stroke-linecap: round" />
+   </g>
+   <g id="PathCollection_6">
+    <defs>
+     <path id="m39f19d0e94" d="M 0 -5.91608  L -1.328243 -1.828169  L -5.626526 -1.828169  L -2.149142 0.698298  L -3.477384 4.786209  L -0 2.259741  L 3.477384 4.786209  L 2.149142 0.698298  L 5.626526 -1.828169  L 1.328243 -1.828169  z " style="stroke: #ffffff; stroke-width: 0.7" />
+    </defs>
+    <g clip-path="url(#p146c51e0f8)">
+     <use xlink:href="#m39f19d0e94" x="165.687429" y="248.076943" style="fill: #203344; stroke: #ffffff; stroke-width: 0.7" />
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="text_2">
+    <text style="font-weight: 600; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="716.04" y="135.262125" transform="rotate(-0 716.04 135.262125)">Visible in this frame</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #203344" transform="translate(716.04 304.212858)">White: camera field of view</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #203344" transform="translate(716.04 321.847233)">Grey: outside camera view</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #647382" transform="translate(716.04 361.124335)">Only observed players are shown.</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #647382" transform="translate(716.04 377.124335)">Unseen positions remain unknown.</text>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_2">
+     <path d="M 708.6464 160.596441  L 719.6464 160.596441  L 730.6464 160.596441  " style="fill: none; stroke: #000000; stroke-opacity: 0; stroke-width: 1.5; stroke-linecap: square" />
+     <defs>
+      <path id="mfc6cdc5818" d="M 0 4  C 1.060812 4 2.078319 3.578535 2.828427 2.828427  C 3.578535 2.078319 4 1.060812 4 0  C 4 -1.060812 3.578535 -2.078319 2.828427 -2.828427  C 2.078319 -3.578535 1.060812 -4 0 -4  C -1.060812 -4 -2.078319 -3.578535 -2.828427 -2.828427  C -3.578535 -2.078319 -4 -1.060812 -4 0  C -4 1.060812 -3.578535 2.078319 -2.828427 2.828427  C -2.078319 3.578535 -1.060812 4 0 4  z " style="stroke: #000000" />
+     </defs>
+     <g>
+      <use xlink:href="#mfc6cdc5818" x="719.6464" y="160.596441" style="fill: #2468a0; stroke: #000000" />
+     </g>
+    </g>
+    <g id="text_5">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="738.3464" y="164.446441" transform="rotate(-0 738.3464 164.446441)">Teammates  ·  1</text>
+    </g>
+    <g id="line2d_3">
+     <path d="M 708.6464 182.597301  L 719.6464 182.597301  L 730.6464 182.597301  " style="fill: none; stroke: #000000; stroke-opacity: 0; stroke-width: 1.5; stroke-linecap: square" />
+     <defs>
+      <path id="mdff2d1921c" d="M -4 4  L 4 4  L 4 -4  L -4 -4  z " style="stroke: #000000; stroke-linejoin: miter" />
+     </defs>
+     <g>
+      <use xlink:href="#mdff2d1921c" x="719.6464" y="182.597301" style="fill: #c5722c; stroke: #000000; stroke-linejoin: miter" />
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="738.3464" y="186.447301" transform="rotate(-0 738.3464 186.447301)">Opponents  ·  0</text>
+    </g>
+    <g id="line2d_4">
+     <path d="M 708.6464 204.59816  L 719.6464 204.59816  L 730.6464 204.59816  " style="fill: none; stroke: #000000; stroke-opacity: 0; stroke-width: 1.5; stroke-linecap: square" />
+     <defs>
+      <path id="m52efab84d6" d="M 0 -5.5  L -1.234827 -1.699593  L -5.230811 -1.699593  L -1.997992 0.649187  L -3.232819 4.449593  L -0 2.100813  L 3.232819 4.449593  L 1.997992 0.649187  L 5.230811 -1.699593  L 1.234827 -1.699593  z " style="stroke: #000000; stroke-linejoin: bevel" />
+     </defs>
+     <g>
+      <use xlink:href="#m52efab84d6" x="719.6464" y="204.59816" style="fill: #203344; stroke: #000000; stroke-linejoin: bevel" />
+     </g>
+    </g>
+    <g id="text_7">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="738.3464" y="208.44816" transform="rotate(-0 738.3464 208.44816)">Pass origin</text>
+    </g>
+    <g id="line2d_5">
+     <path d="M 708.6464 226.599019  L 719.6464 226.599019  L 730.6464 226.599019  " style="fill: none; stroke: #000000; stroke-opacity: 0; stroke-width: 1.5; stroke-linecap: square" />
+     <defs>
+      <path id="m08e3f7c86f" d="M 0 4.5  C 1.193414 4.5 2.338109 4.025852 3.181981 3.181981  C 4.025852 2.338109 4.5 1.193414 4.5 0  C 4.5 -1.193414 4.025852 -2.338109 3.181981 -3.181981  C 2.338109 -4.025852 1.193414 -4.5 0 -4.5  C -1.193414 -4.5 -2.338109 -4.025852 -3.181981 -3.181981  C -4.025852 -2.338109 -4.5 -1.193414 -4.5 0  C -4.5 1.193414 -4.025852 2.338109 -3.181981 3.181981  C -2.338109 4.025852 -1.193414 4.5 0 4.5  z " style="stroke: #203344" />
+     </defs>
+     <g>
+      <use xlink:href="#m08e3f7c86f" x="719.6464" y="226.599019" style="fill-opacity: 0; stroke: #203344" />
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="738.3464" y="230.449019" transform="rotate(-0 738.3464 230.449019)">Recorded endpoint</text>
+    </g>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g clip-path="url(#p2a8a932ae2)">
+    <image xlink:href="data:image/png;base64, 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" id="image6e74f78722" transform="scale(1 -1) translate(0 -23.28)" x="894" y="-485.04" width="23.28" height="23.28" />
+   </g>
+  </g>
+  <g id="text_9">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="51.48" y="39.957188" transform="rotate(-0 51.48 39.957188)">The camera sees only part of the pitch</text>
+  </g>
+  <g id="text_10">
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #647382" x="51.48" y="63.186438" transform="rotate(-0 51.48 63.186438)">Spain  ·  Unai Simón Mendibil  ·  123:51</text>
+  </g>
+  <g id="text_11">
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #647382" transform="translate(51.48 488.213375)">Source: StatsBomb 360 / Open Data. Illustrative frame: the match's largest forward completed pass by x displacement.</text>
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #647382" transform="translate(51.48 502.713375)">Player locations are event-time snapshots, not trajectories or pitch control. Coordinates: 120 × 80 provider units.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p146c51e0f8">
+   <rect x="134.307857" y="110.376" width="461.464286" height="310.104" />
+  </clipPath>
+  <clipPath id="p2a8a932ae2">
+   <rect x="893.88" y="484.992" width="23.4" height="23.4" />
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,1816 @@
+{
+  "cohort": {
+    "by_league": {
+      "England": 123,
+      "France": 130,
+      "Germany": 90,
+      "Italy": 131,
+      "Spain": 124
+    },
+    "exposure_source": "supplied_playerank_minutes",
+    "players": 598,
+    "same_club_both_periods": true
+  },
+  "convergence": {
+    "fitted_blocks": 24,
+    "warnings": 0,
+    "zero_basis_components": 0
+  },
+  "limits": [
+    "这是同赛季前后段识别稳定性，不是论文的跨赛季复现，也不是球员能力、效率或转会潜力评分。",
+    "Wyscout 的 Ground attacking duel 用作持球进攻对抗起点，不等于原论文中的带球运输动作；不补造连续带球。定位球与门将排除。",
+    "样本按两段出场时间和同队条件筛选，结果仅适用于该闭集；球队、位置和战术的影响仍可能保留。",
+    "传球起终点是两个边际分布，不保存逐次起终点配对；没有无球活动或站位时长数据。",
+    "NMF 使用三个明确随机起点。种子范围只反映初始化差异，不是置信区间；未据后段分数选择网格、分量或平滑参数。",
+    "分量相似度先做最大总余弦的一对一匹配，只比较跨联赛共享的早段基底，零分量不计为稳定。高相似度不证明球风识别准确，也不检验时间漂移。",
+    "同位置候选池仍限定同联赛。总体指标按球员加权。每个联赛沿用同一个跨联赛早段基底，未分别拟合。"
+  ],
+  "method": "50×50 网格，每90分钟频率，Gaussian sigma=1 格；传球起点与终点分开拼接。固定 4/4/5/5 个 NMF 分量，使用 random 初始化和固定种子，基底 L1 归一化，使用 Manhattan 距离。同距名次按均匀随机排序分摊。",
+  "paper_url": "https://tomdecroos.github.io/reports/ecml19_tomd.pdf",
+  "parameters": {
+    "basis_scale": "unit_L1",
+    "distance": "Manhattan",
+    "grid": 50,
+    "minimum_minutes_each_period": 900,
+    "nmf_init": "random",
+    "nmf_max_iter": 1000,
+    "nmf_solver": "cd",
+    "nmf_tol": 0.0001,
+    "seeds": [
+      7,
+      17,
+      42
+    ],
+    "sigma_cells": 1
+  },
+  "run_id": "2c11768f44a749359760",
+  "schema": "SoccerAnalytics.SpatialStyle.v1",
+  "scope": "Wyscout 2017/18 五大联赛，同一俱乐部、两段各至少 900 分钟的非门将闭集识别。2018-01-01 前拟合热图基底，之后的动作只做转换和检索。",
+  "seed_stability": {
+    "alignment": "Maximum total cosine one-to-one matching of nonzero early-period basis components; dead components excluded.",
+    "initialization": "random",
+    "metric": "cosine",
+    "pairs": [
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999471546566,
+          0.9999993755164217,
+          0.9999997924195029,
+          0.9999995074233426
+        ],
+        "mean_cosine": 0.9999996556284809,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999993755164217,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999820294652,
+          0.9999999980259517,
+          0.9999999750685884,
+          0.9999999928986887
+        ],
+        "mean_cosine": 0.9999999870056735,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999750685884,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.999999994014655,
+          0.9999999970398598,
+          0.9999999995084528,
+          0.9999999987143566,
+          0.9999999791335464
+        ],
+        "mean_cosine": 0.9999999936821741,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999791335464,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.99999999585628,
+          0.9999999994191171,
+          0.9999999992005975,
+          0.9999999991976891,
+          0.9999999996510756
+        ],
+        "mean_cosine": 0.9999999986649518,
+        "method": "nmf_start_only",
+        "min_cosine": 0.99999999585628,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999313080637,
+          0.9999993478919768,
+          0.9999998292783635,
+          0.9999994567667376
+        ],
+        "mean_cosine": 0.9999996413112854,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999993478919768,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999846729082,
+          0.9999999988951835,
+          0.9999999769926595,
+          0.9999999960143754
+        ],
+        "mean_cosine": 0.9999999891437816,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999769926595,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.9953974154632468,
+          0.7443147334908082,
+          0.926590718549166,
+          0.9546345870611647,
+          0.5587957039561219
+        ],
+        "mean_cosine": 0.8359466317041016,
+        "method": "nmf_start_only",
+        "min_cosine": 0.5587957039561219,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.9999999708896616,
+          0.9999999973064995,
+          0.9999999967197726,
+          0.9999999954601049,
+          0.9999999992561968
+        ],
+        "mean_cosine": 0.9999999919264472,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999708896616,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999980403221,
+          0.9999999957372077,
+          0.9999999983574621,
+          0.9999999891631779
+        ],
+        "mean_cosine": 0.9999999953245424,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999891631779,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999999356071,
+          0.9999999997474331,
+          0.999999999834756,
+          0.9999999992968824
+        ],
+        "mean_cosine": 0.9999999997036697,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999992968824,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.9953898857757923,
+          0.5588760325564576,
+          0.7443078684289668,
+          0.9546265538537759,
+          0.9265939622433328
+        ],
+        "mean_cosine": 0.835958860571665,
+        "method": "nmf_start_only",
+        "min_cosine": 0.5588760325564576,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.9999999709924821,
+          0.9999999981862824,
+          0.9999999971427077,
+          0.9999999930955124,
+          0.999999998089239
+        ],
+        "mean_cosine": 0.9999999915012447,
+        "method": "nmf_start_only",
+        "min_cosine": 0.9999999709924821,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999471546566,
+          0.9999993755164217,
+          0.9999997924195029,
+          0.9999995074233426
+        ],
+        "mean_cosine": 0.9999996556284809,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999993755164217,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999820294652,
+          0.9999999980259517,
+          0.9999999750685884,
+          0.9999999928986887
+        ],
+        "mean_cosine": 0.9999999870056735,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999750685884,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.999999994014655,
+          0.9999999970398598,
+          0.9999999995084528,
+          0.9999999987143566,
+          0.9999999791335464
+        ],
+        "mean_cosine": 0.9999999936821741,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999791335464,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.9999999982130692,
+          0.9999999998222386,
+          0.9999999999217228,
+          0.9999999990893543,
+          0.9999999991260253
+        ],
+        "mean_cosine": 0.999999999234482,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999982130692,
+        "seed_a": 7,
+        "seed_b": 17,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999313080637,
+          0.9999993478919768,
+          0.9999998292783635,
+          0.9999994567667376
+        ],
+        "mean_cosine": 0.9999996413112854,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999993478919768,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999846729082,
+          0.9999999988951835,
+          0.9999999769926595,
+          0.9999999960143754
+        ],
+        "mean_cosine": 0.9999999891437816,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999769926595,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.9953974154632468,
+          0.7443147334908082,
+          0.926590718549166,
+          0.9546345870611647,
+          0.5587957039561219
+        ],
+        "mean_cosine": 0.8359466317041016,
+        "method": "nmf_start_end",
+        "min_cosine": 0.5587957039561219,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.9999999940051412,
+          0.999999999202224,
+          0.9999999997212908,
+          0.9999999980646737,
+          0.9999999973488258
+        ],
+        "mean_cosine": 0.9999999976684311,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999940051412,
+        "seed_a": 7,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "shots",
+        "matched_cosines": [
+          0.9999999980403221,
+          0.9999999957372077,
+          0.9999999983574621,
+          0.9999999891631779
+        ],
+        "mean_cosine": 0.9999999953245424,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999891631779,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 4,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "crosses",
+        "matched_cosines": [
+          0.9999999999356071,
+          0.9999999997474331,
+          0.999999999834756,
+          0.9999999992968824
+        ],
+        "mean_cosine": 0.9999999997036697,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999992968824,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "take_ons",
+        "matched_cosines": [
+          0.9953898857757923,
+          0.5588760325564576,
+          0.7443078684289668,
+          0.9546265538537759,
+          0.9265939622433328
+        ],
+        "mean_cosine": 0.835958860571665,
+        "method": "nmf_start_end",
+        "min_cosine": 0.5588760325564576,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      },
+      {
+        "components": 5,
+        "dead_components": [
+          0,
+          0
+        ],
+        "kind": "passes",
+        "matched_cosines": [
+          0.9999999984295445,
+          0.9999999999296353,
+          0.9999999997336174,
+          0.9999999994903797,
+          0.999999999787957
+        ],
+        "mean_cosine": 0.9999999994742268,
+        "method": "nmf_start_end",
+        "min_cosine": 0.9999999984295445,
+        "seed_a": 17,
+        "seed_b": 42,
+        "unassessed_pairs": 0
+      }
+    ]
+  },
+  "source": {
+    "event_zip_sha256": "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45",
+    "exposure_cache_sha256": "bfea2a8c15f729d9bfe31b9ecc739da204948b85c06a3bafb01f88c73d7d3a9c",
+    "inventory_sha256": "320dac296bc4159caf9a488c083486673a07024c7ec63119cbfc46643f01a289",
+    "provider": "Wyscout public research data",
+    "source_url": "https://doi.org/10.6084/m9.figshare.c.4415000",
+    "warehouse_signature": "76fc19748aa701a6baf6d5b0464481b606a4f586e0a75a88f3c108a3a6192ece"
+  },
+  "summary": [
+    {
+      "candidate_max": 131,
+      "candidate_min": 90,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.3732240222624955,
+        "mean": 0.3732240222624955,
+        "min": 0.3732240222624955
+      },
+      "pool": "same_league",
+      "queries": 598,
+      "random_top1": 0.008361204013377926,
+      "runs": 1,
+      "scope": "all",
+      "top1": {
+        "max": 0.21906354515050167,
+        "mean": 0.21906354515050167,
+        "min": 0.21906354515050167
+      },
+      "top5": {
+        "max": 0.5501672240802675,
+        "mean": 0.5501672240802675,
+        "min": 0.5501672240802675
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 14,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.4472566128569241,
+        "mean": 0.4472566128569241,
+        "min": 0.4472566128569241
+      },
+      "pool": "same_position",
+      "queries": 598,
+      "random_top1": 0.025083612040133776,
+      "runs": 1,
+      "scope": "all",
+      "top1": {
+        "max": 0.2826086956521739,
+        "mean": 0.2826086956521739,
+        "min": 0.2826086956521739
+      },
+      "top5": {
+        "max": 0.6622073578595318,
+        "mean": 0.6622073578595318,
+        "min": 0.6622073578595318
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 90,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.5981169433013065,
+        "mean": 0.5981169433013065,
+        "min": 0.5981169433013065
+      },
+      "pool": "same_league",
+      "queries": 598,
+      "random_top1": 0.008361204013377926,
+      "runs": 1,
+      "scope": "all",
+      "top1": {
+        "max": 0.4531772575250836,
+        "mean": 0.4531772575250836,
+        "min": 0.4531772575250836
+      },
+      "top5": {
+        "max": 0.7892976588628763,
+        "mean": 0.7892976588628763,
+        "min": 0.7892976588628763
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 14,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6351652828468917,
+        "mean": 0.6351652828468917,
+        "min": 0.6351652828468917
+      },
+      "pool": "same_position",
+      "queries": 598,
+      "random_top1": 0.025083612040133776,
+      "runs": 1,
+      "scope": "all",
+      "top1": {
+        "max": 0.49665551839464883,
+        "mean": 0.49665551839464883,
+        "min": 0.49665551839464883
+      },
+      "top5": {
+        "max": 0.8177257525083612,
+        "mean": 0.8177257525083612,
+        "min": 0.8177257525083612
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 90,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6093656803223191,
+        "mean": 0.6090862934052359,
+        "min": 0.6085275195710695
+      },
+      "pool": "same_league",
+      "queries": 598,
+      "random_top1": 0.008361204013377926,
+      "runs": 3,
+      "scope": "all",
+      "top1": {
+        "max": 0.4665551839464883,
+        "mean": 0.4643255295429209,
+        "min": 0.46321070234113715
+      },
+      "top5": {
+        "max": 0.794314381270903,
+        "mean": 0.7931995540691194,
+        "min": 0.7909698996655519
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 14,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6332837729685447,
+        "mean": 0.6319731811399484,
+        "min": 0.6293519974827559
+      },
+      "pool": "same_position",
+      "queries": 598,
+      "random_top1": 0.025083612040133776,
+      "runs": 3,
+      "scope": "all",
+      "top1": {
+        "max": 0.4899665551839465,
+        "mean": 0.48940914158305465,
+        "min": 0.4882943143812709
+      },
+      "top5": {
+        "max": 0.8093645484949833,
+        "mean": 0.8093645484949833,
+        "min": 0.8093645484949833
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 90,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.5848806912554495,
+        "mean": 0.5845872361888926,
+        "min": 0.5842790328562248
+      },
+      "pool": "same_league",
+      "queries": 598,
+      "random_top1": 0.008361204013377926,
+      "runs": 3,
+      "scope": "all",
+      "top1": {
+        "max": 0.4331103678929766,
+        "mean": 0.43199554069119284,
+        "min": 0.431438127090301
+      },
+      "top5": {
+        "max": 0.7876254180602007,
+        "mean": 0.786510590858417,
+        "min": 0.7842809364548495
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 14,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6136795366611434,
+        "mean": 0.611691434338593,
+        "min": 0.607993936493938
+      },
+      "pool": "same_position",
+      "queries": 598,
+      "random_top1": 0.025083612040133776,
+      "runs": 3,
+      "scope": "all",
+      "top1": {
+        "max": 0.46488294314381273,
+        "mean": 0.4620958751393534,
+        "min": 0.45652173913043476
+      },
+      "top5": {
+        "max": 0.8110367892976589,
+        "mean": 0.8088071348940914,
+        "min": 0.8043478260869565
+      }
+    },
+    {
+      "candidate_max": 123,
+      "candidate_min": 123,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.3751149375550139,
+        "mean": 0.3751149375550139,
+        "min": 0.3751149375550139
+      },
+      "pool": "same_league",
+      "queries": 123,
+      "random_top1": 0.00813008130081301,
+      "runs": 1,
+      "scope": "England",
+      "top1": {
+        "max": 0.21138211382113822,
+        "mean": 0.21138211382113822,
+        "min": 0.21138211382113822
+      },
+      "top5": {
+        "max": 0.5528455284552846,
+        "mean": 0.5528455284552846,
+        "min": 0.5528455284552846
+      }
+    },
+    {
+      "candidate_max": 56,
+      "candidate_min": 21,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.44917660304379786,
+        "mean": 0.44917660304379786,
+        "min": 0.44917660304379786
+      },
+      "pool": "same_position",
+      "queries": 123,
+      "random_top1": 0.02439024390243902,
+      "runs": 1,
+      "scope": "England",
+      "top1": {
+        "max": 0.2764227642276423,
+        "mean": 0.2764227642276423,
+        "min": 0.2764227642276423
+      },
+      "top5": {
+        "max": 0.6910569105691057,
+        "mean": 0.6910569105691057,
+        "min": 0.6910569105691057
+      }
+    },
+    {
+      "candidate_max": 123,
+      "candidate_min": 123,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.5978231780864591,
+        "mean": 0.5978231780864591,
+        "min": 0.5978231780864591
+      },
+      "pool": "same_league",
+      "queries": 123,
+      "random_top1": 0.00813008130081301,
+      "runs": 1,
+      "scope": "England",
+      "top1": {
+        "max": 0.45528455284552843,
+        "mean": 0.45528455284552843,
+        "min": 0.45528455284552843
+      },
+      "top5": {
+        "max": 0.7804878048780488,
+        "mean": 0.7804878048780488,
+        "min": 0.7804878048780488
+      }
+    },
+    {
+      "candidate_max": 56,
+      "candidate_min": 21,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6218778657444368,
+        "mean": 0.6218778657444368,
+        "min": 0.6218778657444368
+      },
+      "pool": "same_position",
+      "queries": 123,
+      "random_top1": 0.02439024390243902,
+      "runs": 1,
+      "scope": "England",
+      "top1": {
+        "max": 0.4796747967479675,
+        "mean": 0.4796747967479675,
+        "min": 0.4796747967479675
+      },
+      "top5": {
+        "max": 0.7967479674796748,
+        "mean": 0.7967479674796748,
+        "min": 0.7967479674796748
+      }
+    },
+    {
+      "candidate_max": 123,
+      "candidate_min": 123,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.5763184018719647,
+        "mean": 0.5696080503003028,
+        "min": 0.5662528745144718
+      },
+      "pool": "same_league",
+      "queries": 123,
+      "random_top1": 0.00813008130081301,
+      "runs": 3,
+      "scope": "England",
+      "top1": {
+        "max": 0.43089430894308944,
+        "mean": 0.4146341463414634,
+        "min": 0.4065040650406504
+      },
+      "top5": {
+        "max": 0.7560975609756098,
+        "mean": 0.7506775067750677,
+        "min": 0.7398373983739838
+      }
+    },
+    {
+      "candidate_max": 56,
+      "candidate_min": 21,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.5891332730542698,
+        "mean": 0.5865402273452821,
+        "min": 0.5852437044907882
+      },
+      "pool": "same_position",
+      "queries": 123,
+      "random_top1": 0.02439024390243902,
+      "runs": 3,
+      "scope": "England",
+      "top1": {
+        "max": 0.43902439024390244,
+        "mean": 0.4281842818428185,
+        "min": 0.42276422764227645
+      },
+      "top5": {
+        "max": 0.7804878048780488,
+        "mean": 0.7777777777777778,
+        "min": 0.7723577235772358
+      }
+    },
+    {
+      "candidate_max": 123,
+      "candidate_min": 123,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.5392336256316121,
+        "mean": 0.5384167294895127,
+        "min": 0.5380082814184629
+      },
+      "pool": "same_league",
+      "queries": 123,
+      "random_top1": 0.00813008130081301,
+      "runs": 3,
+      "scope": "England",
+      "top1": {
+        "max": 0.37398373983739835,
+        "mean": 0.37398373983739835,
+        "min": 0.37398373983739835
+      },
+      "top5": {
+        "max": 0.7642276422764228,
+        "mean": 0.7588075880758808,
+        "min": 0.7479674796747967
+      }
+    },
+    {
+      "candidate_max": 56,
+      "candidate_min": 21,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.5583824407790473,
+        "mean": 0.5574693520610805,
+        "min": 0.5556431746251469
+      },
+      "pool": "same_position",
+      "queries": 123,
+      "random_top1": 0.02439024390243902,
+      "runs": 3,
+      "scope": "England",
+      "top1": {
+        "max": 0.3902439024390244,
+        "mean": 0.39024390243902446,
+        "min": 0.3902439024390244
+      },
+      "top5": {
+        "max": 0.7886178861788617,
+        "mean": 0.7831978319783198,
+        "min": 0.7723577235772358
+      }
+    },
+    {
+      "candidate_max": 130,
+      "candidate_min": 130,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.34930320464917375,
+        "mean": 0.34930320464917375,
+        "min": 0.34930320464917375
+      },
+      "pool": "same_league",
+      "queries": 130,
+      "random_top1": 0.007692307692307693,
+      "runs": 1,
+      "scope": "France",
+      "top1": {
+        "max": 0.19230769230769232,
+        "mean": 0.19230769230769232,
+        "min": 0.19230769230769232
+      },
+      "top5": {
+        "max": 0.5384615384615384,
+        "mean": 0.5384615384615384,
+        "min": 0.5384615384615384
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 24,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.41523881382290884,
+        "mean": 0.41523881382290884,
+        "min": 0.41523881382290884
+      },
+      "pool": "same_position",
+      "queries": 130,
+      "random_top1": 0.023076923076923078,
+      "runs": 1,
+      "scope": "France",
+      "top1": {
+        "max": 0.25384615384615383,
+        "mean": 0.25384615384615383,
+        "min": 0.25384615384615383
+      },
+      "top5": {
+        "max": 0.6230769230769231,
+        "mean": 0.6230769230769231,
+        "min": 0.6230769230769231
+      }
+    },
+    {
+      "candidate_max": 130,
+      "candidate_min": 130,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.5429656720855816,
+        "mean": 0.5429656720855816,
+        "min": 0.5429656720855816
+      },
+      "pool": "same_league",
+      "queries": 130,
+      "random_top1": 0.007692307692307693,
+      "runs": 1,
+      "scope": "France",
+      "top1": {
+        "max": 0.36153846153846153,
+        "mean": 0.36153846153846153,
+        "min": 0.36153846153846153
+      },
+      "top5": {
+        "max": 0.7615384615384615,
+        "mean": 0.7615384615384615,
+        "min": 0.7615384615384615
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 24,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.5958307428015666,
+        "mean": 0.5958307428015666,
+        "min": 0.5958307428015666
+      },
+      "pool": "same_position",
+      "queries": 130,
+      "random_top1": 0.023076923076923078,
+      "runs": 1,
+      "scope": "France",
+      "top1": {
+        "max": 0.4307692307692308,
+        "mean": 0.4307692307692308,
+        "min": 0.4307692307692308
+      },
+      "top5": {
+        "max": 0.8,
+        "mean": 0.8,
+        "min": 0.8
+      }
+    },
+    {
+      "candidate_max": 130,
+      "candidate_min": 130,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6051835194056125,
+        "mean": 0.6042198262911097,
+        "min": 0.6022924400621041
+      },
+      "pool": "same_league",
+      "queries": 130,
+      "random_top1": 0.007692307692307693,
+      "runs": 3,
+      "scope": "France",
+      "top1": {
+        "max": 0.46153846153846156,
+        "mean": 0.4615384615384615,
+        "min": 0.46153846153846156
+      },
+      "top5": {
+        "max": 0.7923076923076923,
+        "mean": 0.7897435897435897,
+        "min": 0.7846153846153846
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 24,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6275844124915332,
+        "mean": 0.6269524518595726,
+        "min": 0.6256885305956513
+      },
+      "pool": "same_position",
+      "queries": 130,
+      "random_top1": 0.023076923076923078,
+      "runs": 3,
+      "scope": "France",
+      "top1": {
+        "max": 0.4846153846153846,
+        "mean": 0.4846153846153846,
+        "min": 0.4846153846153846
+      },
+      "top5": {
+        "max": 0.8076923076923077,
+        "mean": 0.8076923076923078,
+        "min": 0.8076923076923077
+      }
+    },
+    {
+      "candidate_max": 130,
+      "candidate_min": 130,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6001505694285673,
+        "mean": 0.5984601813597855,
+        "min": 0.5976149873253945
+      },
+      "pool": "same_league",
+      "queries": 130,
+      "random_top1": 0.007692307692307693,
+      "runs": 3,
+      "scope": "France",
+      "top1": {
+        "max": 0.46153846153846156,
+        "mean": 0.4564102564102564,
+        "min": 0.45384615384615384
+      },
+      "top5": {
+        "max": 0.7692307692307693,
+        "mean": 0.764102564102564,
+        "min": 0.7615384615384615
+      }
+    },
+    {
+      "candidate_max": 64,
+      "candidate_min": 24,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6296304286338553,
+        "mean": 0.6290578993113259,
+        "min": 0.6279128406662672
+      },
+      "pool": "same_position",
+      "queries": 130,
+      "random_top1": 0.023076923076923078,
+      "runs": 3,
+      "scope": "France",
+      "top1": {
+        "max": 0.49230769230769234,
+        "mean": 0.49230769230769234,
+        "min": 0.49230769230769234
+      },
+      "top5": {
+        "max": 0.7923076923076923,
+        "mean": 0.7871794871794872,
+        "min": 0.7846153846153846
+      }
+    },
+    {
+      "candidate_max": 90,
+      "candidate_min": 90,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.35576408433315887,
+        "mean": 0.35576408433315887,
+        "min": 0.35576408433315887
+      },
+      "pool": "same_league",
+      "queries": 90,
+      "random_top1": 0.011111111111111112,
+      "runs": 1,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.2222222222222222,
+        "mean": 0.2222222222222222,
+        "min": 0.2222222222222222
+      },
+      "top5": {
+        "max": 0.4777777777777778,
+        "mean": 0.4777777777777778,
+        "min": 0.4777777777777778
+      }
+    },
+    {
+      "candidate_max": 47,
+      "candidate_min": 14,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.4418809797492906,
+        "mean": 0.4418809797492906,
+        "min": 0.4418809797492906
+      },
+      "pool": "same_position",
+      "queries": 90,
+      "random_top1": 0.03333333333333333,
+      "runs": 1,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.3111111111111111,
+        "mean": 0.3111111111111111,
+        "min": 0.3111111111111111
+      },
+      "top5": {
+        "max": 0.5777777777777777,
+        "mean": 0.5777777777777777,
+        "min": 0.5777777777777777
+      }
+    },
+    {
+      "candidate_max": 90,
+      "candidate_min": 90,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.5382536998991801,
+        "mean": 0.5382536998991801,
+        "min": 0.5382536998991801
+      },
+      "pool": "same_league",
+      "queries": 90,
+      "random_top1": 0.011111111111111112,
+      "runs": 1,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.36666666666666664,
+        "mean": 0.36666666666666664,
+        "min": 0.36666666666666664
+      },
+      "top5": {
+        "max": 0.7777777777777778,
+        "mean": 0.7777777777777778,
+        "min": 0.7777777777777778
+      }
+    },
+    {
+      "candidate_max": 47,
+      "candidate_min": 14,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6157219112284472,
+        "mean": 0.6157219112284472,
+        "min": 0.6157219112284472
+      },
+      "pool": "same_position",
+      "queries": 90,
+      "random_top1": 0.03333333333333333,
+      "runs": 1,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.4666666666666667,
+        "mean": 0.4666666666666667,
+        "min": 0.4666666666666667
+      },
+      "top5": {
+        "max": 0.8222222222222222,
+        "mean": 0.8222222222222222,
+        "min": 0.8222222222222222
+      }
+    },
+    {
+      "candidate_max": 90,
+      "candidate_min": 90,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6234668205590258,
+        "mean": 0.6195020585791483,
+        "min": 0.6115725346193932
+      },
+      "pool": "same_league",
+      "queries": 90,
+      "random_top1": 0.011111111111111112,
+      "runs": 3,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.4888888888888889,
+        "mean": 0.48518518518518516,
+        "min": 0.4777777777777778
+      },
+      "top5": {
+        "max": 0.8,
+        "mean": 0.7925925925925926,
+        "min": 0.7888888888888889
+      }
+    },
+    {
+      "candidate_max": 47,
+      "candidate_min": 14,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6598419064595535,
+        "mean": 0.6561030097958203,
+        "min": 0.6486252164683537
+      },
+      "pool": "same_position",
+      "queries": 90,
+      "random_top1": 0.03333333333333333,
+      "runs": 3,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.5333333333333333,
+        "mean": 0.5296296296296297,
+        "min": 0.5222222222222223
+      },
+      "top5": {
+        "max": 0.8222222222222222,
+        "mean": 0.8074074074074075,
+        "min": 0.8
+      }
+    },
+    {
+      "candidate_max": 90,
+      "candidate_min": 90,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.5790099287541987,
+        "mean": 0.5755808541738082,
+        "min": 0.5687227050130275
+      },
+      "pool": "same_league",
+      "queries": 90,
+      "random_top1": 0.011111111111111112,
+      "runs": 3,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.4111111111111111,
+        "mean": 0.41111111111111115,
+        "min": 0.4111111111111111
+      },
+      "top5": {
+        "max": 0.8,
+        "mean": 0.7962962962962963,
+        "min": 0.7888888888888889
+      }
+    },
+    {
+      "candidate_max": 47,
+      "candidate_min": 14,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6279751362910755,
+        "mean": 0.6217423053360224,
+        "min": 0.6092766434259159
+      },
+      "pool": "same_position",
+      "queries": 90,
+      "random_top1": 0.03333333333333333,
+      "runs": 3,
+      "scope": "Germany",
+      "top1": {
+        "max": 0.4777777777777778,
+        "mean": 0.4703703703703704,
+        "min": 0.45555555555555555
+      },
+      "top5": {
+        "max": 0.8111111111111111,
+        "mean": 0.8074074074074075,
+        "min": 0.8
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 131,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.38201917900143795,
+        "mean": 0.38201917900143795,
+        "min": 0.38201917900143795
+      },
+      "pool": "same_league",
+      "queries": 131,
+      "random_top1": 0.007633587786259542,
+      "runs": 1,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.2366412213740458,
+        "mean": 0.2366412213740458,
+        "min": 0.2366412213740458
+      },
+      "top5": {
+        "max": 0.5801526717557252,
+        "mean": 0.5801526717557252,
+        "min": 0.5801526717557252
+      }
+    },
+    {
+      "candidate_max": 54,
+      "candidate_min": 27,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.46210466755192453,
+        "mean": 0.46210466755192453,
+        "min": 0.46210466755192453
+      },
+      "pool": "same_position",
+      "queries": 131,
+      "random_top1": 0.022900763358778626,
+      "runs": 1,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.2900763358778626,
+        "mean": 0.2900763358778626,
+        "min": 0.2900763358778626
+      },
+      "top5": {
+        "max": 0.6793893129770993,
+        "mean": 0.6793893129770993,
+        "min": 0.6793893129770993
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 131,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6534160848961614,
+        "mean": 0.6534160848961614,
+        "min": 0.6534160848961614
+      },
+      "pool": "same_league",
+      "queries": 131,
+      "random_top1": 0.007633587786259542,
+      "runs": 1,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.549618320610687,
+        "mean": 0.549618320610687,
+        "min": 0.549618320610687
+      },
+      "top5": {
+        "max": 0.7786259541984732,
+        "mean": 0.7786259541984732,
+        "min": 0.7786259541984732
+      }
+    },
+    {
+      "candidate_max": 54,
+      "candidate_min": 27,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6852835114569353,
+        "mean": 0.6852835114569353,
+        "min": 0.6852835114569353
+      },
+      "pool": "same_position",
+      "queries": 131,
+      "random_top1": 0.022900763358778626,
+      "runs": 1,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.5877862595419847,
+        "mean": 0.5877862595419847,
+        "min": 0.5877862595419847
+      },
+      "top5": {
+        "max": 0.8015267175572519,
+        "mean": 0.8015267175572519,
+        "min": 0.8015267175572519
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 131,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6136608353324965,
+        "mean": 0.6117176923542421,
+        "min": 0.610746120865115
+      },
+      "pool": "same_league",
+      "queries": 131,
+      "random_top1": 0.007633587786259542,
+      "runs": 3,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.4732824427480916,
+        "mean": 0.47328244274809156,
+        "min": 0.4732824427480916
+      },
+      "top5": {
+        "max": 0.8091603053435115,
+        "mean": 0.8091603053435114,
+        "min": 0.8091603053435115
+      }
+    },
+    {
+      "candidate_max": 54,
+      "candidate_min": 27,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6381657495824536,
+        "mean": 0.636068861787317,
+        "min": 0.6318750861970439
+      },
+      "pool": "same_position",
+      "queries": 131,
+      "random_top1": 0.022900763358778626,
+      "runs": 3,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.5038167938931297,
+        "mean": 0.4987277353689567,
+        "min": 0.48854961832061067
+      },
+      "top5": {
+        "max": 0.8244274809160306,
+        "mean": 0.8218829516539441,
+        "min": 0.816793893129771
+      }
+    },
+    {
+      "candidate_max": 131,
+      "candidate_min": 131,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.5845726104695036,
+        "mean": 0.5794745519520862,
+        "min": 0.5769255226933775
+      },
+      "pool": "same_league",
+      "queries": 131,
+      "random_top1": 0.007633587786259542,
+      "runs": 3,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.44274809160305345,
+        "mean": 0.43256997455470736,
+        "min": 0.42748091603053434
+      },
+      "top5": {
+        "max": 0.7862595419847328,
+        "mean": 0.7862595419847328,
+        "min": 0.7862595419847328
+      }
+    },
+    {
+      "candidate_max": 54,
+      "candidate_min": 27,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6094090516463664,
+        "mean": 0.608610168595575,
+        "min": 0.6082107270701793
+      },
+      "pool": "same_position",
+      "queries": 131,
+      "random_top1": 0.022900763358778626,
+      "runs": 3,
+      "scope": "Italy",
+      "top1": {
+        "max": 0.46564885496183206,
+        "mean": 0.46564885496183206,
+        "min": 0.46564885496183206
+      },
+      "top5": {
+        "max": 0.8320610687022901,
+        "mean": 0.8269720101781171,
+        "min": 0.816793893129771
+      }
+    },
+    {
+      "candidate_max": 124,
+      "candidate_min": 124,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.39980751088822847,
+        "mean": 0.39980751088822847,
+        "min": 0.39980751088822847
+      },
+      "pool": "same_league",
+      "queries": 124,
+      "random_top1": 0.008064516129032254,
+      "runs": 1,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.23387096774193547,
+        "mean": 0.23387096774193547,
+        "min": 0.23387096774193547
+      },
+      "top5": {
+        "max": 0.5806451612903226,
+        "mean": 0.5806451612903226,
+        "min": 0.5806451612903226
+      }
+    },
+    {
+      "candidate_max": 52,
+      "candidate_min": 21,
+      "features": 4,
+      "method": "frequency",
+      "mrr": {
+        "max": 0.46713457169626654,
+        "mean": 0.46713457169626654,
+        "min": 0.46713457169626654
+      },
+      "pool": "same_position",
+      "queries": 124,
+      "random_top1": 0.024193548387096763,
+      "runs": 1,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.2903225806451613,
+        "mean": 0.2903225806451613,
+        "min": 0.2903225806451613
+      },
+      "top5": {
+        "max": 0.717741935483871,
+        "mean": 0.717741935483871,
+        "min": 0.717741935483871
+      }
+    },
+    {
+      "candidate_max": 124,
+      "candidate_min": 124,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6412564815007888,
+        "mean": 0.6412564815007888,
+        "min": 0.6412564815007888
+      },
+      "pool": "same_league",
+      "queries": 124,
+      "random_top1": 0.008064516129032254,
+      "runs": 1,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.5080645161290323,
+        "mean": 0.5080645161290323,
+        "min": 0.5080645161290323
+      },
+      "top5": {
+        "max": 0.8467741935483871,
+        "mean": 0.8467741935483871,
+        "min": 0.8467741935483871
+      }
+    },
+    {
+      "candidate_max": 52,
+      "candidate_min": 21,
+      "features": 12500,
+      "method": "heatmaps",
+      "mrr": {
+        "max": 0.6507480087117183,
+        "mean": 0.6507480087117183,
+        "min": 0.6507480087117183
+      },
+      "pool": "same_position",
+      "queries": 124,
+      "random_top1": 0.024193548387096763,
+      "runs": 1,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.5080645161290323,
+        "mean": 0.5080645161290323,
+        "min": 0.5080645161290323
+      },
+      "top5": {
+        "max": 0.8709677419354839,
+        "mean": 0.8709677419354839,
+        "min": 0.8709677419354839
+      }
+    },
+    {
+      "candidate_max": 124,
+      "candidate_min": 124,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6448222585572156,
+        "mean": 0.6430083296856491,
+        "min": 0.6393804719425162
+      },
+      "pool": "same_league",
+      "queries": 124,
+      "random_top1": 0.008064516129032254,
+      "runs": 3,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.49193548387096775,
+        "mean": 0.49193548387096775,
+        "min": 0.49193548387096775
+      },
+      "top5": {
+        "max": 0.8225806451612904,
+        "mean": 0.8225806451612904,
+        "min": 0.8225806451612904
+      }
+    },
+    {
+      "candidate_max": 52,
+      "candidate_min": 21,
+      "features": 18,
+      "method": "nmf_start_only",
+      "mrr": {
+        "max": 0.6624779208246951,
+        "mean": 0.6604629341992957,
+        "min": 0.656432960948497
+      },
+      "pool": "same_position",
+      "queries": 124,
+      "random_top1": 0.024193548387096763,
+      "runs": 3,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.5161290322580645,
+        "mean": 0.5161290322580645,
+        "min": 0.5161290322580645
+      },
+      "top5": {
+        "max": 0.8306451612903226,
+        "mean": 0.8306451612903226,
+        "min": 0.8306451612903226
+      }
+    },
+    {
+      "candidate_max": 124,
+      "candidate_min": 124,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6306899140586791,
+        "mean": 0.6277793770613677,
+        "min": 0.6233023890882501
+      },
+      "pool": "same_league",
+      "queries": 124,
+      "random_top1": 0.008064516129032254,
+      "runs": 3,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.4838709677419355,
+        "mean": 0.478494623655914,
+        "min": 0.46774193548387094
+      },
+      "top5": {
+        "max": 0.8306451612903226,
+        "mean": 0.8306451612903226,
+        "min": 0.8306451612903226
+      }
+    },
+    {
+      "candidate_max": 52,
+      "candidate_min": 21,
+      "features": 18,
+      "method": "nmf_start_end",
+      "mrr": {
+        "max": 0.6472096731673345,
+        "mean": 0.6432296851147657,
+        "min": 0.6366137950311338
+      },
+      "pool": "same_position",
+      "queries": 124,
+      "random_top1": 0.024193548387096763,
+      "runs": 3,
+      "scope": "Spain",
+      "top1": {
+        "max": 0.5,
+        "mean": 0.49193548387096775,
+        "min": 0.47580645161290325
+      },
+      "top5": {
+        "max": 0.8387096774193549,
+        "mean": 0.8387096774193549,
+        "min": 0.8387096774193549
+      }
+    }
+  ],
+  "windows": {
+    "early": {
+      "end": "2017-12-31",
+      "start": "2017-08-04"
+    },
+    "late": {
+      "end": "2018-05-20",
+      "start": "2018-01-01"
+    }
+  }
+}

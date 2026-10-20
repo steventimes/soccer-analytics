@@ -1,0 +1,77 @@
+{
+  "schema": "SoccerAnalytics.PassInputTimingAudit.v1",
+  "generated_at": "2026-10-15T22:13:53.610364+00:00",
+  "source": {
+    "provider": "wyscout",
+    "season": "2017/18",
+    "periods": [
+      "1H",
+      "2H"
+    ],
+    "ordering": [
+      "period",
+      "seconds",
+      "row_number"
+    ],
+    "corpus_sha256": "1a657cb22b0d27b29d3018883d9879417375c38f86ca60abe455d024b8e1afb9"
+  },
+  "counts": {
+    "matches": 1826,
+    "event_rows": 3071395,
+    "pass_sequences": 1565354,
+    "England": 380,
+    "changed_label_elements": 176506,
+    "mutated_matches": 102,
+    "mutated_pass_sequences": 88491,
+    "France": 380,
+    "Germany": 306,
+    "Italy": 380,
+    "Spain": 380
+  },
+  "checks": {
+    "sorted_input_arrays_and_labels_exactly_preserved": true,
+    "baseline_arrays_sha256": "3f08a6751fcf6c137f98b24f5129a00ec599f8baa28acfaa1e9a8c4c044e2af2",
+    "current_arrays_sha256": "3f08a6751fcf6c137f98b24f5129a00ec599f8baa28acfaa1e9a8c4c044e2af2",
+    "post_execution_mutations_preserve_inputs": true,
+    "future_append_preserves_prefix": true,
+    "database_size_and_mtime_unchanged": true,
+    "model_training": false,
+    "model_scores_recomputed": false
+  },
+  "code": {
+    "baseline_sha256": "783ae4bdc40bd06532eb3ed93e7c0857aec5b64df2096941933947371e996f3f",
+    "current_sha256": "739aabfeeb45048a7bb9619f32a148517f01e8ee6e1999e9cd24487b9f79ee50",
+    "audit_sha256": "4b0c653d805c6c7f7952cfc614b6b65d7305f18bc2c68a44b02fb59e3bddd030"
+  },
+  "limits": [
+    "Metamorphic mutations cover deterministic evenly spaced matches, not every match.",
+    "Endpoint/outcome eligibility for the joint completion/displacement task is retained.",
+    "Tied source clocks retain row order; this is not proof of physical or feed availability order.",
+    "No author R pipeline reproduction, future-season evaluation, whole warehouse integrity scan, or forecast/model replacement."
+  ],
+  "elapsed_seconds": 111.338,
+  "run_id": "97d59042a6181e1e",
+  "input_contract": {
+    "features": [
+      "current and previous event types",
+      "observed event starts",
+      "relative elapsed time",
+      "same/opponent team relation"
+    ],
+    "labels": [
+      "recorded pass completion",
+      "endpoint minus origin x displacement"
+    ],
+    "boundaries": [
+      "match ID",
+      "match period"
+    ],
+    "clock_rule": "Nondecreasing accepted-start clocks within a match period; tied clocks retain supplied row order."
+  },
+  "reference": {
+    "paper_id": "peters-temporal-leakage-2026",
+    "doi": "10.1080/02701367.2026.2677718",
+    "source_url": "https://repository.mdx.ac.uk/item/36873v",
+    "relationship": "Motivated feature-timing audit; local Wyscout evidence is distinct from the paper StatsBomb360 experiment."
+  }
+}

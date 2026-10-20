@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-10-11",
+  "series": [
+    {
+      "series": "fcwc2025",
+      "parsed_matches": 63,
+      "expected_matches": 63,
+      "metric_rows": 7182,
+      "physical_player_rows": 1998,
+      "errors": [],
+      "scope": "Official report-level metrics. Missing fields are not zero; phase shares are retained without forcing their sum to100. Controlled possession retains the third in-contest state.",
+      "downloaded_report_count": 63,
+      "download_errors": [],
+      "index_urls": [
+        "https://www.fifatrainingcentre.com/en/game/tournaments/fcwc/2025/post-match-summary-reports.php"
+      ],
+      "downloaded_at": "2026-10-11T04:21:27.919930+00:00",
+      "downloaded_pdf_bytes": 319997713,
+      "manifest_sha256": "6da3e8692e18e53122ac2aabc5efa33855dddf50e8e6f2314bf73c20177b7b32"
+    },
+    {
+      "series": "fwc2026",
+      "parsed_matches": 104,
+      "expected_matches": 104,
+      "metric_rows": 11856,
+      "physical_player_rows": 3289,
+      "errors": [],
+      "scope": "Official report-level metrics. Missing fields are not zero; phase shares are retained without forcing their sum to100. Controlled possession retains the third in-contest state.",
+      "downloaded_report_count": 104,
+      "download_errors": [],
+      "index_urls": [
+        "https://www.fifatrainingcentre.com/en/fifa-world-cup-2026/match-report-hub.php",
+        "https://www.fifatrainingcentre.com/en/fifa-world-cup-2026/match-report-hub-knockout-stage.php"
+      ],
+      "downloaded_at": "2026-10-11T04:22:25.571609+00:00",
+      "downloaded_pdf_bytes": 599908802,
+      "manifest_sha256": "b664b1bea9da36198fe42ad57b20857ae4c1f838a6b08a9758616c0c9eb43d5a"
+    }
+  ],
+  "metrics_definition": "Whole-match official report metrics, units and page anchors retained in SQLite; not raw continuous tracking.",
+  "physical_count_labels": "Labels change within CWC2025. Stored by source page as Zone4/Zone5 or Zone3/Zones4&5; do not pool the counts."
+}

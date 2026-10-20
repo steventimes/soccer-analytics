@@ -1,0 +1,676 @@
+{
+  "access_limits": {
+    "clubelo": "HTTP 502; HTTPS fallback connection timeout",
+    "fbref": "HTTP 403 verification page",
+    "sofascore": "HTTP 403 on official anonymous competition directory",
+    "whoscored": "HTTP 403 verification page"
+  },
+  "collection_sha256": {
+    "espn_core": "045a864810f79407e736273684f3523915bff7eeda675cbda34cded636e738c0",
+    "espn_other_clubs": "20c6beca002e9a8cafad0e9f5c0aa0811108f19ac0e46879c59e47048cacb728",
+    "national": "d6b732912980fca810e998c57af9846064dd91268e25c6d312ec905d8f0ada6d",
+    "openfootball": "eb2566c2c2bebcc37bb32ac9b98b520ad4cccf03913caeb66da2f930150a9355",
+    "understat": "d43fde1c443d16b9a561207c28a35bb690a94a6414c1cf56033c80f8aae53e34"
+  },
+  "espn": {
+    "club_finished": 595,
+    "club_observations": 596,
+    "club_summary_records": 595,
+    "competitions": [
+      {
+        "competition": "eng.1",
+        "date_end": "2026-10-12",
+        "date_start": "2026-08-21",
+        "finished": 60,
+        "other_statuses": {},
+        "summary_records": 60
+      },
+      {
+        "competition": "eng.2",
+        "date_end": "2026-10-14",
+        "date_start": "2026-08-14",
+        "finished": 119,
+        "other_statuses": {},
+        "summary_records": 119
+      },
+      {
+        "competition": "esp.1",
+        "date_end": "2026-10-12",
+        "date_start": "2026-08-15",
+        "finished": 78,
+        "other_statuses": {
+          "STATUS_ABANDONED": 1
+        },
+        "summary_records": 78
+      },
+      {
+        "competition": "fra.1",
+        "date_end": "2026-10-11",
+        "date_start": "2026-08-21",
+        "finished": 54,
+        "other_statuses": {},
+        "summary_records": 54
+      },
+      {
+        "competition": "ger.1",
+        "date_end": "2026-10-11",
+        "date_start": "2026-08-28",
+        "finished": 45,
+        "other_statuses": {},
+        "summary_records": 45
+      },
+      {
+        "competition": "ita.1",
+        "date_end": "2026-10-12",
+        "date_start": "2026-08-22",
+        "finished": 60,
+        "other_statuses": {},
+        "summary_records": 60
+      },
+      {
+        "competition": "ned.1",
+        "date_end": "2026-10-11",
+        "date_start": "2026-08-07",
+        "finished": 72,
+        "other_statuses": {},
+        "summary_records": 72
+      },
+      {
+        "competition": "por.1",
+        "date_end": "2026-10-12",
+        "date_start": "2026-08-07",
+        "finished": 71,
+        "other_statuses": {},
+        "summary_records": 71
+      },
+      {
+        "competition": "uefa.champions",
+        "date_end": "2026-10-14",
+        "date_start": "2026-09-08",
+        "finished": 36,
+        "other_statuses": {},
+        "summary_records": 36
+      }
+    ],
+    "data_grain": [
+      "results",
+      "team_statistics",
+      "rosters",
+      "key_events",
+      "commentary"
+    ],
+    "not_provided": [
+      "vendor_xg",
+      "complete_pass_event_data",
+      "continuous_tracking"
+    ],
+    "source_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates=20261014&limit=100",
+    "ucl_latest_round_dates": [
+      "2026-10-13",
+      "2026-10-14"
+    ],
+    "ucl_latest_round_finished": 18
+  },
+  "football_csv": {
+    "competitions": [
+      {
+        "competition": "PL",
+        "date_end": "2026-10-12",
+        "rows": 60,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "ELC",
+        "date_end": "2026-10-11",
+        "rows": 107,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "BL1",
+        "date_end": "2026-10-11",
+        "rows": 45,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "PD",
+        "date_end": "2026-10-12",
+        "rows": 78,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SA",
+        "date_end": "2026-10-12",
+        "rows": 60,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "FL1",
+        "date_end": "2026-10-11",
+        "rows": 54,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "PPL",
+        "date_end": "2026-10-12",
+        "rows": 71,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "DED",
+        "date_end": "2026-10-11",
+        "rows": 72,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "EL1",
+        "date_end": "2026-10-10",
+        "rows": 102,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "EL2",
+        "date_end": "2026-10-10",
+        "rows": 114,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "ENL",
+        "date_end": "2026-10-10",
+        "rows": 155,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SPL",
+        "date_end": "2026-10-11",
+        "rows": 48,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SCC",
+        "date_end": "2026-10-10",
+        "rows": 47,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SL1",
+        "date_end": "2026-10-10",
+        "rows": 49,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SL2",
+        "date_end": "2026-10-10",
+        "rows": 50,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "BL2",
+        "date_end": "2026-10-11",
+        "rows": 63,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SB",
+        "date_end": "2026-10-11",
+        "rows": 60,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "SD",
+        "date_end": "2026-10-12",
+        "rows": 99,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "FL2",
+        "date_end": "2026-10-12",
+        "rows": 72,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "BPL",
+        "date_end": "2026-10-11",
+        "rows": 72,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "TSL",
+        "date_end": "2026-10-12",
+        "rows": 63,
+        "season": "2026/2027"
+      },
+      {
+        "competition": "GSL",
+        "date_end": "2026-10-12",
+        "rows": 42,
+        "season": "2026/2027"
+      }
+    ],
+    "finished": 1583,
+    "leagues": 22,
+    "new_to_previous_archive": 198,
+    "source_url": "https://www.football-data.co.uk/downloadm.php"
+  },
+  "national_recent": {
+    "added_to_latest_view": {
+      "espn": 18
+    },
+    "date_end": "2026-10-14",
+    "date_start": "2026-10-11",
+    "finished": 18,
+    "note": "Male and youth source daily scoreboards returned no records within the requested four-day window; this is a bounded provider observation.",
+    "observations": 20,
+    "populations": {
+      "national/female/senior": 20
+    },
+    "statuses": {
+      "FINISHED": 18,
+      "STATUS_CANCELED": 1,
+      "STATUS_POSTPONED": 1
+    }
+  },
+  "observed_at": "2026-10-14T21:45:20.046474+00:00",
+  "openfootball": {
+    "attempted_mapped_leagues": 18,
+    "available": 8,
+    "errors": [
+      {
+        "code": "DataSourceError",
+        "competition": "EL1",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "EL2",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "SPL",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "BL2",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "SB",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "SD",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "FL2",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "BPL",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "TSL",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      },
+      {
+        "code": "DataSourceError",
+        "competition": "GSL",
+        "message": "openfootball: HTTP 404",
+        "season": "2026",
+        "source": "openfootball"
+      }
+    ],
+    "finished": 470,
+    "latest_completed_date": "2026-09-20",
+    "source_url": "https://github.com/openfootball/football.json",
+    "status": "Fetched anew; upstream current-season results remain stale and are not treated as October completeness."
+  },
+  "schema": 1,
+  "scope": "Counts remain separate by provider. Completed matches, abandoned/cancelled fixtures and future schedules are distinct. Sources overlap and counts cannot be summed into a global unique-match total.",
+  "season": "2026/2027",
+  "unchanged_samples": {
+    "international_results": "Upstream HEAD unchanged; local 49945 raw results end 2026-10-06.",
+    "skillcorner": "Upstream HEAD and 20-match metadata match local 2024/25 archive; no new current-season tracking.",
+    "statsbomb_hudl": "Upstream HEAD and competition-season metadata match local archive; no 2026/27 open events."
+  },
+  "understat": {
+    "completed_matches": 297,
+    "details_covered_completed_match_ids": 297,
+    "leagues": [
+      {
+        "completed_date_max": "2026-10-12 19:00:00",
+        "completed_date_min": "2026-08-21 19:00:00",
+        "completed_matches": 60,
+        "future_or_unfinished_matches": 320,
+        "html_title": "EPL xG Table and Scorers for the 2026/2027 season | Understat.com",
+        "league": "ENG-Premier League",
+        "new_completed_max_days_after_old": 141,
+        "official_page": "https://understat.com/league/EPL/2026",
+        "official_public_api": "https://understat.com/getLeagueData/EPL/2026",
+        "player_rows": 436,
+        "previous_latest_completed_date": "2026-05-24 15:00:00",
+        "schedule_date_max": "2027-05-30 15:00:00",
+        "schedule_rows": 380,
+        "team_match_rows": 60,
+        "xg_buildup_finite_rows": 436,
+        "xg_chain_finite_rows": 436
+      },
+      {
+        "completed_date_max": "2026-10-12 19:00:00",
+        "completed_date_min": "2026-08-15 17:30:00",
+        "completed_matches": 78,
+        "future_or_unfinished_matches": 302,
+        "html_title": "La liga xG Table and Scorers for the 2026/2027 season | Understat.com",
+        "league": "ESP-La Liga",
+        "new_completed_max_days_after_old": 141,
+        "official_page": "https://understat.com/league/La_liga/2026",
+        "official_public_api": "https://understat.com/getLeagueData/La_liga/2026",
+        "player_rows": 470,
+        "previous_latest_completed_date": "2026-05-24 19:00:00",
+        "schedule_date_max": "2027-05-30 15:00:00",
+        "schedule_rows": 380,
+        "team_match_rows": 78,
+        "xg_buildup_finite_rows": 470,
+        "xg_chain_finite_rows": 470
+      },
+      {
+        "completed_date_max": "2026-10-11 18:45:00",
+        "completed_date_min": "2026-08-21 18:45:00",
+        "completed_matches": 54,
+        "future_or_unfinished_matches": 252,
+        "html_title": "Ligue 1 xG Table and Scorers for the 2026/2027 season | Understat.com",
+        "league": "FRA-Ligue 1",
+        "new_completed_max_days_after_old": 146,
+        "official_page": "https://understat.com/league/Ligue_1/2026",
+        "official_public_api": "https://understat.com/getLeagueData/Ligue_1/2026",
+        "player_rows": 411,
+        "previous_latest_completed_date": "2026-05-17 19:00:00",
+        "schedule_date_max": "2027-05-29 13:00:00",
+        "schedule_rows": 306,
+        "team_match_rows": 54,
+        "xg_buildup_finite_rows": 411,
+        "xg_chain_finite_rows": 411
+      },
+      {
+        "completed_date_max": "2026-10-11 15:30:00",
+        "completed_date_min": "2026-08-28 18:30:00",
+        "completed_matches": 45,
+        "future_or_unfinished_matches": 261,
+        "html_title": "Bundesliga xG Table and Scorers for the 2026/2027 season | Understat.com",
+        "league": "GER-Bundesliga",
+        "new_completed_max_days_after_old": 148,
+        "official_page": "https://understat.com/league/Bundesliga/2026",
+        "official_public_api": "https://understat.com/getLeagueData/Bundesliga/2026",
+        "player_rows": 384,
+        "previous_latest_completed_date": "2026-05-16 13:30:00",
+        "schedule_date_max": "2027-05-22 13:30:00",
+        "schedule_rows": 306,
+        "team_match_rows": 45,
+        "xg_buildup_finite_rows": 384,
+        "xg_chain_finite_rows": 384
+      },
+      {
+        "completed_date_max": "2026-10-12 18:45:00",
+        "completed_date_min": "2026-08-22 16:30:00",
+        "completed_matches": 60,
+        "future_or_unfinished_matches": 320,
+        "html_title": "Serie A xG Table and Scorers for the 2026/2027 season | Understat.com",
+        "league": "ITA-Serie A",
+        "new_completed_max_days_after_old": 141,
+        "official_page": "https://understat.com/league/Serie_A/2026",
+        "official_public_api": "https://understat.com/getLeagueData/Serie_A/2026",
+        "player_rows": 464,
+        "previous_latest_completed_date": "2026-05-24 18:45:00",
+        "schedule_date_max": "2027-05-30 13:00:00",
+        "schedule_rows": 380,
+        "team_match_rows": 60,
+        "xg_buildup_finite_rows": 464,
+        "xg_chain_finite_rows": 464
+      }
+    ],
+    "player_match_rows": 9382,
+    "raw_situation_for_those_rows": {
+      "Penalty": 69
+    },
+    "scheduled_or_unplayed": 1455,
+    "sdk_situation_empty_rows": 69,
+    "shots": 8440,
+    "source_url": "https://understat.com/",
+    "table_rows": {
+      "player_match_stats": 9382,
+      "player_season_stats": 2165,
+      "schedule": 1752,
+      "shot_events": 8440,
+      "team_match_stats": 297
+    }
+  },
+  "validation": {
+    "browser_current_season_ucl": 36,
+    "browser_current_understat_leagues": 5,
+    "browser_errors": [],
+    "collection_errors_main_and_other": [],
+    "deployment": "Not performed.",
+    "main_stored_asset_hashes_verified": 577,
+    "main_summary_score_conflicts": 0,
+    "other_summary_score_conflicts": 0,
+    "prior_snapshots_retained": true,
+    "understat_detail_missing_completed_ids": 0,
+    "understat_detail_unfinished_ids": 0
+  },
+  "observed_at_scope": "Original multi-source capture. Subsequent incremental_refreshes carry their own source observation windows and do not refresh other providers.",
+  "incremental_refreshes": [
+    {
+      "date": "2026-10-15",
+      "observed_at": "2026-10-15T21:09:25.176491+00:00",
+      "source_observation_window": {
+        "earliest": "2026-10-15T21:08:19.823672+00:00",
+        "latest": "2026-10-15T21:09:25.176491+00:00"
+      },
+      "scope": "Fresh ESPN responses for nine club competitions over 2026-10-13 through 2026-10-15, plus the 2026/27 CSVs for 22 leagues. No other provider was recollected. Counts remain separate by provider.",
+      "collection_sha256": "428f03bd6bdc7f05532ae13482c319faa1caab9a7d10c55568805fda3149c782",
+      "requests": {
+        "attempts": 66,
+        "downloaded": 66,
+        "cached": 0
+      },
+      "espn": {
+        "observations_in_window": 30,
+        "finished_in_window": 30,
+        "summaries_in_window": 30,
+        "new_to_latest_view": 0,
+        "updated_existing_records": 1,
+        "updated_fields": [
+          "home_team"
+        ],
+        "score_revisions": 0,
+        "ucl_finished_in_window": 18,
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates=20261014&limit=100"
+      },
+      "football_csv": {
+        "season": "2026/2027",
+        "leagues": 22,
+        "finished": 1596,
+        "added_to_latest_view": 13,
+        "added_by_competition": {
+          "ELC": 12,
+          "SCC": 1
+        },
+        "competitions": [
+          {
+            "competition": "PL",
+            "season": "2026/2027",
+            "rows": 60,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "ELC",
+            "season": "2026/2027",
+            "rows": 119,
+            "date_end": "2026-10-14"
+          },
+          {
+            "competition": "BL1",
+            "season": "2026/2027",
+            "rows": 45,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "PD",
+            "season": "2026/2027",
+            "rows": 78,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "SA",
+            "season": "2026/2027",
+            "rows": 60,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "FL1",
+            "season": "2026/2027",
+            "rows": 54,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "PPL",
+            "season": "2026/2027",
+            "rows": 71,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "DED",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "EL1",
+            "season": "2026/2027",
+            "rows": 102,
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "EL2",
+            "season": "2026/2027",
+            "rows": 114,
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "ENL",
+            "season": "2026/2027",
+            "rows": 155,
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "SPL",
+            "season": "2026/2027",
+            "rows": 48,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "SCC",
+            "season": "2026/2027",
+            "rows": 48,
+            "date_end": "2026-10-13"
+          },
+          {
+            "competition": "SL1",
+            "season": "2026/2027",
+            "rows": 49,
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "SL2",
+            "season": "2026/2027",
+            "rows": 50,
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "BL2",
+            "season": "2026/2027",
+            "rows": 63,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "SB",
+            "season": "2026/2027",
+            "rows": 60,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "SD",
+            "season": "2026/2027",
+            "rows": 99,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "FL2",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "BPL",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "TSL",
+            "season": "2026/2027",
+            "rows": 63,
+            "date_end": "2026-10-12"
+          },
+          {
+            "competition": "GSL",
+            "season": "2026/2027",
+            "rows": 42,
+            "date_end": "2026-10-12"
+          }
+        ],
+        "source_url": "https://www.football-data.co.uk/downloadm.php"
+      },
+      "validation": {
+        "collection_errors": [],
+        "captured_files_hashes_verified": 66,
+        "summary_identity_status_and_score_conflicts": 0,
+        "staged_integrity_check": "ok",
+        "scoped_main_foreign_key_errors": 0,
+        "scoped_main_foreign_key_tables": 4,
+        "new_asset_payloads_verified": 38,
+        "prior_assets_metadata_preserved": 23319,
+        "prior_raw_chunk_count_preserved": 59301,
+        "deleted_latest_observations": 0,
+        "main_integrity_scope": "Not run; integrity_check was run on the staged archive. Existing assets were protected by metadata digest and raw-chunk count, not rehashed in full."
+      },
+      "applied_to_main_archive": true,
+      "predictor_training": "Not performed."
+    }
+  ]
+}

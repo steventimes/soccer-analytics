@@ -1,0 +1,20 @@
+{
+  "built_at": "2026-10-15T11:06:51.156311+00:00",
+  "matches": 51,
+  "player_profiles": 1942,
+  "schema": "Touchline.ExplorationBuild.v1",
+  "sources": {
+    ".tmp/assessments/player-profiles.json": "3797265c4c40580d20301cefab61c79f21b26735ae82eb6258c737515fe71c5b",
+    ".tmp/assessments/team-data.json": "1913ae80d11c78ec3e55f300c3c7509c4f9433ac0bbeb0947648ffa82d7f696e",
+    ".tmp/open-data/statsbomb/manifest.json": "45f63df0f60fa4203cfcab07ea9f27b429296ba935579f42697e52de9f13a5a2",
+    ".tmp/scouting/statsbomb/report.json": "689feacb8a9d165cd88f026373845acc9a7c21fd13140d8dabcc5cc614732d7f"
+  },
+  "team_profiles": 482,
+  "validation_matches": {
+    "BL1": 612,
+    "FL1": 612,
+    "PD": 760,
+    "PL": 760,
+    "SA": 760
+  }
+}
