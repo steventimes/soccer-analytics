@@ -176,9 +176,9 @@ python scripts/public_manifest.py --refresh
 python scripts/public_manifest.py
 ```
 
-`checks.yml` 在基础和研究环境运行完整检查入口，研究环境已包含 EBM/ALE 验证，独立浏览器任务按 npm 锁文件安装开发依赖并运行界面与 Axe 检查。手动触发时可打开 `optional_dependencies`，分别检查 PyTorch CPU、VAEP 和 SoccerData 三种独立环境。每日更新同步公开文件清单；Pages 固定到本次工作流定义的 `github.workflow_sha`，源码、验收流程和打包提交一致，通过后生成带 `site-release.json` 身份的站点产物。运行期间 `main` 前进不会改变本次发布版本。本地检查通过不表示远端 CI、模型发布或网站部署已经完成。
+`checks.yml` 在基础和研究环境运行完整检查入口，研究环境已包含 EBM/ALE 验证，独立浏览器任务按 npm 锁文件安装开发依赖并运行界面与 Axe 检查。手动触发时可打开 `optional_dependencies`，分别检查 PyTorch CPU、VAEP 和 SoccerData 三种独立环境。GitHub Pages 自动发布已取消，分析界面仍可按上文在本地浏览。Daily model refresh 保持停用，不因源码推送启动采集或训练。本地检查通过不代表模型效益或线上部署。
 
-贡献修改时，请说明行为变化、所用依赖环境和实际运行的检查。沿用现有测试补足相关边界，完成一组修改后集中验证。数据与产物更新须保留来源、日期、单位和方法范围，先更新研究结果，再按导出契约更新部署副本与公开清单。原始数据、主数据库、模型和私有实验记录继续留在本地。具体命令和检查范围见[维护入口](REPRODUCING.md#maintenance-interfaces)。
+贡献修改时，请说明行为变化、所用依赖环境和实际运行的检查。沿用现有测试补足相关边界，完成一组修改后集中验证。数据与产物更新须保留来源、日期、单位和方法范围，先更新研究结果，再按导出契约更新页面副本与公开清单。原始数据、主数据库、模型和私有实验记录继续留在本地。具体命令和检查范围见[维护入口](REPRODUCING.md#maintenance-interfaces)。
 
 ## 研究状态
 

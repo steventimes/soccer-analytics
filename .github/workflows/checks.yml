@@ -1,13 +1,6 @@
 name: Project checks
 
 on:
-  workflow_call:
-    inputs:
-      source_ref:
-        description: Immutable commit to validate when called by the Pages workflow
-        type: string
-        default: ""
-        required: false
   push:
   pull_request:
   workflow_dispatch:
@@ -21,8 +14,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: checks-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ inputs.source_ref || 'direct' }}
-  cancel-in-progress: ${{ inputs.source_ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
+  group: checks-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
 
 jobs:
   scope:
@@ -34,13 +27,12 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.source_ref || github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - id: paths
         name: Select checks from the changed inputs
         env:
           EVENT: ${{ github.event_name }}
-          SOURCE_REF: ${{ inputs.source_ref }}
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD: ${{ github.sha }}
         shell: python
@@ -52,7 +44,7 @@ jobs:
 
           python = browser = True
           base = os.environ['BASE']
-          if not os.environ['SOURCE_REF'] and os.environ['EVENT'] in {'push', 'pull_request'} and base and set(base) != {'0'}:
+          if os.environ['EVENT'] in {'push', 'pull_request'} and base and set(base) != {'0'}:
               separator = '...' if os.environ['EVENT'] == 'pull_request' else '..'
               changed = subprocess.check_output(['git', 'diff', '--name-only', '-z', base + separator + os.environ['HEAD']]).decode().split('\0')
               python = browser = False
@@ -92,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.source_ref || github.sha }}
+          ref: ${{ github.sha }}
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
@@ -117,7 +109,7 @@ jobs:
       - if: needs.scope.outputs.python == 'true'
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.source_ref || github.sha }}
+          ref: ${{ github.sha }}
       - if: needs.scope.outputs.python == 'true'
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
@@ -156,7 +148,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.source_ref || github.sha }}
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
@@ -171,7 +163,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: browser-evidence-${{ inputs.source_ref || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: browser-evidence-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: output/playwright/frontend/
           if-no-files-found: warn
           retention-days: 14
@@ -187,7 +179,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ inputs.source_ref || github.sha }}
+          ref: ${{ github.sha }}
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'

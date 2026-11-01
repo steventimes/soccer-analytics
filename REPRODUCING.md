@@ -1558,7 +1558,9 @@ Failed training leaves existing model files intact. Prediction can fall back to 
 
 ## GitHub Actions
 
-For football-data.org, set the repository Actions secret `FOOTBALL_DATA_API_KEY`. Without that key, the default daily job uses CSV and its eight supported production codes. Set `SOCCER_ANALYTICS_DATA_SOURCE` or `SOCCER_ANALYTICS_COMPETITIONS` in the workflow environment to choose a different source or an explicit subset. Configure GitHub Pages to deploy through Actions. `daily_update.yml` runs at 07:00 UTC, trains models and commits exported site data. `pages.yml` deploys `docs/` after a successful daily refresh, a push to `main`, or a manual run. The completion trigger handles daily commits made with `GITHUB_TOKEN`, which do not trigger a second push workflow. Pages pins source validation and packaging to `github.workflow_sha`, the commit containing its workflow definition. Later changes to `main` do not change the selected source.
+GitHub Pages publication has been removed. The analysis interface remains in `docs/` and can be served locally with the command in README. Project checks continues on push, pull request and manual dispatch.
+
+The existing `daily_update.yml` describes a 07:00 UTC refresh that trains models and commits exported data. It remains disabled. Do not enable it without separate data-use, availability and training authorization. Source push and local browsing do not start collection or training.
 
 `checks.yml` runs the full check entry point in both the base and research dependency profiles on Python 3.12 and Node.js 22. The default research profile includes EBM and ALE checks. Its manual `optional_dependencies` input enables three separate jobs for CPU PyTorch, VAEP, and SoccerData. Each job installs only its own environment and runs controlled fixture checks for that capability.
 
@@ -1696,11 +1698,3 @@ python3 scripts/reproduce_examples.py --question players --output .tmp/public-pl
 - `players`：Wyscout 2017/18 英格兰、前锋、至少 900 分钟，按每 90 分钟射门选取两名观察对象，输出比较群体数量、分钟及指标。该排序不是能力、潜力或跨来源评价。
 
 每项结果包含读取文件的 SHA-256 和可打开的页面路径；用同一版本公开 JSON 即可重复。公开结果原有运行收据缺失时保持缺失，不用本轮代码补造。
-
-## Pages 发布验收
-
-`pages.yml` 使用本次工作流定义对应的 `github.workflow_sha`，再调用同一提交的 `checks.yml` reusable workflow。基础/研究 Python 检查和独立浏览器检查都检出该提交；失败会阻止构建。构建再次检出同一 SHA，打包脚本要求源码提交与验收工作流提交相同，只复制该提交内的常规 docs 文件。产物根目录的 `site-release.json` 记录源码提交、`validation_workflow_commit`、工作流运行/尝试身份及逐文件大小与哈希。上传和部署共用带提交及运行身份的产物名称。
-
-日更会在运行开始后提交新数据。日更完成后触发的 Pages 使用新运行自身的工作流提交，不使用日更开始时的旧 `head_sha`，也不在 runner 排队结束后重新读取浮动 `main`。因此发布的是本次工作流已固定并实际验收的版本，不能据此承诺部署时仍是分支最新提交。[GitHub 的本地复用工作流规则](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#calling-a-reusable-workflow)规定被调流程来自调用方同一提交，`source_ref` 只影响 checkout，不能改变流程定义。日更在提交前刷新并检查公开清单，将 docs/data 和对应清单一起提交。
-
-打包脚本只创建产物，不执行部署；本地受控验证在临时 Git 样本运行，拒绝源码与工作流提交混用、错误 checkout、修改过的 docs 或覆盖已有输出。主分支后来增加验收要求时，本次产物仍使用原固定提交；新版本需要自己的验收。实际远端 runner、Pages 环境和部署状态须在推送后另验，本轮未派发或发布。`site-release.json` 的身份也不证明实时来源新鲜或模型有效。

@@ -466,62 +466,6 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class TestFrontendContract(unittest.TestCase):
-    def test_site_release_binds_clean_commit_files_and_refuses_unsafe_replacement(self):
-        from scripts.site_release import build_site_release
-
-        with tempfile.TemporaryDirectory() as temporary:
-            repo = Path(temporary) / 'checkout'
-            (repo / 'docs/data').mkdir(parents=True)
-            (repo / 'docs/index.html').write_text('<h1>Frozen public example</h1>')
-            (repo / 'docs/data/manifest.json').write_text('{"schema":"fixture"}')
-            workflow = repo / '.github/workflows/checks.yml'
-            workflow.parent.mkdir(parents=True)
-            workflow.write_text('name: Original acceptance recipe\n')
-
-            def git(*args):
-                return subprocess.run(['git', *args], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
-
-            git('init', '--quiet')
-            git('add', 'docs', '.github')
-            git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'fixture')
-            commit = git('rev-parse', 'HEAD')
-            (repo / 'docs/untracked-private.json').write_text('{"not_for_publication":true}')
-            output = Path(temporary) / 'release'
-            receipt = build_site_release(repo, output, commit=commit, workflow_commit=commit, run_id=123, run_attempt=1)
-            self.assertEqual(receipt['source_commit'], commit)
-            self.assertEqual(receipt['validation_workflow_commit'], commit)
-            self.assertEqual({row['path'] for row in receipt['files']}, {'index.html', 'data/manifest.json'})
-            for row in receipt['files']:
-                self.assertEqual(hashlib.sha256((output / row['path']).read_bytes()).hexdigest(), row['sha256'])
-            self.assertEqual(json.loads((output / 'site-release.json').read_text()), receipt)
-            with self.assertRaisesRegex(ValueError, 'new directory'):
-                build_site_release(repo, output, commit=commit, workflow_commit=commit, run_id=123, run_attempt=1)
-            with self.assertRaisesRegex(ValueError, 'validated commit'):
-                build_site_release(repo, Path(temporary) / 'wrong', commit='0'*40, workflow_commit='0'*40, run_id=123, run_attempt=1)
-
-            # A later branch head adds a new check after this workflow starts.
-            workflow.write_text('name: New acceptance recipe\n')
-            (repo / 'docs/index.html').write_text('<h1>Later branch content</h1>')
-            git('add', 'docs', '.github')
-            git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'later recipe')
-            later = git('rev-parse', 'HEAD')
-            mixed = Path(temporary) / 'mixed'
-            with self.assertRaisesRegex(ValueError, 'validation workflow commit'):
-                build_site_release(repo, mixed, commit=later, workflow_commit=commit, run_id=123, run_attempt=1)
-            self.assertFalse(mixed.exists())
-            git('checkout', '--detach', commit)
-            pinned = Path(temporary) / 'pinned'
-            pinned_receipt = build_site_release(repo, pinned, commit=commit, workflow_commit=commit, run_id=123, run_attempt=1)
-            self.assertEqual((pinned / 'index.html').read_text(), '<h1>Frozen public example</h1>')
-            self.assertEqual(pinned_receipt['validation_workflow_commit'], commit)
-
-            (repo / 'docs/index.html').write_text('changed after validation')
-            with self.assertRaises(subprocess.CalledProcessError):
-                build_site_release(repo, Path(temporary) / 'dirty', commit=commit, workflow_commit=commit, run_id=123, run_attempt=1)
-            self.assertFalse((Path(temporary) / 'dirty').exists())
-
-
-
     def test_runtime_diagnoses_missing_artifacts_and_shows_quality_detail(self):
         for scenario in (
             "missing",
