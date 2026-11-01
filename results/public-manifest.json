@@ -455,9 +455,9 @@
       "sha256": "3182b06b5b78031179718b08c69798ffb580582026fee609c18900a893fd86a0"
     },
     {
-      "bytes": 390606,
+      "bytes": 390793,
       "path": "IMPLEMENTATION_REPORT.md",
-      "sha256": "5c388de7a1f41d0b77628c8ef0829c6a574f48b10584bc108794063ede79ecff"
+      "sha256": "2366d85c4d8c0a39a11c90f39164aacbd2628047009e5b69b86e1b5f23ebd7d9"
     },
     {
       "bytes": 17277,
@@ -2735,9 +2735,9 @@
       "sha256": "3efb096b280ad0574c294ac1a348358e0dd9b924d342d80122a3344c9abdedeb"
     },
     {
-      "bytes": 91115,
+      "bytes": 91118,
       "path": "tests/browser/acceptance.cjs",
-      "sha256": "08fcbfb34e35f9fe0171e5f8b587f2669f3ddd3621d65da1b35d453702a16192"
+      "sha256": "831484fb38ef19cee8b96cf26b6f54c4098561e918201ecbcc42495d9172c3a6"
     },
     {
       "bytes": 18332,
