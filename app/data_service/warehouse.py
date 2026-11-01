@@ -1,6 +1,7 @@
 """Self-contained SQLite archive with lossless source files and native SQL views."""
 
 from __future__ import annotations
+from contextlib import contextmanager
 import csv
 import hashlib
 import io
@@ -8,6 +9,8 @@ import json
 import sqlite3
 import zlib
 from pathlib import Path
+
+from .archive import open_asset_file
 
 
 def quote(value):
@@ -19,6 +22,7 @@ class Warehouse:
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         self.connection = sqlite3.connect(path)
         self.connection.row_factory = sqlite3.Row
+        self._atomic_depth = 0
         self.connection.executescript("""
         PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;
         PRAGMA cache_size=-131072;
@@ -56,9 +60,39 @@ class Warehouse:
     def __enter__(self):
         return self
 
-    def __exit__(self, *args):
-        self.connection.commit()
-        self.connection.close()
+    def __exit__(self, exception_type, exception_value, traceback):
+        try:
+            if exception_type is None:
+                self.connection.commit()
+            else:
+                self.connection.rollback()
+        finally:
+            self.connection.close()
+
+    @contextmanager
+    def atomic(self):
+        """Group archive helpers in a savepoint without their intermediate commits.
+
+        Outside this scope, completed assets and import batches remain durable.
+        Callers must not commit through the raw connection inside this scope.
+        """
+        name = f"warehouse_atomic_{self._atomic_depth}"
+        self.connection.execute(f"SAVEPOINT {name}")
+        self._atomic_depth += 1
+        try:
+            yield
+            self.connection.execute(f"RELEASE {name}")
+        except BaseException:
+            if self.connection.in_transaction:
+                self.connection.execute(f"ROLLBACK TO {name}")
+                self.connection.execute(f"RELEASE {name}")
+            raise
+        finally:
+            self._atomic_depth -= 1
+
+    def _commit(self):
+        if not self._atomic_depth:
+            self.connection.commit()
 
     def dataset(self, name, family, provider, edition=None):
         self.connection.execute(
@@ -70,7 +104,7 @@ class Warehouse:
         ).fetchone()[0]
 
     def asset(self, dataset_id, path, relative_path):
-        with open(path, "rb") as stream:
+        with open_asset_file(path, "rb") as stream:
             return self.asset_stream(dataset_id, stream, relative_path)
 
     def record_analysis_inputs(self, run_kind, run_id, asset_ids):
@@ -157,7 +191,7 @@ class Warehouse:
             "UPDATE assets SET sha256=?,bytes=?,complete=1 WHERE id=?",
             (digest.hexdigest(), size, aid),
         )
-        self.connection.commit()
+        self._commit()
         return aid
 
     def read_raw(self, asset_id):
@@ -181,20 +215,20 @@ class Warehouse:
         self.connection.execute(
             "INSERT OR REPLACE INTO imports VALUES(?,?,?)", (aid, kind, count)
         )
-        self.connection.commit()
+        self._commit()
 
     def csv_table(self, asset_id, path, table_name):
         if self.done(asset_id, table_name):
             return
         try:
-            with open(path, encoding="utf-8-sig", newline="") as stream:
+            with open_asset_file(path, "r", encoding="utf-8-sig", newline="") as stream:
                 self.connection.execute(
                     "INSERT OR REPLACE INTO asset_encodings VALUES(?,?)",
                     (asset_id, "utf-8-sig"),
                 )
                 return self.csv_stream(asset_id, stream, table_name)
         except UnicodeDecodeError:
-            with open(path, encoding="latin-1", newline="") as stream:
+            with open_asset_file(path, "r", encoding="latin-1", newline="") as stream:
                 self.connection.execute(
                     "INSERT OR REPLACE INTO asset_encodings VALUES(?,?)",
                     (asset_id, "latin-1"),
@@ -256,7 +290,7 @@ class Warehouse:
             batch.append((aid, count, *[v if v != "" else None for v in row]))
             if len(batch) >= 20000:
                 self.connection.executemany(sql, batch)
-                self.connection.commit()
+                self._commit()
                 batch = []
         self.connection.executemany(sql, batch)
         self.finish(aid, table, count)

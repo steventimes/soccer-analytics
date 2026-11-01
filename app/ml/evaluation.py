@@ -177,8 +177,28 @@ def top_label_calibration_error(
     )
 
 
+def chronological_holdout_boundary(row_count, *, fraction=0.2, kickoffs=()):
+    """Return the final-holdout boundary without dividing a shared kickoff group.
+
+    A boundary of zero means the whole history is one group. Callers retain
+    their own minimum training size and domain-specific error messages.
+    """
+    if type(row_count) is not int or row_count < 2:
+        raise EvaluationError("时间留出至少需要两行")
+    if (isinstance(fraction, bool) or not isinstance(fraction, (int, float))
+            or not math.isfinite(fraction) or not 0 < fraction < 1):
+        raise EvaluationError("留出比例必须在 0 和 1 之间")
+    if kickoffs and (len(kickoffs) != row_count or list(kickoffs) != sorted(kickoffs)):
+        raise EvaluationError("kickoffs 必须与特征长度一致且按时间排序")
+    split = row_count - max(1, round(row_count*fraction))
+    if kickoffs:
+        while split > 0 and kickoffs[split-1] == kickoffs[split]:
+            split -= 1
+    return split
+
+
 def expanding_window_boundaries(
-    row_count: int, *, folds: int = 3, kickoffs: Sequence[str] = (),
+    row_count: int, *, folds: int = 3, kickoffs: Sequence[str] = (), initial_training_rows: int | None = None,
 ) -> tuple[int, ...]:
     """Shared chronological folds; every boundary preserves whole kickoff groups."""
     if isinstance(folds, bool) or not isinstance(folds, int) or folds < 2:
@@ -187,7 +207,15 @@ def expanding_window_boundaries(
         raise EvaluationError("样本不足以形成请求的扩展窗口")
     if kickoffs and (len(kickoffs) != row_count or list(kickoffs) != sorted(kickoffs)):
         raise EvaluationError("kickoffs 必须与特征长度一致且按时间排序")
-    initial_rows = row_count // 2
+    if initial_training_rows is not None and (type(initial_training_rows) is not int
+            or not 0 < initial_training_rows < row_count):
+        raise EvaluationError("initial_training_rows 必须是样本范围内的正整数")
+    initial_rows = row_count // 2 if initial_training_rows is None else initial_training_rows
+    if initial_training_rows is not None and kickoffs:
+        while initial_rows < row_count and kickoffs[initial_rows-1] == kickoffs[initial_rows]:
+            initial_rows += 1
+    if row_count-initial_rows < folds:
+        raise EvaluationError("初始训练区间后样本不足以形成请求的扩展窗口")
     remaining_rows = row_count - initial_rows
     base_size, extra = divmod(remaining_rows, folds)
     fold_sizes = [base_size + (1 if index < extra else 0) for index in range(folds)]
@@ -214,8 +242,13 @@ def evaluate_expanding_window(
     *,
     folds: int = 3,
     kickoffs: Sequence[str] = (),
+    result_available_at: Sequence[str] = (),
+    fit_observer: Callable[[int], None] | None = None,
+    initial_training_rows: int | None = None,
 ) -> TemporalEvaluation:
     """以前半段为初始历史，用扩展窗口覆盖后半段的全部样本。"""
+    if fit_observer is not None and not callable(fit_observer):
+        raise EvaluationError("fit_observer 必须可调用")
     if isinstance(folds, bool) or not isinstance(folds, int) or folds < 2:
         raise EvaluationError("folds 至少为 2")
     if len(rows) != len(targets) or len(rows) < folds * 2:
@@ -225,7 +258,16 @@ def evaluate_expanding_window(
     if kickoffs and (len(kickoffs) != len(rows) or list(kickoffs) != sorted(kickoffs)):
         raise EvaluationError("kickoffs 必须与特征长度一致且按时间排序")
 
-    boundaries = expanding_window_boundaries(len(rows), folds=folds, kickoffs=kickoffs)
+    boundaries = expanding_window_boundaries(len(rows), folds=folds, kickoffs=kickoffs,
+                                            initial_training_rows=initial_training_rows)
+    available = ()
+    if result_available_at:
+        from app.ml.availability import aware_time
+        if len(result_available_at) != len(rows) or len(kickoffs) != len(rows):
+            raise EvaluationError("严格回测需要逐行对应的开球和结果可用时间")
+        available = tuple(aware_time(t) for t in result_available_at)
+        if any(a <= aware_time(k) for a, k in zip(available, kickoffs)):
+            raise EvaluationError("结果可用时间必须晚于开球")
 
     all_targets: list[int] = []
     all_probabilities: list[list[float]] = []
@@ -235,15 +277,21 @@ def evaluate_expanding_window(
     fold_metrics: list[dict[str, Any]] = []
     for fold_index, (validation_start, validation_end) in enumerate(zip(boundaries, boundaries[1:]), start=1):
         validation_size = validation_end - validation_start
-        training_rows = rows[:validation_start]
-        training_targets = targets[:validation_start]
+        indices = [i for i in range(validation_start)
+                   if not available or available[i] < aware_time(kickoffs[validation_start])]
+        if not indices:
+            raise EvaluationError("验证开始时没有实际可用的训练标签")
+        training_rows = [rows[i] for i in indices]
+        training_targets = [targets[i] for i in indices]
         validation_rows = rows[validation_start:validation_end]
         validation_targets = list(targets[validation_start:validation_end])
 
         estimator = model_factory(feature_names)
         fit_started = perf_counter()
+        if fit_observer is not None:
+            fit_observer(fold_index)
         fit_estimator(estimator, training_rows, training_targets,
-                      kickoffs=kickoffs[:validation_start])
+                      kickoffs=[kickoffs[i] for i in indices] if kickoffs else ())
         fit_seconds = perf_counter() - fit_started
         inference_started = perf_counter()
         probabilities = [
@@ -307,6 +355,9 @@ def evaluate_expanding_window(
                 ),
             }
         )
+        if available:
+            fold_metrics[-1]["labels_purged_at_fit"] = validation_start - len(indices)
+            fold_metrics[-1]["fit_as_of"] = kickoffs[validation_start]
         all_targets.extend(validation_targets)
         all_probabilities.extend(probabilities)
         all_predictions.extend(predictions)

@@ -7,6 +7,8 @@ import json
 import re
 import zipfile
 from pathlib import Path
+from .archive import open_asset_file
+from .metrica_ingest import ingest_metrica_csv, import_metrica
 from .warehouse import Warehouse
 
 
@@ -25,7 +27,8 @@ def document(db, aid, path, kind):
     if db.done(aid, "document"):
         return
     try:
-        payload = path.read_text(encoding="utf-8-sig")
+        with open_asset_file(path, "r", encoding="utf-8-sig") as handle:
+            payload = handle.read()
         json.loads(payload)
         db.connection.execute(
             "INSERT OR REPLACE INTO documents VALUES(?,?,?)", (aid, kind, payload)
@@ -128,110 +131,6 @@ def normalize_profile_birthdates(
         )
 
 
-def ingest_metrica_csv(db, aid, path):
-    import csv
-    import tempfile
-    from .warehouse import quote
-
-    kind = "metrica_tracking_samples"
-    if db.done(aid, kind):
-        return
-    db.connection.execute(
-        "CREATE TABLE IF NOT EXISTS csv_preamble(asset_id INTEGER REFERENCES assets(id),row_number INTEGER,payload TEXT,PRIMARY KEY(asset_id,row_number))"
-    )
-    # Replace only this importer's former generic interpretation of the preamble.
-    previous = db.connection.execute(
-        "SELECT kind FROM imports WHERE asset_id=? AND kind LIKE 'metrica_csv_%rawtrackingdata_%'",
-        (aid,),
-    ).fetchall()
-    for row in previous:
-        db.connection.execute(f"DELETE FROM {quote(row[0])} WHERE asset_id=?", (aid,))
-        db.connection.execute(
-            "DELETE FROM imports WHERE asset_id=? AND kind=?", (aid, row[0])
-        )
-    db.connection.execute("DELETE FROM csv_irregular_rows WHERE asset_id=?", (aid,))
-    with Path(path).open(encoding="utf-8-sig", newline="") as source:
-        reader = csv.reader(source)
-        for index in [1, 2]:
-            db.connection.execute(
-                "INSERT OR REPLACE INTO csv_preamble VALUES(?,?,?)",
-                (aid, index, json.dumps(next(reader))),
-            )
-        original = next(reader)
-        headers = original[:3]
-        for index in range(3, len(original), 2):
-            label = original[index]
-            if not label or index + 1 >= len(original):
-                raise ValueError("Unexpected Metrica coordinate header")
-            headers.extend([label + "_x", label + "_y"])
-        with tempfile.SpooledTemporaryFile(
-            max_size=1024 * 1024, mode="w+", encoding="utf-8", newline=""
-        ) as normalized:
-            writer = csv.writer(normalized)
-            writer.writerow(headers)
-            writer.writerows(reader)
-            normalized.seek(0)
-            db.csv_stream(aid, normalized, kind)
-        for index, name in enumerate(original):
-            db.connection.execute(
-                "UPDATE csv_columns SET source_name=? WHERE asset_id=? AND ordinal=?",
-                (name, aid, index),
-            )
-    db.connection.commit()
-
-
-def import_metrica(db, root):
-    from app.data_service.tracking_frames import metrica_csv_frames, metrica_epts_frames
-    import math
-
-    dataset = db.dataset("metrica", "football", "metrica")
-    for match in [1, 2, 3]:
-        if match < 3:
-            home = next(
-                root.rglob(f"Sample_Game_{match}_RawTrackingData_Home_Team.csv")
-            )
-            away = next(
-                root.rglob(f"Sample_Game_{match}_RawTrackingData_Away_Team.csv")
-            )
-            frames = metrica_csv_frames(home, away)
-            source = home
-        else:
-            metadata = next(root.rglob("*.xml"))
-            source = next(root.rglob("*.txt"))
-            frames = metrica_epts_frames(metadata, source)
-        aid = db.asset(dataset, source, str(source.relative_to(root)))
-        if match < 3:
-            for csv_source in [home, away]:
-                csv_aid = db.asset(
-                    dataset, csv_source, str(csv_source.relative_to(root))
-                )
-                ingest_metrica_csv(db, csv_aid, csv_source)
-        if db.done(aid, "normalized_tracking"):
-            continue
-        batch = []
-        count = 0
-        for count, frame in enumerate(frames, 1):
-            for player in frame["players"]:
-                for key in ["x", "y"]:
-                    if isinstance(player.get(key), float) and not math.isfinite(
-                        player[key]
-                    ):
-                        player[key] = None
-            batch.append(
-                (aid, count, json.dumps(frame, separators=(",", ":"), allow_nan=False))
-            )
-            if len(batch) >= 1000:
-                db.connection.executemany(
-                    "INSERT OR REPLACE INTO normalized_tracking VALUES(?,?,?)", batch
-                )
-                db.connection.commit()
-                batch = []
-        db.connection.executemany(
-            "INSERT OR REPLACE INTO normalized_tracking VALUES(?,?,?)", batch
-        )
-        db.finish(aid, "normalized_tracking", count)
-
-
 def build(path, root, fm_root=None):
     root = Path(root).resolve()
     with Warehouse(path) as db:
@@ -250,6 +149,25 @@ def build(path, root, fm_root=None):
             dataset = db.dataset(
                 name, "game" if name == "game-ratings" else "football", name
             )
+            declared_paths = None
+            source_manifest = family_root / "manifest.json"
+            if source_manifest.is_file():
+                resolved_manifest = source_manifest.resolve()
+                if not resolved_manifest.is_relative_to(family_root.resolve()):
+                    raise ValueError("Source manifest resolves outside its family directory")
+                if source_manifest.stat().st_nlink != 1:
+                    raise ValueError("Source assets cannot be hard-link aliases")
+                declared_paths = set()
+                if not {"isolated-browser-profile", "runtime"}.intersection(
+                    resolved_manifest.relative_to(family_root.resolve()).parts
+                ):
+                    try:
+                        inventory = json.loads(source_manifest.read_text())
+                        declared_paths = {item["path"] for item in inventory.get("files", [])
+                                          if isinstance(item, dict) and isinstance(item.get("path"), str)}
+                    except (ValueError, UnicodeError, AttributeError, TypeError):
+                        # An invalid inventory does not authorize changing a native gzip asset.
+                        pass
             for source in sorted(
                 p
                 for p in family_root.rglob("*")
@@ -270,6 +188,14 @@ def build(path, root, fm_root=None):
                     continue
                 if source.stat().st_nlink != 1:
                     raise ValueError("Source assets cannot be hard-link aliases")
+                if (source.suffix == ".gz" and source.with_suffix("").suffix in {".json", ".jsonl", ".csv"}
+                        and (declared_paths is None
+                             or relative not in declared_paths and str(source.with_suffix("").relative_to(family_root)) in declared_paths)):
+                    logical = source.with_suffix("")
+                    if logical.exists() or logical.is_symlink():
+                        continue
+                    source = logical
+                    relative = str(source.relative_to(family_root))
                 aid = db.asset(dataset, source, relative)
                 if source.suffix == ".csv":
                     if name == "metrica" and "RawTrackingData" in source.name:
@@ -304,7 +230,7 @@ def build(path, root, fm_root=None):
                             kind = "statsbomb_360"
                     document(db, aid, source, kind)
                 elif source.suffix == ".jsonl":
-                    with source.open("rb") as stream:
+                    with open_asset_file(source, "rb") as stream:
                         lines(db, aid, stream)
                 elif source.suffix == ".zip" and name == "game-ratings":
                     with zipfile.ZipFile(source) as archive:
@@ -403,8 +329,14 @@ def build(path, root, fm_root=None):
             for source in sorted(
                 p
                 for p in extra.rglob("*")
-                if p.is_file() and p.suffix in {".json", ".csv", ".png", ".svg"}
+                if p.is_file() and (p.suffix in {".json", ".csv", ".png", ".svg"}
+                                   or p.suffix == ".gz" and p.with_suffix("").suffix in {".json", ".csv"})
             ):
+                if source.suffix == ".gz":
+                    logical = source.with_suffix("")
+                    if logical.exists() or logical.is_symlink():
+                        continue
+                    source = logical
                 aid = db.asset(dataset, source, str(source.relative_to(extra)))
                 if source.suffix == ".json":
                     document(db, aid, source, "local_" + extra.name)

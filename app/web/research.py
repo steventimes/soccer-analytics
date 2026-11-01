@@ -7,7 +7,8 @@ implementations live with their event, diagnostic, experiment, or figure schema.
 import json
 from pathlib import Path
 
-from app.file_io import write_bytes_atomic, write_json_atomic
+from app.file_io import json_bytes, write_files_recoverable
+from app.web.provenance import result_artifact
 
 from app.web.public_diagnostics import (
     public_xt_numerics,
@@ -27,6 +28,7 @@ from app.web.public_experiments import (
     public_representation_comparisons,
     public_representation_summary,
     public_model_lab,
+    public_search_comparison,
 )
 from app.web.public_figures import (
     PUBLIC_FIGURES,
@@ -57,9 +59,13 @@ def display_season(row):
 
 
 
-def export_research_data(results_dir, output_dir, *, experiment_report=None):
+def export_research_data(results_dir, output_dir, *, experiment_report=None, search_comparison_report=None):
     source, output = Path(results_dir), Path(output_dir)
-    # Read all required inputs before writing; failures leave an existing page intact.
+    if search_comparison_report is not None:
+        summary = public_search_comparison(json.loads(Path(search_comparison_report).read_text()))
+        write_files_recoverable(output, {"search-comparison.json": json_bytes(summary)})
+        return {"files": [str(output / "search-comparison.json")], "figure_files": []}
+    # Invalid inputs never mutate the existing output.
     coverage = json.loads((source / "core-coverage.json").read_text())
     case = json.loads((source / "chelsea-psg-final.json").read_text())
     methods = json.loads((source / "methods.json").read_text())
@@ -146,16 +152,21 @@ def export_research_data(results_dir, output_dir, *, experiment_report=None):
     if any(path.is_file() for path in lab_paths.values()):
         if not all(path.is_file() for path in lab_paths.values()):
             raise ValueError("Incomplete model-lab source set")
-        payloads["model-lab.json"] = public_model_lab({name: json.loads(path.read_text()) for name, path in lab_paths.items()})
+        payloads["model-lab.json"] = public_model_lab(
+            {name: json.loads(path.read_text()) for name, path in lab_paths.items()},
+            result_artifacts={name: result_artifact(path, source) for name, path in lab_paths.items()})
+    comparison = source / "search-comparison.json"
+    if comparison.is_file():
+        summary = public_search_comparison(json.loads(comparison.read_text()))
+        payloads["search-comparison.json"] = summary
+        if "model-lab.json" in payloads:
+            payloads["model-lab.json"]["search_comparisons"] = summary["comparisons"]
     # Validate strict JSON for every payload before any mutation.
     for payload in payloads.values():
         json.dumps(payload, allow_nan=False)
-    if figure_assets:
-        (output / "figures").mkdir(parents=True, exist_ok=True)
-        for name, content in figure_assets.items():
-            write_bytes_atomic(output / "figures" / name, content)
-    for name, payload in payloads.items():
-        write_json_atomic(output / name, payload)
+    files = {"figures/" + name: content for name, content in figure_assets.items()}
+    files.update({name: json_bytes(payload) for name, payload in payloads.items()})
+    write_files_recoverable(output, files)
     return {
         "files": [str(output / name) for name in payloads],
         "figure_files": [str(output / "figures" / name) for name in figure_assets],

@@ -1,15 +1,112 @@
 name: Project checks
 
 on:
+  workflow_call:
+    inputs:
+      source_ref:
+        description: Immutable commit to validate when called by the Pages workflow
+        type: string
+        default: ""
+        required: false
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      optional_dependencies:
+        description: Run isolated PyTorch CPU, socceraction, and soccerdata checks
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ inputs.source_ref || 'direct' }}
+  cancel-in-progress: ${{ inputs.source_ref == '' && (github.event_name == 'push' || github.event_name == 'pull_request') }}
+
 jobs:
+  scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      python: ${{ steps.paths.outputs.python }}
+      browser: ${{ steps.paths.outputs.browser }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          fetch-depth: 0
+      - id: paths
+        name: Select checks from the changed inputs
+        env:
+          EVENT: ${{ github.event_name }}
+          SOURCE_REF: ${{ inputs.source_ref }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.sha }}
+        shell: python
+        run: |
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          python = browser = True
+          base = os.environ['BASE']
+          if not os.environ['SOURCE_REF'] and os.environ['EVENT'] in {'push', 'pull_request'} and base and set(base) != {'0'}:
+              separator = '...' if os.environ['EVENT'] == 'pull_request' else '..'
+              changed = subprocess.check_output(['git', 'diff', '--name-only', '-z', base + separator + os.environ['HEAD']]).decode().split('\0')
+              python = browser = False
+              for name in filter(None, changed):
+                  if name == 'results/public-manifest.json':
+                      previous = subprocess.run(['git', 'show', base + ':' + name], capture_output=True)
+                      if previous.returncode == 0:
+                          old = json.loads(previous.stdout)
+                          new = json.loads(Path(name).read_text())
+                          old_rows = old.pop('files')
+                          new_rows = new.pop('files')
+                          old_files = {row['path']: row for row in old_rows}
+                          new_files = {row['path']: row for row in new_rows}
+                          manifest_changes = {path for path in old_files.keys() | new_files.keys()
+                                              if old_files.get(path) != new_files.get(path)}
+                          # A generated companion follows its actual changed inputs.
+                          # Unexplained inventory or provenance changes retain full checks.
+                          if (old == new and len(old_files) == len(old_rows) and len(new_files) == len(new_rows)
+                                  and manifest_changes <= set(changed) - {name}):
+                              continue
+                  if name.startswith(('docs/data/', 'results/', 'data/')):
+                      python = browser = True
+                  elif name.startswith(('docs/', 'tests/browser/')) or name in {'package.json', 'package-lock.json'}:
+                      browser = True
+                  elif name.startswith(('app/', 'tests/')):
+                      python = True
+                  elif name.endswith('.md'):
+                      pass
+                  else:
+                      python = browser = True
+          with Path(os.environ['GITHUB_OUTPUT']).open('a') as output:
+              output.write(f'python={str(python).lower()}\nbrowser={str(browser).lower()}\n')
+
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Check shared source and publication contracts once
+        run: |
+          python -m pip install pip==26.2.2
+          python -m pip install --group checks
+          python scripts/check.py --static-only --lint
+
   check:
+    needs: scope
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -17,23 +114,130 @@ jobs:
       matrix:
         profile: [minimal, research]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - if: needs.scope.outputs.python == 'true'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - if: needs.scope.outputs.python == 'true'
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
           cache: pip
-      - uses: actions/setup-node@v4
+          cache-dependency-path: |
+            pyproject.toml
+            config/constraints-main.txt
+      - if: needs.scope.outputs.python == 'true'
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
+      - name: Install dependency-group support
+        if: needs.scope.outputs.python == 'true'
+        run: python -m pip install pip==26.2.2
       - name: Install prediction dependencies
-        if: matrix.profile == 'minimal'
-        run: python -m pip install -r requirements.txt
+        if: needs.scope.outputs.python == 'true' && matrix.profile == 'minimal'
+        run: python -m pip install --group runtime -c config/constraints-main.txt
       - name: Install research dependencies
-        if: matrix.profile == 'research'
-        run: python -m pip install -r requirements-scouting.txt -r requirements-tree-models.txt
-      - name: Check lightweight entry points and source boundaries
-        if: matrix.profile == 'minimal'
-        run: python scripts/check.py tests.test_analytics_cli.TestImportBoundaries.test_lightweight_entrypoints_do_not_load_unrelated_dependencies tests.test_analytics_cli.TestImportBoundaries.test_data_layer_never_imports_analysis_or_prediction
-      - name: Check research and publication contracts
-        if: matrix.profile == 'research'
-        run: python scripts/check.py
+        if: needs.scope.outputs.python == 'true' && matrix.profile == 'research'
+        run: python -m pip install --group research -c config/constraints-main.txt
+      - name: Check behavior in the selected dependency environment
+        if: needs.scope.outputs.python == 'true'
+        run: python scripts/check.py --runtime-only
+      - name: Reproduce the bounded public examples
+        if: needs.scope.outputs.python == 'true' && matrix.profile == 'minimal'
+        run: python scripts/reproduce_examples.py --question all --output "$RUNNER_TEMP/public-examples.json"
+
+  browser:
+    needs: scope
+    if: needs.scope.outputs.browser == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install pinned browser check dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Check interactions, layouts, and accessibility
+        run: npm run check:browser
+      - name: Preserve browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-evidence-${{ inputs.source_ref || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/playwright/frontend/
+          if-no-files-found: warn
+          retention-days: 14
+
+  optional:
+    if: github.event_name == 'workflow_dispatch' && inputs.optional_dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [deep-learning, vaep, sources]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            config/constraints-main.txt
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install dependency-group support
+        run: python -m pip install pip==26.2.2
+      - name: Install representation research and CPU PyTorch
+        if: matrix.profile == 'deep-learning'
+        run: |
+          python -m pip install --group research -c config/constraints-main.txt
+          python -m pip install --group deep-learning --index-url https://download.pytorch.org/whl/cpu
+      - name: Check representation and numeric model artifacts
+        if: matrix.profile == 'deep-learning'
+        run: python scripts/check.py tests.ml.test_representation tests.analytics.test_action_value tests.ml.test_artifacts
+      - name: Install isolated socceraction dependencies
+        if: matrix.profile == 'vaep'
+        run: python -m pip install --group vaep
+      - name: Check SPADL conversion and period boundaries
+        if: matrix.profile == 'vaep'
+        run: python scripts/check.py tests.analytics.test_action_value.TestActionValue.test_spadl_period_boundaries_horizon_and_perspective_values
+      - name: Install isolated collection dependencies
+        if: matrix.profile == 'sources'
+        run: python -m pip install --group sources
+      - name: Check source wrappers with controlled inputs
+        if: matrix.profile == 'sources'
+        run: python scripts/check.py tests.data.test_collection
+
+  required:
+    if: always()
+    needs: [scope, quality, check, browser]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every selected check to pass
+        env:
+          SCOPE: ${{ needs.scope.result }}
+          QUALITY: ${{ needs.quality.result }}
+          CHECK: ${{ needs.check.result }}
+          BROWSER: ${{ needs.browser.result }}
+          BROWSER_SELECTED: ${{ needs.scope.outputs.browser }}
+        run: |
+          test "$SCOPE" = success
+          test "$QUALITY" = success
+          test "$CHECK" = success
+          if [ "$BROWSER_SELECTED" = true ]; then
+            test "$BROWSER" = success
+          else
+            test "$BROWSER" = skipped
+          fi

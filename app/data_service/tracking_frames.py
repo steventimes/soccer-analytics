@@ -6,6 +6,8 @@ import csv
 import math
 from pathlib import Path
 
+from .archive import open_asset_file
+
 
 def _seconds(value):
     if isinstance(value, (int, float)) and not isinstance(value, bool):
@@ -57,8 +59,8 @@ def metrica_csv_frames(home_path: Path, away_path: Path, *, match_id=None,
         "assumed nominal 105x68m" if (pitch_length, pitch_width) == (105.0, 68.0)
         else "caller-supplied dimensions", provider="metrica"
     )
-    with Path(home_path).open(newline="") as home, Path(away_path).open(
-        newline=""
+    with open_asset_file(home_path, "r", newline="") as home, open_asset_file(
+        away_path, "r", newline=""
     ) as away:
         readers = [csv.reader(home), csv.reader(away)]
         headers = []
@@ -171,7 +173,7 @@ def skillcorner_frames(path: Path, metadata: dict):
         import json
 
         loads = json.loads
-    with Path(path).open("rb") as handle:
+    with open_asset_file(path, "rb") as handle:
         for line in handle:
             frame = loads(line)
             if frame.get("period") is None or frame.get("timestamp") is None:

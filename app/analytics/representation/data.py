@@ -2,12 +2,11 @@
 
 from collections import Counter, deque
 import json
-from pathlib import Path
-import sqlite3
 
 import numpy as np
 
 from app.analytics.artifacts import source_signature
+from app.data_service.database import read_database
 
 LEAGUES = ("England", "France", "Germany", "Italy", "Spain")
 VALID_START = "2018-01-01"
@@ -136,9 +135,7 @@ def pass_sequences(events, *, audit=None):
 def load_dataset(database, target, train_cap):
     if train_cap <= 0:
         raise ValueError("train_cap must be positive")
-    with sqlite3.connect(
-        Path(database).resolve().as_uri() + "?mode=ro", uri=True
-    ) as db:
+    with read_database(database) as db:
         records = []
         for kind, payload in db.execute(
             "SELECT entity_type,payload FROM wyscout_entities WHERE entity_type LIKE 'matches_%'"

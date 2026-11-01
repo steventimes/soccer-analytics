@@ -9,6 +9,7 @@ COLORS = {
     "grid": "#E2E8EE",
     "blue": "#2468A0",
     "orange": "#C5722C",
+    "orange_text": "#A34F15",
     "neutral": "#98A5B1",
     "light": "#F3F6F9",
     "pitch": "#F6F8FA",

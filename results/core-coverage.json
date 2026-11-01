@@ -16,10 +16,10 @@
       "competition": "bundesliga",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 45,
+      "source_match_records": 54,
       "date_start": "2026-08-28",
-      "date_end": "2026-10-11",
-      "matched_summary_documents": 45,
+      "date_end": "2026-10-18",
+      "matched_summary_documents": 54,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -29,10 +29,10 @@
       "competition": "champions_league",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 36,
+      "source_match_records": 54,
       "date_start": "2026-09-08",
-      "date_end": "2026-10-14",
-      "matched_summary_documents": 36,
+      "date_end": "2026-10-21",
+      "matched_summary_documents": 54,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -42,10 +42,10 @@
       "competition": "la_liga",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 78,
+      "source_match_records": 89,
       "date_start": "2026-08-15",
-      "date_end": "2026-10-12",
-      "matched_summary_documents": 78,
+      "date_end": "2026-10-21",
+      "matched_summary_documents": 89,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -55,10 +55,10 @@
       "competition": "ligue_1",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 54,
+      "source_match_records": 63,
       "date_start": "2026-08-21",
-      "date_end": "2026-10-11",
-      "matched_summary_documents": 54,
+      "date_end": "2026-10-18",
+      "matched_summary_documents": 63,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -68,10 +68,10 @@
       "competition": "premier_league",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "date_start": "2026-08-21",
-      "date_end": "2026-10-12",
-      "matched_summary_documents": 60,
+      "date_end": "2026-10-19",
+      "matched_summary_documents": 70,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -81,10 +81,10 @@
       "competition": "serie_a",
       "season": "2026/2027",
       "grain": "result",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "date_start": "2026-08-22",
-      "date_end": "2026-10-12",
-      "matched_summary_documents": 60,
+      "date_end": "2026-10-19",
+      "matched_summary_documents": 70,
       "missing_summary_documents": 0,
       "invalid_summary_documents": 0,
       "coverage_status": "source_records; completeness not inferred from row count"
@@ -446,9 +446,9 @@
       "competition": "bundesliga",
       "season": "2026/2027",
       "grain": "result_and_basic_statistics",
-      "source_match_records": 45,
+      "source_match_records": 54,
       "date_start": "2026-08-28",
-      "date_end": "2026-10-11",
+      "date_end": "2026-10-18",
       "coverage_status": "source_records; completeness not inferred from row count"
     },
     {
@@ -786,9 +786,9 @@
       "competition": "la_liga",
       "season": "2026/2027",
       "grain": "result_and_basic_statistics",
-      "source_match_records": 78,
+      "source_match_records": 89,
       "date_start": "2026-08-15",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-21",
       "coverage_status": "source_records; completeness not inferred from row count"
     },
     {
@@ -1126,9 +1126,9 @@
       "competition": "ligue_1",
       "season": "2026/2027",
       "grain": "result_and_basic_statistics",
-      "source_match_records": 54,
+      "source_match_records": 63,
       "date_start": "2026-08-21",
-      "date_end": "2026-10-11",
+      "date_end": "2026-10-18",
       "coverage_status": "source_records; completeness not inferred from row count"
     },
     {
@@ -1466,9 +1466,9 @@
       "competition": "premier_league",
       "season": "2026/2027",
       "grain": "result_and_basic_statistics",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "date_start": "2026-08-21",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-19",
       "coverage_status": "source_records; completeness not inferred from row count"
     },
     {
@@ -1806,9 +1806,9 @@
       "competition": "serie_a",
       "season": "2026/2027",
       "grain": "result_and_basic_statistics",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "date_start": "2026-08-22",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-19",
       "coverage_status": "source_records; completeness not inferred from row count"
     },
     {
@@ -3203,13 +3203,13 @@
     "Raw named trajectories for this 2025 final",
     "Time-resolved pressure/weak-side runs for 2026 World Cup from these PDFs alone"
   ],
-  "run_id": "cb4a32f590f0a86b",
-  "observed_at": "2026-10-15T21:58:13.862729+00:00",
+  "run_id": "7741bfa2084270e9",
+  "observed_at": "2026-10-23T16:20:43.757365+00:00",
   "inputs": {
-    "extractor_sha256": "1c6ab22a6f951662cbb8b923037f3d8b3033d8da972ce1a0f636bb0a09dfefc5",
-    "summary_validator_sha256": "73d4122a69b192a8be888fac6f9648bd7b5a0818144d764c6126b40b7f7fd9f6",
+    "extractor_sha256": "95ef112e910e0bb6f99f69a351f04c5ba377329fa259b0ef244ef3f649eca4ca",
+    "summary_validator_sha256": "e10b54dd1a8af8f212fd3870102929a0942b9721a2d9fc0855b7e518cb14d26a",
     "fifa_parser_sha256": "2ce9ace5b8a86da2dc1248860ca15e489848b497cf1913dfe1105699472a5871",
-    "coverage_sha256": "6f1db986c013c995a752278ec1a81464a9c5a3679300ddaeeadeb97b9eb2ce27",
+    "coverage_sha256": "ca9906c53449838d041448a0ee49b40148c55e36f90c7a1012dc382b5e082892",
     "report_assets": [
       [
         "fcwc2025",

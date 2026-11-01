@@ -1,0 +1,1490 @@
+from __future__ import annotations
+
+import hashlib
+import pickle
+import stat
+import subprocess
+import sys
+import tempfile
+import unittest
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta, timezone
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch, Mock
+
+from app import pipeline
+from app.ml import artifacts
+from app.ml.artifacts import MODEL_SCHEMA_VERSION, ModelArtifactError, ModelBundle, load_model_bundle, load_model_bundle_with_fallback, previous_model_path, save_model_bundle, validate_model_bundle
+from app.ml.feature_engineering import FeatureDataset, FeatureEngineer
+from app.ml.forecast_identity import forecast_id_for_prediction, feature_fingerprint
+from app.ml.model import XGBoostClassifier
+from app.ml.prediction import PredictionEngine, PredictionError
+from app.ml.training import ModelTrainer, TrainingError
+
+from tests.support import ContractTestCase
+
+
+class ExplodingEstimator:
+    def predict(self, rows):
+        return []
+
+    def predict_proba(self, rows):
+        return []
+
+    def __reduce__(self):
+        raise RuntimeError("serialization exploded")
+
+
+class FakeEstimator:
+    def predict(self, rows):
+        return [2 for _ in rows]
+
+    def predict_proba(self, rows):
+        return [[0.2, 0.3, 0.5] for _ in rows]
+
+
+def _explode_while_unpickling():
+    raise RuntimeError("unpickle hook exploded")
+
+
+class ExplodingUnpicklePayload:
+    def __reduce__(self):
+        return (_explode_while_unpickling, ())
+
+
+def valid_bundle(**overrides):
+    values = {
+        "competition_code": "PL",
+        "competition_id": 2021,
+        "estimator": FakeEstimator(),
+        "feature_names": ("elo_diff", "form_points"),
+        "classes": ("L", "D", "W"),
+        "trained_at": "2026-08-10T07:00:00+00:00",
+        "metrics": {"accuracy": 0.55, "rows": 120},
+        "team_states": {
+            "57": {
+                "elo": 1532.5,
+                "matches_played": 12,
+                "last_match_at": "2026-08-08T15:00:00+00:00",
+                "recent": [],
+            }
+        },
+        "feature_defaults": {"elo_diff": 0.0, "form_points": 1.2},
+        "training_rows": 120,
+    }
+    values.update(overrides)
+    return ModelBundle(**values)
+
+
+class TestModelArtifacts(ContractTestCase):
+    def test_legacy_recipe_assumption_preserves_file_identity_and_invalid_recipes_fail(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "pl.bundle"
+            legacy = valid_bundle(schema_version=3)
+            del legacy.feature_recipe
+            original = pickle.dumps(legacy)
+            path.write_bytes(original)
+            path.chmod(0o600)
+            loaded = load_model_bundle_with_fallback(path)
+            self.assertEqual(loaded.bundle.schema_version, 3)
+            self.assertEqual(loaded.bundle.feature_recipe, FeatureEngineer().to_recipe())
+            self.assertEqual(loaded.bundle.metrics["feature_recipe_origin"], "legacy_v3_assumed_defaults")
+            self.assertEqual(loaded.artifact_sha256, hashlib.sha256(original).hexdigest())
+            self.assertEqual(path.read_bytes(), original)
+            previous_model_path(path).write_bytes(pickle.dumps(valid_bundle()))
+            previous_model_path(path).chmod(0o600)
+            del legacy.metrics
+            path.write_bytes(pickle.dumps(legacy))
+            self.assertTrue(load_model_bundle_with_fallback(path).recovered_from_previous)
+        for key, value in (("window", True), ("window", 1.5), ("elo_k", float("nan")), ("schema", "future")):
+            recipe = FeatureEngineer().to_recipe()
+            recipe[key] = value
+            with self.subTest(parameter=key, value=value), self.assertRaises(ModelArtifactError):
+                validate_model_bundle(valid_bundle(feature_recipe=recipe))
+
+    def test_foreign_owned_file_is_rejected_before_unpickling(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pl.bundle"
+            save_model_bundle(valid_bundle(), path)
+            status = path.stat()
+            foreign = SimpleNamespace(st_mode=status.st_mode, st_uid=status.st_uid + 1)
+            with patch.object(artifacts.os, "fstat", return_value=foreign), patch.object(artifacts.pickle, "loads") as loads:
+                with self.assertRaises(ModelArtifactError):
+                    load_model_bundle(path)
+                loads.assert_not_called()
+
+    def test_unsafe_storage_is_rejected_before_unpickling(self):
+        for unsafe in ["file_permissions", "directory_permissions", "symlink", "fifo"]:
+            with self.subTest(unsafe=unsafe), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / "pl.bundle"
+                save_model_bundle(valid_bundle(), path)
+                if unsafe == "file_permissions":
+                    path.chmod(0o666)
+                elif unsafe == "directory_permissions":
+                    path.parent.chmod(0o777)
+                elif unsafe == "symlink":
+                    original = path.with_suffix(".original")
+                    path.rename(original)
+                    path.symlink_to(original)
+                else:
+                    path.unlink()
+                    artifacts.os.mkfifo(path)
+                try:
+                    with patch.object(artifacts.pickle, "loads") as loads:
+                        with self.assertRaises(ModelArtifactError):
+                            load_model_bundle(path)
+                        loads.assert_not_called()
+                finally:
+                    path.parent.chmod(0o700)
+
+    def test_unsafe_active_bundle_still_recovers_from_private_previous(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "pl.bundle"
+            save_model_bundle(valid_bundle(training_rows=100), path)
+            save_model_bundle(valid_bundle(training_rows=120), path)
+            path.chmod(0o666)
+            result = load_model_bundle_with_fallback(path)
+            self.assertTrue(result.recovered_from_previous)
+            self.assertEqual(result.bundle.training_rows, 100)
+
+
+    def test_fallback_and_versioning_contracts(self):
+        self._run_contracts(
+            (
+                "_check_team_state_after_training_time_is_rejected_and_recovers",
+                "_check_invalid_active_bundles_recover_from_previous",
+                "_check_inference_invalid_active_xgboost_recovers_from_previous",
+                "_check_second_save_keeps_first_valid_bundle_as_previous_version",
+            )
+        )
+
+    def test_model_and_public_writes_share_atomic_storage_without_sharing_permissions(self):
+        from app.file_io import write_bytes_atomic
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);public=root/'report.json';private=root/'model.bin'
+            write_bytes_atomic(public,b'old public')
+            write_bytes_atomic(private,b'old model',file_mode=0o600)
+            self.assertEqual(stat.S_IMODE(public.stat().st_mode),0o644)
+            self.assertEqual(stat.S_IMODE(private.stat().st_mode),0o600)
+            for path in (public,private):
+                old=path.read_bytes()
+                with patch('app.file_io.os.replace',side_effect=OSError('replace failed')),self.assertRaises(OSError):
+                    write_bytes_atomic(path,b'new bytes',file_mode=0o600 if path==private else 0o644)
+                self.assertEqual(path.read_bytes(),old)
+                self.assertFalse(list(root.glob('.*.tmp')))
+            model=root/'pl.bundle'
+            save_model_bundle(valid_bundle(),model)
+            save_model_bundle(valid_bundle(training_rows=120),model)
+            self.assertEqual(stat.S_IMODE(model.stat().st_mode),0o600)
+            self.assertEqual(stat.S_IMODE(previous_model_path(model).stat().st_mode),0o600)
+            self.assertEqual(load_model_bundle_with_fallback(model).bundle.training_rows,120)
+
+    def test_artifact_storage_contracts(self):
+        self._run_contracts(
+            (
+                "_check_round_trip_preserves_self_describing_bundle",
+                "_check_save_atomically_replaces_existing_file_without_temp_residue",
+                "_check_save_aligns_private_artifact_owner_with_model_directory",
+                "_check_failed_serialization_removes_temporary_file",
+            )
+        )
+
+    def test_artifact_validation_contracts(self):
+        self._run_contracts(
+            (
+                "_check_validation_reports_all_independent_contract_failures",
+                "_check_load_wraps_missing_fields_from_older_bundle",
+                "_check_load_rejects_legacy_bare_estimator",
+                "_check_load_wraps_missing_and_corrupt_artifacts",
+            )
+        )
+
+    def _check_team_state_after_training_time_is_rejected_and_recovers(self):
+        future_state = {
+            "57": {
+                "elo": 1532.5,
+                "matches_played": 12,
+                "last_match_at": "2099-01-01T00:00:00+00:00",
+                "recent": [],
+            }
+        }
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "pl.bundle"
+            save_model_bundle(valid_bundle(training_rows=100), path)
+            save_model_bundle(valid_bundle(training_rows=120), path)
+            path.write_bytes(
+                pickle.dumps(
+                    valid_bundle(team_states=future_state, training_rows=140)
+                )
+            )
+
+            loaded = load_model_bundle_with_fallback(path)
+
+            self.assertTrue(loaded.recovered_from_previous)
+            self.assertEqual(loaded.bundle.training_rows, 100)
+            with self.assertRaises(ModelArtifactError):
+                save_model_bundle(
+                    valid_bundle(team_states=future_state),
+                    Path(temp_dir) / "invalid.bundle",
+                )
+
+
+    def _check_inference_invalid_active_xgboost_recovers_from_previous(self):
+        rows = [
+            {"elo_diff": float(value), "form_points": float(value % 3)}
+            for value in range(-6, 7)
+        ]
+        targets = [0 if value < -2 else 1 if value <= 2 else 2 for value in range(-6, 7)]
+        for corruption in ("unfitted", "missing_booster", "bad_rounds"):
+            with self.subTest(corruption=corruption), tempfile.TemporaryDirectory() as temp_dir:
+                path = Path(temp_dir) / "pl.bundle"
+                save_model_bundle(valid_bundle(training_rows=100), path)
+                save_model_bundle(valid_bundle(training_rows=120), path)
+                model = XGBoostClassifier(
+                    ("elo_diff", "form_points"), rounds=12
+                ).fit(rows, targets)
+                if corruption == "unfitted":
+                    model.is_fitted_ = False
+                elif corruption == "missing_booster":
+                    model.booster_ = None
+                else:
+                    model.rounds_used_ = 0
+                path.write_bytes(
+                    pickle.dumps(
+                        valid_bundle(estimator=model, training_rows=140)
+                    )
+                )
+
+                loaded = load_model_bundle_with_fallback(path)
+
+                self.assertTrue(loaded.recovered_from_previous)
+                self.assertEqual(loaded.bundle.training_rows, 100)
+
+    def _check_second_save_keeps_first_valid_bundle_as_previous_version(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "pl.bundle"
+            first = valid_bundle(
+                trained_at="2026-08-09T07:00:00+00:00",
+                training_rows=100,
+            )
+            second = valid_bundle(
+                trained_at="2026-08-10T07:00:00+00:00",
+                training_rows=120,
+            )
+            save_model_bundle(first, path)
+            save_model_bundle(second, path)
+
+            active = load_model_bundle(path)
+            previous = load_model_bundle(previous_model_path(path))
+
+        self.assertEqual(active.training_rows, 120)
+        self.assertEqual(previous.training_rows, 100)
+
+
+    def _check_round_trip_preserves_self_describing_bundle(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "pl.bundle"
+            saved_path = save_model_bundle(valid_bundle(), path)
+            # 模型包含训练状态，不按公开站点制品的权限发布。
+            self.assertEqual(stat.S_IMODE(saved_path.stat().st_mode), 0o600)
+            loaded = load_model_bundle(path)
+
+        self.assertEqual(saved_path, path)
+        self.assertEqual(loaded.schema_version, MODEL_SCHEMA_VERSION)
+        self.assertEqual(loaded.competition_code, "PL")
+        self.assertEqual(loaded.feature_names, ("elo_diff", "form_points"))
+        self.assertEqual(loaded.classes, ("L", "D", "W"))
+        self.assertEqual(loaded.team_states["57"]["matches_played"], 12)
+        self.assertIsInstance(loaded.estimator, FakeEstimator)
+
+    def _check_save_atomically_replaces_existing_file_without_temp_residue(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            path = directory / "pl.bundle"
+            path.write_bytes(b"old-content")
+
+            save_model_bundle(valid_bundle(), path)
+
+            self.assertEqual(load_model_bundle(path).competition_id, 2021)
+            self.assertEqual(list(directory.glob(".pl.bundle.*.tmp")), [])
+
+    def _check_save_aligns_private_artifact_owner_with_model_directory(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "pl.bundle"
+            parent = path.parent.stat()
+            with patch.object(artifacts.os, "fchown") as fchown:
+                save_model_bundle(valid_bundle(), path)
+
+        self.assertEqual(fchown.call_count, 1)
+        self.assertEqual(fchown.call_args.args[1:], (parent.st_uid, parent.st_gid))
+
+    def _check_validation_reports_all_independent_contract_failures(self):
+        bundle = valid_bundle(
+            competition_code=" pl ",
+            competition_id=0,
+            estimator=object(),
+            feature_names=("elo_diff", "elo_diff"),
+            classes=("W", "D", "L"),
+            trained_at="2026-08-10T07:00:00",
+            feature_defaults={"elo_diff": float("inf")},
+            training_rows=0,
+            schema_version=999,
+        )
+
+        with self.assertRaises(ModelArtifactError) as context:
+            validate_model_bundle(bundle)
+
+        message = str(context.exception)
+        for fragment in (
+            "schema_version",
+            "competition_code",
+            "competition_id",
+            "feature_names",
+            "classes",
+            "trained_at",
+            "training_rows",
+            "feature_defaults",
+            "predict_proba",
+        ):
+            with self.subTest(fragment=fragment):
+                self.assertIn(fragment, message)
+
+    def _check_load_wraps_missing_fields_from_older_bundle(self):
+        bundle = valid_bundle()
+        del bundle.feature_defaults
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "incomplete.bundle"
+            path.write_bytes(pickle.dumps(bundle))
+            path.chmod(0o600)
+            with self.assertRaises(ModelArtifactError) as context:
+                load_model_bundle(path)
+        self.assertIn("不兼容", str(context.exception))
+
+    def _check_failed_serialization_removes_temporary_file(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            path = directory / "broken.bundle"
+            with self.assertRaises(ModelArtifactError):
+                save_model_bundle(valid_bundle(estimator=ExplodingEstimator()), path)
+            self.assertFalse(path.exists())
+            self.assertEqual(list(directory.glob(".broken.bundle.*.tmp")), [])
+
+    def _check_load_rejects_legacy_bare_estimator(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "legacy.bundle"
+            path.write_bytes(pickle.dumps(FakeEstimator()))
+            path.chmod(0o600)
+
+            with self.assertRaises(ModelArtifactError) as context:
+                load_model_bundle(path)
+
+        self.assertIn("ModelBundle", str(context.exception))
+
+    def _check_load_wraps_missing_and_corrupt_artifacts(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            missing = Path(temp_dir) / "missing.bundle"
+            corrupt = Path(temp_dir) / "corrupt.bundle"
+            corrupt.write_bytes(b"not-a-pickle")
+            corrupt.chmod(0o600)
+
+            with self.assertRaises(ModelArtifactError) as missing_context:
+                load_model_bundle(missing)
+            with self.assertRaises(ModelArtifactError) as corrupt_context:
+                load_model_bundle(corrupt)
+
+        self.assertIn("不存在", str(missing_context.exception))
+        self.assertIn("无法读取", str(corrupt_context.exception))
+
+    def _check_invalid_active_bundles_recover_from_previous(self):
+        invalid_defaults = valid_bundle(training_rows=140)
+        invalid_defaults.feature_defaults[7] = 0.0
+        cases = [
+            ("corrupt bytes", b"corrupt-active"),
+            (
+                "invalid feature schema",
+                pickle.dumps(valid_bundle(
+                    feature_names=42, feature_defaults={}, training_rows=140,
+                )),
+            ),
+            ("non-string default key", pickle.dumps(invalid_defaults)),
+            ("unpickle hook failure", pickle.dumps(ExplodingUnpicklePayload())),
+        ]
+        for label, team_states in (
+            ("non-numeric elo", {"57": {"elo": "bad"}}),
+            ("invalid recent form", {"57": {"recent": "bad"}}),
+            ("boolean appearance count", {"57": {"matches_played": True}}),
+            (
+                "invalid timestamp",
+                {"57": {
+                    "elo": 1500.0, "matches_played": 1,
+                    "last_match_at": 0, "recent": [],
+                }},
+            ),
+            ("invalid team id", {"not-a-team-id": {}}),
+        ):
+            cases.append((label, pickle.dumps(valid_bundle(
+                team_states=team_states, training_rows=140,
+            ))))
+        for label, content in cases:
+            with self.subTest(corruption=label), tempfile.TemporaryDirectory() as temporary:
+                path = Path(temporary) / "pl.bundle"
+                save_model_bundle(valid_bundle(
+                    trained_at="2026-08-09T07:00:00+00:00", training_rows=100,
+                ), path)
+                save_model_bundle(valid_bundle(training_rows=120), path)
+                path.write_bytes(content)
+                loaded = load_model_bundle_with_fallback(path)
+                self.assertTrue(loaded.recovered_from_previous)
+                self.assertEqual(loaded.bundle.training_rows, 100)
+                self.assertEqual(loaded.source_path.name, "pl.previous.bundle")
+                self.assertEqual(
+                    loaded.artifact_sha256,
+                    hashlib.sha256(loaded.source_path.read_bytes()).hexdigest(),
+                )
+
+
+def historical_match(match_id, kickoff, home_id, away_id, outcome):
+    scores = {"W": (2, 0), "D": (1, 1), "L": (0, 2)}
+    home_score, away_score = scores[outcome]
+    return {
+        "id": match_id,
+        "utcDate": kickoff,
+        "status": "FINISHED",
+        "homeTeam": {"id": home_id, "name": f"Team {home_id}"},
+        "awayTeam": {"id": away_id, "name": f"Team {away_id}"},
+        "score": {"fullTime": {"home": home_score, "away": away_score}},
+    }
+
+
+def scheduled_match(match_id=900, home_id=1, away_id=99):
+    return {
+        "id": match_id,
+        "utcDate": "2026-08-10T18:00:00Z",
+        "status": "SCHEDULED",
+        "homeTeam": {"id": home_id, "name": f"Home {home_id}"},
+        "awayTeam": {"id": away_id, "name": f"Away {away_id}"},
+        "score": {"fullTime": {"home": None, "away": None}},
+    }
+
+
+def season_matches(count=45):
+    teams = (1, 2, 3, 4, 5, 6)
+    outcomes = ("W", "D", "L")
+    matches = []
+    for index in range(count):
+        home = teams[index % len(teams)]
+        away = teams[(index * 2 + 1) % len(teams)]
+        if home == away:
+            away = teams[(teams.index(away) + 1) % len(teams)]
+        matches.append(
+            historical_match(
+                index + 1,
+                f"2025-{index // 27 + 1:02d}-{index % 27 + 1:02d}T12:00:00Z",
+                home,
+                away,
+                outcomes[index % 3],
+            )
+        )
+    return matches
+
+
+class FakeClient:
+    source_name = "football-data.org"
+
+    def __init__(self, by_season=None, scheduled=None):
+        self.by_season = by_season or {}
+        self.scheduled = scheduled or []
+        self.history_calls = []
+        self.scheduled_calls = []
+
+    def fetch_matches(self, code, *, season=None, status=None):
+        self.history_calls.append((code, season, status))
+        return list(self.by_season.get(season, []))
+
+    def fetch_scheduled_matches(self, code, date_from, date_to):
+        self.scheduled_calls.append((code, date_from, date_to))
+        return list(self.scheduled)
+
+
+class RecordingEstimator:
+    fit_sizes = []
+
+    def __init__(self, feature_names):
+        self.feature_names = feature_names
+
+    def fit(self, rows, targets):
+        self.fit_sizes.append(len(rows))
+        return self
+
+    def predict_proba(self, rows):
+        return [[0.34, 0.33, 0.33] for _ in rows]
+
+    def predict(self, rows):
+        return [0 for _ in rows]
+
+
+class TrackingXGBoostEstimator(XGBoostClassifier):
+    fit_sizes = []
+
+    def __init__(self, feature_names):
+        super().__init__(feature_names)
+
+    def fit(self, rows, targets, *, kickoffs=()):
+        type(self).fit_sizes.append(len(rows))
+        return super().fit(rows, targets, kickoffs=kickoffs)
+
+
+class FixedEstimator:
+    def predict_proba(self, rows):
+        return [[0.1, 0.2, 0.7] for _ in rows]
+
+    def predict(self, rows):
+        return [2 for _ in rows]
+
+
+class MutableProbabilityEstimator(FixedEstimator):
+    probabilities = [0.1, 0.2, 0.7]
+
+    def predict_proba(self, rows):
+        return [list(type(self).probabilities) for _ in rows]
+
+
+class MisleadingEstimator(FixedEstimator):
+    margin = 0.3
+
+    def explain_prediction(self, row, *, top_n=3):
+        return {
+            "predicted_class_index": 0,
+            "runner_up_class_index": 1,
+            "logit_margin": type(self).margin,
+            "top_drivers": [
+                {
+                    "feature": "elo_diff",
+                    "raw_value": row["elo_diff"],
+                    "contribution": 0.3,
+                }
+            ],
+        }
+
+
+class ExplodingExplanationEstimator(FixedEstimator):
+    def explain_prediction(self, row, *, top_n=3):
+        raise RuntimeError("explanation exploded")
+
+
+class ExplodingProbabilityEstimator(FixedEstimator):
+    calls = 0
+
+    def predict_proba(self, rows):
+        type(self).calls += 1
+        if type(self).calls <= 2:
+            return super().predict_proba(rows)
+        raise RuntimeError("prediction exploded")
+
+
+class ShiftedFeatureEngineer(FeatureEngineer):
+    def __init__(self, shift):
+        super().__init__()
+        self.shift = shift
+
+    def build_fixture_features(self, home_team_id, away_team_id, kickoff, team_states):
+        values = super().build_fixture_features(
+            home_team_id, away_team_id, kickoff, team_states
+        )
+        values["elo_diff"] += self.shift
+        return values
+
+
+class TestModelTrainer(ContractTestCase):
+    def test_final_probability_gate_rejects_worse_than_frozen_training_prior(self):
+        class WeakProbabilityEstimator(RecordingEstimator):
+            def predict_proba(self, rows):
+                return [[0.1, 0.1, 0.8] for _ in rows]
+
+            def predict(self, rows):
+                return [2 for _ in rows]
+
+        matches = [historical_match(i + 1, f"2025-01-{i + 1:02}T12:00:00Z", 1, 2, "W") for i in range(24)]
+        trainer = ModelTrainer(client=FakeClient({"2025": matches}), model_factory=WeakProbabilityEstimator,
+                               minimum_matches=12, maximum_calibration_error=1,
+                               maximum_classwise_calibration_error=1)
+        with patch("app.ml.training.save_model_bundle") as save, self.assertRaisesRegex(TrainingError, "概率"):
+            trainer.train_competition("PL", 2021, ["2025"])
+        save.assert_not_called()
+
+    def test_final_holdout_is_never_read_by_development_backtests(self):
+        rows = tuple({"audit_row": float(index)} for index in range(30))
+        # Nominal split 24 falls inside the four-fixture kickoff bucket 22..25.
+        kickoffs = tuple(
+            f"2025-01-{(12 if 22 <= index <= 25 else index // 2 + 1):02d}T12:00:00+00:00"
+            for index in range(30)
+        )
+        dataset = FeatureDataset(rows, (2,) * 30, tuple(range(1, 31)), {}, {"audit_row": 14.5}, kickoffs)
+        phases = []
+
+        class StaticFeatures:
+            features = ("audit_row",)
+
+            def build_training_dataset(self, matches):
+                return dataset
+
+        class ObservableEstimator(XGBoostClassifier):
+            def __init__(self, features):
+                super().__init__(features, rounds=2)
+                self.fitted = set()
+                self.scored = set()
+                phases.append(self)
+
+            def fit(self, examples, targets, *, kickoffs=()):
+                self.fitted = {int(row["audit_row"]) for row in examples}
+                self.kickoffs = tuple(kickoffs)
+                return self
+
+            def predict_proba(self, examples):
+                self.scored.update(int(row["audit_row"]) for row in examples)
+                return [[0.0005, 0.0005, 0.999] for _ in examples]
+
+            def predict(self, examples):
+                self.scored.update(int(row["audit_row"]) for row in examples)
+                return [2 for _ in examples]
+
+        trainer = ModelTrainer(
+            client=FakeClient(), feature_engineer=StaticFeatures(),
+            model_factory=ObservableEstimator, minimum_matches=12,
+        )
+        bundle = trainer.train_competition("PL", 2021, ["2025"], save=False)
+        self.assertEqual(len(phases), 5)
+        for fold in phases[:3]:
+            self.assertTrue(fold.fitted | fold.scored <= set(range(22)))
+            self.assertLess(max(fold.fitted), min(fold.scored))
+        self.assertEqual(set.union(*(fold.scored for fold in phases[:3])), set(range(10, 22)))
+        self.assertEqual(phases[3].fitted, set(range(22)))
+        self.assertEqual(phases[3].scored, set(range(22, 30)))
+        self.assertEqual(phases[4].fitted, set(range(30)))
+        for phase in phases:
+            self.assertEqual(phase.kickoffs, tuple(kickoffs[i] for i in sorted(phase.fitted)))
+        self.assertEqual(bundle.metrics["validation_rows"], 8)
+
+    def test_training_lifecycle_and_quality_gates(self):
+        self._run_contracts(
+            (
+                '_check_training_rejects_worst_class_calibration',
+                '_check_training_rejects_temporally_unstable_fold',
+                '_check_training_uses_temporal_holdout_then_refits_all_rows',
+                '_check_real_training_saves_loadable_self_describing_bundle',
+                '_check_training_rejects_insufficient_history',
+            )
+        )
+
+    def _check_training_rejects_worst_class_calibration(self):
+        trainer = ModelTrainer(
+            client=FakeClient({"2025": season_matches(45)}),
+            model_factory=RecordingEstimator,
+            minimum_matches=12,
+            maximum_calibration_error=1.0,
+            maximum_classwise_calibration_error=0.0,
+        )
+
+        with self.assertRaises(TrainingError) as context:
+            trainer.train_competition("PL", 2021, ["2025"], save=False)
+
+        self.assertIn("最差类别校准误差", str(context.exception))
+
+    def _check_training_rejects_temporally_unstable_fold(self):
+        RecordingEstimator.fit_sizes = []
+        trainer = ModelTrainer(
+            client=FakeClient({"2025": season_matches(45)}),
+            model_factory=RecordingEstimator,
+            minimum_matches=12,
+            minimum_worst_fold_accuracy_lift=-0.1,
+        )
+
+        with self.assertRaises(TrainingError) as context:
+            trainer.train_competition("PL", 2021, ["2025"], save=False)
+
+        self.assertIn("最差折", str(context.exception))
+
+    def _check_training_uses_temporal_holdout_then_refits_all_rows(self):
+        matches = season_matches(45)
+        client = FakeClient({"2025": matches})
+        TrackingXGBoostEstimator.fit_sizes = []
+        trainer = ModelTrainer(
+            client=client,
+            model_factory=TrackingXGBoostEstimator,
+            minimum_matches=12,
+            holdout_fraction=0.2,
+            clock=lambda: datetime(2026, 8, 10, 7, tzinfo=UTC),
+        )
+
+        bundle = trainer.train_competition("pl", 2021, ["2025"], save=False)
+
+        self.assertEqual(TrackingXGBoostEstimator.fit_sizes, [18, 24, 30, 36, 45])
+        self.assertEqual(bundle.competition_code, "PL")
+        self.assertEqual(bundle.training_rows, 45)
+        self.assertEqual(bundle.classes, ("L", "D", "W"))
+        self.assertEqual(bundle.metrics["validation_rows"], 9)
+        self.assertIn("validation_log_loss", bundle.metrics)
+        self.assertIn("baseline_accuracy", bundle.metrics)
+        self.assertIn("elo_baseline_accuracy", bundle.metrics)
+        self.assertIn("majority_baseline_accuracy", bundle.metrics)
+        self.assertEqual(bundle.metrics["backtest_folds"], 3)
+        self.assertEqual(bundle.metrics["backtest_rows"], 18)
+        self.assertIn("backtest_calibration_error", bundle.metrics)
+        self.assertGreaterEqual(
+            bundle.metrics["backtest_baseline_accuracy"],
+            bundle.metrics["backtest_elo_baseline_accuracy"],
+        )
+        self.assertGreaterEqual(
+            bundle.metrics["backtest_baseline_accuracy"],
+            bundle.metrics["backtest_majority_baseline_accuracy"],
+        )
+        self.assertIn("validation_ranked_probability_score", bundle.metrics)
+        self.assertIn("backtest_ranked_probability_score", bundle.metrics)
+        self.assertIn("backtest_classwise_calibration_error", bundle.metrics)
+        self.assertIn("backtest_sharpness", bundle.metrics)
+        self.assertIn("backtest_worst_fold_accuracy_lift", bundle.metrics)
+        self.assertIn("backtest_accuracy_lift_stddev", bundle.metrics)
+        self.assertEqual(len(bundle.metrics["backtest_reliability"]), 3)
+        self.assertEqual(len(bundle.metrics["backtest_fold_metrics"]), 3)
+        for fold in bundle.metrics['backtest_fold_metrics']:
+            self.assertIsInstance(fold['runtime'], dict)
+            self.assertGreaterEqual(fold['runtime']['fit_seconds'], 0)
+        self.assertEqual(client.history_calls, [("PL", "2025", "FINISHED")])
+
+    def _check_real_training_saves_loadable_self_describing_bundle(self):
+        client = FakeClient({"2025": season_matches(45)})
+        with tempfile.TemporaryDirectory() as temp_dir:
+            trainer = ModelTrainer(
+                client=client,
+                model_dir=Path(temp_dir),
+                minimum_matches=12,
+                clock=lambda: datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+            bundle = trainer.train_competition("PL", 2021, ["2025"])
+            loaded = load_model_bundle(Path(temp_dir) / "pl.bundle")
+
+        self.assertEqual(loaded.training_rows, 45)
+        self.assertEqual(loaded.feature_names, FeatureEngineer.FEATURES)
+        self.assertEqual(len(loaded.team_states), 6)
+        self.assertGreaterEqual(bundle.metrics["validation_log_loss"], 0.0)
+        self.assertGreaterEqual(bundle.metrics["validation_brier_score"], 0.0)
+        self.assertGreaterEqual(bundle.metrics["backtest_log_loss"], 0.0)
+        self.assertGreaterEqual(bundle.metrics["backtest_brier_score"], 0.0)
+        self.assertGreaterEqual(bundle.metrics["backtest_calibration_error"], 0.0)
+
+    def _check_training_rejects_insufficient_history(self):
+        trainer = ModelTrainer(
+            client=FakeClient({"2025": season_matches(5)}),
+            minimum_matches=12,
+        )
+        with self.assertRaises(TrainingError) as context:
+            trainer.train_competition("PL", 2021, ["2025"], save=False)
+        self.assertIn("至少", str(context.exception))
+
+        trainer = ModelTrainer(
+            client=FakeClient({"2025": season_matches(12)}), minimum_matches=12,
+            holdout_fraction=0.5, backtest_folds=5,
+        )
+        with self.assertRaises(TrainingError) as context:
+            trainer.train_competition("PL", 2021, ["2025"], save=False)
+        self.assertIn("开发集", str(context.exception))
+
+
+class TestPredictionEngine(ContractTestCase):
+    def test_loaded_states_and_recipe_are_parsed_once_for_a_fixture_batch(self):
+        from app.ml import feature_engineering
+
+        now = datetime(2026, 8, 10, 7, tzinfo=UTC)
+        fixtures = [scheduled_match(index, home_id=1, away_id=2) for index in range(1, 4)]
+        bundle = self.make_bundle()
+        engineer = FeatureEngineer.from_recipe(bundle.feature_recipe)
+        expected = engineer.build_fixture_features(1, 2, fixtures[0]["utcDate"], bundle.team_states)
+        for explicit in (False, True):
+            with self.subTest(explicit_engineer=explicit), tempfile.TemporaryDirectory() as temporary:
+                directory = Path(temporary)
+                path = directory / "pl.bundle"
+                save_model_bundle(bundle, path)
+                original = path.read_bytes()
+                engine = PredictionEngine(
+                    models_dir=directory, client=FakeClient(scheduled=fixtures),
+                    feature_engineer=engineer if explicit else None,
+                )
+                with patch.object(artifacts, "validate_team_states", wraps=artifacts.validate_team_states) as load_states, \
+                     patch.object(feature_engineering, "validate_team_states", wraps=feature_engineering.validate_team_states) as fixture_states, \
+                     patch.object(FeatureEngineer, "from_recipe", wraps=FeatureEngineer.from_recipe) as recipe:
+                    loaded = engine._load_bundle("PL")
+                    predictions = engine._predict_competition_with_bundle("PL", loaded, days=1, now=now)
+                self.assertEqual(load_states.call_count, 1)
+                self.assertEqual(recipe.call_count, 1)
+                fixture_states.assert_not_called()
+                self.assertEqual(len(predictions), 3)
+                self.assertEqual(
+                    [row["feature_fingerprint"] for row in predictions],
+                    [feature_fingerprint(bundle.feature_names, expected)] * 3,
+                )
+                self.assertEqual(loaded.team_states[1].matches_played, bundle.team_states["1"]["matches_played"])
+                self.assertIsInstance(loaded.trained_at, datetime)
+                self.assertEqual(path.read_bytes(), original)
+                self.assertEqual(loaded.artifact_sha256, hashlib.sha256(original).hexdigest())
+
+    def test_saved_recipe_controls_default_inference_and_rejects_explicit_mismatch(self):
+        engineer = FeatureEngineer(window=8)
+        matches = [historical_match(i + 1, f"2025-01-{i + 1:02}T12:00:00Z", 1, 2, ("W", "D", "L")[i % 3]) for i in range(8)]
+        dataset = engineer.build_training_dataset(matches)
+        fixture = scheduled_match(home_id=1, away_id=2)
+        expected = engineer.build_fixture_features(1, 2, fixture["utcDate"], dataset.team_states)
+        wrong = FeatureEngineer().build_fixture_features(1, 2, fixture["utcDate"], dataset.team_states)
+        self.assertNotEqual(expected["home_goals_for"], wrong["home_goals_for"])
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            save_model_bundle(valid_bundle(feature_names=engineer.features, feature_recipe=engineer.to_recipe(),
+                feature_defaults=dataset.feature_defaults, team_states=dataset.team_states), directory / "pl.bundle")
+            engine = PredictionEngine(models_dir=directory, client=FakeClient(scheduled=[fixture]))
+            prediction = engine.predict_competition("PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC))[0]
+            self.assertEqual(prediction["feature_fingerprint"], feature_fingerprint(engineer.features, expected))
+            self.assertEqual(prediction["model"]["schema_version"], 4)
+            self.assertEqual(prediction["forecast_id"], forecast_id_for_prediction(prediction))
+            mismatched = PredictionEngine(models_dir=directory, client=FakeClient(), feature_engineer=FeatureEngineer())
+            with self.assertRaises(PredictionError) as context:
+                mismatched._load_bundle("PL")
+            self.assertEqual(context.exception.code, "FEATURE_RECIPE_MISMATCH")
+
+    def test_provider_mismatch_rejects_predictions(self):
+        client = FakeClient(scheduled=[scheduled_match()])
+        client.source_name = "openfootball"
+        bundle = self.make_bundle()
+        bundle.metrics["data_source"] = "football-data.co.uk"
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(bundle, models_dir / "pl.bundle")
+            engine = PredictionEngine(models_dir=models_dir, client=client)
+            with self.assertRaises(PredictionError) as context:
+                engine.predict_competition("PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC))
+        self.assertEqual(context.exception.code, "DATA_SOURCE_MISMATCH")
+
+    def test_only_future_unstarted_fixtures_in_the_requested_utc_days_are_predicted(self):
+        fixtures = []
+        for index, (status, kickoff) in enumerate((
+            ("SCHEDULED", "2026-08-10T18:00:00Z"),
+            ("TIMED", "2026-08-10T20:00:00Z"),
+            ("TIMED", "2026-08-10T07:00:00Z"),
+            ("TIMED", "2026-08-10T06:00:00Z"),
+            ("TIMED", "2026-08-11T00:00:00Z"),
+            ("TIMED", "2026-08-12T18:00:00Z"),
+            ("IN_PLAY", "2026-08-10T18:00:00Z"),
+            ("CANCELLED", "2026-08-10T18:00:00Z"),
+        ), start=1):
+            fixtures.append({**scheduled_match(index), "status": status, "utcDate": kickoff})
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(), models_dir / "pl.bundle")
+            predictions = PredictionEngine(models_dir=models_dir, client=FakeClient(scheduled=fixtures)).predict_competition(
+                "PL", days=1, now=datetime(2026, 8, 10, 9, tzinfo=timezone(timedelta(hours=2)))
+            )
+        self.assertEqual([item["match_id"] for item in predictions], [1, 2])
+
+
+    def test_prediction_integrity_and_explanation_contracts(self):
+        self._run_contracts(
+            (
+                "_check_duplicate_fixtures_are_merged_and_conflicts_fail_closed",
+                "_check_forecast_id_binds_features_and_final_probabilities",
+                "_check_explanation_runtime_failure_does_not_remove_prediction",
+                "_check_mismatched_or_non_finite_explanation_fails_closed",
+                "_check_prediction_maps_model_classes_and_reports_cold_start_quality",
+                "_check_trained_xgboost_prediction_exports_tree_shap_drivers",
+            )
+        )
+
+    def test_prediction_recovery_and_run_contracts(self):
+        self._run_contracts(
+            (
+                "_check_prediction_uses_previous_bundle_and_marks_recovery",
+                "_check_prediction_run_reports_model_quality_without_fixtures",
+                "_check_prediction_rejects_feature_schema_mismatch",
+                "_check_prediction_run_keeps_other_competitions_when_one_model_is_missing",
+                "_check_prediction_snapshot_rejects_future_models_before_fetching",
+            )
+        )
+
+    def _check_prediction_snapshot_rejects_future_models_before_fetching(self):
+        snapshot = datetime(2026, 8, 10, 9, tzinfo=timezone(timedelta(hours=2)))
+        for schema in (3, 4):
+            with self.subTest(schema=schema), tempfile.TemporaryDirectory() as temporary:
+                directory = Path(temporary)
+                future = self.make_bundle(
+                    schema_version=schema,
+                    feature_recipe=FeatureEngineer().to_recipe(),
+                    trained_at="2026-08-10T09:00:01+02:00",
+                )
+                if schema == 3:
+                    del future.feature_recipe  # Original v3 files have no recipe field.
+                    (directory / "pl.bundle").write_bytes(pickle.dumps(future))
+                    (directory / "pl.bundle").chmod(0o600)
+                else:
+                    save_model_bundle(future, directory / "pl.bundle")
+                client = FakeClient(scheduled=[scheduled_match()])
+                engine = PredictionEngine(models_dir=directory, client=client)
+                with self.assertRaises(PredictionError) as context:
+                    engine.predict_competition("PL", days=1, now=snapshot)
+                self.assertEqual(context.exception.code, "MODEL_NOT_AVAILABLE_AT_SNAPSHOT")
+                self.assertEqual(client.scheduled_calls, [])
+
+                # Equality is available; timezone offsets must compare as instants.
+                predictions = engine.predict_competition(
+                    "PL", days=1, now=snapshot + timedelta(seconds=1)
+                )
+                self.assertEqual(len(predictions), 1)
+                self.assertEqual(len(client.scheduled_calls), 1)
+
+                save_model_bundle(self.make_bundle(
+                    competition_code="SA", competition_id=2019,
+                    trained_at="2026-08-10T06:59:59+00:00",
+                ), directory / "sa.bundle")
+                client.scheduled_calls.clear()
+                run = engine.predict_all({"PL": 2021, "SA": 2019}, days=1, now=snapshot)
+                self.assertEqual(run.models_loaded, 1)
+                self.assertEqual([p["competition"] for p in run.predictions], ["SA"])
+                self.assertEqual(run.errors[0]["competition"], "PL")
+                self.assertEqual(run.errors[0]["code"], "MODEL_NOT_AVAILABLE_AT_SNAPSHOT")
+                self.assertEqual(len(run.model_reports), 2)
+                self.assertEqual([call[0] for call in client.scheduled_calls], ["SA"])
+
+    def _check_duplicate_fixtures_are_merged_and_conflicts_fail_closed(self):
+        fixture = scheduled_match()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(), models_dir / "pl.bundle")
+            duplicate_predictions = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[fixture, dict(fixture)]),
+            ).predict_competition(
+                "PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC)
+            )
+            conflict = scheduled_match(away_id=98)
+            with self.assertRaises(PredictionError) as context:
+                PredictionEngine(
+                    models_dir=models_dir,
+                    client=FakeClient(scheduled=[fixture, conflict]),
+                ).predict_competition(
+                    "PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC)
+                )
+
+        self.assertEqual(len(duplicate_predictions), 1)
+        self.assertEqual(context.exception.code, "DUPLICATE_FIXTURE_CONFLICT")
+
+    def _check_forecast_id_binds_features_and_final_probabilities(self):
+        now = datetime(2026, 8, 10, 7, tzinfo=UTC)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(
+                self.make_bundle(estimator=MutableProbabilityEstimator()),
+                models_dir / "pl.bundle",
+            )
+            base_engine = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[scheduled_match(home_id=1, away_id=2)]),
+                feature_engineer=ShiftedFeatureEngineer(0.0),
+            )
+            base = base_engine.predict_competition("PL", days=1, now=now)[0]
+            identical = base_engine.predict_competition("PL", days=1, now=now)[0]
+            shifted = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[scheduled_match(home_id=1, away_id=2)]),
+                feature_engineer=ShiftedFeatureEngineer(25.0),
+            ).predict_competition("PL", days=1, now=now)[0]
+            MutableProbabilityEstimator.probabilities = [0.2, 0.3, 0.5]
+            changed_probability = base_engine.predict_competition(
+                "PL", days=1, now=now
+            )[0]
+            MutableProbabilityEstimator.probabilities = [0.1, 0.2, 0.7]
+
+        self.assertNotEqual(base["forecast_id"], shifted["forecast_id"])
+        self.assertNotEqual(base["forecast_id"], changed_probability["forecast_id"])
+        self.assertEqual(base["forecast_id"], identical["forecast_id"])
+
+    def _check_explanation_runtime_failure_does_not_remove_prediction(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(
+                self.make_bundle(estimator=ExplodingExplanationEstimator()),
+                models_dir / "pl.bundle",
+            )
+            prediction = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[scheduled_match()]),
+            ).predict_competition(
+                "PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC)
+            )[0]
+
+        self.assertFalse(prediction["explanation"]["available"])
+        self.assertEqual(
+            prediction["explanation"]["reason"],
+            "explanation_contract_failed",
+        )
+
+    def _check_mismatched_or_non_finite_explanation_fails_closed(self):
+        for margin in (0.3, float("nan")):
+            with self.subTest(margin=margin), tempfile.TemporaryDirectory() as temp_dir:
+                models_dir = Path(temp_dir)
+                MisleadingEstimator.margin = margin
+                save_model_bundle(
+                    self.make_bundle(estimator=MisleadingEstimator()),
+                    models_dir / "pl.bundle",
+                )
+                prediction = PredictionEngine(
+                    models_dir=models_dir,
+                    client=FakeClient(scheduled=[scheduled_match()]),
+                ).predict_competition(
+                    "PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC)
+                )[0]
+
+                self.assertFalse(prediction["explanation"]["available"])
+    def make_bundle(self, **overrides):
+        engineer = FeatureEngineer()
+        state = engineer.build_training_dataset(
+            [historical_match(1, "2026-08-01T18:00:00Z", 1, 2, "W")]
+        )
+        values = {
+            "competition_code": "PL",
+            "competition_id": 2021,
+            "estimator": FixedEstimator(),
+            "feature_names": engineer.features,
+            "classes": ("L", "D", "W"),
+            "trained_at": "2026-08-10T07:00:00+00:00",
+            "metrics": {"validation_accuracy": 0.55, "validation_log_loss": 0.95},
+            "team_states": state.team_states,
+            "feature_defaults": state.feature_defaults,
+            "training_rows": 100,
+        }
+        values.update(overrides)
+        return ModelBundle(**values)
+
+    def _check_prediction_uses_previous_bundle_and_marks_recovery(self):
+        client = FakeClient(scheduled=[scheduled_match()])
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            path = models_dir / "pl.bundle"
+            save_model_bundle(self.make_bundle(training_rows=100), path)
+            save_model_bundle(self.make_bundle(training_rows=120), path)
+            path.write_bytes(b"corrupt-active")
+
+            predictions = PredictionEngine(
+                models_dir=models_dir,
+                client=client,
+            ).predict_competition(
+                "PL",
+                days=1,
+                now=datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+
+        self.assertEqual(len(predictions), 1)
+        self.assertEqual(predictions[0]["model"]["training_rows"], 100)
+        self.assertTrue(predictions[0]["model"]["recovered_from_previous"])
+
+    def _check_prediction_run_reports_model_quality_without_fixtures(self):
+        metrics = {
+            "validation_accuracy": 0.61,
+            "validation_log_loss": 0.88,
+            "baseline_accuracy": 0.48,
+            "backtest_folds": 3,
+            "backtest_rows": 60,
+            "backtest_accuracy": 0.57,
+            "backtest_baseline_accuracy": 0.46,
+            "backtest_log_loss": 0.91,
+            "backtest_brier_score": 0.58,
+            "backtest_calibration_error": 0.08,
+        }
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(
+                self.make_bundle(metrics=metrics),
+                models_dir / "pl.bundle",
+            )
+            run = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[]),
+            ).predict_all(
+                {"PL": 2021},
+                days=1,
+                now=datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+
+        self.assertEqual(run.predictions, ())
+        self.assertEqual(len(run.model_reports), 1)
+        report = run.model_reports[0]
+        self.assertEqual(report["competition"], "PL")
+        self.assertEqual(report["backtest_folds"], 3)
+        self.assertEqual(report["backtest_calibration_error"], 0.08)
+        self.assertEqual(len(report["backtest_fold_metrics"]), 0)
+        self.assertFalse(report["recovered_from_previous"])
+
+    def _check_prediction_maps_model_classes_and_reports_cold_start_quality(self):
+        client = FakeClient(scheduled=[scheduled_match()])
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(), models_dir / "pl.bundle")
+            engine = PredictionEngine(models_dir=models_dir, client=client)
+
+            predictions = engine.predict_competition(
+                "PL",
+                days=3,
+                now=datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+
+        self.assertEqual(len(predictions), 1)
+        prediction = predictions[0]
+        self.assertEqual(prediction["prediction"], "HOME_WIN")
+        self.assertEqual(prediction["probabilities"], {
+            "home_win": 0.7,
+            "draw": 0.2,
+            "away_win": 0.1,
+        })
+        self.assertEqual(prediction["confidence"], 0.7)
+        self.assertEqual(prediction["confidence_semantics"], "top_outcome_probability")
+        self.assertEqual(prediction["probability_margin"], 0.5)
+        self.assertGreater(prediction["uncertainty"], 0.0)
+        self.assertFalse(prediction["explanation"]["available"])
+        self.assertEqual(prediction["predicted_at"], "2026-08-10T07:00:00+00:00")
+        self.assertEqual(len(prediction["forecast_id"]), 64)
+        self.assertEqual(len(prediction["feature_fingerprint"]), 64)
+        self.assertEqual(
+            prediction["forecast_id"],
+            forecast_id_for_prediction(prediction),
+        )
+        self.assertEqual(len(prediction["model"]["model_sha256"]), 64)
+        self.assertNotIn("backtest_reliability", prediction["model"])
+        self.assertNotIn("backtest_fold_metrics", prediction["model"])
+        self.assertEqual(
+            prediction["data_provenance"],
+            {
+                "source": "football-data.org",
+                "source_match_id": 900,
+                "source_updated_at": None,
+                "snapshot_at": "2026-08-10T07:00:00+00:00",
+            },
+        )
+        self.assertTrue(prediction["data_quality"]["is_cold_start"])
+        self.assertEqual(prediction["data_quality"]["home_history_matches"], 1)
+        self.assertEqual(prediction["data_quality"]["away_history_matches"], 0)
+        self.assertEqual(prediction["model"]["training_rows"], 100)
+        self.assertEqual(client.scheduled_calls, [("PL", "2026-08-10", "2026-08-13")])
+
+    def _check_trained_xgboost_prediction_exports_tree_shap_drivers(self):
+        engineer = FeatureEngineer()
+        rows = []
+        targets = []
+        for _ in range(20):
+            for signal, target in ((-1.0, 0), (0.0, 1), (1.0, 2)):
+                row = {name: 0.0 for name in engineer.features}
+                row["home_advantage"] = signal
+                rows.append(row)
+                targets.append(target)
+        model = XGBoostClassifier(
+            engineer.features,
+            rounds=60,
+            minimum_child_weight=1.0,
+        ).fit(rows, targets)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(estimator=model), models_dir / "pl.bundle")
+            prediction = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[scheduled_match(home_id=1, away_id=2)]),
+            ).predict_competition(
+                "PL", days=1, now=datetime(2026, 8, 10, 7, tzinfo=UTC)
+            )[0]
+
+        explanation = prediction["explanation"]
+        self.assertTrue(explanation["available"])
+        self.assertEqual(explanation["method"], "tree_shap_margin")
+        self.assertEqual(explanation["predicted_vs_runner_up"], "HOME_WIN vs DRAW")
+        self.assertEqual(explanation["top_drivers"][0]["feature"], "home_advantage")
+        self.assertEqual(explanation["top_drivers"][0]["direction"], "supports_prediction")
+        self.assertEqual(len(explanation['drivers']), len(engineer.features))
+        self.assertEqual(explanation['output_scale'], 'raw_margin')
+        self.assertEqual(explanation['feature_dependence'], 'native_tree_path_dependent')
+        self.assertAlmostEqual(explanation['bias_contribution']
+                               + sum(r['contribution'] for r in explanation['top_drivers'])
+                               + explanation['omitted_contribution'], explanation['logit_margin'], places=5)
+        self.assertAlmostEqual(explanation['bias_contribution']
+                               + sum(r['contribution'] for r in explanation['drivers']),
+                               explanation['logit_margin'], places=5)
+
+    def _check_prediction_rejects_feature_schema_mismatch(self):
+        client = FakeClient(scheduled=[scheduled_match()])
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(
+                self.make_bundle(
+                    feature_names=("different",),
+                    feature_defaults={"different": 0.0},
+                ),
+                models_dir / "pl.bundle",
+            )
+            engine = PredictionEngine(models_dir=models_dir, client=client)
+            with self.assertRaises(PredictionError) as context:
+                engine.predict_competition("PL", days=1)
+        self.assertIn("特征版本", str(context.exception))
+
+    def _check_prediction_run_keeps_other_competitions_when_one_model_is_missing(self):
+        client = FakeClient(scheduled=[])
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(self.make_bundle(), models_dir / "pl.bundle")
+            run = PredictionEngine(models_dir=models_dir, client=client).predict_all(
+                {"PL": 2021, "SA": 2019},
+                days=1,
+                now=datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+
+        self.assertEqual(run.predictions, ())
+        self.assertEqual(run.models_loaded, 1)
+        self.assertEqual(run.competitions_requested, 2)
+        self.assertEqual(run.errors[0]["competition"], "SA")
+        self.assertEqual(run.errors[0]["code"], "MODEL_UNAVAILABLE")
+
+        ExplodingProbabilityEstimator.calls = 0
+        with tempfile.TemporaryDirectory() as temp_dir:
+            models_dir = Path(temp_dir)
+            save_model_bundle(
+                self.make_bundle(estimator=ExplodingProbabilityEstimator()),
+                models_dir / "pl.bundle",
+            )
+            save_model_bundle(
+                self.make_bundle(competition_code="SA", competition_id=2019),
+                models_dir / "sa.bundle",
+            )
+            run = PredictionEngine(
+                models_dir=models_dir,
+                client=FakeClient(scheduled=[scheduled_match()]),
+            ).predict_all(
+                {"PL": 2021, "SA": 2019},
+                days=1,
+                now=datetime(2026, 8, 10, 7, tzinfo=UTC),
+            )
+
+        self.assertEqual(len(run.predictions), 1)
+        self.assertEqual(run.predictions[0]["competition"], "SA")
+        self.assertEqual(run.errors[0]["competition"], "PL")
+        self.assertEqual(run.errors[0]["code"], "UNEXPECTED_PREDICTION_ERROR")
+
+
+@dataclass
+class FakeBundle:
+    training_rows: int
+    metrics: dict
+
+
+class FakeTrainer:
+    def __init__(self):
+        self.calls = []
+
+    def train_competition(self, code, competition_id, seasons):
+        self.calls.append((code, competition_id, tuple(seasons)))
+        if code == "SA":
+            raise RuntimeError("source unavailable")
+        return FakeBundle(
+            120,
+            {
+                "validation_accuracy": 0.56,
+                "validation_ranked_probability_score": 0.21,
+                "backtest_accuracy": 0.54,
+                "backtest_baseline_accuracy": 0.48,
+                "backtest_majority_baseline_accuracy": 0.41,
+                "backtest_elo_baseline_accuracy": 0.48,
+                "backtest_calibration_error": 0.09,
+                "backtest_ranked_probability_score": 0.22,
+                "backtest_classwise_calibration_error": 0.08,
+                "backtest_sharpness": 0.61,
+                "backtest_worst_fold_accuracy_lift": 0.02,
+                "backtest_accuracy_lift_stddev": 0.03,
+            },
+        )
+
+
+class TestPipeline(unittest.TestCase):
+    def test_run_identity_binds_optional_engine_version(self):
+        from app.run_receipts import build_run_receipt, estimator_parameters
+
+        model = SimpleNamespace(pipeline=SimpleNamespace(get_params=lambda: {
+            "classifier__max_depth": 4, "classifier__class_weight": {"W": 1.5}, "steps": [object()]}))
+        parameters = estimator_parameters(model)
+        self.assertEqual(parameters["classifier__class_weight"], {"W": 1.5})
+        self.assertEqual(parameters["classifier__max_depth"], 4)
+        self.assertNotIn("steps", parameters)
+
+        arguments = {"configuration": {"model": "lightgbm", "seed": 7},
+                     "inputs": {"sha256": "a" * 64}, "stages": {"fit": "complete"}}
+        with patch("app.run_receipts.version", return_value="same"):
+            first = build_run_receipt("experiment", **arguments)
+        with patch("app.run_receipts.version", side_effect=lambda name: "changed" if name == "lightgbm" else "same"):
+            second = build_run_receipt("experiment", **arguments)
+        self.assertEqual(first["code"], second["code"])
+        self.assertEqual(first["inputs"], second["inputs"])
+        self.assertNotEqual(first["run_id"], second["run_id"])
+
+    def test_partial_training_exit_and_receipt_preserve_failure_scope(self):
+        import json
+        from contextlib import redirect_stdout
+        from io import StringIO
+
+        trainer = FakeTrainer()
+        result = pipeline.run_training_pipeline(competition_codes="PL,SA", seasons=["2025"], trainer=trainer)
+        self.assertEqual(result["status"], "partial")
+        receipt = result["run_receipt"]
+        self.assertEqual(receipt["stages"], {"PL": "complete", "SA": "failed"})
+        self.assertEqual(len(receipt["run_id"]), 64)
+        self.assertEqual(receipt["configuration"]["seasons"], ["2025"])
+        output = StringIO()
+        with patch.object(pipeline, "run_training_pipeline", return_value=result), redirect_stdout(output):
+            self.assertEqual(pipeline.main(["train", "--competitions", "PL,SA"]), 2)
+        self.assertEqual(json.loads(output.getvalue())["errors"], result["errors"])
+
+    def test_predict_command_emits_machine_readable_predictions(self):
+        import json
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from app.ml.prediction import PredictionRun
+
+        run = PredictionRun("2026-08-10T07:00:00+00:00", (), (), 1, 1)
+        output = StringIO()
+        with patch.object(pipeline, "run_predictions_pipeline", return_value=run), redirect_stdout(output):
+            self.assertEqual(pipeline.main(["predict", "--competitions", "PL"]), 0)
+        self.assertEqual(json.loads(output.getvalue()), run.to_dict())
+
+    def test_cli_seasons_use_the_validated_configuration_parser(self):
+        parser = pipeline.build_parser()
+        self.assertEqual(parser.parse_args(["train", "--seasons", "2025,2025,2026"]).seasons, ["2025", "2026"])
+        with self.assertRaises(SystemExit), patch("sys.stderr"):
+            parser.parse_args(["train", "--seasons", "2025,typo"])
+
+    def test_training_pipeline_returns_structured_partial_result(self):
+        trainer = FakeTrainer()
+
+        result = pipeline.run_training_pipeline(
+            competition_codes="PL,SA",
+            seasons=["2025"],
+            trainer=trainer,
+        )
+
+        self.assertEqual(result["trained_count"], 1)
+        self.assertEqual(result["failed_count"], 1)
+        self.assertEqual(result["results"][0]["competition"], "PL")
+        self.assertEqual(result["results"][0]["training_rows"], 120)
+        self.assertEqual(result["results"][0]["backtest_accuracy"], 0.54)
+        self.assertEqual(result["results"][0]["backtest_baseline_accuracy"], 0.48)
+        self.assertEqual(result["results"][0]["backtest_elo_baseline_accuracy"], 0.48)
+        self.assertEqual(result["results"][0]["backtest_calibration_error"], 0.09)
+        self.assertEqual(result["results"][0]["validation_ranked_probability_score"], 0.21)
+        self.assertEqual(result["results"][0]["backtest_ranked_probability_score"], 0.22)
+        self.assertEqual(result["results"][0]["backtest_worst_fold_accuracy_lift"], 0.02)
+        self.assertEqual(result["errors"][0]["competition"], "SA")
+        self.assertEqual(trainer.calls, [
+            ("PL", 2021, ("2025",)),
+            ("SA", 2019, ("2025",)),
+        ])
+
+    def test_cli_exposes_only_current_commands_in_minimal_runtime(self):
+        parser = pipeline.build_parser()
+        help_text = parser.format_help()
+        self.assertIn("train", help_text)
+        self.assertIn("predict", help_text)
+        self.assertIn("export-site", help_text)
+        self.assertIn("all", help_text)
+        self.assertNotIn("simulate", help_text)
+        export_args = parser.parse_args(["export-site", "--competitions", "PL"])
+        self.assertEqual(export_args.competitions, "PL")
+        result = subprocess.run(
+            [sys.executable, "-m", "app.pipeline", "--help"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Soccer Analytics", result.stdout)
+
+    def test_pipeline_forwards_configuration_scope_and_refresh_errors(self):
+        settings = SimpleNamespace(
+            model_dir=Path("/custom/model-store"),
+            site_data_dir=Path("/custom/site-data"),
+            site_export_days=2,
+            prediction_days=5,
+            competitions_map={"PL": 2021, "SA": 2019},
+        )
+        with self.subTest("configured prediction range"):
+            engine = Mock()
+            engine.predict_all.return_value = SimpleNamespace(
+                predictions=(),
+                errors=(),
+                models_loaded=1,
+                competitions_requested=2,
+            )
+            with patch.object(pipeline, "load_settings", return_value=settings):
+                pipeline.run_predictions_pipeline(engine=engine)
+            engine.predict_all.assert_called_once_with(
+                settings.competitions_map,
+                days=5,
+            )
+
+        with self.subTest("configured artifact directories"):
+            with patch.object(
+                pipeline,
+                "load_settings",
+                return_value=settings,
+            ), patch.object(pipeline, "export_site_data", return_value={}) as export:
+                pipeline.run_export_site_pipeline()
+            export.assert_called_once_with(
+                days=2,
+                models_dir=settings.model_dir,
+                output_dir=settings.site_data_dir,
+            )
+
+        refresh_errors = [
+            {
+                "competition": "SA",
+                "code": "TrainingError",
+                "message": "refresh failed",
+            }
+        ]
+        with self.subTest("full pipeline scope"):
+            with patch.object(
+                pipeline,
+                "run_training_pipeline",
+                return_value={"trained_count": 1, "errors": refresh_errors},
+            ) as training, patch.object(
+                pipeline,
+                "run_export_site_pipeline",
+                return_value={},
+            ) as export:
+                pipeline.run_full_pipeline(
+                    days=2,
+                    competition_codes="PL",
+                    seasons=["2025"],
+                    trainer="trainer",
+                )
+            training.assert_called_once_with(
+                competition_codes="PL",
+                seasons=["2025"],
+                trainer="trainer",
+            )
+            export.assert_called_once_with(
+                days=2,
+                competition_codes="PL",
+                refresh_errors=refresh_errors,
+            )
+
+        with self.subTest("selected competition export"):
+            with patch.object(
+                pipeline,
+                "load_settings",
+                return_value=settings,
+            ), patch.object(pipeline, "export_site_data", return_value={}) as export:
+                pipeline.run_export_site_pipeline(competition_codes="PL")
+            export.assert_called_once_with(
+                days=2,
+                models_dir=settings.model_dir,
+                output_dir=settings.site_data_dir,
+                competitions={"PL": 2021},
+            )

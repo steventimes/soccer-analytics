@@ -133,6 +133,42 @@ def _add_prediction_commands(subparsers):
 
 
 def _add_experiment_commands(subparsers):
+    ale = subparsers.add_parser('ale', help='对固定时间留出计算一阶数值 ALE；不保存生产模型。')
+    _add_competition_argument(ale)
+    ale.add_argument('--seasons', type=parse_training_seasons)
+    ale.add_argument('--snapshots', type=Path, required=True, help='本地已校验快照根目录；需明确 --source。')
+    ale.add_argument('--output', type=Path)
+    ale.add_argument('--model', default='xgboost')
+    ale.add_argument('--params', type=json.loads, default={})
+    ale.add_argument('--features', default='elo_diff')
+    ale.add_argument('--class', dest='class_index', type=int, choices=(0, 1, 2), default=2)
+    ale.add_argument('--bins', type=_positive_int, default=10)
+    ale.add_argument('--max-rows', type=_positive_int, default=120)
+    ale.add_argument('--seed', type=int, default=42)
+    ale.add_argument('--as-of', help='严格模式截止时点，要求结果可用时间；省略时明确使用旧开球顺序协议。')
+
+    study = subparsers.add_parser('season-study', help='复用本地历史矩阵，支持严格结果时点、分类诊断与前瞻注册。')
+    study.set_defaults(source=None)
+    study.add_argument('--history', type=Path, required=True, help='collect-history 的本地 manifest 根目录。')
+    study.add_argument('--as-of', required=True, help='带时区的观测截止时间。')
+    study.add_argument('--test-seasons', required=True, help='逗号分隔的测试赛季起始年。')
+    study.add_argument('--windows', default='1')
+    study.add_argument('--models', default='logistic_l2')
+    study.add_argument('--seed', type=int, default=42)
+    study.add_argument('--timing-policy', choices=('observed', 'kickoff_order'), default='observed')
+    study.add_argument('--output', type=Path)
+    registration = study.add_mutually_exclusive_group()
+    registration.add_argument('--freeze-protocol', type=Path, help='仅注册未来协议；目标必须不存在。')
+    registration.add_argument('--protocol', type=Path, help='评估前验证封存设置、训练身份、代码和环境。')
+    study.add_argument('--evaluation-start')
+    study.add_argument('--evaluation-end')
+
+    forecasts = subparsers.add_parser('record-forecasts', help='在实际开球前将已有预测登记到独立私有文件；拒绝覆盖。')
+    forecasts.set_defaults(source=None)
+    forecasts.add_argument('--predictions', type=Path, required=True)
+    forecasts.add_argument('--input-cutoff', required=True, help='带时区的输入截止时间；调用者声明，独立核对其来源。')
+    forecasts.add_argument('--output', type=Path, required=True)
+
     for command in ("analyze", "experiment", "calibrate"):
         experiment_parser = subparsers.add_parser(
             command,
@@ -173,10 +209,13 @@ def _add_experiment_commands(subparsers):
             )
             experiment_parser.add_argument(
                 "--optimizers", default="bayesian,genetic",
-                help="逗号分隔的优化方法：bayesian、genetic、optuna。",
+                help="逗号分隔：bayesian、genetic、optuna、random、beam；beam 需指定宽度。",
             )
             experiment_parser.add_argument("--trials", type=_positive_int, default=12)
             experiment_parser.add_argument("--seed", type=int, default=42)
+            experiment_parser.add_argument("--model-seed", type=int)
+            experiment_parser.add_argument("--shared-start", action="store_true")
+            experiment_parser.add_argument("--beam-width", type=int, choices=(1, 2))
 
     ratings = subparsers.add_parser("rating-baselines", help="比较 Elo 有序/多项逻辑回归与完整特征对照。")
     _add_competition_argument(ratings)
@@ -205,10 +244,33 @@ def _add_experiment_commands(subparsers):
     features.add_argument("--output", type=Path)
     features.add_argument("--snapshots", type=Path, help="已校验赛季快照根目录；需明确 --source。")
     features.add_argument("--models", default="xgboost,logistic_l2")
-    features.add_argument("--optimizer", choices=("bayesian", "genetic", "optuna"), default="optuna")
+    features.add_argument("--optimizer", choices=("bayesian", "genetic", "optuna", "random", "beam"), default="optuna")
     features.add_argument("--trials", type=_positive_int, default=12)
     features.add_argument("--folds", type=_positive_int, default=3)
     features.add_argument("--seed", type=int, default=42)
+    features.add_argument("--as-of", help="严格结果时点重放的截止时间，须带时区；省略时沿用开球顺序协议。")
+
+    features.add_argument('--model-seed', type=int)
+    features.add_argument('--shared-start', action='store_true')
+    features.add_argument('--beam-width', type=int, choices=(1, 2))
+
+    comparison = subparsers.add_parser('search-comparison', help='离线核对严格队列，比较共同起点的搜索；不读取最终留出。')
+    _add_competition_argument(comparison)
+    comparison.add_argument('--seasons', type=parse_training_seasons)
+    comparison.add_argument('--snapshots', type=Path, required=True, help='已校验离线快照；需明确 --source，不自动采集。')
+    comparison.add_argument('--output', type=Path)
+    comparison.add_argument('--as-of', required=True)
+    comparison.add_argument('--evaluation-start', required=True)
+    comparison.add_argument('--evaluation-end', required=True)
+    comparison.add_argument('--final-holdout-start', required=True)
+    comparison.add_argument('--search-seeds', default='11,23,37,53,71')
+    comparison.add_argument('--model-seed', type=int, default=42)
+    comparison.add_argument('--trials', type=_positive_int, default=12)
+    comparison.add_argument('--folds', type=_positive_int, default=3)
+    comparison.add_argument('--arms', default='random,bayesian,optuna,genetic,beam1,beam2')
+    comparison.add_argument('--initial-training-rows', type=_positive_int, help='显式保留初始训练区间；不计入内层验证，仍按实际可用时间剔除标签。')
+    comparison.add_argument('--admit-only', action='store_true', help='核对时间准入、逐折历史和特征准备情况，不训练模型。')
+    comparison.add_argument('--private-predictions', type=Path, help='可选私有逐场审计输出，不得写入公开或生产目录。')
 
     score = subparsers.add_parser("score-models", help="离线或联网比较 Poisson 与 Dixon–Coles 比分模型。")
     _add_competition_argument(score)
@@ -241,6 +303,27 @@ def _add_experiment_commands(subparsers):
 
 
 def _add_history_commands(subparsers):
+    observed = subparsers.add_parser('prepare-observed-history', help='校验并规整历史观察快照，不回填时间或合并供方。')
+    observed.set_defaults(source=None)
+    observed.add_argument('--snapshot', type=Path, action='append', default=[])
+    observed.add_argument('--csv', type=Path, action='append', default=[])
+    observed.add_argument('--competition', required=True)
+    observed.add_argument('--season', required=True)
+    observed.add_argument('--as-of', required=True)
+    observed.add_argument('--selection-as-of', required=True)
+    observed.add_argument('--output-dir', type=Path, required=True)
+    observed.add_argument('--max-input-bytes', type=_positive_int, default=32*1024*1024)
+    observed.add_argument('--max-matches', type=_positive_int, default=100_000)
+    bridge = subparsers.add_parser('audit-identity-bridges', help='只读核验固定 Reep 离线表与供方 ID，不合并主库。')
+    bridge.set_defaults(source=None)
+    bridge.add_argument('--release-dir', type=Path, required=True)
+    bridge.add_argument('--release-sha256', required=True)
+    bridge.add_argument('--queries', type=Path, required=True, help='含 provider,namespace,external_id,entity_type 的 CSV。')
+    bridge.add_argument('--output', type=Path, required=True)
+    bridge.add_argument('--max-bytes', type=_positive_int, default=384*1024*1024)
+    bridge.add_argument('--max-decoded-bytes', type=_positive_int, default=4*1024**3)
+    bridge.add_argument('--max-rows', type=_positive_int, default=21_000_000)
+    bridge.add_argument('--max-queries', type=_positive_int, default=10_000)
     for command in ("collect-history", "compare-history"):
         history_parser = subparsers.add_parser(
             command,

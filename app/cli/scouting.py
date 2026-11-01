@@ -6,8 +6,8 @@ from pathlib import Path
 
 
 def assess(args):
-    from app.analytics.assessments import run
-    from app.analytics.assessment_models import METHODS
+    from app.analytics.scouting.assessments import run
+    from app.analytics.scouting.assessment_models import METHODS
 
     selected = tuple(
         dict.fromkeys(
@@ -24,7 +24,7 @@ def assess(args):
 
 
 def scout_insights(args):
-    from app.analytics.scouting_intelligence import run
+    from app.analytics.scouting.scouting_intelligence import run
 
     run(
         str(args.database),
@@ -37,7 +37,7 @@ def scout_insights(args):
 
 
 def tactics(args):
-    from app.analytics.tactical_models import run
+    from app.analytics.tactics.tactical_models import run
 
     report = run(str(args.database), str(args.output_dir), args.train_cap)
     return int(
@@ -49,14 +49,14 @@ def tactics(args):
 
 
 def movement_lab(args):
-    from app.analytics.physical_analysis import run
+    from app.analytics.tracking.physical_analysis import run
 
     run(str(args.database), str(args.output_dir))
     return 0
 
 
 def scout_figures(args):
-    from app.analytics.figures import generate_scouting_figures
+    from app.analytics.visualization.figures import generate_scouting_figures
 
     paths = generate_scouting_figures(
         args.data_dir,
@@ -106,17 +106,17 @@ def analytics_lab(args):
     from app.data_service.warehouse import Warehouse
 
     if args.command == "passing-lab":
-        from app.analytics.passing_context import run
+        from app.analytics.tactics.passing_context import run
 
         report = run(args.data_dir, args.output_dir)
         filenames = report["artifacts"]
     elif args.command == "space-lab":
-        from app.analytics.receiving_space import run
+        from app.analytics.tactics.receiving_space import run
 
         report = run(args.data_dir, args.output_dir, samples=args.samples)
         filenames = ["report.json", *report["artifacts"].values()]
     elif args.command == "value-lab":
-        from app.analytics.action_value import run
+        from app.analytics.events.action_value import run
 
         seeds = tuple(dict.fromkeys(int(v.strip()) for v in args.seeds.split(",") if v.strip()))
         if not seeds:
@@ -127,7 +127,7 @@ def analytics_lab(args):
             horizon=args.horizon,
         )
     else:
-        from app.analytics.buildup_roles import run
+        from app.analytics.tactics.buildup_roles import run
 
         report = run(args.database, args.output_dir, minimum_minutes=args.minimum_minutes)
         filenames = [

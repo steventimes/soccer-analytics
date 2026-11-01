@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import json
 import logging
 import os
@@ -29,6 +30,58 @@ REPOSITORIES = {
     "eddwebster": "eddwebster/football_analytics",
     "international-results": "martj42/international_results",
 }
+
+
+def resolve_asset_path(path: Path) -> Path:
+    """Prefer original bytes; otherwise locate the same logical file in gzip.
+
+    An explicitly supplied existing ``.gz`` path is an ordinary source file.
+    Only a missing logical path activates transparent decompression.
+    """
+    original = Path(path)
+    if original.exists() or original.is_symlink():
+        return original
+    compressed = Path(str(original) + ".gz")
+    if compressed.exists() or compressed.is_symlink():
+        if any(p.is_symlink() for p in (compressed, *compressed.parents)):
+            raise ValueError("Compressed source fallback cannot use symlink aliases")
+        return compressed
+    return original
+
+
+def open_asset_file(path: Path, mode="rb", **kwargs):
+    """Open logical source bytes without changing the source's stored identity."""
+    if mode not in ("r", "rt", "rb"):
+        raise ValueError("Source asset handles are read-only")
+    original = Path(path)
+    physical = resolve_asset_path(original)
+    if physical == original:
+        return physical.open(mode, **kwargs)
+    return gzip.open(physical, "rt" if mode == "r" else mode, **kwargs)
+
+
+def asset_file_size(path: Path, *, expected_bytes=None) -> int:
+    """Return logical size; a known small size enables a cheap footer screen.
+
+    The hint is only a resume check, like the old stat comparison, not an
+    integrity proof. Checksum readers still consume the entire logical stream.
+    Without a hint, count all members and sizes beyond gzip's 32-bit ISIZE.
+    """
+    if expected_bytes is not None and (type(expected_bytes) is not int or expected_bytes < 0):
+        raise ValueError("Expected asset size must be a nonnegative integer")
+    original = Path(path)
+    physical = resolve_asset_path(original)
+    if physical == original:
+        return physical.stat().st_size
+    if expected_bytes is not None and expected_bytes < 2**32 and physical.stat().st_size >= 18:
+        with physical.open("rb") as handle:
+            header = handle.read(3)
+            handle.seek(-4, os.SEEK_END)
+            size = int.from_bytes(handle.read(4), "little")
+        if header == b"\x1f\x8b\x08" and size == expected_bytes:
+            return expected_bytes
+    with open_asset_file(original, "rb") as handle:
+        return sum(len(chunk) for chunk in iter(lambda: handle.read(1024 * 1024), b""))
 
 
 def _selected(dataset: str, path: str) -> bool:
@@ -167,8 +220,8 @@ def collect_repository(
     if manifest_path.exists() and not refresh:
         manifest = json.loads(manifest_path.read_text())
         if manifest.get("complete") and all(
-            (root / item["path"]).is_file()
-            and (root / item["path"]).stat().st_size == item["bytes"]
+            resolve_asset_path(root / item["path"]).is_file()
+            and asset_file_size(root / item["path"], expected_bytes=item["bytes"]) == item["bytes"]
             for item in manifest["files"]
         ):
             return manifest
@@ -250,11 +303,16 @@ def read_asset_json(root: Path, relative: str, index: dict | None = None):
     if index is None:
         manifest = json.loads((root / "manifest.json").read_text())
         index = {entry["path"]: entry for entry in manifest["files"]}
-    path = (root / relative).resolve()
+    logical = root / relative
+    path = logical.resolve()
     if not path.is_relative_to(root.resolve()) or relative not in index:
         raise ValueError("Asset is outside the verified inventory")
-    payload = path.read_bytes()
-    if hashlib.sha256(payload).hexdigest() != index[relative]["sha256"]:
+    if not resolve_asset_path(logical).resolve().is_relative_to(root.resolve()):
+        raise ValueError("Asset is outside the verified inventory")
+    with open_asset_file(logical, "rb") as handle:
+        payload = handle.read()
+    if (hashlib.sha256(payload).hexdigest() != index[relative]["sha256"]
+            or "bytes" in index[relative] and len(payload) != index[relative]["bytes"]):
         raise ValueError(f"Asset checksum mismatch: {relative}")
     try:
         import orjson
@@ -264,13 +322,19 @@ def read_asset_json(root: Path, relative: str, index: dict | None = None):
 
 
 def verify_asset_file(root: Path, relative: str, index: dict) -> Path:
-    path = (Path(root) / relative).resolve()
+    logical = Path(root) / relative
+    path = logical.resolve()
     if relative not in index or not path.is_relative_to(Path(root).resolve()):
         raise ValueError("Asset is outside inventory")
+    if not resolve_asset_path(logical).resolve().is_relative_to(Path(root).resolve()):
+        raise ValueError("Asset is outside inventory")
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
+    size = 0
+    with open_asset_file(logical, "rb") as handle:
         while chunk := handle.read(1024 * 1024):
             digest.update(chunk)
-    if digest.hexdigest() != index[relative]["sha256"]:
+            size += len(chunk)
+    if (digest.hexdigest() != index[relative]["sha256"]
+            or "bytes" in index[relative] and size != index[relative]["bytes"]):
         raise ValueError(f"Asset checksum mismatch: {relative}")
     return path

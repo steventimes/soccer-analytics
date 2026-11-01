@@ -15,11 +15,11 @@ from app.file_io import write_json_atomic
 
 
 def binary_diagnostics(labels, probabilities):
-    from sklearn.isotonic import IsotonicRegression
-
     y, p = np.asarray(labels, dtype=np.float64), np.asarray(probabilities, dtype=np.float64)
     if y.ndim != 1 or p.shape != y.shape or not len(y) or not np.isfinite(p).all() or not np.isin(y, [0, 1]).all() or ((p < 0) | (p > 1)).any():
         raise ValueError('Invalid binary calibration inputs')
+    from sklearn.isotonic import IsotonicRegression
+
     unique, inverse, counts = np.unique(p, return_inverse=True, return_counts=True)
     hits = np.bincount(inverse, weights=y, minlength=len(unique))
     # Group identical probabilities before PAV, so ties cannot depend on row order.

@@ -11,7 +11,8 @@ from statistics import mean, pstdev
 from app.data_service.fetch.public import _identity
 from app.data_service.history import audit_history, canonical_team, digest, match_key
 from app.ml.alternatives import METHODS, estimator_factory
-from app.ml.evaluation import elo_baseline_predictions
+from app.ml.evaluation import elo_baseline_predictions, classwise_reliability
+from app.ml.availability import build_available_dataset
 from app.ml.feature_engineering import FeatureEngineer
 from app.ml.model import (
     accuracy_score,
@@ -34,7 +35,7 @@ def runtime_versions() -> dict:
     return versions
 
 
-def prepare_matches(matches, source: str, competition: str) -> list[dict]:
+def prepare_matches(matches, source: str, competition: str, *, precise_time=False) -> list[dict]:
     prepared = []
     for match in matches:
         # These identities are experimental only; provider-specific production bundles stay unchanged.
@@ -43,9 +44,10 @@ def prepare_matches(matches, source: str, competition: str) -> list[dict]:
             team = dict(item[venue])
             team["id"] = _identity(source, competition, canonical_team(team["name"]))
             item[venue] = team
-        item["utcDate"] = (
-            match.get("source_date", match["utcDate"][:10]) + "T00:00:00+00:00"
-        )
+        if not precise_time:
+            item["utcDate"] = (
+                match.get("source_date", match["utcDate"][:10]) + "T00:00:00+00:00"
+            )
         prepared.append(item)
     return prepared
 
@@ -84,6 +86,9 @@ def summarize_matrix(results: list[dict]) -> list[dict]:
                 "league_season_accuracy_stddev": pstdev(
                     row["accuracy"] for row in rows
                 ),
+                **{metric: sum(row[metric] * row['test_rows'] for row in rows) / total
+                   for metric in ('frequency_baseline_log_loss', 'frequency_baseline_brier_score')
+                   if all(metric in row for row in rows)},
             }
         )
     return summary
@@ -141,6 +146,7 @@ def run_season_matrix(
     factory=estimator_factory,
     progress=None,
     reference_collections=None,
+    as_of=None,
 ) -> dict:
     sources = sorted({key[0] for key in collections})
     competitions = sorted({key[1] for key in collections})
@@ -218,9 +224,9 @@ def run_season_matrix(
                                     raise ValueError("跨赛季重复比赛 ID")
                                 season_by_id[match["id"]] = season
                                 history.append(match)
-                        dataset = FeatureEngineer().build_training_dataset(
-                            prepare_matches(history, source, code)
-                        )
+                        prepared = prepare_matches(history, source, code, precise_time=as_of is not None)
+                        dataset = (build_available_dataset(prepared, as_of=as_of) if as_of is not None
+                                   else FeatureEngineer().build_training_dataset(prepared))
                         tagged = [
                             (
                                 kickoff,
@@ -233,13 +239,14 @@ def run_season_matrix(
                                 },
                                 target,
                                 season_by_id[mid],
+                                dataset.result_available_at[index] if dataset.result_available_at else None,
                             )
-                            for kickoff, row, target, mid in zip(
+                            for index, (kickoff, row, target, mid) in enumerate(zip(
                                 dataset.kickoffs,
                                 dataset.rows,
                                 dataset.targets,
                                 dataset.match_ids,
-                            )
+                            ))
                         ]
                         train = [item for item in tagged if item[3] != test_season]
                         test = [item for item in tagged if item[3] == test_season]
@@ -284,7 +291,8 @@ def run_season_matrix(
                 # A pooled fit must finish before the earliest held-out match in any league.
                 cutoff = min(pack["test"][0][0] for pack in packs.values())
                 for pack in packs.values():
-                    pack["train"] = [item for item in pack["train"] if item[0] < cutoff]
+                    pack["train"] = [item for item in pack["train"] if item[0] < cutoff
+                                     and (item[4] is None or item[4] < cutoff)]
                 all_train = sorted(
                     (item for pack in packs.values() for item in pack["train"]),
                     key=lambda item: item[0],
@@ -341,6 +349,8 @@ def run_season_matrix(
                                 test_rows = [item[1] for item in pack["test"]]
                                 targets = [item[2] for item in pack["test"]]
                                 probabilities = estimator.predict_proba(test_rows)
+                                observed_counts = Counter(item[2] for item in training)
+                                prior = [(observed_counts[k] + 1) / (len(training) + 3) for k in range(3)]
                                 train_targets = [item[2] for item in pack["train"]]
                                 majority = Counter(train_targets).most_common(1)[0][0]
                                 result = {
@@ -385,6 +395,11 @@ def run_season_matrix(
                                     "brier_score": multiclass_brier_score(
                                         targets, probabilities
                                     ),
+                                    "classwise_reliability": list(classwise_reliability(targets, probabilities)),
+                                    "classwise_brier_score": [sum((p[k] - (y == k)) ** 2 for y, p in zip(targets, probabilities)) / len(targets) for k in range(3)],
+                                    "class_counts": [targets.count(k) for k in range(3)],
+                                    "frequency_baseline_log_loss": multiclass_log_loss(targets, [prior] * len(targets)),
+                                    "frequency_baseline_brier_score": multiclass_brier_score(targets, [prior] * len(targets)),
                                     "rps": ranked_probability_score(
                                         targets, probabilities
                                     ),
@@ -438,9 +453,12 @@ def run_season_matrix(
             "test_seasons": tests,
             "windows": windows,
             "models": models,
-            "time_precision": "day",
+            "time_precision": "exact_declared_UTC" if as_of is not None else "day",
+            "result_availability": "observed_result_strict_before_fit_and_kickoff" if as_of is not None else "legacy_kickoff_order_not_observed_availability",
+            "as_of": as_of,
             "fit_cutoff": "Before earliest held-out fixture across participating leagues",
-            "features": "Pre-match rolling form/Elo; earlier held-out results update team state, never the estimator",
+            "features": ("Pre-match form/Elo updated only by results strictly available before kickoff; labels unavailable at fit are purged. Elo follows observation order; recent form follows kickoff order."
+                         if as_of is not None else "Pre-match rolling form/Elo; earlier held-out results update team state, never the estimator"),
             "sgd_params": {"alpha": 0.1},
             "hyperparameter_selection": "Fixed exploratory presets, no holdout selection",
             "preset_origin": "SGD alpha=0.1 reuses prior PL exploration; all comparisons are retrospective",

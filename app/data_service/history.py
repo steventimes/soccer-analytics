@@ -2,35 +2,22 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import logging
 import re
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
-from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
 
 from app.data_service.fetch.public import LEAGUES, create_data_client
 from app.data_service.match_records import normalize_match
 from app.file_io import write_json_atomic as _atomic_write_json
+from app.run_receipts import content_digest as digest
 from app.data_service.freshness import SnapshotCachePolicy, utc_now
 
 logger = logging.getLogger(__name__)
 PUBLIC_SOURCES = ("football-csv", "openfootball")
-
-
-def digest(payload) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            payload,
-            sort_keys=True,
-            ensure_ascii=False,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode()
-    ).hexdigest()
 
 
 @lru_cache(maxsize=4096)
@@ -419,14 +406,20 @@ def collect_history(
                 decision = None
                 try:
                     snapshot = None
-                    if path.exists() and not refresh:
-                        snapshot = read_snapshot(path)
-                        if (
-                            snapshot["source"],
-                            snapshot["competition"],
-                            snapshot["season"],
-                        ) != (source, code, season):
-                            raise ValueError("快照范围与路径不一致")
+                    if path.exists():
+                        try:
+                            snapshot = read_snapshot(path)
+                            if (
+                                snapshot["source"],
+                                snapshot["competition"],
+                                snapshot["season"],
+                            ) != (source, code, season):
+                                raise ValueError("快照范围与路径不一致")
+                        except (OSError, ValueError):
+                            if not refresh:
+                                raise
+                            # Explicit refresh can repair a corrupt archive, but cannot trust its observations.
+                            snapshot = None
                     decision = policy.decide(snapshot.get('fetched_at') if snapshot else None, season,
                                              now=utc_now(clock), exists=path.exists(), refresh=refresh)
                     if decision['action'] == 'fetch':
@@ -449,15 +442,30 @@ def collect_history(
                             ):
                                 raise ValueError("冲突比赛 ID")
                             unique[record.match_id] = match
+                        # Capture a conservative first observation of these exact result bytes.
+                        # A changed score starts a new observation; never backdate old archives.
+                        from dataclasses import replace
+                        observed_at = utc_now(clock).isoformat()
+                        previous = {m['id']: m for m in (snapshot or {}).get('matches', [])}
+                        observed = []
+                        for item in unique.values():
+                            old = previous.get(item['id'])
+                            same = (old is not None and
+                                    replace(normalize_match(old), result_available_at=None) ==
+                                    replace(normalize_match(item), result_available_at=None))
+                            stamp = old.get('result_observed_at') if same else None
+                            stamped = {**item, 'result_observed_at': stamp or observed_at}
+                            normalize_match(stamped)
+                            observed.append(stamped)
                         snapshot = {
                             "schema": 1,
                             "source": source,
                             "provider": client.source_name,
                             "competition": code,
                             "season": season,
-                            "fetched_at": utc_now(clock).isoformat(),
+                            "fetched_at": observed_at,
                             "matches": sorted(
-                                unique.values(), key=lambda m: (m["utcDate"], m["id"])
+                                observed, key=lambda m: (m["utcDate"], m["id"])
                             ),
                         }
                         snapshot["sha256"] = digest(snapshot)
@@ -535,3 +543,7 @@ def load_history(cache_dir: Path) -> tuple[dict, dict]:
             raise ValueError("快照身份与 manifest 不一致或重复")
         collections[key] = snapshot["matches"]
     return collections, manifest
+
+
+# Keep the established history import path for existing callers.
+from app.data_service.observations import prepare_observed_history

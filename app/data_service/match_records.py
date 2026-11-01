@@ -20,6 +20,15 @@ class MatchRecord:
     away_team_id: int
     home_score: int | None
     away_score: int | None
+    result_available_at: datetime | None = None
+
+    def __post_init__(self):
+        if self.result_available_at is not None:
+            available = self.result_available_at
+            if (not isinstance(available, datetime) or available.tzinfo is None
+                    or available.utcoffset() is None or self.kickoff.tzinfo is None or self.status != "FINISHED"
+                    or available <= self.kickoff):
+                raise FeatureEngineeringError("结果可用时间必须带时区、晚于开球且属于已完赛比赛")
 
 
 def _parse_datetime(value: Any) -> datetime:
@@ -94,6 +103,17 @@ def normalize_match(payload: Mapping[str, Any] | MatchRecord) -> MatchRecord:
         home_score = None
         away_score = None
 
+    available_times = []
+    for name in ("result_available_at", "result_observed_at"):
+        if payload.get(name) is not None:
+            raw = payload[name]
+            try:
+                parsed = datetime.fromisoformat(raw.replace("Z", "+00:00")) if isinstance(raw, str) else raw
+            except (ValueError, OverflowError) as exc:
+                raise FeatureEngineeringError("结果可用时间无法解析") from exc
+            if not isinstance(parsed, datetime) or parsed.tzinfo is None or parsed.utcoffset() is None:
+                raise FeatureEngineeringError("结果可用时间必须显式包含时区")
+            available_times.append(parsed.astimezone(UTC))
     return MatchRecord(
         match_id=match_id,
         kickoff=kickoff,
@@ -102,4 +122,5 @@ def normalize_match(payload: Mapping[str, Any] | MatchRecord) -> MatchRecord:
         away_team_id=away_team_id,
         home_score=home_score,
         away_score=away_score,
+        result_available_at=max(available_times) if available_times else None,
     )

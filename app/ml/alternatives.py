@@ -13,7 +13,7 @@ METHODS = (
     "xgboost", "sgd", "random_forest", "gaussian_nb",
     "logistic_l1", "logistic_l2", "logistic_elasticnet",
     "elo_ordered_logit",
-    "lightgbm", "lightgbm_goss", "catboost",
+    "lightgbm", "lightgbm_goss", "catboost", "ebm",
 )
 
 
@@ -51,7 +51,36 @@ class SklearnClassifier:
         self.requires_kickoffs = method == "catboost"
         self.execution_policy = {"threads": 1 if method in {"random_forest", "lightgbm", "lightgbm_goss", "catboost"}
                                  else "library_default", "input": "existing_numeric_features_only"}
-        if method == "sgd":
+        if method == "ebm":
+            from importlib.metadata import version
+            from interpret.glassbox import ExplainableBoostingClassifier
+
+            allowed = {"max_rounds", "outer_bags", "interactions", "max_bins",
+                       "min_samples_leaf", "learning_rate", "reg_lambda"}
+            if set(params) - allowed:
+                raise ModelTrainingError("EBM 仅接受声明参数，单线程与无随机验证划分策略固定")
+            options = {"max_rounds": 256, "outer_bags": 4, "interactions": 3,
+                       "max_bins": 64, "min_samples_leaf": 4, "learning_rate": .03,
+                       "reg_lambda": 1., **params}
+            for name, low, high in (("max_rounds", 1, 2048), ("outer_bags", 1, 16),
+                                    ("interactions", 0, 10), ("max_bins", 8, 256),
+                                    ("min_samples_leaf", 2, 100)):
+                if type(options[name]) is not int or not low <= options[name] <= high:
+                    raise ModelTrainingError(f"EBM {name} 超出预算 {low}–{high}")
+            if (any(isinstance(options[k], bool) or not isinstance(options[k], (int, float))
+                    for k in ('learning_rate', 'reg_lambda'))
+                    or not 0 < options['learning_rate'] <= 1 or not np.isfinite(options['learning_rate'])
+                    or not 0 <= options['reg_lambda'] <= 100 or not np.isfinite(options['reg_lambda'])):
+                raise ModelTrainingError("EBM 学习率或正则化参数非法")
+            estimator = ExplainableBoostingClassifier(
+                **options, feature_names=list(feature_names), feature_types=['continuous'] * len(feature_names),
+                n_jobs=1, random_state=seed, validation_size=0, early_stopping_rounds=0,
+                smoothing_rounds=0, interaction_smoothing_rounds=0, greedy_ratio=0,
+                max_interaction_bins=16)
+            self.technology_version = version("interpret-core")
+            self.execution_policy.update(threads=1, validation_size=0, early_stopping=False,
+                                         budget=options, numeric_features_only=True)
+        elif method == "sgd":
             estimator = SGDClassifier(
                 **{
                     "loss": "log_loss",
@@ -117,11 +146,11 @@ class SklearnClassifier:
         else:
             raise ModelTrainingError(f"未知模型 {method}")
         # Scaling is fit only on the fit partition, never the holdout.
-        self.pipeline = (make_pipeline(estimator) if method in {"lightgbm", "lightgbm_goss", "catboost"}
+        self.pipeline = (make_pipeline(estimator) if method in {"lightgbm", "lightgbm_goss", "catboost", "ebm"}
                          else make_pipeline(StandardScaler(), estimator))
         options = estimator.get_params()
         self.execution_policy["configured_iteration_cap"] = next(
-            (options[name] for name in ("iterations", "n_estimators", "max_iter") if name in options), None)
+            (options[name] for name in ("iterations", "n_estimators", "max_iter", "max_rounds") if name in options), None)
         self.is_fitted_ = False
 
     def _matrix(self, rows: Sequence[Mapping[str, float]]) -> np.ndarray:

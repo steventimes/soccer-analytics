@@ -13,7 +13,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / 'results/public-manifest.json'
-PRIVATE_ROOTS = {'.git', '.tmp', '.venv', 'data', 'models', 'output', 'archive', 'matches', 'log'}
+PRIVATE_ROOTS = {'.codex', '.agents', '.git', '.tmp', '.venv', 'data', 'models', 'output', 'archive', 'matches', 'log'}
+PRIVATE_NAMES = {'AGENTS.md', 'AGENTS.override.md'}
 PRIVATE_SUFFIXES = {'.sqlite3', '.db', '.bundle', '.npz', '.npy', '.pkl', '.pickle', '.joblib', '.pyc'}
 SOURCE_SUFFIXES = {'.py', '.js', '.cjs', '.css', '.html', '.yml', '.yaml', '.md', '.txt', '.sh'}
 
@@ -23,7 +24,7 @@ def approved_file(relative):
     path = Path(relative)
     if path.is_absolute() or '..' in path.parts or not path.parts or path.parts[0] in PRIVATE_ROOTS:
         raise ValueError(f'Private or unsafe public path: {relative}')
-    if path.suffix in PRIVATE_SUFFIXES or any(part in {'__pycache__', 'node_modules'} for part in path.parts):
+    if path.name in PRIVATE_NAMES or path.suffix in PRIVATE_SUFFIXES or any(part in {'__pycache__', 'node_modules'} for part in path.parts):
         raise ValueError(f'Private artifact cannot be published: {relative}')
     current = ROOT
     for part in path.parts:
@@ -37,15 +38,18 @@ def approved_file(relative):
 
 def source_files():
     files = set()
-    for folder in ('app', 'tests', 'scripts', 'docs', '.github/workflows'):
+    for folder in ('app', 'tests', 'scripts', 'docs', 'config', '.github/workflows'):
         for path in (ROOT / folder).rglob('*'):
             relative = path.relative_to(ROOT)
-            if '__pycache__' not in relative.parts and path.suffix in SOURCE_SUFFIXES:
+            if '__pycache__' not in relative.parts and path.name not in PRIVATE_NAMES and path.suffix in SOURCE_SUFFIXES:
                 if approved_file(relative).is_file():
                     files.add(relative.as_posix())
     for path in ROOT.iterdir():
-        if path.is_file() and (path.suffix in SOURCE_SUFFIXES or path.name in {'.gitignore', '.dockerignore', 'Dockerfile'}):
+        if path.name not in PRIVATE_NAMES and path.is_file() and (path.suffix in SOURCE_SUFFIXES or path.name in {'.gitignore', '.dockerignore', 'Dockerfile', 'package.json', 'package-lock.json', 'pyproject.toml'}):
             files.add(path.name)
+    readiness = ROOT / 'docs/data/research/search-comparison.json'
+    if readiness.is_file():
+        files.add(readiness.relative_to(ROOT).as_posix())
     return files
 
 
@@ -54,6 +58,10 @@ def inspect(*, refresh=False):
     data = json.loads(manifest.read_text())
     entries = data['files']
     names = [entry['path'] for entry in entries]
+    if refresh:
+        # Retire local instruction files from the public inventory, preserving them on disk.
+        names = [name for name in names if Path(name).name not in PRIVATE_NAMES
+                 and Path(name).parts[0] not in {'.codex', '.agents'}]
     if len(names) != len(set(names)):
         raise ValueError('Duplicate manifest paths')
     for name in names:

@@ -7,6 +7,8 @@ import json
 
 from app.cli.collection import (
     collect_open_data,
+    audit_identity_bridges,
+    prepare_observed_history,
     scout_bodypose,
     scout_events,
     scout_tracking,
@@ -28,8 +30,12 @@ from app.cli.model_research import (
     rating_baselines,
     explain_model,
     feature_experiment,
+    search_comparison,
     score_models,
     calibration_diagnostics,
+    ale,
+    season_study,
+    record_forecasts,
 )
 
 
@@ -44,10 +50,16 @@ def export_research(args):
 
 
 HANDLERS = {
+    "prepare-observed-history": prepare_observed_history,
+    "audit-identity-bridges": audit_identity_bridges,
+    "ale": ale,
+    "season-study": season_study,
+    "record-forecasts": record_forecasts,
     "calibration-diagnostics": calibration_diagnostics,
     "rating-baselines": rating_baselines,
     "explain-model": explain_model,
     "feature-experiment": feature_experiment,
+    "search-comparison": search_comparison,
     "compare-outcomes": compare_outcomes,
     "score-models": score_models,
     "calibrate": calibrate,

@@ -320,7 +320,7 @@ def figures(report, curves, output):
         traces.append((name, color, epochs[-1], losses[-1]))
     final_epoch = max(row[2] for row in traces)
     for name, color, epoch, loss in traces:
-        ax.annotate(f"{labels[name]}\nFinal epoch {loss:.5f}", (epoch, loss), xytext=(15, 0), textcoords="offset points", va="center", color=color, fontsize=11)
+        ax.annotate(f"{labels[name]}\nFinal epoch {loss:.5f}", (epoch, loss), xytext=(15, 0), textcoords="offset points", va="center", color=COLORS["orange_text"] if color == COLORS["orange"] else color, fontsize=11)
     ax.set(
         xlabel="Target-training epoch",
         ylabel="Validation loss · completion BCE + displacement MSE",

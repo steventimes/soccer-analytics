@@ -14,6 +14,7 @@ import requests
 from app.config import (
     DEFAULT_COMPETITIONS_MAP,
     DEFAULT_SEASONS,
+    PUBLIC_PREDICTION_CODES,
     PipelineSettings,
     ConfigurationError,
     default_training_seasons,
@@ -65,6 +66,44 @@ class TestConfig(ContractTestCase):
     def test_numeric_setting_contracts(self):
         self._check_non_positive_or_malformed_numeric_settings_are_rejected()
 
+    def test_default_competitions_follow_the_selected_source(self):
+        from app.data_service.fetch.public import LEAGUES, create_data_client
+
+        public_defaults = {
+            code: identity for code, identity in DEFAULT_COMPETITIONS_MAP.items()
+            if code in LEAGUES
+        }
+        self.assertEqual(set(public_defaults), PUBLIC_PREDICTION_CODES)
+        source_names = {
+            "football-csv": "football-data.co.uk",
+            "football-data": "football-data.org",
+            "openfootball": "openfootball",
+        }
+        cases = (
+            ({}, public_defaults, "football-csv"),
+            ({"FOOTBALL_DATA_API_KEY": "fixture-key"}, DEFAULT_COMPETITIONS_MAP, "football-data"),
+            ({"FOOTBALL_DATA_API_KEY": "fixture-key", "SOCCER_ANALYTICS_DATA_SOURCE": "football-csv"}, public_defaults, "football-csv"),
+            ({"SOCCER_ANALYTICS_DATA_SOURCE": "openfootball"}, public_defaults, "openfootball"),
+            ({"SOCCER_ANALYTICS_DATA_SOURCE": "football-data"}, DEFAULT_COMPETITIONS_MAP, "football-data"),
+        )
+        for environment, expected, source in cases:
+            with self.subTest(source=source, api_key=bool(environment.get("FOOTBALL_DATA_API_KEY"))), \
+                 patch.dict(os.environ, environment, clear=True):
+                self.assertEqual(load_settings().competitions_map, expected)
+                self.assertEqual(create_data_client().source_name, source_names[source])
+
+    def test_explicit_unsupported_public_competitions_are_not_silently_removed(self):
+        from app.data_service.fetch.public import FootballCSVClient
+
+        with patch.dict(os.environ, {}, clear=True):
+            defaults = load_settings()
+            with self.assertRaisesRegex(ConfigurationError, "CL"):
+                resolve_competitions("PL,CL", defaults)
+        with patch.dict(os.environ, {"SOCCER_ANALYTICS_COMPETITIONS": "PL,CL"}, clear=True):
+            self.assertEqual(load_settings().competitions_map, {"PL": 2021, "CL": 2001})
+            with self.assertRaisesRegex(DataSourceError, "不支持 CL"):
+                FootballCSVClient().fetch_matches("CL", season="2025")
+
     def _check_load_settings_uses_env_overrides(self):
         env = {
             "SOCCER_ANALYTICS_COMPETITIONS": "PL,SA",
@@ -99,7 +138,7 @@ class TestConfig(ContractTestCase):
         with patch.dict(os.environ, {}, clear=True):
             settings = load_settings()
 
-        self.assertEqual(settings.competitions_map, DEFAULT_COMPETITIONS_MAP)
+        self.assertEqual(set(settings.competitions_map), PUBLIC_PREDICTION_CODES)
         self.assertEqual(settings.training_seasons, DEFAULT_SEASONS)
         self.assertEqual(settings.request_timeout_seconds, 15.0)
         self.assertEqual(settings.request_retries, 3)
@@ -164,8 +203,8 @@ class TestConfig(ContractTestCase):
             clear=True,
         ):
             settings = load_settings()
-        self.assertEqual(settings.competitions_map, DEFAULT_COMPETITIONS_MAP)
-        self.assertEqual(resolve_competitions(",,", settings), DEFAULT_COMPETITIONS_MAP)
+        self.assertEqual(set(settings.competitions_map), PUBLIC_PREDICTION_CODES)
+        self.assertEqual(resolve_competitions(",,", settings), settings.competitions_map)
 
     def _check_non_positive_or_malformed_numeric_settings_are_rejected(self):
         invalid_values = {
@@ -382,6 +421,59 @@ def api_match(
 
 
 class TestFeatureEngineer(ContractTestCase):
+    def test_observed_result_replay_delays_updates_and_preserves_order_invariants(self):
+        from app.ml.availability import build_available_dataset
+        from app.data_service.match_records import normalize_match
+        import copy
+        matches = []
+        for i, (hour, available) in enumerate([(12, 16), (15, 17), (16, 19), (18, 21)]):
+            matches.append({'id': i + 1, 'utcDate': f'2025-01-01T{hour}:00:00+00:00',
+                'status': 'FINISHED', 'homeTeam': {'id': 1}, 'awayTeam': {'id': i + 2},
+                'score': {'fullTime': {'home': i + 1, 'away': 0}},
+                'result_available_at': f'2025-01-01T{available}:00:00+00:00'})
+        data = build_available_dataset(matches, as_of='2025-01-02T00:00:00+00:00')
+        self.assertEqual([r['home_matches_seen'] for r in data.rows], [0, 0, 0, 2])
+        self.assertEqual(build_available_dataset(reversed(matches), as_of='2025-01-02T00:00:00Z'), data)
+        early = build_available_dataset(matches, as_of='2025-01-01T17:00:00Z')
+        self.assertEqual(early.match_ids, (1, 2))
+        changed = copy.deepcopy(matches); changed[0]['score']['fullTime']['home'] = 9
+        other = build_available_dataset(changed, as_of='2025-01-02T00:00:00Z')
+        self.assertEqual(other.rows[:3], data.rows[:3])
+        self.assertNotEqual(other.rows[3], data.rows[3])
+        self.assertEqual([r['home_matches_seen'] for r in FeatureEngineer().build_training_dataset(matches).rows], [0, 1, 2, 3])
+        for stamp in ['2025-01-01T12:00:00Z', '2025-01-01T13:00:00', 'invalid']:
+            with self.subTest(stamp=stamp), self.assertRaises(FeatureEngineeringError):
+                normalize_match({**matches[0], 'result_available_at': stamp})
+        for change in [{'result_available_at': None}, {'time_precision': 'day'},
+                       {'time_precision': 'date'}, {'utcDate': '2025-01-01'},
+                       {'utcDate': '2025-01-01T12:00:00'}]:
+            with self.assertRaises(FeatureEngineeringError):
+                build_available_dataset([{**matches[0], **change}], as_of='2025-01-02T00:00:00Z')
+        from types import MappingProxyType
+        with self.assertRaises(FeatureEngineeringError):
+            build_available_dataset([MappingProxyType({**matches[0], 'time_precision': 'date'})],
+                                    as_of='2025-01-02T00:00:00Z')
+        offset = [{**matches[0], 'utcDate': '2025-01-01T14:00:00+02:00'}, *matches[1:]]
+        self.assertEqual(build_available_dataset(offset, as_of='2025-01-02T00:00:00Z'), data)
+
+    def test_temporal_fits_purge_results_unavailable_at_each_fold_boundary(self):
+        from app.ml.availability import aware_time
+        times = [(datetime(2025, 1, 1, tzinfo=UTC) + timedelta(days=i)).isoformat() for i in range(40)]
+        available = [(aware_time(t) + timedelta(hours=2)).isoformat() for t in times]
+        available[7] = (aware_time(times[-1]) + timedelta(days=10)).isoformat()
+        available[19] = (aware_time(times[22]) + timedelta(hours=2)).isoformat()
+        fits = []
+        class Probe:
+            def fit(self, rows, targets):
+                fits.append([int(r['x']) for r in rows]); return self
+            def predict_proba(self, rows):
+                return [[.2, .3, .5] for _ in rows]
+        report = evaluate_expanding_window([{'x': i} for i in range(40)], [i % 3 for i in range(40)],
+            ('x',), lambda names: Probe(), folds=2, kickoffs=times, result_available_at=available)
+        self.assertNotIn(7, fits[0]); self.assertNotIn(7, fits[1])
+        self.assertNotIn(19, fits[0]); self.assertIn(19, fits[1])
+        self.assertEqual([f['labels_purged_at_fit'] for f in report.fold_metrics], [2, 1])
+
     def setUp(self):
         self.engineer = FeatureEngineer(window=5)
 

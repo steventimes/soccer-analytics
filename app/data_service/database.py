@@ -13,9 +13,11 @@ from pathlib import Path
 
 
 @contextmanager
-def _read_snapshot(database):
+def read_database(database, *, row_factory=None):
+    """Read one consistent transaction and always close its connection."""
     connection = sqlite3.connect(Path(database).resolve().as_uri() + "?mode=ro", uri=True)
     try:
+        connection.row_factory = row_factory
         connection.execute("BEGIN")
         yield connection
     finally:
@@ -23,7 +25,7 @@ def _read_snapshot(database):
 
 
 def export_asset(database, asset_id, output):
-    with _read_snapshot(database) as connection:
+    with read_database(database) as connection:
         row = connection.execute(
             "SELECT sha256,bytes,complete FROM assets WHERE id=?", (asset_id,)
         ).fetchone()
@@ -61,7 +63,7 @@ def analysis_lineage(database, run_id, *, run_kind=None, limit=50):
         raise ValueError("limit must be an integer between 1 and 1000")
     if not isinstance(run_id, str) or not run_id.strip():
         raise ValueError("run_id must be a nonempty string")
-    with _read_snapshot(database) as connection:
+    with read_database(database) as connection:
         connection.row_factory = sqlite3.Row
         tables = {r[0] for r in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         relations = {key: name for key, name in (("inputs", "analysis_run_inputs"), ("outputs", "analysis_run_assets")) if name in tables}
@@ -101,7 +103,7 @@ def match_xg_coverage(database):
             return False
 
     snapshots = []
-    with _read_snapshot(database) as connection:
+    with read_database(database) as connection:
         connection.row_factory = sqlite3.Row
         rows = connection.execute(
             "SELECT a.id asset_id,a.path,a.sha256,d.name dataset,j.payload "
@@ -184,7 +186,7 @@ def match_xg_coverage(database):
 
 
 def verify_database(database):
-    with _read_snapshot(database) as connection:
+    with read_database(database) as connection:
         integrity = [r[0] for r in connection.execute("PRAGMA quick_check")]
         foreign_keys = list(connection.execute("PRAGMA foreign_key_check"))
         incomplete = connection.execute(
@@ -242,7 +244,7 @@ if __name__ == "__main__":
             parser.error("--output is required for asset export")
         export_asset(args.database, args.export_asset, args.output)
     else:
-        with _read_snapshot(args.database) as connection:
+        with read_database(args.database) as connection:
             connection.row_factory = sqlite3.Row
             print(
                 json.dumps(

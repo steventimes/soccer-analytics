@@ -84,3 +84,9 @@ matches/*
 node_modules/
 .pytest_cache/
 .ruff_cache/
+
+# Local agent instructions are not public project artifacts
+AGENTS.md
+AGENTS.override.md
+.codex/
+.agents/

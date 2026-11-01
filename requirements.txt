@@ -1,3 +1,0 @@
-requests==2.32.5
-# CPU-only 官方发行版，避免静态站点任务下载 CUDA/NCCL 运行时。
-xgboost-cpu==3.4.1

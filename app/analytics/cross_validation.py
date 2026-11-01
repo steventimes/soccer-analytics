@@ -14,6 +14,15 @@ from pathlib import Path
 import sqlite3
 import unicodedata
 
+MEAN_MATCH_P99_SPEED = "observed_duration_weighted_mean_match_p99_speed_mps"
+MEAN_MATCH_P99_DEFINITION = {
+    "metric": MEAN_MATCH_P99_SPEED,
+    "unit": "m/s",
+    "formula": "sum(match sampled-speed p99 * observed segment seconds) / sum(observed segment seconds)",
+    "scope": "Observed-duration-weighted mean of per-match histogram p99 values; not the p99 of pooled observations or maximum athletic capacity.",
+    "legacy_alias": "p99_speed_mps",
+}
+
 
 def name_tokens(value):
     value = unicodedata.normalize("NFKD", value or "").casefold()
@@ -172,6 +181,11 @@ def extract_observations(root):
 
 
 def group_players(observations, backend="python"):
+    """Aggregate exposure; speed retains the weighted mean of match p99 values.
+
+    Observation rows' p99_speed_mps is a per-match histogram percentile. The
+    legacy aggregate key remains an explicitly marked alias of the mean below.
+    """
     groups = defaultdict(list)
     for r in observations:
         groups[r["player_id"]].append(r)
@@ -195,7 +209,7 @@ def group_players(observations, backend="python"):
             "matches": len(rows),
             "minutes": total_minutes,
             "coverage": observed / (total_minutes * 60),
-            "p99_speed_mps": sum(
+            MEAN_MATCH_P99_SPEED: sum(
                 r["p99_speed_mps"] * r["observed_seconds"] for r in rows
             )
             / observed,
@@ -211,6 +225,8 @@ def group_players(observations, backend="python"):
                 else None
             ),
         }
+        result[pid]["p99_speed_mps"] = result[pid][MEAN_MATCH_P99_SPEED]
+        result[pid]["p99_speed_mps_alias_of"] = MEAN_MATCH_P99_SPEED
     if backend not in {"python", "fpstreams", "compare"}:
         raise ValueError("Unknown aggregation backend")
     if backend in {"fpstreams", "compare"}:
@@ -221,7 +237,7 @@ def group_players(observations, backend="python"):
                 "player_id": r["player_id"],
                 "minutes": r["minutes"],
                 "observed": r["observed_seconds"],
-                "weighted_speed": r["p99_speed_mps"] * r["observed_seconds"],
+                "weighted_match_p99_speed": r["p99_speed_mps"] * r["observed_seconds"],
                 "weighted_distance": r["distance_per_observed_minute"]
                 * r["observed_seconds"],
                 "known_runs": (
@@ -243,7 +259,7 @@ def group_players(observations, backend="python"):
                     for k in [
                         "minutes",
                         "observed",
-                        "weighted_speed",
+                        "weighted_match_p99_speed",
                         "weighted_distance",
                         "known_runs",
                         "known_run_minutes",
@@ -258,7 +274,7 @@ def group_players(observations, backend="python"):
             metrics = {
                 "minutes": row["minutes"],
                 "coverage": row["observed"] / (row["minutes"] * 60),
-                "p99_speed_mps": row["weighted_speed"] / row["observed"],
+                MEAN_MATCH_P99_SPEED: row["weighted_match_p99_speed"] / row["observed"],
                 "distance_per_observed_minute": row["weighted_distance"]
                 / row["observed"],
                 "off_ball_runs_per90": (
@@ -280,6 +296,7 @@ def group_players(observations, backend="python"):
                     raise ValueError("fpstreams weighted aggregate mismatch")
             if backend == "fpstreams":
                 expected.update(metrics)
+                expected["p99_speed_mps"] = expected[MEAN_MATCH_P99_SPEED]
     return result
 
 
@@ -572,10 +589,10 @@ def validate(
             }
             link_stats[provider + "_linked"] += 1
     hypotheses = [
-        ("fm", "pace", "p99_speed_mps", 1, 20),
+        ("fm", "pace", MEAN_MATCH_P99_SPEED, 1, 20),
         ("fm", "stamina", "distance_per_observed_minute", 1, 20),
         ("fm", "off_the_ball", "off_ball_runs_per90", 1, 20),
-        ("fifa", "movement_sprint_speed", "p99_speed_mps", 1, 99),
+        ("fifa", "movement_sprint_speed", MEAN_MATCH_P99_SPEED, 1, 99),
         ("fifa", "power_stamina", "distance_per_observed_minute", 1, 99),
         ("fifa", "mentality_positioning", "off_ball_runs_per90", 1, 99),
     ]
@@ -612,10 +629,15 @@ def validate(
             "real_metric": target,
             **associations(pairs),
         }
+        if target == MEAN_MATCH_P99_SPEED:
+            result["real_metric_definition"] = dict(MEAN_MATCH_P99_DEFINITION)
         results.append(result)
+        # Keep the historical storage identity; the payload names the precise
+        # metric, so reruns replace the legacy row instead of leaving duplicates.
+        storage_target = "p99_speed_mps" if target == MEAN_MATCH_P99_SPEED else target
         connection.execute(
             "INSERT OR REPLACE INTO cross_source_validation VALUES(?,?)",
-            (provider + "_" + attribute + "_" + target, json.dumps(result)),
+            (provider + "_" + attribute + "_" + storage_target, json.dumps(result)),
         )
     report = {
         "aggregation_backend": backend,
@@ -633,7 +655,8 @@ def validate(
             "minimum_observation_fraction": 0.5,
             "maximum_observation_fraction": 1.05,
             "snapshot_cutoff": "strictly before earliest eligible match date; unknown same-day timing excluded",
-            "aggregation": "one row per player; observation-duration weights for physical metrics; minutes weights for run rates",
+            "aggregation": "one row per player; observed-duration weights for mean match p99 speed and distance; minutes weights for run rates",
+            "speed_metric": dict(MEAN_MATCH_P99_DEFINITION),
             "selection": "all six predeclared pairs; no selection by favorable result",
             "uncertainty": "500 resamples of players; descriptive associations; no causal claim or multiplicity-adjusted significance claim",
             "identity": "unknown or contradictory birth dates and ambiguous game IDs excluded",
@@ -641,7 +664,7 @@ def validate(
         "limits": [
             "Small single-league public sample and selective camera detection limit transportability.",
             "Game scores are subjective estimates; tracking and dynamic events also contain measurement/model error.",
-            "Observed speed percentile is not maximum athletic capacity.",
+            "The observed-duration-weighted mean of match p99 speeds is not a pooled-observation p99 or maximum athletic capacity.",
             "Off-ball events can include unknown extrapolation status; rates do not describe measured running distance.",
             "FMInside and undated EA/FC25/FC26 exports cannot pass the historical snapshot cutoff.",
             "Player-disjoint holdout does not establish future-season or unseen-league performance.",

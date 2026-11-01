@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 def public_fifa_offers(report):
     """Publish validated team totals, never local player rows or PDF text."""
-    from app.analytics.fifa_offers import FIELDS, SCHEMA
+    from app.analytics.events.fifa_offers import FIELDS, SCHEMA
     from app.data_service.fifa_reports import SERIES
 
     def integer(value, maximum=None):
@@ -61,7 +61,7 @@ def public_fifa_offers(report):
 
 
 def public_passing_motifs(summary, teams):
-    from app.analytics.passing_motifs import motif_label, period_segment
+    from app.analytics.events.passing_motifs import motif_label, period_segment
 
     if summary.get('schema') != 'Touchline.PassingMotifs.v1' or summary.get('max_gap_seconds') != 5:
         raise ValueError('Invalid passing motif schema')
@@ -185,7 +185,7 @@ def public_exploration(source):
         if not re.fullmatch(r"statsbomb-[0-9]+", identity):
             raise ValueError("Invalid public match identity")
         data = read(f"matches/{identity}.json")
-        if data["id"] != identity or data["teams"] != match["teams"]:
+        if data["id"] != identity or data["teams"] != match["teams"] or data["date"] != match["date"]:
             raise ValueError("Public match summary does not match catalog")
         public = fields(data, "id date teams players")
         public["segments"] = []

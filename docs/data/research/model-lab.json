@@ -70,6 +70,21 @@
       "id": "scores-PL",
       "kind": "scores",
       "label": "比分模型",
+      "provenance": {
+        "code": null,
+        "configuration": null,
+        "configuration_sha256": null,
+        "environment": null,
+        "result": {
+          "path": "paper-followup-20261019/scores.json",
+          "repository_url": "https://github.com/steventimes/soccer-analytics/blob/265368398174c6739b2a34695de3d5359d222295/results/paper-followup-20261019/scores.json",
+          "sha256": "309bee0e4c412fa353fc50ab68bf27d422e97356ad52073e3770c76fc0a20b4e"
+        },
+        "run_id": null,
+        "schema": "Touchline.AnalysisProvenance.v1",
+        "status": "legacy_missing",
+        "timing_policy": "not_recorded"
+      },
       "seasons": [
         "2025"
       ],
@@ -240,6 +255,21 @@
       "id": "ratings-PL",
       "kind": "ratings",
       "label": "实力评级",
+      "provenance": {
+        "code": null,
+        "configuration": null,
+        "configuration_sha256": null,
+        "environment": null,
+        "result": {
+          "path": "paper-followup-20261019/ratings.json",
+          "repository_url": "https://github.com/steventimes/soccer-analytics/blob/265368398174c6739b2a34695de3d5359d222295/results/paper-followup-20261019/ratings.json",
+          "sha256": "0de985da3fc8b09f27ba0c27646b4d0ec204611c8c6b9e56230b35a708c111a8"
+        },
+        "run_id": null,
+        "schema": "Touchline.AnalysisProvenance.v1",
+        "status": "legacy_missing",
+        "timing_policy": "not_recorded"
+      },
       "seasons": [
         "2025"
       ],
@@ -338,6 +368,21 @@
       "id": "calibration-PL",
       "kind": "calibration",
       "label": "概率校准",
+      "provenance": {
+        "code": null,
+        "configuration": null,
+        "configuration_sha256": null,
+        "environment": null,
+        "result": {
+          "path": "paper-followup-20261019/calibration.json",
+          "repository_url": "https://github.com/steventimes/soccer-analytics/blob/265368398174c6739b2a34695de3d5359d222295/results/paper-followup-20261019/calibration.json",
+          "sha256": "f2b511d0eb323e37f09eea0742a170a9b86326bf65379ac8a2946c625156eaaf"
+        },
+        "run_id": null,
+        "schema": "Touchline.AnalysisProvenance.v1",
+        "status": "legacy_missing",
+        "timing_policy": "not_recorded"
+      },
       "seasons": [
         "2025"
       ],
@@ -472,6 +517,21 @@
       "id": "trees-PL",
       "kind": "trees",
       "label": "树与特征搜索",
+      "provenance": {
+        "code": null,
+        "configuration": null,
+        "configuration_sha256": null,
+        "environment": null,
+        "result": {
+          "path": "paper-followup-20261019/trees.json",
+          "repository_url": "https://github.com/steventimes/soccer-analytics/blob/265368398174c6739b2a34695de3d5359d222295/results/paper-followup-20261019/trees.json",
+          "sha256": "40fdf4654113fa41ec9b9e0f46895d76b7027b83becd8816687d08dc0329163f"
+        },
+        "run_id": null,
+        "schema": "Touchline.AnalysisProvenance.v1",
+        "status": "legacy_missing",
+        "timing_policy": "not_recorded"
+      },
       "seasons": [
         "2025"
       ],

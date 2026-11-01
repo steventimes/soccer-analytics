@@ -5,16 +5,17 @@ import math
 import os
 import pickle
 import stat
-import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from app.file_io import write_bytes_atomic
 from app.ml.model import XGBoostClassifier
-from app.ml.feature_engineering import FeatureEngineeringError, validate_team_states
+from app.ml.feature_engineering import FeatureEngineer, FeatureEngineeringError, _TeamState, validate_team_states
+from app.ml.forecast_identity import SUPPORTED_MODEL_SCHEMAS
 
-MODEL_SCHEMA_VERSION = 3
+MODEL_SCHEMA_VERSION = 4
 
 
 class ModelArtifactError(RuntimeError):
@@ -36,6 +37,7 @@ class ModelBundle:
     feature_defaults: dict[str, float]
     training_rows: int
     schema_version: int = MODEL_SCHEMA_VERSION
+    feature_recipe: dict[str, Any] | None = field(default_factory=lambda: FeatureEngineer().to_recipe())
 
 
 @dataclass(frozen=True)
@@ -44,6 +46,9 @@ class LoadedModelBundle:
     source_path: Path
     recovered_from_previous: bool
     artifact_sha256: str
+    feature_engineer: FeatureEngineer
+    team_states: dict[int, _TeamState]
+    trained_at: datetime
 
 
 def previous_model_path(path: Path) -> Path:
@@ -54,8 +59,10 @@ def previous_model_path(path: Path) -> Path:
     return target.with_name(f"{target.name}.previous")
 
 
-def validate_model_bundle(bundle: ModelBundle) -> None:
-    """一次收集全部契约问题，避免修复一个字段后才发现下一个。"""
+def _validated_model_context(
+    bundle: ModelBundle,
+) -> tuple[FeatureEngineer, dict[int, _TeamState], datetime]:
+    """Validate the asset once and retain its parsed inference values."""
     if not isinstance(bundle, ModelBundle):
         raise ModelArtifactError("模型文件不是 ModelBundle，可能是旧版裸模型")
 
@@ -71,6 +78,7 @@ def validate_model_bundle(bundle: ModelBundle) -> None:
         "feature_defaults",
         "training_rows",
         "schema_version",
+        "feature_recipe",
     )
     missing_fields = [name for name in required_fields if not hasattr(bundle, name)]
     if missing_fields:
@@ -79,10 +87,16 @@ def validate_model_bundle(bundle: ModelBundle) -> None:
         )
 
     issues: list[str] = []
-    if bundle.schema_version != MODEL_SCHEMA_VERSION:
+    if isinstance(bundle.schema_version, bool) or bundle.schema_version not in SUPPORTED_MODEL_SCHEMAS:
         issues.append(
             f"schema_version 应为 {MODEL_SCHEMA_VERSION}，实际为 {bundle.schema_version}"
         )
+    try:
+        engineer = FeatureEngineer.from_recipe(bundle.feature_recipe)
+        if bundle.schema_version == 3 and bundle.feature_recipe != FeatureEngineer().to_recipe():
+            raise FeatureEngineeringError("v3 资产只能按历史默认配方读取")
+    except (FeatureEngineeringError, TypeError, ValueError) as exc:
+        issues.append(f"feature_recipe 无效: {exc}")
 
     if (
         not isinstance(bundle.competition_code, str)
@@ -231,33 +245,12 @@ def validate_model_bundle(bundle: ModelBundle) -> None:
 
     if issues:
         raise ModelArtifactError("模型包校验失败: " + "；".join(issues))
+    return engineer, validated_states, trained_at
 
 
-def _atomic_write_bytes(target: Path, payload: bytes) -> None:
-    temporary_path: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="wb",
-            dir=target.parent,
-            prefix=f".{target.name}.",
-            suffix=".tmp",
-            delete=False,
-        ) as handle:
-            temporary_path = Path(handle.name)
-            handle.write(payload)
-            handle.flush()
-            # 模型仍保持 0600，但容器写挂载卷时归属于模型目录所有者。
-            try:
-                parent = target.parent.stat()
-                os.fchown(handle.fileno(), parent.st_uid, parent.st_gid)
-            except (AttributeError, OSError):
-                pass
-            os.fsync(handle.fileno())
-        os.replace(temporary_path, target)
-        temporary_path = None
-    finally:
-        if temporary_path is not None:
-            temporary_path.unlink(missing_ok=True)
+def validate_model_bundle(bundle: ModelBundle) -> None:
+    """Validate an external bundle without changing its persisted format."""
+    _validated_model_context(bundle)
 
 
 def save_model_bundle(bundle: ModelBundle, path: Path) -> Path:
@@ -274,15 +267,15 @@ def save_model_bundle(bundle: ModelBundle, path: Path) -> Path:
                 # 损坏的当前文件不能污染仍可恢复的上一版。
                 pass
             else:
-                _atomic_write_bytes(previous_model_path(target), target.read_bytes())
-        _atomic_write_bytes(target, payload)
+                write_bytes_atomic(previous_model_path(target), target.read_bytes(), file_mode=0o600)
+        write_bytes_atomic(target, payload, file_mode=0o600)
     except Exception as exc:
         raise ModelArtifactError(f"模型包写入失败: {target}") from exc
 
     return target
 
 
-def _load_model_bundle_with_digest(path: Path) -> tuple[ModelBundle, str]:
+def _load_model_bundle(path: Path) -> LoadedModelBundle:
     target = Path(path)
     if not target.exists():
         raise ModelArtifactError(f"模型包不存在: {target}")
@@ -312,43 +305,45 @@ def _load_model_bundle_with_digest(path: Path) -> tuple[ModelBundle, str]:
 
     if not isinstance(loaded, ModelBundle):
         raise ModelArtifactError("模型文件不是 ModelBundle，旧版裸模型必须重新训练")
+    if getattr(loaded, "schema_version", None) == 3:
+        # v3 did not store a recipe. Preserve its documented default semantics,
+        # disclose the assumption, and never change the original bytes/digest.
+        default_recipe = FeatureEngineer().to_recipe()
+        if getattr(loaded, "feature_recipe", None) not in (None, default_recipe):
+            raise ModelArtifactError("v3 资产含有非默认配方，请重新训练为 v4")
+        loaded.feature_recipe = default_recipe
+        if isinstance(getattr(loaded, "metrics", None), dict):
+            loaded.metrics = {**loaded.metrics, "feature_recipe_origin": "legacy_v3_assumed_defaults"}
     try:
-        validate_model_bundle(loaded)
+        engineer, states, trained_at = _validated_model_context(loaded)
     except ModelArtifactError:
         raise
     except Exception as exc:
         # 任意语义损坏都统一为领域错误，确保上一版回退一定会执行。
         raise ModelArtifactError(f"模型包校验异常: {target}") from exc
-    return loaded, hashlib.sha256(payload).hexdigest()
+    return LoadedModelBundle(
+        bundle=loaded, source_path=target, recovered_from_previous=False,
+        artifact_sha256=hashlib.sha256(payload).hexdigest(),
+        feature_engineer=engineer, team_states=states, trained_at=trained_at,
+    )
 
 
 def load_model_bundle(path: Path) -> ModelBundle:
     """从一次不可变字节快照反序列化并验证模型包。"""
-    return _load_model_bundle_with_digest(path)[0]
+    return _load_model_bundle(path).bundle
 
 
 def load_model_bundle_with_fallback(path: Path) -> LoadedModelBundle:
     """优先读取当前模型，损坏或缺失时显式回退到上一版。"""
     target = Path(path)
     try:
-        bundle, artifact_sha256 = _load_model_bundle_with_digest(target)
+        return _load_model_bundle(target)
     except ModelArtifactError as active_error:
         previous = previous_model_path(target)
         try:
-            bundle, artifact_sha256 = _load_model_bundle_with_digest(previous)
+            loaded = _load_model_bundle(previous)
         except ModelArtifactError as previous_error:
             raise ModelArtifactError(
                 f"当前模型不可用 ({active_error})；上一版也不可用 ({previous_error})"
             ) from previous_error
-        return LoadedModelBundle(
-            bundle=bundle,
-            source_path=previous,
-            recovered_from_previous=True,
-            artifact_sha256=artifact_sha256,
-        )
-    return LoadedModelBundle(
-        bundle=bundle,
-        source_path=target,
-        recovered_from_previous=False,
-        artifact_sha256=artifact_sha256,
-    )
+        return replace(loaded, recovered_from_previous=True)

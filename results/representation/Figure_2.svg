@@ -203,8 +203,8 @@ Only one seed is plotted here. Figure 1 reports all methods and optimizer variab
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #2468a0" transform="translate(602.52 246.358594)">Final epoch 0.49246</text>
    </g>
    <g id="text_14">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #c5722c" transform="translate(602.52 291.536518)">Supervised transfer · fine-tuned</text>
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #c5722c" transform="translate(602.52 304.739526)">Final epoch 0.48540</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #a34f15" transform="translate(602.52 291.536518)">Supervised transfer · fine-tuned</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #a34f15" transform="translate(602.52 304.739526)">Final epoch 0.48540</text>
    </g>
    <g id="text_15">
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #647382" transform="translate(602.52 267.076778)">Self-supervised · fine-tuned</text>

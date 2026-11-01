@@ -3,8 +3,8 @@
 import json
 from collections import defaultdict
 import numpy as np
-from app.analytics.tactics import location
-from app.analytics.tactical_relations import clock
+from app.analytics.tactics.metrics import location
+from app.analytics.tactics.tactical_relations import clock
 from .pitch import draw_pitch, direction_arrow, save_figure
 from .style import COLORS, apply_style, decorate
 
@@ -83,7 +83,7 @@ def shot_map(events, chosen, *, scouting_root, output_dir):
                         bbox={"facecolor": "white", "edgecolor": "none", "pad": 2},
                         arrowprops={"arrowstyle": "-", "lw": .7, "color": color}, zorder=5)
         ax.set_title(f"{team['team']}  ·  {team['shots']} shots  ·  {team['xg']:.2f} xG",
-                     loc="left", color=color, pad=12)
+                     loc="left", color=COLORS["orange_text"] if color == COLORS["orange"] else color, pad=12)
         direction_arrow(ax)
     key = fig.add_axes([.055, .13, .91, .065])
     key.axis("off")
@@ -165,7 +165,7 @@ def passing_network(events, chosen, lineup_names, network_window, *, scouting_ro
             number = str(jersey) if jersey is not None and str(jersey) else str(player)
             tag = tags[player]
             ax.annotate(number, point, xytext=tag, textcoords="data", ha="center", va="center",
-                        fontsize=10, color=color, weight="semibold",
+                        fontsize=10, color=COLORS["orange_text"] if color == COLORS["orange"] else color, weight="semibold",
                         bbox={"boxstyle": "round,pad=.18", "facecolor": "white", "edgecolor": color, "lw": .8},
                         arrowprops={"arrowstyle": "-", "color": color, "lw": .65}, zorder=5)
             roster.append((number, name))
@@ -176,7 +176,7 @@ def passing_network(events, chosen, lineup_names, network_window, *, scouting_ro
                            transform=roster_ax.transAxes, va="top", fontsize=10, color=COLORS["ink"])
         if not roster:
             roster_ax.text(0, .8, "No players meet the display threshold", color=COLORS["muted"], fontsize=10)
-        ax.set_title(team["team"], loc="left", color=color, pad=12)
+        ax.set_title(team["team"], loc="left", color=COLORS["orange_text"] if color == COLORS["orange"] else color, pad=12)
         direction_arrow(ax)
     fig.legend(handles=[Line2D([], [], color=COLORS["muted"], lw=.6 + n / 6, label=f"{n} passes") for n in [3, 10]],
                loc="lower left", bbox_to_anchor=(.05, .105), ncol=2, frameon=False, handlelength=3)

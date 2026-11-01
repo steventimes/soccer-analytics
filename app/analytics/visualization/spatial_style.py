@@ -21,7 +21,7 @@ def figures(report, pass_basis, output, seed):
             color = COLORS["orange"] if row["method"] == "nmf_start_end" else COLORS["blue"] if row["method"] == "heatmaps" else COLORS["muted"]
             ax.plot([low, high], [i, i], color=color, linewidth=2.5)
             ax.scatter([mean], [i], color=color, s=48, zorder=3)
-            ax.text(mean + .025, i, f"{mean:.1%}", va="center", fontsize=10, color=color)
+            ax.text(mean + .025, i, f"{mean:.1%}", va="center", fontsize=10, color=COLORS["orange_text"] if color == COLORS["orange"] else color)
         ax.axvline(rows[0]["random_top1"], color=COLORS["neutral"], linestyle=":", linewidth=1.5)
         ax.set_title(title); ax.set_xlim(0, 1); ax.set_yticks(range(4), labels); ax.set_ylim(3.6, -.6)
         ax.xaxis.set_major_formatter(PercentFormatter(1)); ax.set_xlabel("Top-1 identity retrieval (tie-aware)")

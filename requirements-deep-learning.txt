@@ -1,2 +1,0 @@
-# Optional research dependency; CPU installation is documented in README.md.
-torch==2.8.0

@@ -8,8 +8,10 @@ from app.ml.forecast_identity import (
     ForecastIdentityError,
     cold_start_evidence,
     forecast_id_matches,
+    SUPPORTED_MODEL_SCHEMAS,
 )
 from app.web.preset_questions import HIGH_CONFIDENCE_THRESHOLD
+from app.web.model_quality import probability_quality_passes
 
 
 def build_release_governance(
@@ -137,7 +139,7 @@ def build_release_governance(
         "verification_commands": [
             "python3 -m unittest discover -s tests -v",
             "python3 -m app.pipeline export-site --days 3",
-            "node --check docs/app.js",
+            "node --check docs/assets/js/pages/app.js",
         ],
     }
 
@@ -404,7 +406,7 @@ def _quality_evidence_complete(
     }
     if _quality_model_identity(row) is None or any(
         value is None for value in values.values()
-    ):
+    ) or not probability_quality_passes(row):
         return False
     if (
         not all(0.0 <= float(values[name]) <= 1.0 for name in (
@@ -513,7 +515,7 @@ def _quality_model_identity(row: Mapping[str, Any]) -> tuple[str, str] | None:
         or not competition
         or competition != competition.strip().upper()
         or isinstance(row.get("schema_version"), bool)
-        or row.get("schema_version") != 3
+        or row.get("schema_version") not in SUPPORTED_MODEL_SCHEMAS
     ):
         return None
     model_sha256 = _sha256(row.get("model_sha256"))
@@ -529,7 +531,7 @@ def _prediction_model_identity(
         or _positive_int(prediction.get("match_id")) is None
         or not isinstance(model, Mapping)
         or isinstance(model.get("schema_version"), bool)
-        or model.get("schema_version") != 3
+        or model.get("schema_version") not in SUPPORTED_MODEL_SCHEMAS
         or not forecast_id_matches(prediction)
     ):
         return None

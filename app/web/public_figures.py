@@ -1,5 +1,48 @@
 """Approved original figures for the static research site."""
 
+import xml.etree.ElementTree as ET
+
+
+def figure_text_alternative(image_bytes, scope):
+    """Transcribe already-public figure labels without inferring scientific claims."""
+    root = ET.fromstring(image_bytes)
+    namespace = "{http://www.w3.org/2000/svg}"
+    panels, notes = [], []
+    description = root.find(f"{namespace}desc")
+
+    def text(element):
+        return " ".join("".join(element.itertext()).split())
+
+    def visit(element, panel=None):
+        if element.get("id", "").startswith("axes_"):
+            panel = {"label": f"图表分区 {len(panels) + 1}", "entries": []}
+            panels.append(panel)
+        if element.tag == f"{namespace}text" and text(element):
+            (panel["entries"] if panel is not None else notes).append(text(element))
+            return
+        for child in element:
+            visit(child, panel)
+
+    visit(root)
+    return {
+        "description": text(description) if description is not None else scope,
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": panels,
+        "notes": notes,
+    }
+
+
+FIGURE_DATA_LINKS = {
+    "chelsea-psg-final": "case.json",
+    "representation/Figure_1": "representation.json",
+    "representation/Figure_2": "representation.json",
+    "spatial-style/Figure_1": "spatial-style.json",
+    "spatial-style/Figure_2": "spatial-style.json",
+    "vaep-spadl/Figure_1": "vaep-spadl.json",
+    "vaep-spadl/Figure_2": "vaep-spadl.json",
+    "paper-followup-20261019/score-counts-pl": "model-lab.json",
+}
+
 
 PUBLIC_FIGURES = (
     ("analysis-upgrades", "压迫、进球概率、空间控制与组织进攻", "模型比较", "各实验使用各自样本与指标，请在图中核对分母和误差范围。", "公开研究实验汇总"),
@@ -45,6 +88,10 @@ def public_figures(source):
             identity = stem.replace("/", "-").replace("_", "-").lower()
             filename = f"{identity}.{suffix}"
             assets[filename] = image.read_bytes()
+            alternative = figure_text_alternative(assets[filename], scope) if suffix == "svg" else {
+                "description": scope, "reading_order": "当前原图为位图，以下保留图表范围。",
+                "panels": [], "notes": [title, scope],
+            }
             figures.append({
                 "id": identity,
                 "title": title,
@@ -54,6 +101,8 @@ def public_figures(source):
                 "alt": f"{title}。{scope}",
                 "scope": scope,
                 "source": origin,
+                "text_alternative": alternative,
+                "aggregate_url": FIGURE_DATA_LINKS.get(stem),
             })
             break
     return {"figures": figures}, assets

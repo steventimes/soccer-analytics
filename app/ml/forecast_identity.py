@@ -6,6 +6,7 @@ import math
 from datetime import UTC, datetime
 from typing import Any, Mapping, Sequence
 
+SUPPORTED_MODEL_SCHEMAS = (3, 4)
 
 class ForecastIdentityError(ValueError):
     """预测血缘字段无法构成可重放的规范摘要。"""
@@ -115,7 +116,7 @@ def forecast_id_for_prediction(prediction: Mapping[str, Any]) -> str:
         or competition != competition.strip().upper()
         or not isinstance(model, Mapping)
         or isinstance(model.get("schema_version"), bool)
-        or model.get("schema_version") != 3
+        or model.get("schema_version") not in SUPPORTED_MODEL_SCHEMAS
         or not isinstance(probabilities, Mapping)
         or set(probabilities) != {"home_win", "draw", "away_win"}
     ):
@@ -143,7 +144,7 @@ def forecast_id_for_prediction(prediction: Mapping[str, Any]) -> str:
             "home_team_id": home_team_id,
             "away_team_id": away_team_id,
             "trained_at": _timestamp(model.get("trained_at"), "模型训练时间"),
-            "model_schema_version": 3,
+            "model_schema_version": model["schema_version"],
             "model_sha256": _sha256(model.get("model_sha256")),
             "feature_fingerprint": _sha256(
                 prediction.get("feature_fingerprint")

@@ -257,7 +257,7 @@ interpretation.</desc><metadata>
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="638.3232" y="212.750513" transform="rotate(-0 638.3232 212.750513)">0.100089</text>
    </g>
    <g id="text_20">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c5722c" x="743.904" y="212.750513" transform="rotate(-0 743.904 212.750513)">+0.000017</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a34f15" x="743.904" y="212.750513" transform="rotate(-0 743.904 212.750513)">+0.000017</text>
    </g>
    <g id="PathCollection_4">
     <g clip-path="url(#pb1eefb1c30)">
@@ -268,7 +268,7 @@ interpretation.</desc><metadata>
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="638.3232" y="255.636331" transform="rotate(-0 638.3232 255.636331)">0.100876</text>
    </g>
    <g id="text_22">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c5722c" x="743.904" y="255.636331" transform="rotate(-0 743.904 255.636331)">+0.000805</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a34f15" x="743.904" y="255.636331" transform="rotate(-0 743.904 255.636331)">+0.000805</text>
    </g>
    <g id="PathCollection_5">
     <g clip-path="url(#pb1eefb1c30)">
@@ -279,7 +279,7 @@ interpretation.</desc><metadata>
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="638.3232" y="298.522149" transform="rotate(-0 638.3232 298.522149)">0.103146</text>
    </g>
    <g id="text_24">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c5722c" x="743.904" y="298.522149" transform="rotate(-0 743.904 298.522149)">+0.003075</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a34f15" x="743.904" y="298.522149" transform="rotate(-0 743.904 298.522149)">+0.003075</text>
    </g>
    <g id="PathCollection_6">
     <g clip-path="url(#pb1eefb1c30)">
@@ -290,7 +290,7 @@ interpretation.</desc><metadata>
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="638.3232" y="341.407967" transform="rotate(-0 638.3232 341.407967)">0.103228</text>
    </g>
    <g id="text_26">
-    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c5722c" x="743.904" y="341.407967" transform="rotate(-0 743.904 341.407967)">+0.003156</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a34f15" x="743.904" y="341.407967" transform="rotate(-0 743.904 341.407967)">+0.003156</text>
    </g>
    <g id="text_27">
     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #647382" x="638.3232" y="103.96512" transform="rotate(-0 638.3232 103.96512)">Brier score</text>

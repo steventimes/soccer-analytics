@@ -523,7 +523,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #647382" x="753.539155" y="345.858837" transform="rotate(-0 753.539155 345.858837)">Attacking direction</text>
    </g>
    <g id="text_26">
-    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c5722c" x="599.309416" y="100.32" transform="rotate(-0 599.309416 100.32)">Germany</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #a34f15" x="599.309416" y="100.32" transform="rotate(-0 599.309416 100.32)">Germany</text>
    </g>
    <g id="PathCollection_18">
     <defs>
@@ -590,7 +590,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_96">
      <path d="M 735.135745 185.964403  L 742.093558 185.964403  Q 743.893558 185.964403 743.893558 184.164403  L 743.893558 174.164403  Q 743.893558 172.364403 742.093558 172.364403  L 735.135745 172.364403  Q 733.335745 172.364403 733.335745 174.164403  L 733.335745 184.164403  Q 733.335745 185.964403 735.135745 185.964403  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="738.614652" y="181.762059" transform="rotate(-0 738.614652 181.762059)">4</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="738.614652" y="181.762059" transform="rotate(-0 738.614652 181.762059)">4</text>
    </g>
    <g id="patch_97">
     <path d="M 749.804739 133.851761  Q 749.804739 133.869624 749.804739 133.887487  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -599,7 +599,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_98">
      <path d="M 746.325833 131.458379  L 753.283645 131.458379  Q 755.083645 131.458379 755.083645 129.658379  L 755.083645 119.658379  Q 755.083645 117.858379 753.283645 117.858379  L 746.325833 117.858379  Q 744.525833 117.858379 744.525833 119.658379  L 744.525833 129.658379  Q 744.525833 131.458379 746.325833 131.458379  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="749.804739" y="127.256035" transform="rotate(-0 749.804739 127.256035)">3</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="749.804739" y="127.256035" transform="rotate(-0 749.804739 127.256035)">3</text>
    </g>
    <g id="patch_99">
     <path d="M 800.388645 220.073374  Q 800.357467 221.053121 800.326289 222.032867  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -608,7 +608,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_100">
      <path d="M 797.202412 217.676312  L 804.160225 217.676312  Q 805.960225 217.676312 805.960225 215.876312  L 805.960225 205.876312  Q 805.960225 204.076312 804.160225 204.076312  L 797.202412 204.076312  Q 795.402412 204.076312 795.402412 205.876312  L 795.402412 215.876312  Q 795.402412 217.676312 797.202412 217.676312  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="800.681318" y="213.473968" transform="rotate(-0 800.681318 213.473968)">7</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="800.681318" y="213.473968" transform="rotate(-0 800.681318 213.473968)">7</text>
    </g>
    <g id="patch_101">
     <path d="M 755.883447 280.528869  Q 755.883447 281.480734 755.883447 282.432598  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -617,7 +617,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_102">
      <path d="M 752.404541 278.128057  L 759.362353 278.128057  Q 761.162353 278.128057 761.162353 276.328057  L 761.162353 266.328057  Q 761.162353 264.528057 759.362353 264.528057  L 752.404541 264.528057  Q 750.604541 264.528057 750.604541 266.328057  L 750.604541 276.328057  Q 750.604541 278.128057 752.404541 278.128057  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="755.883447" y="273.925713" transform="rotate(-0 755.883447 273.925713)">6</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="755.883447" y="273.925713" transform="rotate(-0 755.883447 273.925713)">6</text>
    </g>
    <g id="patch_103">
     <path d="M 628.674758 212.557486  Q 628.674758 213.509351 628.674758 214.461215  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -626,7 +626,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_104">
      <path d="M 625.195852 210.156674  L 632.153664 210.156674  Q 633.953664 210.156674 633.953664 208.356674  L 633.953664 198.356674  Q 633.953664 196.556674 632.153664 196.556674  L 625.195852 196.556674  Q 623.395852 196.556674 623.395852 198.356674  L 623.395852 208.356674  Q 623.395852 210.156674 625.195852 210.156674  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="628.674758" y="205.95433" transform="rotate(-0 628.674758 205.95433)">1</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="628.674758" y="205.95433" transform="rotate(-0 628.674758 205.95433)">1</text>
    </g>
    <g id="patch_105">
     <path d="M 779.020051 223.291823  Q 779.049825 224.218744 779.0796 225.145664  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -635,7 +635,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_106">
      <path d="M 771.766758 220.893137  L 785.682383 220.893137  Q 787.482383 220.893137 787.482383 219.093137  L 787.482383 209.093137  Q 787.482383 207.293137 785.682383 207.293137  L 771.766758 207.293137  Q 769.966758 207.293137 769.966758 209.093137  L 769.966758 219.093137  Q 769.966758 220.893137 771.766758 220.893137  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="778.72457" y="216.690794" transform="rotate(-0 778.72457 216.690794)">25</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="778.72457" y="216.690794" transform="rotate(-0 778.72457 216.690794)">25</text>
    </g>
    <g id="patch_107">
     <path d="M 785.125406 149.844247  Q 785.125406 150.796111 785.125406 151.747976  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -644,7 +644,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_108">
      <path d="M 778.167593 147.443435  L 792.083218 147.443435  Q 793.883218 147.443435 793.883218 145.643435  L 793.883218 135.643435  Q 793.883218 133.843435 792.083218 133.843435  L 778.167593 133.843435  Q 776.367593 133.843435 776.367593 135.643435  L 776.367593 145.643435  Q 776.367593 147.443435 778.167593 147.443435  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="785.125406" y="143.241091" transform="rotate(-0 785.125406 143.241091)">10</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="785.125406" y="143.241091" transform="rotate(-0 785.125406 143.241091)">10</text>
    </g>
    <g id="patch_109">
     <path d="M 774.761167 169.530816  Q 774.761167 170.482681 774.761167 171.434545  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -653,7 +653,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_110">
      <path d="M 767.803355 167.130004  L 781.71898 167.130004  Q 783.51898 167.130004 783.51898 165.330004  L 783.51898 155.330004  Q 783.51898 153.530004 781.71898 153.530004  L 767.803355 153.530004  Q 766.003355 153.530004 766.003355 155.330004  L 766.003355 165.330004  Q 766.003355 167.130004 767.803355 167.130004  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="774.761167" y="162.92766" transform="rotate(-0 774.761167 162.92766)">21</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="774.761167" y="162.92766" transform="rotate(-0 774.761167 162.92766)">21</text>
    </g>
    <g id="patch_111">
     <path d="M 805.064226 262.227688  Q 805.064226 263.179552 805.064226 264.131417  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -662,7 +662,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_112">
      <path d="M 798.106414 259.826876  L 812.022039 259.826876  Q 813.822039 259.826876 813.822039 258.026876  L 813.822039 248.026876  Q 813.822039 246.226876 812.022039 246.226876  L 798.106414 246.226876  Q 796.306414 246.226876 796.306414 248.026876  L 796.306414 258.026876  Q 796.306414 259.826876 798.106414 259.826876  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="805.064226" y="255.624532" transform="rotate(-0 805.064226 255.624532)">19</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="805.064226" y="255.624532" transform="rotate(-0 805.064226 255.624532)">19</text>
    </g>
    <g id="patch_113">
     <path d="M 716.030482 267.900257  Q 716.030482 268.852122 716.030482 269.803987  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -671,7 +671,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_114">
      <path d="M 712.551576 265.499446  L 719.509389 265.499446  Q 721.309389 265.499446 721.309389 263.699446  L 721.309389 253.699446  Q 721.309389 251.899446 719.509389 251.899446  L 712.551576 251.899446  Q 710.751576 251.899446 710.751576 253.699446  L 710.751576 263.699446  Q 710.751576 265.499446 712.551576 265.499446  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="716.030482" y="261.297102" transform="rotate(-0 716.030482 261.297102)">2</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="716.030482" y="261.297102" transform="rotate(-0 716.030482 261.297102)">2</text>
    </g>
    <g id="patch_115">
     <path d="M 747.98263 212.671651  Q 747.98263 213.623516 747.98263 214.575381  " style="fill: none; stroke: #c5722c; stroke-width: 0.65; stroke-linecap: round" />
@@ -680,7 +680,7 @@ Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action
     <g id="patch_116">
      <path d="M 744.503723 210.27084  L 751.461536 210.27084  Q 753.261536 210.27084 753.261536 208.47084  L 753.261536 198.47084  Q 753.261536 196.67084 751.461536 196.67084  L 744.503723 196.67084  Q 742.703723 196.67084 742.703723 198.47084  L 742.703723 208.47084  Q 742.703723 210.27084 744.503723 210.27084  z " style="fill: #ffffff; stroke: #c5722c; stroke-width: 0.8; stroke-linejoin: miter" />
     </g>
-    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #c5722c" x="747.98263" y="206.068496" transform="rotate(-0 747.98263 206.068496)">8</text>
+    <text style="font-weight: 600; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #a34f15" x="747.98263" y="206.068496" transform="rotate(-0 747.98263 206.068496)">8</text>
    </g>
   </g>
   <g id="axes_4">

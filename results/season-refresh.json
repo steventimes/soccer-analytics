@@ -671,6 +671,649 @@
       },
       "applied_to_main_archive": true,
       "predictor_training": "Not performed."
+    },
+    {
+      "date": "2026-10-23",
+      "observed_at": "2026-10-23T06:01:30.458686+00:00",
+      "source_observation_window": {
+        "earliest": "2026-10-23T05:57:06.003388+00:00",
+        "latest": "2026-10-23T06:01:30.458686+00:00"
+      },
+      "scope": "Fresh ESPN observations for 2026-10-13 through 2026-10-23, including newly archived Europa League and Conference League coverage; 22 current-season Football-Data CSV leagues. Provider populations are separate and can overlap.",
+      "captures": [
+        {
+          "name": "season",
+          "collection_sha256": "5a405cbd0760a049324e2bd841964c4f441766874a3a62c4afab8b8a24673d77",
+          "source_observation_window": {
+            "earliest": "2026-10-23T05:57:06.003388+00:00",
+            "latest": "2026-10-23T06:01:30.458686+00:00"
+          },
+          "requests": {
+            "attempts": 295,
+            "downloaded": 295,
+            "cached": 0
+          },
+          "errors": 0
+        },
+        {
+          "name": "europe",
+          "collection_sha256": "324dc19f9c443eaec947e06cf0fc69d9168dc9627dcb075d6ec9885475939e6b",
+          "source_observation_window": {
+            "earliest": "2026-10-23T06:00:24.305477+00:00",
+            "latest": "2026-10-23T06:01:25.978000+00:00"
+          },
+          "requests": {
+            "attempts": 96,
+            "downloaded": 96,
+            "cached": 0
+          },
+          "errors": 0
+        }
+      ],
+      "requests": {
+        "attempts": 391,
+        "downloaded": 391,
+        "cached": 0
+      },
+      "espn": {
+        "observations_in_window": 213,
+        "statuses_in_window": {
+          "FINISHED": 203,
+          "STATUS_CANCELED": 1,
+          "STATUS_POSTPONED": 1,
+          "STATUS_SCHEDULED": 8
+        },
+        "finished_in_window": 203,
+        "summaries_in_window": 203,
+        "new_to_latest_view": 170,
+        "added_by_competition": {
+          "eng.1": 11,
+          "eng.2": 14,
+          "esp.1": 12,
+          "fra.1": 10,
+          "ger.1": 10,
+          "ita.1": 11,
+          "ned.1": 10,
+          "por.1": 2,
+          "uefa.champions": 18,
+          "uefa.europa": 36,
+          "uefa.europa.conf": 36
+        },
+        "updated_existing_records": 1,
+        "updated_fields": [
+          "home_team"
+        ],
+        "score_revisions": 0,
+        "ucl": {
+          "finished_in_capture": 36,
+          "newly_archived_finished": 18,
+          "latest_view_finished": 54,
+          "date_end": "2026-10-21",
+          "cross_check": {
+            "provider": "UEFA official fixture/results page",
+            "matched_results": 18,
+            "match_dates": [
+              "2026-10-20",
+              "2026-10-21"
+            ],
+            "source_url": "https://www.uefa.com/uefachampionsleague/news/02a8-2174c9e9019d-f909a77bd77a-1000--2026-27-champions-league-all-the-league-phase-fixtures-and-results/"
+          }
+        },
+        "additional_european_coverage": [
+          {
+            "competition": "uefa.europa",
+            "finished": 36,
+            "dates": [
+              "2026-10-15",
+              "2026-10-22"
+            ],
+            "note": "Newly included archive coverage; not all matches were played after the previous refresh."
+          },
+          {
+            "competition": "uefa.europa.conf",
+            "finished": 36,
+            "dates": [
+              "2026-10-15",
+              "2026-10-22"
+            ],
+            "note": "Newly included archive coverage; not all matches were played after the previous refresh."
+          }
+        ],
+        "source_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates=20261021&limit=100"
+      },
+      "football_csv": {
+        "season": "2026/2027",
+        "leagues": 22,
+        "finished": 1792,
+        "added_to_latest_view": 196,
+        "added_by_competition": {
+          "BL1": 9,
+          "BL2": 9,
+          "DED": 9,
+          "EL1": 24,
+          "EL2": 24,
+          "ELC": 13,
+          "FL1": 9,
+          "FL2": 9,
+          "GSL": 6,
+          "PD": 11,
+          "PL": 10,
+          "PPL": 1,
+          "SA": 10,
+          "SB": 10,
+          "SCC": 6,
+          "SD": 11,
+          "SL1": 5,
+          "SL2": 5,
+          "SPL": 6,
+          "TSL": 9
+        },
+        "competitions": [
+          {
+            "competition": "PL",
+            "season": "2026/2027",
+            "rows": 70,
+            "date_start": "2026-08-21",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "ELC",
+            "season": "2026/2027",
+            "rows": 132,
+            "date_start": "2026-08-14",
+            "date_end": "2026-10-20"
+          },
+          {
+            "competition": "BL1",
+            "season": "2026/2027",
+            "rows": 54,
+            "date_start": "2026-08-28",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "PD",
+            "season": "2026/2027",
+            "rows": 89,
+            "date_start": "2026-08-15",
+            "date_end": "2026-10-21"
+          },
+          {
+            "competition": "SA",
+            "season": "2026/2027",
+            "rows": 70,
+            "date_start": "2026-08-22",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "FL1",
+            "season": "2026/2027",
+            "rows": 63,
+            "date_start": "2026-08-21",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "PPL",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_start": "2026-08-07",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "DED",
+            "season": "2026/2027",
+            "rows": 81,
+            "date_start": "2026-08-07",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "EL1",
+            "season": "2026/2027",
+            "rows": 126,
+            "date_start": "2026-08-15",
+            "date_end": "2026-10-21"
+          },
+          {
+            "competition": "EL2",
+            "season": "2026/2027",
+            "rows": 138,
+            "date_start": "2026-08-15",
+            "date_end": "2026-10-20"
+          },
+          {
+            "competition": "ENL",
+            "season": "2026/2027",
+            "rows": 155,
+            "date_start": "2026-08-08",
+            "date_end": "2026-10-10"
+          },
+          {
+            "competition": "SPL",
+            "season": "2026/2027",
+            "rows": 54,
+            "date_start": "2026-07-31",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "SCC",
+            "season": "2026/2027",
+            "rows": 54,
+            "date_start": "2026-08-01",
+            "date_end": "2026-10-20"
+          },
+          {
+            "competition": "SL1",
+            "season": "2026/2027",
+            "rows": 54,
+            "date_start": "2026-08-01",
+            "date_end": "2026-10-17"
+          },
+          {
+            "competition": "SL2",
+            "season": "2026/2027",
+            "rows": 55,
+            "date_start": "2026-08-01",
+            "date_end": "2026-10-17"
+          },
+          {
+            "competition": "BL2",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_start": "2026-08-07",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "SB",
+            "season": "2026/2027",
+            "rows": 70,
+            "date_start": "2026-08-21",
+            "date_end": "2026-10-18"
+          },
+          {
+            "competition": "SD",
+            "season": "2026/2027",
+            "rows": 110,
+            "date_start": "2026-08-14",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "FL2",
+            "season": "2026/2027",
+            "rows": 81,
+            "date_start": "2026-08-08",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "BPL",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_start": "2026-08-07",
+            "date_end": "2026-10-11"
+          },
+          {
+            "competition": "TSL",
+            "season": "2026/2027",
+            "rows": 72,
+            "date_start": "2026-08-14",
+            "date_end": "2026-10-19"
+          },
+          {
+            "competition": "GSL",
+            "season": "2026/2027",
+            "rows": 48,
+            "date_start": "2026-08-22",
+            "date_end": "2026-10-18"
+          }
+        ],
+        "normalized_current_season_snapshots": {
+          "leagues": 22,
+          "rows": 1792,
+          "new_snapshot_observed_at": "All 1792 normalized rows use the actual CSV receipt observation time. Selected legacy snapshots lack per-match result_observed_at; earlier result availability is not inferred from snapshot download or kickoff.",
+          "source_url": "https://www.football-data.co.uk/data.php",
+          "seeded_previous_snapshots": [
+            "PL",
+            "BL1",
+            "PD",
+            "SA",
+            "FL1"
+          ],
+          "previous_first_observation_times_preserved": 0,
+          "legacy_snapshots_missing_result_observed_at": true
+        }
+      },
+      "national_archive_check": {
+        "repository": "https://github.com/martj42/international_results",
+        "revision": "d5bd6de012c87e2f325de602ae77fe2f9ab61ef3",
+        "checked_at": "2026-10-23T05:58:52.447617+00:00",
+        "upstream_changed": false,
+        "new_archive_matches": 0,
+        "note": "The unchanged historical archive was not restamped as newly observed; recent ESPN national/women/U21 observations retain their own identities."
+      },
+      "warehouse_delta": {
+        "before_rows": 52562,
+        "after_rows": 52928,
+        "deleted": 0,
+        "added_statuses": {
+          "FINISHED": 358,
+          "STATUS_SCHEDULED": 8
+        },
+        "identity_conflicts": 1,
+        "note": "One previously documented international-results identity conflict remains excluded. Provider rows are not unique global matches."
+      },
+      "unchanged_sources": [
+        "Understat",
+        "OpenFootball",
+        "StatsBomb Open Data",
+        "SkillCorner"
+      ],
+      "models_retrained": false,
+      "historical_experiments_recomputed": false,
+      "validation": {
+        "state": "verified",
+        "summary_identity_roles_final_score_checked": true,
+        "capture_errors": 0,
+        "existing_tests": {
+          "run": 406,
+          "passed": 403,
+          "skipped_optional": 3
+        },
+        "source_assets": {
+          "old_asset_metadata_unchanged": 32325,
+          "new_assets_lossless_verified": 366,
+          "new_asset_bytes": 89603730
+        },
+        "primary_espn_finished_and_matching_summaries": 400,
+        "static_and_lint": "passed",
+        "public_export": "verified",
+        "production_training": false,
+        "browser_rerun": false
+      },
+      "limits": [
+        "Capturing on 2026-10-23 does not imply every league has results through that date: ENL ends 2026-10-10 and BPL ends 2026-10-11.",
+        "Eight scheduled fixtures, one postponed fixture and one cancelled fixture in the capture are not final results.",
+        "A matching final-score summary does not guarantee complete lineup, event or player statistics.",
+        "Current-season snapshots are data assets, not newly trained forecasts or future-performance evidence."
+      ]
+    },
+    {
+      "type": "understat_detail_refresh",
+      "date": "2026-10-23",
+      "observed_at": "2026-10-23T13:36:29.721902+00:00",
+      "observed_at_scope": "Collection start, not per-match first result availability; native source dates retain their supplied timezone semantics.",
+      "source_observation_window": {
+        "earliest": "2026-10-23T13:36:29.721902+00:00",
+        "latest": "2026-10-23T13:39:22.479051+00:00"
+      },
+      "source_url": "https://understat.com/",
+      "scope": "Five major European leagues, 2026/27; fresh full public responses, no reuse of the previous source cache.",
+      "sdk": {
+        "name": "soccerdata",
+        "version": "1.9.1",
+        "resolved_seasons": [
+          "2627"
+        ],
+        "source_sha256": {
+          "_common.py": "780b4fe8011391b9c78de82eb1f9cff304dbae49df89f6ab521135bc63be3bb8",
+          "_config.py": "96d792bd246a6178eaf5144b4d6fb5af2248303ce66b7e348702e1e1900f7c5a",
+          "understat.py": "f53a091969722f225ef356509ac9322c6ddf8014f2d593bb48146797390c31ae"
+        }
+      },
+      "requests": {
+        "attempts": 372,
+        "downloaded": 372,
+        "cached": 0
+      },
+      "errors": [],
+      "collection_sha256": "c8bd343cf44d9fa053f15c65fd145937226c8eb4edcf6cb824bb8663ef6e600f",
+      "original_collection_sha256": "0d121583c0263135a02389b9ac81ce79a578a56d011c5ad6fcadf03520ef6a53",
+      "understat": {
+        "schedule_rows": 1752,
+        "completed_matches": 345,
+        "new_completed_matches": 48,
+        "scheduled_or_unplayed": 1407,
+        "team_match_rows": 345,
+        "shots": 9796,
+        "new_shot_ids": 1356,
+        "existing_shot_records_changed": 0,
+        "player_season_rows": 2210,
+        "player_match_raw_sdk_rows": 10875,
+        "player_match_canonical_rows": 10845,
+        "previous_player_match_canonical_rows": 9352,
+        "new_player_match_identities": 1493,
+        "existing_player_match_records_changed": 0,
+        "player_match_normalization": {
+          "key_fields": [
+            "league",
+            "season",
+            "game_id",
+            "team_id",
+            "player_id"
+          ],
+          "raw_sdk_rows": 10875,
+          "unique_rows": 10845,
+          "identical_duplicates_removed": 28,
+          "quarantined_unique_rows": 2,
+          "quarantined_raw_rows": 2,
+          "conflicting_identities": [
+            {
+              "league": "ESP-La Liga",
+              "season": "2627",
+              "game_id": "30804",
+              "team_id": "154",
+              "player_id": "5656"
+            }
+          ],
+          "policy": "Remove fully identical records; conflicting identities are rejected by default or explicitly quarantined in full. Original match responses remain in the cache.",
+          "original_sdk_export": "cache/sdk_player_match_stats_unfiltered.csv",
+          "original_sdk_export_sha256": "cf233d2303140d041ee9d10560b5ae7f8912009a46b17fc65e911c921a72cb16",
+          "original_export_rows_preserved": true,
+          "canonical_export_values": "Unchanged CSV strings and column schema; 28 fully identical duplicate rows removed and both rows of one conflicting identity quarantined."
+        },
+        "previous_snapshot_normalization_for_comparison": {
+          "key_fields": [
+            "league",
+            "season",
+            "game_id",
+            "team_id",
+            "player_id"
+          ],
+          "raw_sdk_rows": 9382,
+          "unique_rows": 9352,
+          "identical_duplicates_removed": 28,
+          "quarantined_unique_rows": 2,
+          "quarantined_raw_rows": 2,
+          "conflicting_identities": [
+            {
+              "league": "ESP-La Liga",
+              "season": "2627",
+              "game_id": "30804",
+              "team_id": "154",
+              "player_id": "5656"
+            }
+          ],
+          "policy": "Remove fully identical records; conflicting identities are rejected by default or explicitly quarantined in full. Original match responses remain in the cache."
+        },
+        "completed_by_league": {
+          "ENG-Premier League": 70,
+          "ESP-La Liga": 88,
+          "FRA-Ligue 1": 63,
+          "GER-Bundesliga": 54,
+          "ITA-Serie A": 70
+        },
+        "latest_completed_source_date_by_league": {
+          "ENG-Premier League": "2026-10-19 19:00:00",
+          "ESP-La Liga": "2026-10-19 19:00:00",
+          "FRA-Ligue 1": "2026-10-18 18:45:00",
+          "GER-Bundesliga": "2026-10-18 15:30:00",
+          "ITA-Serie A": "2026-10-19 18:45:00"
+        },
+        "completed_ids_with_team_stats": 345,
+        "completed_ids_with_shots": 345,
+        "completed_ids_with_unambiguous_player_rows": 345,
+        "sdk_blank_shot_situations": 89,
+        "raw_situations_for_blank_rows": {
+          "Penalty": 89
+        }
+      },
+      "cross_source_comparison": {
+        "reference": "Football-Data 2026/27, five leagues, 2026-10-23 capture",
+        "direct_fixture_matches": 344,
+        "matched_score_conflicts": 0,
+        "csv_finished": 346,
+        "understat_finished": 345,
+        "role_disagreements": [
+          {
+            "understat_game_id": "31948",
+            "source_date": "2026-08-23",
+            "understat_home": "Paris Saint Germain",
+            "understat_away": "Rennes",
+            "csv_home": "Rennes",
+            "csv_away": "Paris SG",
+            "scores_both": "2-2",
+            "status": "unresolved_provider_role_disagreement"
+          }
+        ],
+        "result_unavailable": [
+          {
+            "understat_game_id": "30827",
+            "source_date": "2026-10-21",
+            "home": "Levante",
+            "away": "Athletic Club",
+            "understat_is_result": false,
+            "understat_has_data": false,
+            "csv_has_final_score": true
+          }
+        ],
+        "policy": "Comparison-only aliases are league scoped. Keep provider identities/roles and missing results; no cross-provider overwrites."
+      },
+      "comparison_aliases": [
+        {
+          "league": "BL1",
+          "from": "rasenballsportleipzig",
+          "to": "rbleipzig"
+        },
+        {
+          "league": "BL1",
+          "from": "borussiamgladbach",
+          "to": "borussiamonchengladbach"
+        },
+        {
+          "league": "PD",
+          "from": "celtavigo",
+          "to": "celta"
+        },
+        {
+          "league": "PD",
+          "from": "racingsantander",
+          "to": "santander"
+        }
+      ],
+      "quality_status": "ambiguous_player_match_rows_excluded",
+      "canonical_player_table_policy": "Remove 28 fully identical duplicate rows and quarantine both rows of one conflicting identity. Preserve original SDK CSV, schema and match responses. No numeric values or identifiers are rewritten.",
+      "core_coverage_policy": "Understat grain schedule_with_xg includes unfinished fixtures. Its 1752 schedule records must not be read as 1752 completed matches.",
+      "models_retrained": false,
+      "historical_experiments_recomputed": false,
+      "validation": {
+        "state": "verified",
+        "main_tests": {
+          "run": 407,
+          "passed": 404,
+          "optional_skips": 3
+        },
+        "isolated_source_tests": {
+          "run": 9,
+          "passed": 9,
+          "skipped": 0
+        },
+        "static_lint_public_manifest": "passed",
+        "old_asset_metadata_unchanged": 32691,
+        "old_source_imports_unchanged": 22,
+        "capture_files_lossless": 365,
+        "capture_bytes_verified": 22440750,
+        "canonical_player_duplicate_keys": 0,
+        "quality_and_comparison_metadata_persisted": true
+      },
+      "limits": [
+        "CSV has a final score for Levante–Athletic Club on 2026-10-21; Understat still marks game 30827 is_result=False and has_data=False. No result was inferred or inserted.",
+        "Understat game 31948 on 2026-08-23 lists Paris Saint Germain home and Rennes away; CSV reverses those roles, both with a 2-2 score. The role disagreement remains unresolved and sources stay separate.",
+        "Nicolas Pepe, game 30804/team 154/player 5656, has two original roster entries with different xGChain and xA. Neither was selected for the canonical player-match table.",
+        "The SDK leaves situation blank for 89 shot rows; all are Penalty in the original responses. CSV retains the native SDK field; existing analytical restoration uses original shot IDs. Blank must not be interpreted as non-penalty.",
+        "Batch observation times and source schedule dates do not establish historical result availability or prospective prediction performance.",
+        "The SDK retains a final cache per URL, not every intermediate repeated response. Request receipts lack per-response timestamps/digests; 372 HTTP requests and 365 archived files have different denominators."
+      ],
+      "processing_source_sha256": {
+        "app/data_service/soccerdata_collect.py": "d02122d1efb2c833c402ce6962e918002b49084c4239e57a20eab981ebb88f03",
+        "app/data_service/soccerdata_ingest.py": "736a4e001fd75167fbd915db7f6e760f28a3c6cd9cd933f9b40624e011621be7"
+      }
+    },
+    {
+      "type": "understat_shot_fields_curation",
+      "date": "2026-10-23",
+      "scope": "Offline correction of the existing five-league 2026/27 shot frame; no new matches, source requests or source observation.",
+      "source_observed_at": "2026-10-23T13:36:29.721902+00:00",
+      "source_observation_window": {
+        "earliest": "2026-10-23T13:36:29.721902+00:00",
+        "latest": "2026-10-23T13:39:22.479051+00:00"
+      },
+      "curated_at": "2026-10-23T14:35:31.670162+00:00",
+      "requests": {
+        "attempts": 0,
+        "downloaded": 0
+      },
+      "input_capture_sha256": "c8bd343cf44d9fa053f15c65fd145937226c8eb4edcf6cb824bb8663ef6e600f",
+      "input_frame_sha256": "bd0951fca30a988da8b1bca4b25f8128b088e9e5153adf154c9c168e02b74802",
+      "curated_report_sha256": "ce178ec52abe4976262050aabf74ed07dd2dea03d29990cb14970105be400cef",
+      "normalizer_source_sha256": "7bf9ee448ea3b2d88ca206cb0931cc1616f4186e3aea9dcf2a9c9a7023292f8f",
+      "shots": 9796,
+      "restored_situations": 89,
+      "corrected_assist_ids": 7301,
+      "source_association_unspecified": 2495,
+      "ambiguous_assist_names": 0,
+      "unmatched_assist_names": 0,
+      "new_matches": 0,
+      "original_inputs_preserved": true,
+      "changed_columns": [
+        "situation",
+        "assist_player_id"
+      ],
+      "assist_id_semantics": "stable same-side roster player_id, never roster-entry id",
+      "name_normalization": "HTML entity decoding only; stable target uses same-side roster; no fuzzy matching",
+      "raw_match_files_verified": 345,
+      "old_analysis_imports_preserved": true,
+      "models_retrained": false,
+      "historical_experiments_recomputed": false,
+      "validation": {
+        "state": "verified",
+        "main_tests": {
+          "run": 409,
+          "passed": 406,
+          "optional_skips": 3
+        },
+        "isolated_source_tests": {
+          "run": 35,
+          "passed": 35,
+          "skipped": 0
+        },
+        "actual_sdk_full_and_sample_replay": "passed; zero HTTP requests",
+        "independent_rows_verified": 9796,
+        "protected_cells_unchanged": 186124,
+        "old_asset_metadata_unchanged": 32754,
+        "old_imports_unchanged": 27,
+        "new_curated_imports": 1,
+        "new_archive_files": 3,
+        "new_archive_bytes": 2283603,
+        "affected_real_browser_scenarios": 1,
+        "browser_errors": 0,
+        "static_lint_public_manifest": "passed"
+      },
+      "limits": [
+        "The 2495 raw null associations remain unknown, not proof of no assist.",
+        "Corrected values belong to the separate curated batch; original SDK exports and old reports are retained unchanged.",
+        "The existing provider role disagreement and one missing Understat result remain unresolved.",
+        "Native nullable Int64 or string identifier storage is required; floating identifier columns are rejected."
+      ],
+      "curated_run_directory": "Understat-curated-shots-2026-27",
+      "curated_method": "shot_events",
+      "selection_scope": "Use the asset_id selected by this curated run/method; original SDK assets retain their original identifier semantics."
     }
   ]
 }

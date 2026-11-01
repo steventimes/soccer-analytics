@@ -3,50 +3,8 @@
     {
       "competition": "bundesliga",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-11",
+      "date_end": "2026-10-18",
       "date_start": "2026-08-28",
-      "grain": "result",
-      "invalid_summary_documents": 0,
-      "matched_summary_documents": 45,
-      "missing_summary_documents": 0,
-      "provider": "espn_recent",
-      "season": "2026/2027",
-      "source_match_records": 45,
-      "source_season": "2026/2027"
-    },
-    {
-      "competition": "champions_league",
-      "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-14",
-      "date_start": "2026-09-08",
-      "grain": "result",
-      "invalid_summary_documents": 0,
-      "matched_summary_documents": 36,
-      "missing_summary_documents": 0,
-      "provider": "espn_recent",
-      "season": "2026/2027",
-      "source_match_records": 36,
-      "source_season": "2026/2027"
-    },
-    {
-      "competition": "la_liga",
-      "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
-      "date_start": "2026-08-15",
-      "grain": "result",
-      "invalid_summary_documents": 0,
-      "matched_summary_documents": 78,
-      "missing_summary_documents": 0,
-      "provider": "espn_recent",
-      "season": "2026/2027",
-      "source_match_records": 78,
-      "source_season": "2026/2027"
-    },
-    {
-      "competition": "ligue_1",
-      "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-11",
-      "date_start": "2026-08-21",
       "grain": "result",
       "invalid_summary_documents": 0,
       "matched_summary_documents": 54,
@@ -57,31 +15,73 @@
       "source_season": "2026/2027"
     },
     {
-      "competition": "premier_league",
+      "competition": "champions_league",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
-      "date_start": "2026-08-21",
+      "date_end": "2026-10-21",
+      "date_start": "2026-09-08",
       "grain": "result",
       "invalid_summary_documents": 0,
-      "matched_summary_documents": 60,
+      "matched_summary_documents": 54,
       "missing_summary_documents": 0,
       "provider": "espn_recent",
       "season": "2026/2027",
-      "source_match_records": 60,
+      "source_match_records": 54,
+      "source_season": "2026/2027"
+    },
+    {
+      "competition": "la_liga",
+      "coverage_status": "source_records; completeness not inferred from row count",
+      "date_end": "2026-10-21",
+      "date_start": "2026-08-15",
+      "grain": "result",
+      "invalid_summary_documents": 0,
+      "matched_summary_documents": 89,
+      "missing_summary_documents": 0,
+      "provider": "espn_recent",
+      "season": "2026/2027",
+      "source_match_records": 89,
+      "source_season": "2026/2027"
+    },
+    {
+      "competition": "ligue_1",
+      "coverage_status": "source_records; completeness not inferred from row count",
+      "date_end": "2026-10-18",
+      "date_start": "2026-08-21",
+      "grain": "result",
+      "invalid_summary_documents": 0,
+      "matched_summary_documents": 63,
+      "missing_summary_documents": 0,
+      "provider": "espn_recent",
+      "season": "2026/2027",
+      "source_match_records": 63,
+      "source_season": "2026/2027"
+    },
+    {
+      "competition": "premier_league",
+      "coverage_status": "source_records; completeness not inferred from row count",
+      "date_end": "2026-10-19",
+      "date_start": "2026-08-21",
+      "grain": "result",
+      "invalid_summary_documents": 0,
+      "matched_summary_documents": 70,
+      "missing_summary_documents": 0,
+      "provider": "espn_recent",
+      "season": "2026/2027",
+      "source_match_records": 70,
       "source_season": "2026/2027"
     },
     {
       "competition": "serie_a",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-19",
       "date_start": "2026-08-22",
       "grain": "result",
       "invalid_summary_documents": 0,
-      "matched_summary_documents": 60,
+      "matched_summary_documents": 70,
       "missing_summary_documents": 0,
       "provider": "espn_recent",
       "season": "2026/2027",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "source_season": "2026/2027"
     },
     {
@@ -474,12 +474,12 @@
     {
       "competition": "bundesliga",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-11",
+      "date_end": "2026-10-18",
       "date_start": "2026-08-28",
       "grain": "result_and_basic_statistics",
       "provider": "football_csv",
       "season": "2026/2027",
-      "source_match_records": 45,
+      "source_match_records": 54,
       "source_season": "2026/2027"
     },
     {
@@ -848,12 +848,12 @@
     {
       "competition": "la_liga",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-21",
       "date_start": "2026-08-15",
       "grain": "result_and_basic_statistics",
       "provider": "football_csv",
       "season": "2026/2027",
-      "source_match_records": 78,
+      "source_match_records": 89,
       "source_season": "2026/2027"
     },
     {
@@ -1222,12 +1222,12 @@
     {
       "competition": "ligue_1",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-11",
+      "date_end": "2026-10-18",
       "date_start": "2026-08-21",
       "grain": "result_and_basic_statistics",
       "provider": "football_csv",
       "season": "2026/2027",
-      "source_match_records": 54,
+      "source_match_records": 63,
       "source_season": "2026/2027"
     },
     {
@@ -1596,12 +1596,12 @@
     {
       "competition": "premier_league",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-19",
       "date_start": "2026-08-21",
       "grain": "result_and_basic_statistics",
       "provider": "football_csv",
       "season": "2026/2027",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "source_season": "2026/2027"
     },
     {
@@ -1970,12 +1970,12 @@
     {
       "competition": "serie_a",
       "coverage_status": "source_records; completeness not inferred from row count",
-      "date_end": "2026-10-12",
+      "date_end": "2026-10-19",
       "date_start": "2026-08-22",
       "grain": "result_and_basic_statistics",
       "provider": "football_csv",
       "season": "2026/2027",
-      "source_match_records": 60,
+      "source_match_records": 70,
       "source_season": "2026/2027"
     },
     {
@@ -3486,7 +3486,7 @@
       "source_season": "2018"
     }
   ],
-  "observed_at": "2026-10-15T21:58:13.862729+00:00",
+  "observed_at": "2026-10-23T16:20:43.757365+00:00",
   "primary_competitions": [
     "premier_league",
     "la_liga",

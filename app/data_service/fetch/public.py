@@ -6,7 +6,6 @@ import csv
 import hashlib
 import io
 import math
-import os
 import re
 from datetime import UTC, date, datetime
 from typing import Any
@@ -14,7 +13,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-from app.config import default_training_seasons
+from app.config import default_training_seasons, resolve_data_source
 from app.data_service.fetch.fetcher import (
     DataSourceError,
     FootballDataClient,
@@ -195,7 +194,8 @@ class FootballCSVClient(PublicMatchClient):
         return self.parse_csv_text(code, text, url, division_filter=division_filter)
 
     def parse_csv_text(
-        self, code: str, text: str, url: str, *, division_filter: bool = False
+        self, code: str, text: str, url: str, *, division_filter: bool = False,
+        include_record_number: bool = False,
     ) -> list[dict[str, Any]]:
         reader = csv.DictReader(io.StringIO(text))
         if reader.fieldnames:
@@ -324,6 +324,8 @@ class FootballCSVClient(PublicMatchClient):
                     }
                     for stage, suffix in [("pre_close", ""), ("closing", "C")]
                 }
+                if include_record_number:
+                    match["_source_record"] = index-1
                 matches.append(match)
             except (TypeError, ValueError, KeyError) as exc:
                 raise DataSourceError(
@@ -454,11 +456,7 @@ class OpenFootballClient(PublicMatchClient):
 
 
 def create_data_client(source: str | None = None) -> Any:
-    selected = source or os.getenv("SOCCER_ANALYTICS_DATA_SOURCE", "auto")
-    if selected == "auto":
-        selected = (
-            "football-data" if os.getenv("FOOTBALL_DATA_API_KEY") else "football-csv"
-        )
+    selected = resolve_data_source(source)
     clients = {
         "football-data": FootballDataClient,
         "football-csv": FootballCSVClient,

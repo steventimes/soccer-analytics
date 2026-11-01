@@ -78,7 +78,7 @@ def scout_bodypose(args):
 
 
 def scout_events(args):
-    from app.analytics.scouting import analyze_statsbomb
+    from app.analytics.scouting.metrics import analyze_statsbomb
 
     report = analyze_statsbomb(
         args.data_dir / "statsbomb",
@@ -103,7 +103,7 @@ def scout_events(args):
 
 
 def scout_tracking(args):
-    from app.analytics.movement import analyze_movement
+    from app.analytics.tracking.movement import analyze_movement
 
     report = analyze_movement(args.data_dir, args.output_dir)
     print(
@@ -209,3 +209,50 @@ def history(args):
         and not report.get("collection_errors")
         else 1
     )
+
+
+def audit_identity_bridges(args):
+    from pathlib import Path
+    from app.data_service.identity_bridge import audit_identity_bridges as audit
+    from app.file_io import write_json_atomic
+
+    root = Path(__file__).resolve().parents[2]
+    output = args.output.resolve()
+    if (output.is_relative_to(args.release_dir.resolve()) or output == args.queries.resolve()
+            or any(output.is_relative_to(root/name) for name in ('docs','results','data','models'))):
+        raise ValueError('Identity audit output must be private and cannot overwrite inputs')
+    if output.exists():
+        raise FileExistsError('Identity audit output already exists; select a new receipt path')
+    report = audit(args.release_dir, args.queries, release_sha256=args.release_sha256,
+                   max_bytes=args.max_bytes, max_decoded_bytes=args.max_decoded_bytes,
+                   max_rows=args.max_rows, max_queries=args.max_queries)
+    write_json_atomic(output, report)
+    print(json.dumps({k:report[k] for k in ('status','mapping_status','adoption','counts')}, ensure_ascii=False))
+    return 0
+
+
+def prepare_observed_history(args):
+    from pathlib import Path
+    from app.data_service.history import prepare_observed_history as prepare
+    from app.file_io import write_files_recoverable, json_bytes
+
+    output = args.output_dir.resolve()
+    root = Path(__file__).resolve().parents[2]
+    if any(output.is_relative_to(root/name) for name in ('docs','results','data','models','app','tests','scripts','.git')):
+        raise ValueError('Observed history requires a new private output directory')
+    inputs = [p.resolve() for p in (*args.snapshot,*args.csv)]
+    if any(p.is_relative_to(output) for p in inputs) or output.exists():
+        raise ValueError('Observed history cannot overwrite inputs or an existing directory')
+    snapshot = prepare(args.snapshot,args.csv,competition=args.competition,season=args.season,
+                       as_of=args.as_of,selection_as_of=args.selection_as_of,
+                       max_input_bytes=args.max_input_bytes,max_matches=args.max_matches)
+    if not args.season.isdigit() or len(args.season) != 4:
+        raise ValueError('Invalid season output name')
+    relative = f'football-csv/{args.competition}/{args.season}.json'
+    manifest = {'schema':'SoccerAnalytics.ObservedHistory.v1','snapshot':relative,
+                'sha256':snapshot['sha256'],'preparation':snapshot['preparation'],
+                'observation_inputs':snapshot['observation_inputs']}
+    write_files_recoverable(output,{relative:json_bytes(snapshot),'manifest.json':json_bytes(manifest)})
+    print(json.dumps({'snapshot':str(output/relative),'sha256':snapshot['sha256'],
+                      **snapshot['preparation']},ensure_ascii=False))
+    return 0

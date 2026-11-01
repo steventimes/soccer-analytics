@@ -66,6 +66,7 @@ class PredictionEngine:
         self.models_dir = Path(models_dir or settings.model_dir)
         self.client = client or create_data_client()
         self.feature_engineer = feature_engineer or FeatureEngineer()
+        self._explicit_feature_engineer = feature_engineer is not None
 
     def _load_bundle(self, competition_code: str) -> LoadedModelBundle:
         code = competition_code.strip().upper()
@@ -90,6 +91,9 @@ class PredictionEngine:
                 "模型特征版本与当前代码不一致，请重新训练",
                 code="FEATURE_SCHEMA_MISMATCH",
             )
+        if (self._explicit_feature_engineer
+                and self.feature_engineer.to_recipe() != bundle.feature_recipe):
+            raise PredictionError("推理特征配方与模型不一致", code="FEATURE_RECIPE_MISMATCH")
         return loaded
 
     @staticmethod
@@ -99,6 +103,8 @@ class PredictionEngine:
         return {
             "competition": bundle.competition_code,
             "schema_version": bundle.schema_version,
+            "feature_recipe": dict(bundle.feature_recipe),
+            "feature_recipe_origin": metrics.get("feature_recipe_origin", "recorded"),
             "trained_at": bundle.trained_at,
             "training_rows": bundle.training_rows,
             "recovered_from_previous": loaded.recovered_from_previous,
@@ -110,6 +116,10 @@ class PredictionEngine:
             "boosting_rounds": metrics.get("boosting_rounds"),
             "validation_accuracy": metrics.get("validation_accuracy"),
             "validation_log_loss": metrics.get("validation_log_loss"),
+            "validation_baseline_log_loss": metrics.get("validation_baseline_log_loss"),
+            "validation_baseline_brier_score": metrics.get("validation_baseline_brier_score"),
+            "probability_baseline": metrics.get("probability_baseline"),
+            "probability_quality_passed": metrics.get("probability_quality_passed"),
             "validation_brier_score": metrics.get("validation_brier_score"),
             "validation_ranked_probability_score": metrics.get(
                 "validation_ranked_probability_score"
@@ -281,10 +291,17 @@ class PredictionEngine:
             raise PredictionError("预测天数必须大于 0", code="INVALID_RANGE")
         bundle = loaded.bundle
         model_report = self._model_report(loaded)
+        engineer = (self.feature_engineer if self._explicit_feature_engineer
+                    else loaded.feature_engineer)
         generated_at = now or datetime.now(UTC)
         if generated_at.tzinfo is None:
             generated_at = generated_at.replace(tzinfo=UTC)
         generated_at = generated_at.astimezone(UTC)
+        if loaded.trained_at > generated_at:
+            raise PredictionError(
+                f"{code} 模型训练时间晚于预测时点，不能用于该时点的预测",
+                code="MODEL_NOT_AVAILABLE_AT_SNAPSHOT",
+            )
         date_from = generated_at.date().isoformat()
         date_to = (generated_at + timedelta(days=days)).date().isoformat()
         range_end = datetime.fromisoformat(date_to).replace(tzinfo=UTC)
@@ -319,12 +336,18 @@ class PredictionEngine:
                 )
             seen_fixtures[record.match_id] = record
             try:
-                features = self.feature_engineer.build_fixture_features(
-                    record.home_team_id,
-                    record.away_team_id,
-                    record.kickoff,
-                    bundle.team_states,
-                )
+                # Preserve explicit public-method extensions. The standard path
+                # already has normalized fixtures and the loaded typed states.
+                if type(engineer).build_fixture_features is not FeatureEngineer.build_fixture_features:
+                    features = engineer.build_fixture_features(
+                        record.home_team_id, record.away_team_id,
+                        record.kickoff, bundle.team_states,
+                    )
+                else:
+                    features = engineer._build_features(
+                        record.home_team_id, record.away_team_id,
+                        record.kickoff, loaded.team_states,
+                    )
             except FeatureEngineeringError as exc:
                 raise PredictionError(
                     f"{code} 模型球队状态无效: {exc}",
@@ -347,10 +370,10 @@ class PredictionEngine:
                 if probability > 0
             ) / math.log(3)
 
-            home_state = bundle.team_states.get(str(record.home_team_id), {})
-            away_state = bundle.team_states.get(str(record.away_team_id), {})
-            home_history = int(home_state.get("matches_played", 0))
-            away_history = int(away_state.get("matches_played", 0))
+            home_state = loaded.team_states.get(record.home_team_id)
+            away_state = loaded.team_states.get(record.away_team_id)
+            home_history = home_state.matches_played if home_state is not None else 0
+            away_history = away_state.matches_played if away_state is not None else 0
             home_payload = payload.get("homeTeam") or {}
             away_payload = payload.get("awayTeam") or {}
             prediction = {

@@ -6,6 +6,8 @@ import re
 from datetime import date
 from urllib.parse import urlparse
 
+from app.web.provenance import public_analysis_provenance
+
 
 def public_spatial_style(report):
     """Expose paired aggregate retrieval scores without identities or fitted bases."""
@@ -348,7 +350,7 @@ def public_representation_summary(report):
     return public
 
 
-def public_model_lab(experiments):
+def public_model_lab(experiments, *, result_artifacts=None):
     """Publish per-candidate aggregate metrics; never fitted state or individual rows."""
     labels = {"scores": "比分模型", "ratings": "实力评级", "calibration": "概率校准", "trees": "树与特征搜索"}
     groups = []
@@ -398,7 +400,243 @@ def public_model_lab(experiments):
             groups.append({"id": f"{name}-{experiment['competition']}", "label": labels[name], "kind": name,
                            "competition": experiment["competition"], "seasons": payload["seasons"], "holdout_rows": count,
                            "holdout_start": start, "holdout_end": end, "selected": selected_id,
-                           "selected_on": experiment["selected_on"], "sources": sources, "candidates": rows})
+                           "selected_on": experiment["selected_on"], "sources": sources, "candidates": rows,
+                           "provenance": public_analysis_provenance(payload,
+                               artifact=(result_artifacts or {}).get(name))})
     public = {"schema": "Touchline.ModelLab.v1", "scope": "Historical offline experiments; development-selected candidates, frozen mappings, chronological holdouts. Groups have distinct input and warmup policies; do not pool their rows or rank across groups.", "groups": groups}
     json.dumps(public, allow_nan=False)
     return public
+
+
+def public_search_comparison(report):
+    """Project completed comparisons and fit-free readiness without private rows."""
+    from datetime import datetime
+
+    def count(value):
+        if type(value) is not int or value < 0:
+            raise ValueError('Invalid search count')
+        return value
+    def number(value):
+        if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+            raise ValueError('Invalid search metric')
+        return value
+    def timestamp(value):
+        if not isinstance(value, str):
+            raise ValueError("Search time must be text")
+        parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            raise ValueError('Search time must have a timezone')
+        return parsed
+    if not isinstance(report.get('results'), list) or not report['results']:
+        raise ValueError('Incomplete search comparison')
+    incomplete = {row.get('competition') for row in report['results'] if row.get('status') == 'not_ready'}
+    if any(error.get('code') != 'SearchNotReady' or error.get('competition') not in incomplete
+           for error in report.get('errors', [])):
+        raise ValueError('Incomplete search comparison')
+    comparisons, diagnostics, competitions = [], [], set()
+    for result in report['results']:
+        if (result.get('schema') != 'SoccerAnalytics.SearchComparison.v1' or result.get('status') not in ('complete', 'admitted', 'not_ready')
+                or result.get('admission', {}).get('state') != 'admitted'
+                or result.get('adoption_decision') != 'not_determined'):
+            raise ValueError('Search results have not completed strict admission/evaluation')
+        protocol = result['protocol']
+        from app.run_receipts import content_digest
+        if content_digest(protocol) != result['protocol_sha256'] or type(protocol['model_seed']) is not int:
+            raise ValueError('Search protocol identity mismatch')
+        if (protocol['timing_policy'] != 'observed_result' or protocol['evaluation_level'] != 'full'
+                or protocol['model'] != 'xgboost' or protocol['parallel_trials'] != 1
+                or protocol['duplicate_policy'] != 'count_and_evaluate'):
+            raise ValueError('Unsupported search protocol')
+        start, end, final, cutoff = (timestamp(protocol[k]) for k in
+            ('evaluation_start', 'evaluation_end', 'final_holdout_start', 'as_of'))
+        if not start < end <= final or end > cutoff:
+            raise ValueError('Invalid search evaluation window')
+        trials, folds = count(protocol['trials']), count(protocol['folds'])
+        if trials < 4 or folds < 2:
+            raise ValueError('Invalid search budget')
+        admission = result['admission']
+        configuration_keys = ('as_of','evaluation_start','evaluation_end','final_holdout_start','folds')
+        if 'initial_training_rows' in protocol:
+            initial = count(protocol['initial_training_rows'])
+            effective = count(admission['effective_initial_training_rows'])
+            if (initial == 0 or effective < initial or effective >= count(admission['development_rows'])
+                    or count(admission['validation_rows']) != count(admission['development_rows'])-effective):
+                raise ValueError('Invalid explicit initial training interval')
+            configuration_keys += ('initial_training_rows',)
+        if (count(admission['development_rows']) < 30 or count(admission['outer_rows']) == 0
+                or count(admission['pending_outer_rows']) != 0
+                or admission['configuration'] != {k: protocol[k] for k in configuration_keys}):
+            raise ValueError('Search admission/protocol mismatch')
+        seeds, arms = protocol['search_seeds'], protocol['arms']
+        known = {'random', 'bayesian', 'optuna', 'genetic', 'beam1', 'beam2'}
+        if (not seeds or not arms or any(type(seed) is not int for seed in seeds)
+                or len(set(seeds)) != len(seeds) or len(set(arms)) != len(arms)
+                or any(arm not in known for arm in arms)):
+            raise ValueError('Invalid search comparison arms')
+        competition = result['competition']
+        if not isinstance(competition, str) or not competition or competition in competitions:
+            raise ValueError('Duplicate search cohort')
+        competitions.add(competition)
+        sources = [{k: row[k] for k in ('provider', 'source', 'competition', 'season', 'fetched_at', 'sha256')}
+                   for row in result['source_snapshots']]
+        if any(any(not isinstance(row[k], str) or not row[k].strip()
+                       for k in ('provider','source','fetched_at'))
+               or type(row['season']) not in (str, int) or not str(row['season']).strip()
+               for row in sources):
+            raise ValueError('Invalid search source field types')
+        if not sources or any(not re.fullmatch(r'[a-f0-9]{64}', row['sha256']) or row['competition'] != competition for row in sources):
+            raise ValueError('Search source identity missing')
+        for key in ('development_sha256', 'validation_identity', 'outer_identity'):
+            if not re.fullmatch(r'[a-f0-9]{64}', result['admission'][key]):
+                raise ValueError('Search cohort digest missing')
+        if not re.fullmatch(r'[a-f0-9]{64}', result['protocol_sha256']):
+            raise ValueError('Search protocol digest missing')
+        readiness = admission.get('readiness')
+        if readiness is not None:
+            from app.ml.feature_engineering import FeatureEngineer
+            if (readiness['state'] not in ('insufficient', 'not_blocked')
+                    or (result['status'] == 'complete' and readiness['state'] == 'insufficient')
+                    or readiness['model_fit_attempts'] != 0
+                    or content_digest({k: v for k, v in readiness.items() if k != 'sha256'}) != readiness['sha256']
+                    or len(readiness['folds']) != folds):
+                raise ValueError('Invalid search readiness')
+            known_reasons = {'NO_OBSERVED_HISTORY_IN_TRAINING_ROWS'}
+            known_warnings = {'INDEPENDENT_CONFIRMATION_NOT_REGISTERED',
+                'NO_OBSERVED_FOLLOWUP_BEFORE_FINAL_HOLDOUT', 'CONSTANT_BASELINE_TRAINING_FEATURES'}
+            if (not set(readiness['reason_codes']) <= known_reasons
+                    or not set(readiness['warning_codes']) <= known_warnings):
+                raise ValueError('Unknown readiness reason')
+            windows = []
+            for fold in readiness['folds']:
+                for key in ('constant_features', 'varying_features', 'validation_constant_features'):
+                    if any(name not in FeatureEngineer.FEATURES for name in fold[key]):
+                        raise ValueError('Invalid readiness feature')
+                windows.append({
+                    'fit_as_of': timestamp(fold['fit_as_of']).isoformat(),
+                    **{key: count(fold[key]) for key in ('training_rows', 'validation_rows',
+                        'labels_purged_at_fit', 'training_rows_without_history')},
+                    **{key: list(fold[key]) for key in ('constant_features', 'varying_features',
+                                                      'validation_constant_features')},
+                })
+            followup = readiness['followup']
+            if followup['state'] not in ('unavailable', 'available_unregistered') or followup['registered'] is not False:
+                raise ValueError('Invalid confirmation inventory')
+            diagnostics.append({'competition': competition, 'timing_state': 'admitted',
+                'state': readiness['state'], 'sha256': readiness['sha256'],
+                'reason_codes': list(readiness['reason_codes']), 'warning_codes': list(readiness['warning_codes']),
+                'unique_training_rows': count(readiness['unique_training_rows']),
+                'unique_validation_rows': count(readiness['unique_validation_rows']),
+                'folds': windows, 'model_fit_attempts': 0,
+                'followup': {'state': followup['state'], 'registered': False,
+                            'observed_rows': count(followup['observed_rows']), 'pending_rows': count(followup['pending_rows'])},
+                'sources': sources, 'protocol_sha256': result['protocol_sha256'],
+                'development_rows': count(admission['development_rows']), 'outer_rows': count(admission['outer_rows']),
+                'execution_status': result['status'], 'provenance': public_analysis_provenance(result)})
+        if result['status'] != 'complete':
+            if readiness is None or result['runs'] or (result['status'] == 'not_ready' and readiness['state'] != 'insufficient'):
+                raise ValueError('Incomplete readiness-only report')
+            continue
+        pairs, rows, initializations = set(), [], {}
+        for run in result['runs']:
+            key = (run['arm'], run['search_seed'])
+            if (key in pairs or key[0] not in arms or key[1] not in seeds
+                    or run['state'] != 'complete' or run['model_seed'] != protocol['model_seed']):
+                raise ValueError('Invalid search run')
+            pairs.add(key)
+            search = run['search']
+            if len(search['trials']) != trials or search['budget']['attempted_trials'] != trials:
+                raise ValueError('Search attempt budget mismatch')
+            expected_optimizer = 'beam' if key[0] in ('beam1', 'beam2') else key[0]
+            if search['protocol']['optimizer'] != expected_optimizer:
+                raise ValueError('Search arm/optimizer mismatch')
+            if expected_optimizer == 'beam' and search['protocol']['beam_width'] != int(key[0][-1]):
+                raise ValueError('Search beam width mismatch')
+            shared = search['initialization']
+            from app.ml.experiments import shared_initial_parameters, _encode_parameters, _search_dimensions
+            expected_points = shared_initial_parameters('xgboost', seed=key[1], include_features=True)
+            if (shared['points'] != expected_points
+                    or shared['gp_tpe_startup'] != (4 if expected_optimizer in ('bayesian','optuna') else None)
+                    or shared['ga_population'] != (4 if expected_optimizer == 'genetic' else None)):
+                raise ValueError('Search shared initialization/startup contract mismatch')
+            if shared['policy'] != 'explicit_shared' or len(shared['points']) != 4:
+                raise ValueError('Search initialization is not shared-four')
+            encoded = json.dumps(shared['points'], sort_keys=True, allow_nan=False)
+            if key[1] in initializations and encoded != initializations[key[1]]:
+                raise ValueError('Initial search configurations differ across arms')
+            initializations[key[1]] = encoded
+            curve, best, fits, objectives, elapsed = [], None, 0, 0., 0.
+            successes = 0
+            for i, trial in enumerate(search['trials']):
+                if (trial.get('evaluation_level') != 'full' or trial.get('cache_hit') is not False
+                        or trial['state'] not in ('complete', 'failed') or trial['trial_index'] != i):
+                    raise ValueError('Unsupported search trial')
+                if i < 4 and trial['params'] != shared['points'][i]:
+                    raise ValueError('Search did not evaluate the shared initial configurations')
+                _encode_parameters(trial['params'], _search_dimensions('xgboost', True))
+                attempted = count(trial['fit_attempts'])
+                if trial['state'] == 'complete':
+                    if attempted != folds:
+                        raise ValueError('Completed objective has a partial fit count')
+                    value = number(trial['log_loss']); best = value if best is None else min(best, value)
+                    successes += 1
+                elif trial['log_loss'] is not None or attempted > folds:
+                    raise ValueError('Invalid failed objective')
+                fits += attempted
+                objectives += number(trial['objective_seconds'])
+                current = number(trial['elapsed_seconds'])
+                if current < elapsed or current + 1e-8 < objectives:
+                    raise ValueError('Search cost is not cumulative')
+                elapsed = current
+                curve.append({'objective_requests': i+1, 'fit_attempts': fits,
+                              'elapsed_seconds': current, 'best_log_loss': best})
+            if (best is None or number(search['best_loss']) != best or number(run['selection_log_loss']) != best
+                    or successes != search['completed_trials'] or trials-successes != search['failed_trials']
+                    or fits != count(run['inner_fit_attempts']) or fits != search['budget']['fit_attempts']
+                    or count(run['objective_requests']) != trials or count(run['outer_fit_attempts']) != 1
+                    or search['budget']['cached_full_evaluations'] != 0
+                    or count(search['budget']['objective_requests']) != trials
+                    or count(search['budget']['requested_trials']) != trials
+                    or count(search['budget']['new_full_evaluations']) != successes):
+                raise ValueError('Search aggregate counts/selection mismatch')
+            if count(run['outer_rows']) != result['admission']['outer_rows'] or run['outer_rows'] <= 0:
+                raise ValueError('Outer search cohort mismatch')
+            if number(run['elapsed_seconds']) + 1e-8 < elapsed:
+                raise ValueError('Search run time is shorter than its trials')
+            diversity = []
+            if expected_optimizer == 'beam':
+                for step in search.get('beam_rounds', []):
+                    n = count(step['parent_count'])
+                    distance = number(step['parent_distance_unit_l2'])
+                    if n not in range(1, int(key[0][-1])+1) or distance > math.sqrt(6) or (n == 1 and distance != 0):
+                        raise ValueError('Invalid search parent diversity')
+                    diversity.append({'round_index': count(step['round_index']), 'parent_count': n,
+                                      'parent_distance_unit_l2': distance})
+            rows.append({'arm': key[0], 'search_seed': key[1], 'selection_log_loss': best,
+                         'outer_log_loss': number(run['outer_log_loss']),
+                         'objective_requests': trials, 'inner_fit_attempts': fits, 'outer_fit_attempts': 1,
+                         'failed_trials': search['failed_trials'], 'elapsed_seconds': number(run['elapsed_seconds']),
+                         'curve': curve, 'parent_diversity': diversity})
+        if pairs != {(arm, seed) for arm in arms for seed in seeds}:
+            raise ValueError('Search comparison is missing an arm/seed')
+        totals = result['budget']
+        for key in ('objective_requests', 'inner_fit_attempts', 'outer_fit_attempts'):
+            if count(totals[key]) != sum(row[key] for row in rows):
+                raise ValueError('Search total budget mismatch')
+        if totals['cached_full_evaluations'] != 0:
+            raise ValueError('Cold comparison contains cached full evaluations')
+        comparisons.append({'competition': competition, 'model': 'xgboost',
+            'evaluation_start': protocol['evaluation_start'], 'evaluation_end': protocol['evaluation_end'],
+            'final_holdout_start': protocol['final_holdout_start'], 'as_of': protocol['as_of'],
+            'timing_policy': 'observed_result', 'initialization': 'four_shared_configurations',
+            'protocol_sha256': result['protocol_sha256'], 'sources': sources,
+            'development_rows': count(result['admission']['development_rows']),
+            'outer_rows': count(result['admission']['outer_rows']), 'folds': folds,
+            **({'initial_training_rows': protocol['initial_training_rows'],
+                'effective_initial_training_rows': admission['effective_initial_training_rows'],
+                'validation_rows': admission['validation_rows']} if 'initial_training_rows' in protocol else {}),
+            'trials_per_search': trials, 'runs': rows,
+            'adoption_decision': 'not_determined',
+            'provenance': public_analysis_provenance(result),
+            'scope': 'Development outer interval, not the final holdout. Curves use actual predictive-model fit attempts and elapsed seconds; no full-trial score cache.'})
+    return {'schema': 'Touchline.SearchComparison.v1', 'comparisons': comparisons,
+            **({'readiness': diagnostics} if diagnostics else {})}

@@ -10,7 +10,7 @@ from typing import Any, Callable, Sequence
 from app.config import load_settings
 from app.data_service.fetch.public import create_data_client
 from app.ml.artifacts import ModelBundle, save_model_bundle
-from app.ml.evaluation import EvaluationError, elo_baseline_predictions, evaluate_expanding_window
+from app.ml.evaluation import EvaluationError, elo_baseline_predictions, evaluate_expanding_window, chronological_holdout_boundary
 from app.ml.feature_engineering import FeatureDataset, FeatureEngineer
 from app.ml.model import (
     XGBoostClassifier,
@@ -20,6 +20,7 @@ from app.ml.model import (
     multiclass_log_loss,
     ranked_probability_score,
 )
+from app.run_receipts import build_run_receipt, content_digest, estimator_parameters
 
 
 class TrainingError(RuntimeError):
@@ -125,6 +126,8 @@ class ModelTrainer:
         code = competition_code.strip().upper()
         if not code or competition_id <= 0:
             raise TrainingError("联赛代码或 ID 非法")
+        if save and type(self.feature_engineer) is not FeatureEngineer:
+            raise TrainingError("生产资产只接受可还原的 FeatureEngineer；自定义实现请使用 save=False")
 
         dataset = self.build_dataset(code, seasons)
         row_count = len(dataset.rows)
@@ -134,13 +137,11 @@ class ModelTrainer:
             )
 
         # 先封存最终留出集；回测和放行前置检查只使用更早的开发数据。
-        holdout_count = max(1, int(round(row_count * self.holdout_fraction)))
-        split_index = row_count - holdout_count
-        if dataset.kickoffs:
-            while split_index > 0 and dataset.kickoffs[split_index - 1] == dataset.kickoffs[split_index]:
-                split_index -= 1
-            if split_index == 0:
-                raise TrainingError("独立开球时间不足以形成时间留出集")
+        split_index = chronological_holdout_boundary(
+            row_count, fraction=self.holdout_fraction, kickoffs=dataset.kickoffs,
+        )
+        if split_index == 0:
+            raise TrainingError("独立开球时间不足以形成时间留出集")
         train_rows = dataset.rows[:split_index]
         train_targets = dataset.targets[:split_index]
         validation_rows = dataset.rows[split_index:]
@@ -198,6 +199,14 @@ class ModelTrainer:
                       kickoffs=dataset.kickoffs[:split_index])
         probabilities = validation_model.predict_proba(validation_rows)
         predictions = validation_model.predict(validation_rows)
+        counts = Counter(train_targets)
+        # Freeze a Laplace-smoothed frequency baseline before the final holdout.
+        prior = [(counts[index] + 1) / (len(train_targets) + 3) for index in range(3)]
+        baseline_probabilities = [prior] * len(validation_targets)
+        probability_loss = multiclass_log_loss(validation_targets, probabilities)
+        probability_brier = multiclass_brier_score(validation_targets, probabilities)
+        baseline_loss = multiclass_log_loss(validation_targets, baseline_probabilities)
+        baseline_brier = multiclass_brier_score(validation_targets, baseline_probabilities)
 
         majority_class = Counter(train_targets).most_common(1)[0][0]
         majority_baseline_predictions = [majority_class] * len(validation_targets)
@@ -218,6 +227,12 @@ class ModelTrainer:
         )
         metrics: dict[str, Any] = {
             "evaluation_protocol": "development_backtest_then_temporal_holdout_v1",
+            "probability_baseline": "training_frequency_laplace_v1",
+            "probability_baseline_probabilities": prior,
+            "validation_baseline_log_loss": round(baseline_loss, 6),
+            "validation_baseline_brier_score": round(baseline_brier, 6),
+            "probability_quality_passed": (probability_loss <= baseline_loss + 1e-12
+                                           and probability_brier <= baseline_brier + 1e-12),
             "fit_rows": len(train_rows),
             "validation_rows": len(validation_rows),
             "validation_accuracy": round(validation_accuracy, 6),
@@ -315,6 +330,8 @@ class ModelTrainer:
                 f"{code} 时间留出验证准确率 {validation_accuracy:.4f} "
                 f"低于多数类/Elo 强基线 {baseline_accuracy:.4f}；拒绝发布模型"
             )
+        if not metrics["probability_quality_passed"]:
+            raise TrainingError(f"{code} 最终留出概率的 log loss/Brier 未达到冻结训练频率基线；拒绝发布模型")
 
         final_model = self.model_factory(self.feature_engineer.features)
         fit_estimator(final_model, dataset.rows, dataset.targets,
@@ -339,6 +356,17 @@ class ModelTrainer:
         if trained_at.tzinfo is None:
             trained_at = trained_at.replace(tzinfo=UTC)
         trained_at = trained_at.astimezone(UTC)
+        metrics["run_receipt"] = build_run_receipt(
+            "train", configuration={"competition": code, "seasons": list(seasons),
+                "estimator": metrics["estimator"],
+                "estimator_parameters": estimator_parameters(final_model),
+                "feature_recipe": (self.feature_engineer.to_recipe()
+                                   if isinstance(self.feature_engineer, FeatureEngineer) else None),
+                "holdout_fraction": self.holdout_fraction, "backtest_folds": self.backtest_folds},
+            inputs={"data_source": metrics["data_source"], "training_rows": row_count,
+                    "dataset_sha256": content_digest({"rows": dataset.rows, "targets": dataset.targets,
+                        "match_ids": dataset.match_ids, "kickoffs": dataset.kickoffs})},
+            stages={"development": "complete", "final_holdout": "complete", "fit": "complete"})
 
         bundle = ModelBundle(
             competition_code=code,
@@ -351,6 +379,8 @@ class ModelTrainer:
             team_states=dataset.team_states,
             feature_defaults=dataset.feature_defaults,
             training_rows=row_count,
+            feature_recipe=(self.feature_engineer.to_recipe()
+                            if isinstance(self.feature_engineer, FeatureEngineer) else None),
         )
         if save:
             save_model_bundle(bundle, self.model_dir / f"{code.lower()}.bundle")

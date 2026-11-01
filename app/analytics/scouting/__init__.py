@@ -1,0 +1,1 @@
+"""Scouting analysis implementations."""

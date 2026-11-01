@@ -7,15 +7,22 @@ blocked requests, human verification and empty frames are recorded explicitly.
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import copy
 from datetime import datetime, timezone
 import inspect
 import hashlib
+import html
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import time
+
+from app.file_io import write_bytes_atomic, write_json_atomic
+
+RESPONSE_CAPTURE_SCHEMA = "SoccerAnalytics.SourceResponseCapture.v1"
 
 PROVIDERS = (
     "MatchHistory",
@@ -28,9 +35,135 @@ PROVIDERS = (
     "WhoScored",
 )
 
+UNDERSTAT_SITUATIONS = {
+    "OpenPlay": "Open Play",
+    "FromCorner": "From Corner",
+    "SetPiece": "Set Piece",
+    "DirectFreekick": "Direct Freekick",
+    "Penalty": "Penalty",
+}
+
 
 class SourceStopped(BaseException):
     """Stop upstream retry/captcha loops while preserving the access evidence."""
+
+
+class RequestCapture:
+    """Retain each adapter call and its content without recording headers or cookies."""
+
+    def __init__(self, report, output, request_budget):
+        self.report = report
+        self.output = Path(output).resolve()
+        self.request_budget = request_budget
+        report["response_capture"] = {
+            "schema": RESPONSE_CAPTURE_SCHEMA,
+            "body_directory": "cache/_responses",
+            "request_unit": "SDK GET or browser navigation; excludes redirects and browser subresources",
+            "content_scope": "SDK response.content, browser DOM and extracted payloads; not wire bytes",
+            "duration_scope": "adapter call and response archiving",
+            "cache_hits": "not new network observations",
+        }
+
+    @contextmanager
+    def request(self, url, transport):
+        requests = self.report["requests"]
+        if len(requests) >= self.request_budget:
+            raise SourceStopped("request_budget_reached")
+        entry = {"ordinal": len(requests) + 1, "url": url, "transport": transport,
+                 "started_at": datetime.now(timezone.utc).isoformat()}
+        requests.append(entry)
+        started = time.monotonic()
+        try:
+            yield entry
+        except BaseException as exc:
+            entry.setdefault("error", type(exc).__name__)
+            raise
+        finally:
+            entry["completed_at"] = datetime.now(timezone.utc).isoformat()
+            entry["elapsed_seconds"] = time.monotonic() - started
+
+    def record(self, entry, payload, kind, field="response"):
+        try:
+            if not isinstance(payload, bytes):
+                raise TypeError("Captured response content must be bytes")
+            if field == "response":
+                entry["response_observed_at"] = datetime.now(timezone.utc).isoformat()
+            digest = hashlib.sha256(payload).hexdigest()
+            relative = Path("cache") / "_responses" / (digest + ".bin")
+            path = self.output / relative
+            if path.resolve() != path:
+                raise ValueError("Response capture cannot use a path alias")
+            if path.exists():
+                if path.stat().st_nlink != 1 or path.read_bytes() != payload:
+                    raise ValueError("Existing response capture differs from its content identity")
+            else:
+                write_bytes_atomic(path, payload)
+            entry[field] = {"path": relative.as_posix(), "sha256": digest,
+                            "bytes": len(payload), "kind": kind}
+        except Exception as exc:
+            entry["capture_error"] = type(exc).__name__
+            raise SourceStopped("response_capture_error:" + str(exc)) from exc
+
+    def wrap_get(self, original):
+        def tracked_get(url, *args, **kwargs):
+            with self.request(url, "soccerdata_native_tls_client") as entry:
+                try:
+                    response = original(url, *args, **kwargs)
+                except Exception as exc:
+                    entry["error"] = type(exc).__name__
+                    raise SourceStopped("transport_error:" + str(exc)) from exc
+                try:
+                    entry["http_status"] = response.status_code
+                    payload = response.content
+                except Exception as exc:
+                    entry["capture_error"] = type(exc).__name__
+                    raise SourceStopped("response_capture_error:" + str(exc)) from exc
+                self.record(entry, payload, "sdk_response_content")
+                entry["bytes"] = len(payload)
+                if type(response.status_code) is not int or response.status_code < 100:
+                    raise SourceStopped("non_http_transport_response")
+                if response.status_code >= 400:
+                    raise SourceStopped("http_" + str(response.status_code))
+                return response
+        return tracked_get
+
+    def browser_download(self, reader, url, filepath=None, var=None):
+        with self.request(url, "normal_isolated_chrome") as entry:
+            reader._driver.get(url)
+            time.sleep(1)
+            text = reader._driver.page_source
+            self.record(entry, text.encode("utf-8"), "browser_page_source_utf8")
+            if any(s in text for s in (
+                "Verify you are human", "Checking your browser", "Just a moment...", "cf-challenge",
+            )):
+                entry["status"] = "human_verification"
+                raise SourceStopped("browser_human_verification_required")
+            if '"reason":"Forbidden"' in text or '"reason": "Forbidden"' in text:
+                entry["status"] = "forbidden"
+                raise SourceStopped("browser_forbidden")
+            try:
+                payload = (reader._validate_page(url).encode() if var is None
+                           else json.dumps(reader._driver.execute_script("return " + var)).encode())
+            except Exception as exc:
+                entry["status"] = "invalid_page"
+                raise SourceStopped("invalid_browser_page:" + str(exc)) from exc
+            self.record(entry, payload, "browser_extracted_payload_utf8", "parser_payload")
+            entry.update(status="page_read", bytes=len(payload))
+            if filepath is not None:
+                write_bytes_atomic(Path(filepath), payload)
+            import io
+
+            return io.BytesIO(payload)
+
+
+def tracked_requests_reader(base, capture):
+    def init_session(self, *args, **kwargs):
+        session = base._init_session(self, *args, **kwargs)
+        session.get = capture.wrap_get(session.get)
+        return session
+
+    # Preserve SoccerData's class-name key for league and season configuration.
+    return type(base.__name__, (base,), {"_init_session": init_session})
 
 
 def export_frame(frame, path):
@@ -72,6 +205,166 @@ def explicit_seasons(years):
             raise ValueError("Season start year outside1900-2100")
         result.append(f"{year}-{year+1}")
     return result
+
+
+def restore_situations(shots, raw):
+    result, recovered = [], 0
+    for shot in shots:
+        expected = UNDERSTAT_SITUATIONS.get(raw.get(shot["shot_id"]))
+        if expected is None or (shot["situation"] and shot["situation"] != expected):
+            raise ValueError("Shot situation cannot be reconciled by source shot ID")
+        recovered += not bool(shot["situation"])
+        result.append({**shot, "situation": expected})
+    return result, recovered
+
+
+def normalize_understat_shots(frame, cache):
+    """Reconcile SDK fields with exact raw identities, keeping native row order/types."""
+    required = {"game_id", "shot_id", "team_id", "player_id", "season_id",
+                "situation", "assist_player", "assist_player_id"}
+    if not frame.columns.is_unique or not required <= set(frame.columns):
+        raise ValueError("Understat shot identity/field columns are missing or ambiguous")
+    assist_dtype = frame["assist_player_id"].dtype
+    if str(assist_dtype) != "Int64" and assist_dtype.kind not in ("O", "U", "S"):
+        raise ValueError("Understat assist IDs require nullable Int64 or string storage")
+
+    def identity(value):
+        token = str(value)
+        if re.fullmatch(r"[1-9][0-9]*", token) is None:
+            raise ValueError("Understat shot identities must be positive integer IDs")
+        return token
+
+    game_ids = sorted({identity(value) for value in frame["game_id"]})
+    raw, teams, names, roster_ids, legacy_ids, fingerprints = {}, {}, {}, {}, {}, []
+    for game in game_ids:
+        path = Path(cache) / f"match_{game}.json"
+        try:
+            content = path.read_bytes()
+            payload = json.loads(content)
+        except (OSError, ValueError) as exc:
+            raise ValueError(f"Understat original match {game} is unavailable") from exc
+        if set(payload.get("rosters", {})) != {"h", "a"} or set(payload.get("shots", {})) != {"h", "a"}:
+            raise ValueError("Understat original match roles are ambiguous")
+        fingerprints.append({"game_id": game, "sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content)})
+        for side in ("h", "a"):
+            roster = payload["rosters"][side]
+            team_ids = {identity(player["team_id"]) for player in roster.values()}
+            if len(team_ids) != 1:
+                raise ValueError("Understat original roster team identity is ambiguous")
+            teams[game, side] = next(iter(team_ids))
+            players = names[game, side] = {}
+            roster_ids[game, side] = set()
+            for player in roster.values():
+                name = html.unescape(player["player"])
+                player_id = identity(player["player_id"])
+                players.setdefault(name, set()).add(player_id)
+                roster_ids[game, side].add(player_id)
+                legacy_ids.setdefault((game, name), set()).add(identity(player["id"]))
+        if teams[game, "h"] == teams[game, "a"]:
+            raise ValueError("Understat original opponents share a team ID")
+        for side, events in payload["shots"].items():
+            for event in events:
+                shot = identity(event["id"])
+                if (shot in raw or identity(event["match_id"]) != game or event["h_a"] != side):
+                    raise ValueError("Duplicate or mismatched Understat original shot identity")
+                raw[shot] = event
+
+    situations, assists = [], []
+    seen = set()
+    present = {name: frame[name].notna().tolist() for name in ("situation", "assist_player", "assist_player_id")}
+    counts = {"corrected_assist_ids": 0, "recovered_missing_assist_ids": 0,
+              "source_association_unspecified": 0, "ambiguous_assist_names": 0,
+              "unmatched_assist_names": 0, "cleared_unverifiable_assist_ids": 0}
+    for position, row in enumerate(frame.to_dict("records")):
+        game, shot = identity(row["game_id"]), identity(row["shot_id"])
+        event = raw.get(shot)
+        if (shot in seen or event is None or identity(event["match_id"]) != game
+                or identity(event["player_id"]) != identity(row["player_id"])
+                or identity(row["player_id"]) not in roster_ids[game, event["h_a"]]
+                or identity(event["season"]) != identity(row["season_id"])
+                or teams[game, event["h_a"]] != identity(row["team_id"])):
+            raise ValueError("Understat frame and original shot identity disagree")
+        seen.add(shot)
+        situation = row["situation"] if present["situation"][position] else ""
+        if not isinstance(situation, str):
+            raise ValueError("Understat situation must be a label or missing")
+        situations.append({"shot_id": shot, "situation": situation})
+        raw_name = event["player_assisted"]
+        if raw_name is not None and not isinstance(raw_name, str):
+            raise ValueError("Understat original assist association must be a name or null")
+        name = html.unescape(raw_name) if isinstance(raw_name, str) and raw_name else None
+        displayed = row["assist_player"] if present["assist_player"][position] else None
+        displayed = None if displayed == "" else displayed
+        if displayed != name:
+            raise ValueError("Understat assist name disagrees with original shot")
+        existing = (identity(row["assist_player_id"])
+                    if present["assist_player_id"][position] and row["assist_player_id"] != "" else None)
+        if name is None:
+            if existing is not None:
+                raise ValueError("Understat assist ID lacks an original association")
+            counts["source_association_unspecified"] += 1
+            expected = None
+        else:
+            candidates = names[game, event["h_a"]].get(name, set())
+            if len(candidates) != 1:
+                counts["ambiguous_assist_names" if candidates else "unmatched_assist_names"] += 1
+                counts["cleared_unverifiable_assist_ids"] += existing is not None
+                expected = None
+            else:
+                expected = next(iter(candidates))
+                if existing is not None and existing != expected and existing not in legacy_ids[game, name]:
+                    raise ValueError("Understat assist ID is neither stable nor an original roster-entry ID")
+                counts["corrected_assist_ids"] += existing is not None and existing != expected
+                counts["recovered_missing_assist_ids"] += existing is None
+        assists.append(expected)
+
+    restored, recovered = restore_situations(situations, {shot: event["situation"] for shot, event in raw.items()})
+    result = frame.copy()
+    labels, identifiers = frame["situation"].copy(), frame["assist_player_id"].copy()
+    for position, (shot, expected) in enumerate(zip(restored, assists)):
+        labels.iloc[position] = shot["situation"]
+        if expected is None:
+            if present["assist_player_id"][position] and identifiers.iloc[position] != "":
+                identifiers.iloc[position] = None
+        elif identifiers.dtype.kind in ("O", "U", "S"):
+            identifiers.iloc[position] = expected
+        else:
+            identifiers.iloc[position] = int(expected)
+    # SDK MultiIndex labels repeat across a player's shots: assign by position.
+    result["situation"], result["assist_player_id"] = labels.array, identifiers.array
+    return result, {"rows": len(frame), "restored_situations": recovered,
+                    "assist_id_semantics": "stable same-side roster player_id, never roster-entry id",
+                    "name_normalization": "HTML entity decoding only; stable target uses same-side roster; no fuzzy matching",
+                    "raw_sources": fingerprints, **counts}
+
+
+def unique_understat_player_matches(frame, *, quarantine_conflicts=False):
+    """Retain unique identities; quarantining conflicts requires an explicit caller policy."""
+    flat = frame.reset_index()
+    keys = ["league", "season", "game_id", "team_id", "player_id"]
+    if (not set(keys) <= set(flat.columns) or flat[keys].isna().any().any()
+            or flat[keys].astype(str).eq("").any().any()):
+        raise ValueError("Understat player-match identity is missing")
+    keep = ~flat.duplicated()
+    unique = flat.loc[keep]
+    conflicting = unique.duplicated(subset=keys, keep=False)
+    if conflicting.any() and not quarantine_conflicts:
+        raise ValueError("Conflicting Understat player-match identity")
+    conflicting_keys = list(unique.loc[conflicting, keys].drop_duplicates().itertuples(index=False, name=None))
+    excluded = flat[keys].apply(tuple, axis=1).isin(set(conflicting_keys))
+    identical_duplicates = int((~keep).sum())
+    keep &= ~excluded
+    result = frame.iloc[keep.to_numpy()].copy()
+    return result, {
+        "key_fields": keys,
+        "raw_sdk_rows": len(frame),
+        "unique_rows": len(result),
+        "identical_duplicates_removed": identical_duplicates,
+        "quarantined_unique_rows": int(conflicting.sum()),
+        "quarantined_raw_rows": int(excluded.sum()),
+        "conflicting_identities": [dict(zip(keys, map(str, key))) for key in conflicting_keys],
+        "policy": "Remove fully identical records; conflicting identities are rejected by default or explicitly quarantined in full. Original match responses remain in the cache.",
+    }
 
 
 def anonymous_browser_reader(base, driver, download):
@@ -151,6 +444,7 @@ def run(
             Path(inspect.getfile(cls)),
         ]
     }
+    capture = RequestCapture(report, output, request_budget)
     start = time.monotonic()
     reader = None
     created_drivers = []
@@ -179,47 +473,11 @@ def run(
                 return driver
 
             def download(self, url, filepath=None, var=None):
-                if len(report["requests"]) >= request_budget:
-                    raise SourceStopped("request_budget_reached")
-                entry = {"url": url, "transport": "normal_isolated_chrome"}
-                report["requests"].append(entry)
-                self._driver.get(url)
-                time.sleep(1)
-                text = self._driver.page_source
-                if any(
-                    s in text
-                    for s in [
-                        "Verify you are human",
-                        "Checking your browser",
-                        "Just a moment...",
-                        "cf-challenge",
-                    ]
-                ):
-                    entry["status"] = "human_verification"
-                    raise SourceStopped("browser_human_verification_required")
-                if '"reason":"Forbidden"' in text or '"reason": "Forbidden"' in text:
-                    entry["status"] = "forbidden"
-                    raise SourceStopped("browser_forbidden")
-                try:
-                    payload = (
-                        self._validate_page(url).encode()
-                        if var is None
-                        else json.dumps(
-                            self._driver.execute_script("return " + var)
-                        ).encode()
-                    )
-                except Exception as exc:
-                    entry["status"] = "invalid_page"
-                    raise SourceStopped("invalid_browser_page:" + str(exc)) from exc
-                entry.update({"status": "page_read", "bytes": len(payload)})
-                if filepath is not None:
-                    filepath.parent.mkdir(parents=True, exist_ok=True)
-                    filepath.write_bytes(payload)
-                import io
-
-                return io.BytesIO(payload)
+                return capture.browser_download(self, url, filepath=filepath, var=var)
 
             cls = anonymous_browser_reader(cls, normal_driver, download)
+        else:
+            cls = tracked_requests_reader(cls, capture)
         kwargs = {"data_dir": output / "cache"}
         parameters = inspect.signature(getattr(sd, provider)).parameters
         if "leagues" in parameters:
@@ -237,35 +495,6 @@ def run(
                 raise SourceStopped("ambiguous_or_duplicate_resolved_seasons")
         if is_browser and not hasattr(reader, "_driver"):
             raise SourceStopped("browser_driver_unavailable")
-        if not is_browser:
-            original = reader._session.get
-
-            def tracked_get(url, *args, **kwargs):
-                if len(report["requests"]) >= request_budget:
-                    raise SourceStopped("request_budget_reached")
-                entry = {"url": url, "transport": "soccerdata_native_tls_client"}
-                report["requests"].append(entry)
-                try:
-                    response = original(url, *args, **kwargs)
-                except Exception as exc:
-                    entry["error"] = type(exc).__name__
-                    raise SourceStopped("transport_error:" + str(exc)) from exc
-                entry.update(
-                    {
-                        "http_status": response.status_code,
-                        "bytes": len(response.content),
-                    }
-                )
-                if (
-                    not isinstance(response.status_code, int)
-                    or response.status_code < 100
-                ):
-                    raise SourceStopped("non_http_transport_response")
-                if response.status_code >= 400:
-                    raise SourceStopped("http_" + str(response.status_code))
-                return response
-
-            reader._session.get = tracked_get
         if provider == "ESPN":
             original_get = reader.get
 
@@ -320,8 +549,18 @@ def run(
             save("player_season_stats", reader.read_player_season_stats())
             save("team_match_stats", reader.read_team_match_stats())
             if details:
-                save("shot_events", reader.read_shot_events())
-                save("player_match_stats", reader.read_player_match_stats())
+                shots, shot_audit = normalize_understat_shots(reader.read_shot_events(), output / "cache")
+                report.setdefault("normalization", {})["shot_events"] = shot_audit
+                save("shot_events", shots)
+                players, audit = unique_understat_player_matches(
+                    reader.read_player_match_stats(), quarantine_conflicts=True)
+                report["normalization"]["player_match_stats"] = audit
+                report["quality_status"] = (
+                    "shot_and_player_fields_normalized_with_exclusions"
+                    if (audit["conflicting_identities"] or shot_audit["ambiguous_assist_names"]
+                        or shot_audit["unmatched_assist_names"])
+                    else "shot_links_and_player_keys_verified")
+                save("player_match_stats", players)
             else:
                 schedule = reader.read_schedule()
                 finished = (
@@ -330,11 +569,16 @@ def run(
                     else schedule
                 )
                 if len(finished) and "game_id" in finished.columns:
+                    shots, shot_audit = normalize_understat_shots(
+                        reader.read_shot_events(match_id=int(finished.iloc[0]["game_id"])), output / "cache")
+                    report.setdefault("normalization", {})["sample_shot_events"] = shot_audit
+                    report["quality_status"] = (
+                        "unresolved_shot_associations"
+                        if shot_audit["ambiguous_assist_names"] or shot_audit["unmatched_assist_names"]
+                        else "shot_fields_reconciled")
                     save(
                         "sample_shot_events",
-                        reader.read_shot_events(
-                            match_id=int(finished.iloc[0]["game_id"])
-                        ),
+                        shots,
                     )
         elif provider == "FBref":
             save(
@@ -362,9 +606,7 @@ def run(
         if report["tables"] and not report["errors"]
         else "partial" if report["tables"] else "unavailable_in_probe"
     )
-    (output / "report.json").write_text(
-        json.dumps(report, ensure_ascii=False, indent=2)
-    )
+    write_json_atomic(output / "report.json", report)
     print(
         json.dumps(
             {

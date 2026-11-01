@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import argparse
 import json
 import logging
 import os
@@ -8,11 +7,12 @@ from pathlib import Path
 from typing import Any, Sequence
 
 from app.config import load_settings, resolve_competitions
-from app.cli.arguments import build_parser, _positive_int, _add_competition_argument
+from app.cli.arguments import build_parser
 from app.cli.research import run_research_command
 from app.ml.prediction import PredictionEngine, PredictionRun
 from app.ml.training import ModelTrainer
 from app.web.export_site import export_site_data
+from app.run_receipts import build_run_receipt
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,49 +44,30 @@ def run_training_pipeline(
             result = {
                 "competition": code,
                 "training_rows": bundle.training_rows,
-                "validation_accuracy": bundle.metrics.get("validation_accuracy"),
-                "validation_log_loss": bundle.metrics.get("validation_log_loss"),
-                "validation_ranked_probability_score": bundle.metrics.get(
-                    "validation_ranked_probability_score"
-                ),
-                "baseline_accuracy": bundle.metrics.get("baseline_accuracy"),
-                "majority_baseline_accuracy": bundle.metrics.get(
-                    "majority_baseline_accuracy"
-                ),
-                "elo_baseline_accuracy": bundle.metrics.get("elo_baseline_accuracy"),
-                "backtest_folds": bundle.metrics.get("backtest_folds"),
-                "backtest_rows": bundle.metrics.get("backtest_rows"),
-                "backtest_accuracy": bundle.metrics.get("backtest_accuracy"),
-                "backtest_baseline_accuracy": bundle.metrics.get(
-                    "backtest_baseline_accuracy"
-                ),
-                "backtest_majority_baseline_accuracy": bundle.metrics.get(
-                    "backtest_majority_baseline_accuracy"
-                ),
-                "backtest_elo_baseline_accuracy": bundle.metrics.get(
-                    "backtest_elo_baseline_accuracy"
-                ),
-                "backtest_log_loss": bundle.metrics.get("backtest_log_loss"),
-                "backtest_brier_score": bundle.metrics.get("backtest_brier_score"),
-                "backtest_calibration_error": bundle.metrics.get(
-                    "backtest_calibration_error"
-                ),
-                "backtest_ranked_probability_score": bundle.metrics.get(
-                    "backtest_ranked_probability_score"
-                ),
-                "backtest_classwise_calibration_error": bundle.metrics.get(
-                    "backtest_classwise_calibration_error"
-                ),
-                "backtest_max_class_calibration_error": bundle.metrics.get(
-                    "backtest_max_class_calibration_error"
-                ),
-                "backtest_sharpness": bundle.metrics.get("backtest_sharpness"),
-                "backtest_worst_fold_accuracy_lift": bundle.metrics.get(
-                    "backtest_worst_fold_accuracy_lift"
-                ),
-                "backtest_accuracy_lift_stddev": bundle.metrics.get(
-                    "backtest_accuracy_lift_stddev"
-                ),
+                "run_id": bundle.metrics.get("run_receipt", {}).get("run_id"),
+                **{name: bundle.metrics.get(name) for name in (
+                    'validation_accuracy',
+                    'validation_log_loss',
+                    'validation_ranked_probability_score',
+                    'baseline_accuracy',
+                    'majority_baseline_accuracy',
+                    'elo_baseline_accuracy',
+                    'backtest_folds',
+                    'backtest_rows',
+                    'backtest_accuracy',
+                    'backtest_baseline_accuracy',
+                    'backtest_majority_baseline_accuracy',
+                    'backtest_elo_baseline_accuracy',
+                    'backtest_log_loss',
+                    'backtest_brier_score',
+                    'backtest_calibration_error',
+                    'backtest_ranked_probability_score',
+                    'backtest_classwise_calibration_error',
+                    'backtest_max_class_calibration_error',
+                    'backtest_sharpness',
+                    'backtest_worst_fold_accuracy_lift',
+                    'backtest_accuracy_lift_stddev',
+                )},
             }
             results.append(result)
             logger.info("%s 训练完成：%s 场", code, bundle.training_rows)
@@ -107,6 +88,11 @@ def run_training_pipeline(
         "failed_count": len(errors),
         "results": results,
         "errors": errors,
+        "status": "partial" if results and errors else "complete" if results else "failed",
+        "run_receipt": build_run_receipt("train", configuration={"competitions": list(competitions), "seasons": active_seasons},
+            inputs={"models": [{key: row[key] for key in ("competition", "training_rows", "run_id")} for row in results]},
+            stages={row["competition"]: "complete" for row in results}
+                   | {row["competition"]: "failed" for row in errors}),
     }
 
 
@@ -200,7 +186,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             seasons=args.seasons,
             trainer=trainer,
         )
-        return 0 if result["trained_count"] > 0 else 1
+        print(json.dumps(result, ensure_ascii=False, allow_nan=False))
+        return _training_exit_status(result)
     if args.command == "predict":
         run = run_predictions_pipeline(
             days=args.days,
@@ -221,8 +208,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             seasons=args.seasons,
             trainer=trainer,
         )
-        return 0 if result["training"]["trained_count"] > 0 else 1
+        print(json.dumps({**result, "outputs": {name: str(path) for name, path in result["outputs"].items()}},
+                         ensure_ascii=False, allow_nan=False))
+        return _training_exit_status(result["training"])
     raise AssertionError("未知命令")
+
+
+def _training_exit_status(result):
+    if not result["trained_count"]:
+        return 1
+    return 2 if result.get("errors") else 0
 
 
 if __name__ == "__main__":

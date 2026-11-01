@@ -546,8 +546,8 @@ Median visibility: 42.6%; 1/623 records reach 80%. The 80% reference gates rolli
     <path d="M 636.340645 388.08  L 977.76 388.08  " style="fill: none; stroke: #e2e8ee; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square" />
    </g>
    <g id="text_47">
-    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #c5722c" transform="translate(832.907248 166.855414)">80% reference</text>
-    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #c5722c" transform="translate(834.591623 178.858148)">(window gate)</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #a34f15" transform="translate(832.907248 166.855414)">80% reference</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #a34f15" transform="translate(834.591623 178.858148)">(window gate)</text>
    </g>
    <g id="text_48">
     <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203344" x="636.340645" y="108.16" transform="rotate(-0 636.340645 108.16)">Broadcast visibility · 623 records</text>

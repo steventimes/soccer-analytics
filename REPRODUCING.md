@@ -2,6 +2,17 @@
 
 新版入口、目录与表示学习实验见[项目 README](README.md)。下列命令保留已有数据采集和评估流程，比赛数据数量按各处标注的快照日期阅读。10 月 14 日的重构与方法研究没有把 10 月 11 日的比赛快照改写成最新赛果。
 
+## 按问题选择入口
+
+| 要做什么 | 入口与边界 |
+| --- | --- |
+| 浏览或复现已公开的有限结果 | [三个公开样本](#public-examples)；使用仓库汇总，不需要采集或训练。 |
+| 准备严格时点数据 | [观察记录规整](#prepare-observed-history)前先按该节说明保留原始快照、采集收据及实际观察时间；不能用较晚抓取时间回填更早的可用时间。 |
+| 判断搜索能否开始 | [严格搜索对照](#strict-search-comparison)使用 `--admit-only`，只检查时间准入和准备诊断，不拟合模型；`not_blocked` 也不代表样本充分或效果已证实。 |
+| 阅读或重现历史模型研究 | [模型与时点协议](#model-and-timing-protocols)说明严格结果可用时间和旧开球顺序的区别；历史留出与前瞻登记不互相替代。 |
+
+严格回放要求带时区的精确开球时间和有证据的结果可用时间；每场特征只使用开球前已知结果，拟合时排除尚不可用的标签。默认或明确选择的旧开球顺序路径不证明当时信息已经到达。来源获取时刻是一次观察，不是比赛完赛时间或结果最早可用时间。当前公开准备摘要是 2026 年 10 月 26 日的历史快照，不表示实时赛程；其时间准入已通过，但训练历史不足，真实搜索未执行。原始观察、最终留出与私有逐场数据继续分别保留。
+
 研究页四项摘要分别加载和重试。验证时可在隔离浏览器中让其中一个摘要返回 HTTP 503，再恢复请求并用键盘重试，检查其他区域的内容、筛选和请求次数保持不变。损坏 JSON、缺少必要字段和绘图中途异常也应显示区域内错误。本轮证据保留在本地 `.tmp/affordable-football-20261015`；模拟故障只作用于测试页面，没有修改公开数据文件。
 
 本轮保留49篇论文的全文、所列附录和八份独立补充材料已读完；编号06、L18、L22按用户要求排除，实际阅读范围保留。10月19日收到“开始实现”后，已完成十项缺口及既有适用修正，再集中测试。热图网格/平滑/单位、固定分量来源和TreeSHAP已落实；没有将三传球计数称为随机网络Z分数，也未重新执行本地70%解释方差选择。具体证据和限制见[实现报告](IMPLEMENTATION_REPORT.md)。
@@ -38,20 +49,20 @@ python -m app.data_service.fifa_reports collect --series fcwc2025
 python -m app.data_service.fifa_reports collect --series fwc2026
 python -m app.data_service.fifa_reports ingest --series fcwc2025
 python -m app.data_service.fifa_reports ingest --series fwc2026
-python -m app.analytics.elite_tactics
+python -m app.analytics.tactics.elite_tactics
 ```
 
 已有仓库和核心赛事视图时，可只读重建覆盖表。这个命令只生成覆盖 JSON，不重新采集、不改写数据库，也不重做战术案例和图。输出日期是本次覆盖核对时间，不能当作所有来源的重新采集时间。
 
 ```bash
-python -m app.analytics.elite_tactics --coverage-only --database data/football.sqlite3 --output .tmp/coverage-check
+python -m app.analytics.tactics.elite_tactics --coverage-only --database data/football.sqlite3 --output .tmp/coverage-check
 ```
 
 ESPN 摘要数以已完赛来源记录为分母。匹配要求摘要完整归档，且比赛编号、主客队身份、终场状态和比分与最新赛果一致。`missing_summary_documents` 包括没有关联、没有文档、归档不完整或文档类型不符，`invalid_summary_documents` 表示格式错误或与赛果不符。三个摘要计数合计等于该行来源记录数，不保证摘要内所有统计字段齐全。
 
 The [source catalogue](DATA_SOURCES.md) records collected data, coverage and access failures, and distinguishes original publishers, community mirrors, collection tools and simulation environments. The optional SoccerData collector adds multi-season Understat data and ESPN match rosters in a separate environment.
 
-The [new-source findings](results/README.md#新增数据的分析发现) compare player repeatability, possession and chance quality, and changes in team attack and defence. Run `python -m app.analytics.new_source_findings` after importing the SoccerData frames. The analysis restores penalty labels from raw shot IDs, excludes invalid possession placeholders and keeps multi-club player totals separate from team aggregates.
+The [new-source findings](results/README.md#新增数据的分析发现) compare player repeatability, possession and chance quality, and changes in team attack and defence. Run `python -m app.analytics.scouting.source_findings` after importing the SoccerData frames. The analysis restores penalty labels from raw shot IDs, excludes invalid possession placeholders and keeps multi-club player totals separate from team aggregates.
 
 The [October refresh and coach context](results/README.md#10-月-11-日比赛更新与教练背景) adds national results, dated coach observations and tactical reading/caption cards. Recent collection defaults to the last three weeks; research imports and coach analysis remain separate from the production `all` command.
 
@@ -60,7 +71,10 @@ The [October refresh and coach context](results/README.md#10-月-11-日比赛更
 ```text
 app/
   config.py             # Environment settings and competition selection
-  pipeline.py           # Prediction, collection and offline research commands
+  run_receipts.py       # Source/input hashes, environment versions and stage receipts
+  pipeline.py           # Production train/predict/export and compatible research commands
+  research.py           # Data and research entry point; lazy model dependencies
+  cli/                  # Arguments and task-specific command dispatch
   data_service/fetch/   # API and key-free CSV/JSON sources with rate limiting
   data_service/         # Source archives, game ratings and SQLite warehouse
   analysis.py           # Team statistics with Python and optional fpstreams
@@ -72,6 +86,25 @@ results/                # Aggregate research results and reproducible figures
 models/                 # Local model bundles and previous versions
 tests/                  # Python tests and JavaScript runtime checks
 ```
+
+The reusable code follows the work being performed:
+
+- `data_service/fetch/` handles remote access, retry rules and provider parsing.
+  Season snapshots are collected and verified in `history.py`; score-only
+  observation cohorts are prepared in `observations.py`. The existing
+  `history.prepare_observed_history` import remains supported.
+- `ml/training.py` trains and validates bundles; `ml/prediction.py` loads them for
+  inference. Training and research share
+  `evaluation.chronological_holdout_boundary`, with separate minimum-sample rules.
+- `file_io.write_bytes_atomic` writes reports with mode `0644`; model storage
+  explicitly selects `0600` for current and previous bundles. The model schema,
+  corruption checks and fallback order remain unchanged.
+- `data_service.database.read_database` opens a read-only transaction and closes
+  it on normal or exceptional exit. Scouting and tactical readers use this same
+  snapshot lifetime. Warehouse writes retain their existing transaction scopes.
+  Tactical extraction returns data without writing the cache; the cache manager
+  publishes it once. The standalone `tactical_relations.collect` still writes
+  its JSON output.
 
 ## Football observation and scouting
 
@@ -141,23 +174,28 @@ docker compose run --rm app all --competitions PL --days 3
 
 ## Run locally
 
-Use Python 3.12 or newer and install the dependencies in a virtual environment:
+Use Python 3.12 and install the dependencies in a virtual environment. CI and the Docker image use this version. JavaScript and Shell checks use Node.js 22 and Bash.
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install pip==26.2.2
+python -m pip install --group runtime -c config/constraints-main.txt
 python -m app.pipeline all --source football-csv --competitions PL --days 3
 ```
 
 Local Python reads exported environment variables; Docker Compose loads `.env`. The pipeline uses in-process rate limiting and local model files. `predict` writes a JSON result to standard output, including any competition errors; logs go to standard error.
 
-Choose competitions supported by your selected source. The default selection is all codes in `app/config.py`. For production prediction commands, the public sources support eight of those configured codes, listed below. Historical research accepts further divisions described later. Optional settings:
+`train` and `all` also print JSON to standard output. Training summaries include per-competition results, errors, status, and a `run_receipt`; `all` places this summary under `training` and lists exported paths under `outputs`. The training exit codes are 0 for complete success, 1 when every requested competition fails, and 2 for partial success. A partial daily refresh stops the workflow before its commit step.
+
+New successful model runs include a `SoccerAnalytics.RunReceipt.v1` receipt with the application-source SHA-256, Git HEAD when available, Python and package versions, configuration, input hashes, and stage status. The training summary links model run IDs. The `analyze`, `experiment`, and shared match-study handlers also attach receipts to new reports. These receipts identify the supplied inputs and execution context; existing results retain their original records and are not recalculated by this change.
+
+Without an explicit competition selection, CSV and OpenFootball use the eight supported production codes listed below. The football-data.org adapter keeps all configured codes. An API key selects that adapter in `auto` mode; without a key, `auto` selects CSV. Explicit competition requests are preserved and unsupported requests raise an error. Historical research accepts further divisions described later. Optional settings:
 
 | Variable | Default |
 | --- | --- |
 | `SOCCER_ANALYTICS_DATA_SOURCE` | `auto`: football-data.org with a key, public CSV otherwise |
-| `SOCCER_ANALYTICS_COMPETITIONS` | All configured competitions |
+| `SOCCER_ANALYTICS_COMPETITIONS` | Supported production codes for the selected source |
 | `SOCCER_ANALYTICS_TRAINING_SEASONS` | Four European season start years, including the current season |
 | `SOCCER_ANALYTICS_PREDICTION_DAYS` | `3` |
 | `SOCCER_ANALYTICS_SITE_EXPORT_DAYS` | `1` |
@@ -167,6 +205,19 @@ Choose competitions supported by your selected source. The default selection is 
 | `SOCCER_ANALYTICS_SITE_DATA_DIR` | `docs/data` |
 
 Use comma-separated values for competitions and season years. `--competitions` selects from enabled competitions; `--seasons` overrides training years. For calendar-year leagues and international tournaments, select the applicable seasons explicitly. Training uses only finished matches. `--days 1` covers the remainder of today in UTC; `--days 3` also includes the next two UTC dates. Predictions include future `SCHEDULED` and `TIMED` fixtures in that range.
+
+[pyproject.toml](pyproject.toml) declares standard dependency groups: `runtime`, `research`, `checks`, `deep-learning`, `sources`, and `vaep`. Use pip 25.1 or later; the commands above, CI, and Docker use pip 26.2.2. `research` includes `runtime` and combines tabular models, optimization, tracking, plotting, and EBM. Install `checks` alongside either group to run Ruff. Package versions are unchanged.
+
+[config/constraints-main.txt](config/constraints-main.txt) records versions from the existing Python 3.12 Linux main environment. Apply it explicitly to `runtime` and `research`; it does not pin artifact hashes or system libraries. Keep SoccerData and VAEP in separate virtual environments, without the main constraints. In each new environment, install pip 26.2.2 first, then run `python -m pip install --group sources` or `python -m pip install --group vaep` from the repository root.
+
+For the representation experiments, install the research dependencies and then add the [official PyTorch 2.8.0 CPU build](https://pytorch.org/get-started/previous-versions/#v280) on Linux:
+
+```bash
+python -m pip install --group research -c config/constraints-main.txt
+python -m pip install --group deep-learning --index-url https://download.pytorch.org/whl/cpu
+```
+
+The `deep-learning` group adds the neural runtime after `research`, which supplies tabular baselines, metrics, plotting, and thread control. No torchvision or torchaudio package is required.
 
 ## Key-free data sources
 
@@ -348,6 +399,20 @@ all-history refit follows only after the quality gates pass. New bundles record
 `evaluation_protocol=development_backtest_then_temporal_holdout_v1`. Existing
 bundles and historical reports retain their original evaluations.
 
+New production bundles use schema 4 and store `SoccerAnalytics.FeatureRecipe.v1` separately from the feature-column names. The recipe includes `window`, `base_elo`, `elo_k`, `home_elo_advantage`, `default_rest_days`, and `max_rest_days`. Default prediction restores the saved recipe, including a custom window. An explicitly supplied engineer must match it or prediction fails with `FEATURE_RECIPE_MISMATCH`. Custom `FeatureEngineer` subclasses are supported only for research with `save=False`.
+
+Schema 3 bundles remain readable. The loader supplies the documented default recipe in memory, with `window=5`, and marks `feature_recipe_origin=legacy_v3_assumed_defaults`. It preserves schema 3, the original file bytes and SHA-256, and forecast identity. It does not rewrite the asset as schema 4.
+
+For new production training, final-holdout log loss and Brier score must both be no worse than a Laplace-smoothed class-frequency baseline frozen on the earlier training segment. For each outcome, its baseline probability is `(training_count + 1) / (training_rows + 3)`. Reports retain the baseline probabilities, both baseline scores, and `probability_quality_passed`. Legacy schema 3 models keep their original quality policy, with their version and recipe assumption disclosed; no new probability-baseline evidence is invented for them.
+
+The recipe round-trip and explicit-mismatch behavior have a public synthetic check entry point:
+
+```bash
+python scripts/check.py tests.ml.test_pipeline.TestPredictionEngine.test_saved_recipe_controls_default_inference_and_rejects_explicit_mismatch
+```
+
+The command uses controlled test fixtures. Kickoff ordering still does not establish the true `result_available_at` timestamp, and prospective cross-season validation remains future work.
+
 Within each XGBoost fit, early-stopping class weights come from its training
 prefix. The ordered validation suffix uses unweighted log loss, matching the
 outer probability metric. The subsequent refit uses class weights from all rows
@@ -355,12 +420,12 @@ provided to that fit. The [temporal audit](results/temporal-evaluation.json)
 records a fixed 1,140-match PL cohort and all four previous/current protocol
 combinations. Default quality gates rejected all four. Its two holdout fits are
 diagnostics and do not override those rejections. Boundary regressions run with
-`python -m unittest tests.test_model_pipeline.TestModelTrainer tests.test_core.TestXGBoostClassifier -v`.
+`python -m unittest tests.ml.test_pipeline.TestModelTrainer tests.test_core.TestXGBoostClassifier -v`.
 
 Install the optional packages in the same virtual environment. The base Docker image includes XGBoost and public sources; install these extras to use the following commands there.
 
 ```bash
-python -m pip install -r requirements-experiments.txt
+python -m pip install --group research -c config/constraints-main.txt
 python -m app.research analyze --source football-csv --competitions PL --seasons 2022,2023,2024 --backend compare --output .tmp/pl-analysis.json
 python -m app.research experiment --source football-csv --competitions PL --seasons 2022,2023,2024 --trials 8 --output .tmp/pl-experiments.json
 ```
@@ -383,7 +448,7 @@ Logistic fits use the library's standard `tol=1e-4` with a 20,000-iteration cap.
 and in-memory storage. It uses the same parameter bounds and development loss
 as the existing searches. TPE starts after `min(4, trials - 1)` successful random
 startup trials; failed trials do not advance that count. There is no pruning or remote
-study service. The optional requirements pin the tested version. See the
+study service. The research group pins the tested version. See the
 [Optuna sampler API](https://optuna.readthedocs.io/en/v5.0.0/reference/samplers/generated/optuna.samplers.TPESampler.html)
 and [reproducibility guidance](https://optuna.readthedocs.io/en/v5.0.0/faq.html#how-can-i-obtain-reproducible-optimization-results).
 
@@ -409,6 +474,189 @@ and that candidate has an error in place of holdout metrics.
 
 The last roughly 20% of matches form a final holdout. Three expanding windows within the earlier data score each candidate by log loss. Matches sharing a kickoff stay in the same partition, and scaling is fitted on training rows only. The selected candidate is locked before holdout evaluation. JSON includes every trial, parameters, holdout accuracy, log loss, Brier score, RPS and majority/Elo accuracy baselines. Compare holdout results cautiously: choosing a new winner after reading them would reuse the test set.
 
+### Audit provider ID bridges offline
+
+`audit-identity-bridges` reads the supplied Reep `bridge-register-v1` release
+without changing the warehouse or provider IDs. Put the original `release.json`
+and its three complete files (`csv/bridges.csv.gz`, `csv/entities.csv.gz`, and
+`csv/redirects.csv.gz`) below one release directory. Use the SHA-256 of the
+reviewed release manifest; the command verifies each table against that manifest.
+It does not download files or install the Reep SDK.
+
+Supply a UTF-8 CSV with `provider,namespace,external_id,entity_type` columns.
+Supported providers are `espn`, `understat`, and `statsbomb`. IDs and namespaces
+are exact strings; leading zeros and provider namespaces are preserved. For
+example, Reep uses `offline_player` for StatsBomb player IDs and `person` for
+ESPN player IDs. Optional source-path, source-record, and label columns pass
+through for human review; labels never determine a mapping.
+
+```bash
+python -m app.research audit-identity-bridges --release-dir .tmp/reep-release --release-sha256 <reviewed-release-sha256> --queries .tmp/provider-ids.csv --output .tmp/identity-audit.json
+```
+
+The default limits are 384 MiB of compressed tables, 4 GiB of decoded CSV,
+21,000,000 source records, and 10,000 query records. Override them explicitly
+with `--max-bytes`, `--max-decoded-bytes`, `--max-rows`, and `--max-queries`.
+Exceeding a limit, a checksum mismatch, or an invalid table aborts the audit
+without writing a report. Stop other writers while auditing these local files.
+
+The private report retains original and resolved Reep IDs, redirect chains,
+source hashes, and one-based CSV data-record ordinals (excluding headers).
+It separates unique, redirected, uncovered, retired, ambiguous, invalid-redirect,
+missing-entity, and type-mismatch results. Duplicate bridge rows are counted.
+An empty intersection is explicitly `no_intersection`. Exit zero means the audit
+completed, including negative findings; inspect `mapping_status` and `counts`.
+Existing output files and input paths cannot be overwritten.
+
+Every report remains `not_adopted`: these are third-party identity assertions,
+not evidence of independent data collection or historical availability. The
+Wikidata overlay is excluded. No name matching, database merging, forecasting,
+or model training runs as part of the command.
+
+### Compact local source data
+
+Source JSON/JSONL can use a gzip representation while keeping the original
+logical path, bytes, SHA-256, and source inventory. Supported readers prefer a
+plain file, then read its `.gz` sibling. A native `.gz` listed in the source
+inventory retains its original compressed-byte identity. ZIPs, the active SQLite
+warehouse, models, environments, and original inventory/receipt files are kept.
+
+Plan a bounded operation before applying it:
+
+```bash
+python scripts/compact_data.py --source-root .tmp/open-data/statsbomb --source-root .tmp/open-data/skillcorner --cache .tmp/tactical-relations/data.json --cache .tmp/assessments/team-data.json --cache .tmp/assessments/player-data.json --report .tmp/data-compaction/report.json
+```
+
+Add `--apply` to compress. Defaults are a 256 KiB minimum, gzip level 3, and two
+workers. The command checks complete inventories and cache receipts, verifies
+every compressed file against the original bytes, then retires the plain copy.
+Conflicting gzip files and changed sources are preserved and reported. A repeated
+run verifies existing compressed data without recompressing it. Reports count
+storage reclaimed during that run separately from total logical size.
+
+Run while collection and analysis jobs are stopped. The open-file check sees
+only the current process namespace. It is not a distributed lock. Each completed
+file is independently recoverable if the command is interrupted; source manifests
+and cache receipts are unchanged. The receipt must use a private JSON path and
+cannot overwrite input files, including small files excluded by the size limit.
+To restore an ordinary file for external tools, use `gzip -dk path.json.gz` when
+`path.json` does not already exist. Do not rewrite original payloads or invent
+result-availability timestamps during storage maintenance.
+
+<a id="prepare-observed-history"></a>
+### Prepare verified observation history
+
+`prepare-observed-history` reconciles original local season snapshots and
+Football-Data CSV files with their `.csv.receipt.json` files. It verifies source
+checksums and scope, retains the earliest observed unchanged score among those inputs, and excludes
+core conflicts known before selection. It does not infer availability from match
+end times, file modification times, or a later download.
+
+```bash
+python -m app.research prepare-observed-history --snapshot .tmp/old-history/football-csv/PL/2026.json --csv .tmp/new-capture/PL_2026.csv --competition PL --season 2026 --selection-as-of 2026-10-17T00:00:00Z --as-of 2026-10-26T00:29:08.025013Z --output-dir .tmp/observed-cohort
+```
+
+Supply every chosen input explicitly with repeated `--snapshot` or `--csv`
+arguments. The output directory must be new and private. Raw CSV receipts need
+`url`, `sha256`, `bytes`, and timezone-aware `observed_at`; a ZIP-derived CSV
+also needs its division's `archive_member`. The default limits are 32 MiB of
+inputs and 100,000 parsed records, adjustable with `--max-input-bytes` and
+`--max-matches`. Original inputs remain unchanged; derived cohorts cannot be
+reused as original observation evidence.
+
+The output includes source hashes and one-based data-record positions. It omits
+post-match statistics and odds, whose historical availability is not established.
+For matches before `--selection-as-of`, later captures cannot revise or exclude
+the selected development history. `fetched_at` records the latest supplied input
+observation; `assembled_as_of` identifies the requested data cutoff. Each retained
+score has its own earlier verified `result_observed_at`.
+
+A strict comparison can use `--initial-training-rows 50` to reserve the initial
+history and start validation later. This changes the explicit research protocol,
+not the production default. An entire shared kickoff group stays in the initial
+history if the requested boundary falls inside it. Training labels are still
+purged at each validation cutoff, and all search arms use the same scored IDs.
+For example, point `search-comparison --snapshots` at
+`.tmp/observed-cohort/football-csv` and retain the original outer/holdout dates.
+
+Admission establishes timing validity, not predictive usefulness. A cold start
+can leave early training features constant even with many available labels.
+Inspect training-feature variation, validation sizes, and independent subsequent
+data before spending a full search budget. Do not backfill older feature histories
+or treat an admitted small cohort as evidence that an optimizer is better.
+
+<a id="strict-search-comparison"></a>
+### Strict shared-start search comparison
+
+`search-comparison` compares Random, GP, TPE, GA, and local beam widths 1/2 on
+one XGBoost task. It requires offline snapshots, precise kickoffs, and recorded
+result availability. Supply an explicit development outer interval and a separate
+final-holdout boundary. This admission query does no fitting:
+
+```bash
+python -m app.research search-comparison --source football-csv --snapshots .tmp/history/football-csv --competitions PL --seasons 2026 --as-of 2026-10-25T00:00:00Z --evaluation-start 2026-10-17T00:00:00Z --evaluation-end 2026-10-22T00:00:00Z --final-holdout-start 2026-10-24T00:00:00Z --admit-only --output .tmp/search-admission.json
+```
+
+Paths and dates above are examples. The archived PL snapshot observed on October
+23 has zero development labels available at the October 17 selection cutoff, so
+its result is `blocked`. Do not backdate availability to admit it. An admission
+query exits zero when the query succeeds; inspect the nested status. A full run
+with blocked admission or a failed arm exits nonzero and cannot be publicly
+exported. No production model or warehouse is opened by this offline path.
+
+时间准入与效益准备分开报告。`--admit-only`会在不创建估计器的情况下，按既有严格回放和时间切分生成`admission.readiness`：逐折训练/验证ID、标签剔除数、可用历史、基准配方的常数列及变化列，以及去重后的训练/验证数量。折间重复训练行不算独立样本。截止当前观察时点，外层区间之后、最终留出之前的已观察标签另列为未注册的后续队列清单，不读取最终留出的特征或成绩，也不自动认定后续队列已通过确认实验。
+
+所有折的全部训练行均无已观察历史时，时间状态仍为`admitted`，readiness为`insufficient`。正式执行返回`not_ready`与`SearchNotReady`，在导入搜索依赖和任何拟合之前停止；查询仍成功返回诊断。只有基准配方的列为常数时仅给警告，不推出所有算法均无效。其他队列标记`not_blocked`只表示没有命中已证明的结构性阻断，不表示样本充足或可采用。报告只给实际样本数，没有新增效益样本阈值。
+
+已有规整英超70场队列使用显式50场初始训练时，开发标签60场、内层验证10场，三折训练均为同样50场，全部30列为常数。早期结果在赛后才首次观察，不能回填到比赛发生时；该队列因结构性冷启动不能支持本轮特征搜索采用。命令中的路径必须指向真实规整快照；单次10月23日旧快照仍保留时间阻断，不能与这份恢复观察历史的队列混同。
+
+模型页的本地公开准备摘要保留2026赛季、`2026-10-26 00:29:08.025013 UTC`观察截点及原代码/协议身份，开发期外层为10场。正文显示诊断观察时点和各来源赛季/获取时刻，逐折表与其CSV/JSON下载包含UTC训练截点。获取时刻不代表比赛完赛或最早结果可用时间，逐折训练截点不等于历史模型组的最终留出；旧摘要缺字段时显示“未记录”，不从当前日期或其他组回填。追溯、来源链接和搜索摘要在加载入口校验，筛选只使用已验值；两份摘要保留独立失败与重试。界面维护或CLI私有输出权限调整不要求重建这份诊断、改变其协议或重跑模型。
+
+For an admitted cohort, omit `--admit-only`. Defaults are twelve paid objective
+requests per arm, three expanding folds, and paired search seeds 11,23,37,53,71;
+`--model-seed` is separately fixed at 42. `--arms random,bayesian,optuna,genetic,beam1,beam2`
+and `--search-seeds` permit an explicitly reported smaller protocol. One declared
+reference and three identical random configurations initialize every arm. These
+four requests count in the budget. GP/TPE use a startup setting of four; GA
+starts with four members. Failed Optuna trials retain their native failed state,
+so its random startup may extend within the same paid request budget. The reference is a fixed research configuration, never a point
+chosen using the full development or outer results.
+
+Both beam arms generate two full configurations per round with the same Gaussian
+perturbation (standard deviation 0.15 in normalized parameter space) and clipped
+bounds. Width 1 expands one parent twice; width 2 expands each of two parents
+once. Completed objective scores and trial order determine the parents. Unique
+parent configurations are retained. Duplicate child proposals still consume a
+request and are evaluated; failed attempts also consume budget. The trace records
+parent links, depth, and parent distance in normalized L2 units. This is an
+independent local search ablation; it does not reproduce AgentTune or call an LLM.
+
+Each inner-selected configuration receives one outer refit. The outer interval
+is part of development; the final holdout is never fitted or scored here. Actual
+predictive-model fit attempts include partial failures. Optimizer-internal fit
+counts are unknown (`null`); optimizer overhead seconds are separate. Scalar
+objectives without a fit observer also have unknown fit counts. Library imports
+precede per-arm timers, feature caches start empty per arm, and there is no
+full-trial cache. Reusing the process is not a clean-machine timing benchmark.
+
+`--private-predictions .tmp/search-comparison/predictions.json` optionally writes
+outer match IDs, targets, and probabilities, with cohort and protocol identities,
+to a new private file with mode `0600`. It cannot overwrite snapshots or the aggregate report.
+The private file retains single-file atomic writing; aggregate reports retain mode `0644`.
+Reports placed at `results/search-comparison.json` can enter the existing
+research exporter. Readiness-only reports expose a separate whitelist of counts,
+feature names and identity digests, without match IDs, row histories or private paths.
+For completed comparisons, the exporter validates all arms, initial points,
+counts, and costs before publishing a whitelist projection. The model page shows
+an optional comparison table and cumulative request/fit/second trajectories,
+separately from the historical model groups. No adoption decision is inferred.
+
+The older `experiment` and `feature-experiment` commands keep their defaults.
+They additionally accept `--shared-start`, `--model-seed`, and explicit
+`--beam-width 1` or `2` when selecting `beam`; `random` is also available. Their
+existing default candidates and final-holdout protocol differ from the strict
+six-arm comparison and must be reported separately.
+
 ### Joint feature and model search
 
 ```bash
@@ -416,22 +664,38 @@ python -m app.research feature-experiment --source football-csv --snapshots .tmp
 ```
 
 This compares fixed defaults, model-only search and joint search with the same
-attempt budget. `--optimizer` also accepts `bayesian` and `genetic`. Joint search
+attempt budget. `--optimizer` also accepts `bayesian`, `genetic`, `random`, and explicit `beam`. Joint search
 adds the last 2–12 matches, Elo update magnitude 5–50 on a log scale, and Elo
 expectation home advantage 0–150. This window counts matches; it does not change
 the number of training seasons. Model parameter bounds remain the existing ones.
 
-Each feature recipe rebuilds its own development history. Search never receives
-held-out matches, and all boundaries retain complete kickoff groups. Selection
-uses three development folds by default and is fixed before held-out features
+By default, each feature recipe rebuilds its own development history. Search
+never receives held-out matches, and all boundaries retain complete kickoff
+groups. Selection uses three development folds by default and is fixed before held-out features
 are built. The fitted model then stays fixed while pre-match history advances
 after earlier kickoff results. Earlier kickoff alone does not prove that a match
 has finished or its result has arrived, so this historical study does not verify
 real-time availability.
 
+Pass `--as-of` with a timestamp that explicitly includes a timezone to enable
+observed-result replay. Inputs must have precise kickoffs with timezones and
+per-match `result_available_at` or `result_observed_at` values. Records marked
+`time_precision="date"` or `"day"`, timestamps without a timezone, and missing
+result times are rejected. A snapshot's `fetched_at` cannot replace missing
+per-match times. Labels available after the cutoff are excluded.
+
+Only labels strictly available before the first held-out kickoff enter
+development data, and each development fold applies the same rule at its own fit
+cutoff. Feature histories use only results strictly available before each
+fixture's kickoff. A late result from an earlier match can enter later held-out
+feature histories while the fitted model stays fixed. The run receipt records
+the cutoff and timing policy.
+
 The [study](results/feature-search.json) records five leagues, two models, three
 fixed seeds and 12 attempts per search. This small budget in search spaces of
 different dimensions cannot establish a general benefit from joint tuning.
+These existing results use the default historical protocol; they have not been
+rerun under observed-result replay.
 The [Optuna search-space guide](https://optuna.readthedocs.io/en/v5.0.0/tutorial/10_key_features/002_configurations.html)
 supports integer/log-scaled parameters and warns about added dimensions. The
 later [Arntzen–Hvattum supplement, A.1](https://www.statmod.org/smij/Vol21/Iss5/Arntzen/Supplement.pdf)
@@ -450,7 +714,7 @@ audit are retained outside the public inventory.
 Install the optional tree engines in the existing project environment:
 
 ```bash
-python -m pip install -r requirements-tree-models.txt
+python -m pip install --group research -c config/constraints-main.txt
 ```
 
 The pinned engines accept the existing numerical features and emit A/D/H
@@ -700,7 +964,7 @@ review describe different versions; neither changes the project dependencies.
 
 By default, `score-models` compares three fixed score configurations on the same chronological
 partitions: `poisson`, `poisson_decay` and `dixon_coles`. It uses NumPy and SciPy
-from the main requirements; optional experiment packages are unnecessary.
+from the runtime group; optional experiment packages are unnecessary.
 
 ```bash
 python -m app.research score-models --source football-csv --competitions PL,FL1,BL1,SA,PD --seasons 2022,2023,2024 --snapshots .tmp/history/football-csv --output .tmp/score-models.json
@@ -909,7 +1173,7 @@ bootstrap percentiles and lag sensitivity are exploratory diagnostics. They
 condition on fitted models and previous selection, assume weak dependence across
 observed days, and do not preserve calendar gaps or season breaks. They do not
 establish simultaneous coverage or future superiority. The SVG/PNG renderer uses
-the existing figure style and requires Matplotlib from the scouting requirements.
+the existing figure style and requires Matplotlib from the research group.
 
 The match `experiment` command does not save or publish models. To train a chosen candidate, pass its parameters to the existing trainer; the calibration, stability and baseline gates still apply:
 
@@ -947,7 +1211,7 @@ The matrix uses fixed model settings, including SGD `alpha=0.1` from the earlier
 The scouting commands collect each selected provider's published inventory. They require no API key:
 
 ```bash
-python -m pip install -r requirements-scouting.txt
+python -m pip install --group research -c config/constraints-main.txt
 python -m app.research collect-open-data --output .tmp/open-data-inventory.json
 python -m app.research scout-events
 python -m app.research scout-tracking
@@ -1093,8 +1357,8 @@ python -m app.data_service.wyscout collect
 python -m app.data_service.wyscout ingest --database data/football.sqlite3
 python -m app.data_service.references --database data/football.sqlite3
 python -m app.analytics.cross_validation --backend compare
-python -m app.analytics.event_validation
-python -m app.analytics.validation_figures
+python -m app.analytics.events.event_validation
+python -m app.analytics.visualization.validation
 ```
 
 `cross_validation` links SkillCorner players to dated FM/FIFA snapshots using
@@ -1103,6 +1367,8 @@ requires a unique game ID and stable game birth date, and rejects initials-only
 matches. Camera coverage and played minutes determine eligible observations.
 Weighted physical/run aggregates are checked against fpstreams when using
 `--backend compare`.
+
+The canonical cross-match speed aggregate is `observed_duration_weighted_mean_match_p99_speed_mps`, in m/s. It is `sum(per_match_histogram_p99 * observed_seconds) / sum(observed_seconds)`. The old aggregate key `p99_speed_mps` remains an equal-valued compatibility alias, identified by `p99_speed_mps_alias_of`. Per-match observations keep their existing p99 field. This aggregate is a weighted mean of match percentiles, rather than the p99 of pooled speed samples or a measure of maximum athletic capacity. Associations use the canonical field, while persisted result identities keep their historical names to avoid duplicate result rows on reruns. Historical reports are not recomputed.
 
 `event_validation` uses the public [Wyscout soccer-log archive](https://figshare.com/collections/Soccer_match_event_dataset/4415000)
 and its [data paper](https://www.nature.com/articles/s41597-019-0247-7). It compares
@@ -1212,7 +1478,7 @@ along with compressed artifacts.
 
 ```bash
 python -m app.research movement-lab --database data/football.sqlite3
-python -m app.analytics.research_figures --output results --database data/football.sqlite3
+python -m app.analytics.visualization.research --output results --database data/football.sqlite3
 ```
 
 The movement lab reads the 20 imported SkillCorner matches directly from SQLite.
@@ -1257,9 +1523,11 @@ links each run to its versioned files. FM input is optional and must be supplied
 MIT license; provider datasets and game data retain their own terms. Source URLs,
 coverage and import status stay in the warehouse.
 
+`export-research` validates and stages all JSON and figure bytes before replacing destination files. It restores prior files after an ordinary write exception. Each file replacement is atomic, but the batch does not guarantee a single-generation view after power loss, a killed process, or concurrent reads across files. If rollback itself fails, the error identifies the retained recovery backups.
+
 `.gitignore` and `.dockerignore` exclude the large database, downloads, logs and
 local model files. The base Docker image includes prediction dependencies. Run
-the research commands locally with `requirements-scouting.txt`, or build a research
+the research commands locally with the `research` group, or build a research
 environment with those extras and an explicitly mounted database. These results
 are separate from the live dashboard export and its recommendation gate.
 
@@ -1290,7 +1558,9 @@ Failed training leaves existing model files intact. Prediction can fall back to 
 
 ## GitHub Actions
 
-For football-data.org, set the repository Actions secret `FOOTBALL_DATA_API_KEY`. For key-free runs, set `SOCCER_ANALYTICS_DATA_SOURCE` and select supported codes with `SOCCER_ANALYTICS_COMPETITIONS` in the workflow environment. Configure GitHub Pages to deploy through Actions. `daily_update.yml` runs at 07:00 UTC, trains models and commits exported site data. `pages.yml` deploys `docs/` after a successful daily refresh, a push to `main`, or a manual run. The completion trigger handles daily commits made with `GITHUB_TOKEN`, which do not trigger a second push workflow.
+For football-data.org, set the repository Actions secret `FOOTBALL_DATA_API_KEY`. Without that key, the default daily job uses CSV and its eight supported production codes. Set `SOCCER_ANALYTICS_DATA_SOURCE` or `SOCCER_ANALYTICS_COMPETITIONS` in the workflow environment to choose a different source or an explicit subset. Configure GitHub Pages to deploy through Actions. `daily_update.yml` runs at 07:00 UTC, trains models and commits exported site data. `pages.yml` deploys `docs/` after a successful daily refresh, a push to `main`, or a manual run. The completion trigger handles daily commits made with `GITHUB_TOKEN`, which do not trigger a second push workflow. Pages pins source validation and packaging to `github.workflow_sha`, the commit containing its workflow definition. Later changes to `main` do not change the selected source.
+
+`checks.yml` runs the full check entry point in both the base and research dependency profiles on Python 3.12 and Node.js 22. The default research profile includes EBM and ALE checks. Its manual `optional_dependencies` input enables three separate jobs for CPU PyTorch, VAEP, and SoccerData. Each job installs only its own environment and runs controlled fixture checks for that capability.
 
 ## Verification
 
@@ -1302,10 +1572,10 @@ boundary; these checks do not make downloaded pickle safe. Training still writes
 private files and aligns their ownership with the mounted model directory.
 
 The [cross-field study](results/switching-play.json) joins 51 Euro2024 matches to
-match-day coaches and opponent contexts. Run `python -m app.analytics.switching_play`
+match-day coaches and opponent contexts. Run `python -m app.analytics.tactics.switching_play`
 to rebuild the descriptive pass windows and store them in the warehouse.
 
-`python -m app.analytics.switch_context` adds opposition shape, provider pressure
+`python -m app.analytics.tactics.switch_context` adds opposition shape, provider pressure
 levels and detected teammate movement around SkillCorner transfers. Pre- and
 post-release movement and possession changes remain separate.
 [Context results and a pitch diagram](results/README.md#新增数据的分析发现)
@@ -1319,29 +1589,118 @@ python scripts/check.py
 python scripts/check.py --static-only --browser
 ```
 
-Tests use controlled data and temporary model files. Install `requirements-experiments.txt` to include the optional model/search/fpstreams checks; otherwise those tests are explicitly skipped. Live commands require network access; the public sources need no API key. Training evaluates expanding time windows and a final chronological holdout against majority-class and Elo baselines before saving a model.
+Tests use controlled data and temporary model files. Install the `research` group to include the optional model/search/fpstreams checks; otherwise those tests are explicitly skipped. Live commands require network access; the public sources need no API key. Training evaluates expanding time windows and a final chronological holdout against majority-class and Elo baselines before saving a model.
 
-The optional SoccerData checks run in the collection environment with `python -m unittest tests.test_soccerdata_collect -v`. They cover season interpretation, browser reader configuration, ESPN home/away mapping and lossless dataframe column export. The base suite skips checks whose optional dependencies are absent.
+The optional SoccerData checks run in the collection environment with `python -m unittest tests.data.test_collection -v`. They cover season interpretation, browser reader configuration, ESPN home/away mapping and lossless dataframe column export. The base suite skips checks whose optional dependencies are absent.
 
 ## Maintenance interfaces
+
+Tests are grouped under `tests/data/`, `tests/analytics/`, `tests/ml/`, and `tests/web/`; CLI and shared foundational contracts remain at the test root. Browser scripts live in `tests/browser/`. Run a domain with, for example, `python scripts/check.py tests.analytics.test_tactics tests.analytics.test_possessions`. Default discovery uses the repository as its package root, so explicit and discovered module names agree.
+
+Analysis implementations now live under `app/analytics/{events,tactics,tracking,scouting,representation,visualization}/`. Internal import paths follow those domains. Production model modules retain their serialization paths. Static page URLs are unchanged; their scripts live under `docs/assets/js/{core,pages,events,research}/`, with CSS under `docs/assets/css/`. Receipt fields that identify relocated code components retain their established keys while hashing the current source files. Older dated implementation records retain the paths that existed at that time.
 
 The default check command runs the existing unittest suite with a production-warehouse access guard, then checks Python syntax, all JavaScript sources, Shell scripts, local page resources, documentation links, and public-file identities. It never runs collection or production training commands. Fixture tests may fit bounded models. Optional dependencies gate only the checks that use them.
 
 ```bash
 python scripts/check.py
-python scripts/check.py tests.test_history tests.test_experiments
+python scripts/check.py tests.data.test_history tests.ml.test_experiments
 python scripts/check.py --static-only
 python scripts/public_manifest.py --refresh
 python scripts/public_manifest.py
 ```
 
-Browser verification is explicit. Install Playwright and Chrome/Chromium separately, or point `PLAYWRIGHT_MODULE` and `PLAYWRIGHT_CHROMIUM_EXECUTABLE` at an existing local runtime. The script starts its own loopback server and isolated browser and closes both at exit. `FRONTEND_CASE` accepts comma-separated scenario names. An unknown name or an empty selection fails the check. `TOUCHLINE_BROWSER_OUTPUT` selects the evidence directory. No browser account or existing profile is used.
+Browser verification requires Node.js 22.12 or later. Install the exact development dependencies from `package-lock.json`, then install Chromium or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to an existing Chrome/Chromium binary. The production pages use no npm runtime packages. `PLAYWRIGHT_MODULE` can still select an existing Playwright module; Axe comes from the project dependencies. The loader does not scan npm caches or install components. It starts an isolated browser and its own loopback server, then closes both at exit.
 
 ```bash
+npm ci --ignore-scripts --no-audit --no-fund
+npx playwright install chromium
 python scripts/check.py --static-only --browser
-FRONTEND_CASE=failure-isolation-and-retry node tests/frontend_browser.cjs
+FRONTEND_CASE=failure-isolation-and-retry node tests/browser/acceptance.cjs
 ```
+
+`FRONTEND_CASE` accepts comma-separated scenario names; an unknown name or an empty selection fails. `TOUCHLINE_BROWSER_OUTPUT` selects the evidence directory. The browser suite checks interactions, layouts, and exports, then runs Axe on the main pages and selected interactive, empty, and error states. `accessibility.json` retains violations and inconclusive results. Violations fail the check; inconclusive results need manual review. Automated checks do not establish full WCAG conformance or replace assistive technology and user testing. The CI browser job installs from the same lockfile and preserves its evidence.
+
+The match time strip uses the published 15-minute segments for shot counts or completed passes. Its zero-based scale covers the whole selected team's match, so choosing a segment does not rescale the bars. A selection updates the chart, table, export scope, and URL; selecting it again or clearing the range restores the full match. Stoppage time stays in its half's final bin, and extra time has separate bins. Player and edge filters affect the passing chart; the time strip continues to show team totals. A/B comparisons share color roles between the page and SVG export, with text and distinct shapes or textures alongside color.
+
+For a contribution, describe the behavior change, dependency profile, and checks actually run. Add coverage for the affected contract using the existing test helpers, then verify the completed set of changes. Keep pure NumPy/SciPy diagnostics active in the base profile; only tests that execute an optional package should skip when it is absent. Record untested optional environments and deployment status separately.
+
+When updating public results, preserve source identities, dates, units, and method limits. Update the research outputs before exporting their deployment copies, then refresh and review the public manifest. Keep provider originals, the production warehouse, fitted models, and private experiment records out of the contribution.
 
 Source collection handlers now live in `app/cli/collection.py`, scouting and tactical commands in `app/cli/scouting.py`, and match-model studies in `app/cli/model_research.py`. `app/cli/research.py` retains dispatch and legacy handler imports. Typed public projections live in `app/web/public_*.py`; `app/web/research.py` retains the export entry point and compatible function imports. Existing command names, output schemas, match classes, and tracking-reader imports remain available.
 
 Raw sources, local experiment outputs, model weights, and database files retain their existing paths and identities. Bytecode caches can be regenerated; private runs and source receipts cannot be treated as disposable caches. The maintenance task does not rewrite historical results or publish new forecasts.
+
+Backend and model-study additions use the existing estimator and temporal evaluation interfaces. Install the `research` group for the optional EBM backend and the `checks` group for Ruff. `python scripts/check.py --lint` adds only undefined-name checks (F821, F822, and F823); it does not format or fix files. The optional CI profile runs bounded EBM and ALE checks.
+
+`python -m app.research ale` reads checked local snapshots and explains a fixed class on the first bounded subset of the final temporal holdout. Its JSON includes quantile boundaries, bin counts, local differences, and sample-weighted centered effects. The method varies one numerical coordinate at a time. Redundant engineered columns can violate joint constraints even locally, so these curves describe model responses and do not establish causal effects. Constant features have an explicit zero-effect status.
+
+`season-study` reuses the whole-season matrix, with per-class reliability and a training-frequency probability baseline. Its default observed-result mode requires timezone-aware kickoff and result availability timestamps. Historical collection records the first observation of each exact result in `result_observed_at`; unchanged refreshes preserve it, while result corrections start a new observation. Old snapshots are not backdated. If `result_available_at` is also supplied, the later timestamp controls availability. Date-only kickoff inputs and missing availability are rejected in strict mode. The explicit `kickoff_order` mode preserves the older retrospective protocol.
+
+Strict replay updates features only with results available before kickoff and purges training labels unavailable at each fit cutoff. Elo updates follow result observation order; recent form follows kickoff order. A frozen season protocol records future evaluation dates, fixed settings, historical input identities, application code, and environment. Registration uses the actual clock and refuses to overwrite an existing protocol. Evaluation checks the seal and rejects drift or an unfinished evaluation window. A content hash is not authentication, complete schedule coverage, or a pre-match prediction ledger. Registration does not establish prospective accuracy.
+
+<a id="model-and-timing-protocols"></a>
+
+## 模型与时点协议
+
+
+新生产模型使用 `ModelBundle v4`，保存 `SoccerAnalytics.FeatureRecipe.v1`，包含滚动窗口、Elo 初始值与更新参数、主场修正和休息天数规则。默认推理从资产恢复配方，显式提供不匹配的配方会拒绝预测。读取旧 v3 时按窗口为 5 的默认配方解释，并标记 `legacy_v3_assumed_defaults`，保留原 schema 3、文件哈希和预测身份。自定义 `FeatureEngineer` 子类只用于 `save=False` 的研究运行。
+
+新生产训练的最终时间留出集还要求 log loss 和 Brier score 均不差于训练段冻结的 Laplace 平滑频率基线。旧 v3 保留原质量政策，并披露其版本和默认配方假设，不补造新基线证据。比赛结果真实可用时刻 `result_available_at` 和前瞻跨赛季验证仍是限制。
+
+预测时点还约束模型自身的可用时间。`PredictionEngine` 拒绝晚于该次 `now` 训练的模型，在读取赛程前返回 `MODEL_NOT_AVAILABLE_AT_SNAPSHOT`；训练时点恰好等于快照时点时允许使用，比较按 UTC 时刻进行。批量预测保留失败模型的诊断报告，记录逐联赛错误，并继续处理其他联赛。v3 与 v4 均执行此规则。传入过去的 `now` 不会自动还原当时的数据、模型或赛程，不能据此当作历史回测；此检查也不替代逐场 `result_available_at` 的严格重放。
+
+`train` 和 `all` 在标准输出打印 JSON，包含逐赛事状态与 `run_receipt`，日志写入标准错误。训练全部成功退出 0，全部失败退出 1，部分成功退出 2，每日工作流遇到部分失败不会提交站点数据。轻量收据记录应用代码哈希、可用的 Git HEAD、环境版本、配置、输入哈希和阶段状态，模型研究中的 `analyze`、`experiment` 及共享比赛研究入口也会记录。既有结果保留原记录，本轮不重算。
+
+
+已有 L1/L2/Elastic Net 分类器、Optuna 和整赛季比较继续复用。可选 EBM 使用 `research` 依赖组，不进入基础生产依赖；它共享原有模型接口和时间评价，使用单线程、固定预算，并关闭库默认的随机验证划分。ALE 输出固定类别的一阶数值响应、分箱边界、计数和中心化效果，不作因果解释。
+
+```bash
+python -m pip install --group research --group checks -c config/constraints-main.txt
+python -m app.research ale --source football-csv --competitions PL --seasons 2025 --snapshots .tmp/history/football-csv --model ebm --features elo_diff,form_points_diff --output .tmp/ale-report.json
+python scripts/check.py --lint
+```
+
+上面的 ALE 命令默认沿用旧开球顺序协议；若提供 `--as-of`，则要求严格结果时点。新的历史采集在每条已完赛记录上保存 `result_observed_at`，表示本系统首次观察到该比分的时间上界。相同结果刷新时保留该时间，比分或球队/开球身份更正后重新记录；旧快照不回填。`result_available_at` 可提供有来源证据的结果可用时间，二者同时存在时使用较晚值。不能将抓取时间、`lastUpdated` 或估计完赛时间回填为更早的真实可用时间。
+
+```bash
+python -m app.research season-study --history .tmp/history-observed --test-seasons 2025 --as-of 2026-10-21T00:00:00Z --models logistic_l2,ebm --output .tmp/season-study.json
+```
+
+严格模式要求可靠的带时区开球时间及逐条结果可用时间，拒绝日期级或缺失输入；每场特征只使用开球前已知的结果，拟合排除截止时点尚未可用的标签。旧档案可显式选择 `--timing-policy kickoff_order`，报告会保留其限制。赛季报告包含各联赛/赛季的概率评分、训练频率基线、类别样本与可靠性；历史结果不自动升级为前瞻证据。
+
+`season-study --freeze-protocol PATH --evaluation-start TIME --evaluation-end TIME` 只注册未来协议，要求一个测试赛季、严格时点、早于评估的注册时间及已知历史输入，且拒绝覆盖已有协议。以后以 `--protocol PATH` 评估时核对设置、训练快照、代码和研究环境。协议哈希只能核查内容身份；完整赛程覆盖和真实赛前预测日志仍需独立记录，注册成功不代表未来准确率已经验证。
+
+
+赛前预测登记只读取明确指定的已有预测 JSON，在独立私有目录排他创建权限为`0600`的新文件。登记使用实际运行时钟，验证预测身份、概率、模型训练时间及比赛尚未开球，拒绝重复比赛、来源错误批次和覆盖旧文件；不会批量修改旧文件权限。
+
+```bash
+python -m app.research record-forecasts --predictions .tmp/forecast-batch.json --input-cutoff 2026-10-21T00:00:00Z --output .tmp/forecast-registrations/batch-001.json
+```
+
+上例的输入路径和截止时间须替换为本次真实批次，不是仓库已有数据或已执行的前瞻研究。截止时间是调用者声明，输入哈希和本地时钟不构成可信第三方时间戳；完整赛程覆盖、缺赛/延期处理和后续真实结果仍须独立记录。登记包含代码与环境收据，保留原预测身份，但不改变其开球顺序或结果时点性质，也不计算未来准确率。逐场登记拒绝写入 docs、results、生产 data/models 目录。
+
+<a id="public-examples"></a>
+
+## 三个公开样本
+
+以下入口只读取仓库已有 `docs/data/research` 汇总。它们重现已公开数值的比较与聚合，不重新拟合模型、抓取事件或访问完整研究数据库。在仓库根目录运行 Python 3.12，无需 pip 安装。
+
+```bash
+python3 scripts/reproduce_examples.py --question prediction
+python3 scripts/reproduce_examples.py --question events
+python3 scripts/reproduce_examples.py --question players --output .tmp/public-player-example.json
+```
+
+- `prediction`：英超 2025/26 比分组的开发期已选模型与 `poisson_constant`，使用相同历史留出样本。输出两者 log loss 与差值，负值表示已选模型在该留出损失较低，不能解释为未来优势。
+- `events`：StatsBomb 2024 欧洲杯 Spain–England 决赛，累加互不重叠的公开时段，输出双方射门、完成传球和进球数。射门数包含缺少坐标的事件；图上的点数可能因此不同。
+- `players`：Wyscout 2017/18 英格兰、前锋、至少 900 分钟，按每 90 分钟射门选取两名观察对象，输出比较群体数量、分钟及指标。该排序不是能力、潜力或跨来源评价。
+
+每项结果包含读取文件的 SHA-256 和可打开的页面路径；用同一版本公开 JSON 即可重复。公开结果原有运行收据缺失时保持缺失，不用本轮代码补造。
+
+## Pages 发布验收
+
+`pages.yml` 使用本次工作流定义对应的 `github.workflow_sha`，再调用同一提交的 `checks.yml` reusable workflow。基础/研究 Python 检查和独立浏览器检查都检出该提交；失败会阻止构建。构建再次检出同一 SHA，打包脚本要求源码提交与验收工作流提交相同，只复制该提交内的常规 docs 文件。产物根目录的 `site-release.json` 记录源码提交、`validation_workflow_commit`、工作流运行/尝试身份及逐文件大小与哈希。上传和部署共用带提交及运行身份的产物名称。
+
+日更会在运行开始后提交新数据。日更完成后触发的 Pages 使用新运行自身的工作流提交，不使用日更开始时的旧 `head_sha`，也不在 runner 排队结束后重新读取浮动 `main`。因此发布的是本次工作流已固定并实际验收的版本，不能据此承诺部署时仍是分支最新提交。[GitHub 的本地复用工作流规则](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#calling-a-reusable-workflow)规定被调流程来自调用方同一提交，`source_ref` 只影响 checkout，不能改变流程定义。日更在提交前刷新并检查公开清单，将 docs/data 和对应清单一起提交。
+
+打包脚本只创建产物，不执行部署；本地受控验证在临时 Git 样本运行，拒绝源码与工作流提交混用、错误 checkout、修改过的 docs 或覆盖已有输出。主分支后来增加验收要求时，本次产物仍使用原固定提交；新版本需要自己的验收。实际远端 runner、Pages 环境和部署状态须在推送后另验，本轮未派发或发布。`site-release.json` 的身份也不证明实时来源新鲜或模型有效。

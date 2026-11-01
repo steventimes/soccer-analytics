@@ -68,7 +68,7 @@ def static_checks():
     node = shutil.which('node')
     if not node:
         raise RuntimeError('Node.js is required for JavaScript checks')
-    sources = sorted((ROOT / 'docs').glob('*.js')) + sorted((ROOT / 'tests').glob('*.cjs'))
+    sources = sorted((ROOT / 'docs').rglob('*.js')) + sorted((ROOT / 'tests').rglob('*.cjs'))
     for path in sources:
         subprocess.run([node, '--check', str(path)], check=True)
     for name in ('run.sh', 'rebuild.sh'):
@@ -98,24 +98,33 @@ def static_checks():
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('tests', nargs='*', help='Optional unittest module or test names; default discovers tests/.')
-    parser.add_argument('--static-only', action='store_true', help='Skip Python runtime tests; still verify sources and manifest.')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--runtime-only', action='store_true', help='Run only Python behavior tests; retain the production warehouse guard.')
+    mode.add_argument('--static-only', action='store_true', help='Skip Python runtime tests; still verify sources and manifest.')
     parser.add_argument('--browser', action='store_true', help='Run isolated Playwright checks; missing runtime is a failure.')
+    parser.add_argument('--lint', action='store_true', help='Run pinned undefined-name checks; requires the checks dependency group.')
     args = parser.parse_args(argv)
+    if args.runtime_only and (args.lint or args.browser):
+        parser.error('--runtime-only cannot be combined with --lint or --browser')
     os.chdir(ROOT)
     sys.path.insert(0, str(ROOT))
     sys.addaudithook(protect_warehouse)
     if not args.static_only:
-        suite = unittest.defaultTestLoader.loadTestsFromNames(args.tests) if args.tests else unittest.defaultTestLoader.discover('tests')
+        suite = unittest.defaultTestLoader.loadTestsFromNames(args.tests) if args.tests else unittest.defaultTestLoader.discover('tests', top_level_dir=str(ROOT))
         if suite.countTestCases() == 0:
             raise RuntimeError('No tests collected')
         result = unittest.TextTestRunner(verbosity=2).run(suite)
         if not result.wasSuccessful():
             return 1
+    if args.runtime_only:
+        return 0
     static_checks()
+    if args.lint:
+        subprocess.run([sys.executable, '-m', 'ruff', 'check', '--no-cache', 'app', 'tests', 'scripts'], check=True)
     from scripts.public_manifest import inspect
     print(json.dumps(inspect()))
     if args.browser:
-        subprocess.run(['node', str(ROOT / 'tests/frontend_browser.cjs')], check=True)
+        subprocess.run(['node', str(ROOT / 'tests/browser/acceptance.cjs')], check=True)
     return 0
 
 

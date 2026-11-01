@@ -2,6 +2,14 @@
 
 本目录按运行保留结果，文件名中的日期和 JSON 中的来源身份决定其样本范围。`docs/data/research` 是白名单部署副本，不作为第二次实验计数。10 月 20 日的系统重构只迁移实现职责和检查流程，没有重算下文指标或改写已有结果。当前页面入口见[项目 README](../README.md)。
 
+10 月 23 日更新了[本季比赛数据](season-refresh.json)与[核心覆盖表](core-coverage.json)：欧冠新增 18 场，累计 54 场；22 个 CSV 联赛新增 196 条赛果，累计 1,792 条。另补入欧联、欧协联各 36 场。来源间有重叠，各联赛实际截止日期不同，不能把这些数量直接相加，也不能把下载日期当作完整比赛覆盖日期。历史实验、预测与图表没有据此重算。
+
+同日后续补采 Understat：五大联赛完赛增至 345 场，新增 48 场、1,356 个射门 ID 和 1,493 条无歧义球员单场记录。当前累计 9,796 条射门、10,845 条派生球员单场记录。原始 SDK 表的 28 条完全重复行已从派生表删除，一组内容不一致的两行记录单独隔离，原件保留。344 场与 CSV 对照匹配，另有一场缺少 Understat 赛果、一场主客角色不一致，未合并或补写来源。[来源说明](../DATA_SOURCES.md)保留具体差异；这次没有重算下文研究数值或图表。
+
+后续离线规范化恢复了其中 89 条点球情境，并将 7,301 条射门记录的助攻关联标识从单场名单条目 ID 修正为同队稳定球员 ID；2,495 条来源未指定的关联仍为未知。新规范批次与原始导出分开保存，观察时间沿用原采集，没有新增比赛或重算历史研究。具体字段、输入哈希与限制见[本季清单](season-refresh.json)的 `understat_shot_fields_curation`。
+
+同日全文阅读 [DOT](https://www.vldb.org/pvldb/vol19/p589-wang.pdf)，并检查作者固定版本的参数筛选与调度代码，记录到[论文目录](literature.json)和[资源评估](resource-reviews.json)。它提供动态参数子空间和按成本筛选试验的参考；当前联合搜索最多约六维、默认十二次试验，暂不移植其 RFECV 调度，也未增加模型实验。本次是此前 49 篇阅读范围之外的补充，具体判断见[实现报告](../IMPLEMENTATION_REPORT.md)。
+
 10月19日完成本轮实现与集中验证，[实现报告](../IMPLEMENTATION_REPORT.md)逐项记录证据和边界。[本轮结果目录](paper-followup-20261019)保存同一英超2025/26校验快照上的五种比分模型、12个评级配置、6种校准方法、9个可选树/特征搜索配置，以及固定主胜减客胜的32场全局解释摘要和四类图表。它们是独立的新结果，不能并入下文既有五联赛表格冒充统一重算。
 
 ODIR的固定归一化正则、Brier分箱分解与有符号余项、比赛日ACF/HAC、共用进球率和双变量Poisson均通过独立数值验证。比分频数保留完整`4+`与其他比分尾项；点拟合不提供后验区间。运行成本逐折和逐trial记录，选择只使用开发期损失。单场贡献可闭合并展开完整表；全局贡献使用固定输出，显式交互按原生半对约定解释，不作为概率百分点或因果效果。
@@ -259,7 +267,7 @@ log loss 越低越好。配置先按开发集时间扩展回测的 log loss 锁�
 
 进一步检验进攻机制，需要在出球时同步观察对手防线、受压迫程度、近球侧支援和远侧跑位，并核对跑动是否先于防守人的反应。当前报告提供队形与阶段统计，没有该决赛的连续原始轨迹，因此尚未把这些跑位关系量化成确定的克制效果。FIFA 球员体能表已按来源速度区间归整，不能把次数标签变化或比赛时长差异当成疲劳变化。
 
-原报告、逐页文本和数值存于 `fifa_report_matches`、`fifa_report_pages`、`fifa_report_metrics`、`fifa_report_physical`；案例存于 `opponent_tactical_cases`。运行 `python -m app.analytics.elite_tactics` 可重建覆盖表、对照和图。[FIFA 入库汇总](fifa-reports.json)记录解析覆盖与错误，公开目录不包含完整原始 PDF 或来源全文。
+原报告、逐页文本和数值存于 `fifa_report_matches`、`fifa_report_pages`、`fifa_report_metrics`、`fifa_report_physical`；案例存于 `opponent_tactical_cases`。运行 `python -m app.analytics.tactics.elite_tactics` 可重建覆盖表、对照和图。[FIFA 入库汇总](fifa-reports.json)记录解析覆盖与错误，公开目录不包含完整原始 PDF 或来源全文。
 
 ## 10 月 11 日比赛更新与教练背景
 
@@ -281,7 +289,7 @@ Jesse Marsch 的 YouTube 战术课取得了非空英文自动字幕。提取了�
 
 这些资料帮助细化研究问题，例如压迫由什么触发，转移进攻侧时谁负责球后保护，以及同一教练面对不同对手如何调整角色。下面先检验球的横向移动；压迫触发和身后保护仍需对应的事件与追踪证据，来源观点没有被改写成数据实证。
 
-复现入口为 `python -m app.data_service.recent_matches`，默认读取最近三周并使用按日期分开的缓存。教练分析运行 `python -m app.analytics.coach_context --tenures .tmp/october-refresh/coach-tenures.json`。资料导入运行 `python -m app.data_service.tactical_evidence`。原始来源留在本地数据库和忽略目录，公开目录只放代码、短摘要及来源指纹。
+复现入口为 `python -m app.data_service.recent_matches`，默认读取最近三周并使用按日期分开的缓存。教练分析运行 `python -m app.analytics.tactics.coach_context --tenures .tmp/october-refresh/coach-tenures.json`。资料导入运行 `python -m app.data_service.tactical_evidence`。原始来源留在本地数据库和忽略目录，公开目录只放代码、短摘要及来源指纹。
 
 ## 新增数据的分析发现
 
@@ -302,9 +310,9 @@ Jesse Marsch 的 YouTube 战术课取得了非空英文自动字幕。提取了�
 
 ![转移时的对手站位与远侧移动](switch-context.png)
 
-运行 `python -m app.analytics.switch_context` 复现澳超情境。程序直接流式读取数据库中的追踪原件，并按来源哈希缓存所需帧；逐次结果位于 `tactical_switch_context_cases`，公开目录只放汇总和图。
+运行 `python -m app.analytics.tactics.switch_context` 复现澳超情境。程序直接流式读取数据库中的追踪原件，并按来源哈希缓存所需帧；逐次结果位于 `tactical_switch_context_cases`，公开目录只放汇总和图。
 
-运行 `python -m app.analytics.switching_play` 可以复现。逐次窗口存入 `tactical_switch_windows`，通过比赛 ID、事件 ID 和来源资产指纹回查原件；公开 JSON 只保留汇总。
+运行 `python -m app.analytics.tactics.switching_play` 可以复现。逐次窗口存入 `tactical_switch_windows`，通过比赛 ID、事件 ID 和来源资产指纹回查原件；公开 JSON 只保留汇总。
 
 本轮直接读取数据库中的 Understat 和 ESPN 资产。可复现的[分析汇总](new-source-findings.json)保留样本量、区间、比较范围和来源指纹。
 
@@ -328,7 +336,7 @@ Jesse Marsch 的 YouTube 战术课取得了非空英文自动字幕。提取了�
 
 分析还纠正了此前来源表的粒度说明：32,574 条 Understat 记录是球员联赛赛季汇总，其中 882 条跨队。SDK 只保留第一支球队的标签，因此没有用这个标签汇总球队表现。83 次点球的情境从原始缓存恢复，ESPN 零占位统计被排除，球队汇总 xG 与射门 xG 分开使用。
 
-复现命令是 `python -m app.analytics.new_source_findings`。分析使用固定随机种子，原始资产保留在数据库，生成的结果也带有入库记录。旧的球员、战术和跑动模型没有因本轮分析而重新训练。
+复现命令是 `python -m app.analytics.scouting.source_findings`。分析使用固定随机种子，原始资产保留在数据库，生成的结果也带有入库记录。旧的球员、战术和跑动模型没有因本轮分析而重新训练。
 
 ## 球员习惯与年轻球员观察
 

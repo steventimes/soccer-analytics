@@ -22,6 +22,9 @@ DEFAULT_COMPETITIONS_MAP = {
     "WC": 2000,   # 世界杯
 }
 
+# Configured production competitions shared by the two public match adapters.
+PUBLIC_PREDICTION_CODES = frozenset({"PL", "PPL", "DED", "BL1", "FL1", "SA", "PD", "ELC"})
+
 class ConfigurationError(ValueError):
     """配置值不合法，继续运行会让管线产生不可预测结果。"""
 
@@ -52,6 +55,21 @@ def _parts(raw: str) -> list[str]:
     return [part.strip() for part in raw.split(",") if part.strip()]
 
 
+def resolve_data_source(source: str | None = None) -> str:
+    selected = source or os.getenv("SOCCER_ANALYTICS_DATA_SOURCE", "auto")
+    if selected == "auto":
+        return "football-data" if os.getenv("FOOTBALL_DATA_API_KEY") else "football-csv"
+    return selected
+
+
+def default_competitions() -> dict[str, int]:
+    public = resolve_data_source() in {"football-csv", "openfootball"}
+    return {
+        code: identity for code, identity in DEFAULT_COMPETITIONS_MAP.items()
+        if not public or code in PUBLIC_PREDICTION_CODES
+    }
+
+
 def parse_training_seasons(raw: str | None) -> list[str]:
     if raw is None or not raw.strip():
         return default_training_seasons()
@@ -69,11 +87,11 @@ def parse_training_seasons(raw: str | None) -> list[str]:
 
 def _parse_competitions(raw: str | None) -> dict[str, int]:
     if raw is None or not raw.strip():
-        return dict(DEFAULT_COMPETITIONS_MAP)
+        return default_competitions()
 
     requested = list(dict.fromkeys(part.upper() for part in _parts(raw)))
     if not requested:
-        return dict(DEFAULT_COMPETITIONS_MAP)
+        return default_competitions()
     unknown = [code for code in requested if code not in DEFAULT_COMPETITIONS_MAP]
     if unknown:
         raise ConfigurationError(

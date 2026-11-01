@@ -28,6 +28,7 @@ class FeatureDataset:
     team_states: dict[str, dict[str, Any]]
     feature_defaults: dict[str, float]
     kickoffs: tuple[str, ...] = ()
+    result_available_at: tuple[str, ...] = ()
 
 
 @dataclass
@@ -181,10 +182,46 @@ class FeatureEngineer:
     )
 
     def __init__(self, window: int = 5) -> None:
-        if window <= 0:
+        if isinstance(window, bool) or not isinstance(window, int) or window <= 0:
             raise FeatureEngineeringError("滚动窗口必须大于 0")
         self.window = window
         self.features = self.FEATURES
+
+    def to_recipe(self) -> dict[str, Any]:
+        """Persist computation semantics, separately from the feature columns."""
+        return {
+            "schema": "SoccerAnalytics.FeatureRecipe.v1",
+            "window": self.window,
+            "base_elo": self.BASE_ELO,
+            "elo_k": self.ELO_K,
+            "home_elo_advantage": self.HOME_ELO_ADVANTAGE,
+            "default_rest_days": self.DEFAULT_REST_DAYS,
+            "max_rest_days": self.MAX_REST_DAYS,
+        }
+
+    @classmethod
+    def from_recipe(cls, recipe: Mapping[str, Any]) -> FeatureEngineer:
+        expected = cls().to_recipe()
+        if not isinstance(recipe, Mapping) or set(recipe) != set(expected):
+            raise FeatureEngineeringError("特征配方字段不完整或包含未知参数")
+        if recipe["schema"] != expected["schema"]:
+            raise FeatureEngineeringError("特征配方版本不兼容")
+        engineer = cls(window=recipe["window"])
+        names = {
+            "base_elo": "BASE_ELO", "elo_k": "ELO_K",
+            "home_elo_advantage": "HOME_ELO_ADVANTAGE",
+            "default_rest_days": "DEFAULT_REST_DAYS", "max_rest_days": "MAX_REST_DAYS",
+        }
+        for key, attribute in names.items():
+            value = recipe[key]
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+                raise FeatureEngineeringError(f"特征配方 {key} 必须是有限数值")
+            if key != "home_elo_advantage" and value < 0:
+                raise FeatureEngineeringError(f"特征配方 {key} 不能小于 0")
+            setattr(engineer, attribute, float(value))
+        if engineer.MAX_REST_DAYS < engineer.DEFAULT_REST_DAYS:
+            raise FeatureEngineeringError("最大休息天数不能小于默认休息天数")
+        return engineer
 
     def build_training_dataset(
         self,
@@ -259,9 +296,6 @@ class FeatureEngineer:
         states = validate_team_states(team_states)
         return self._build_features(home_id, away_id, _parse_datetime(kickoff), states)
 
-    def _state(self, states: dict[int, _TeamState], team_id: int) -> _TeamState:
-        return states.get(team_id, _TeamState())
-
     def _aggregates(self, state: _TeamState, venue: str) -> dict[str, float]:
         recent = state.recent[-self.window :]
         if not recent:
@@ -311,8 +345,8 @@ class FeatureEngineer:
         kickoff: datetime,
         states: dict[int, _TeamState],
     ) -> dict[str, float]:
-        home = self._state(states, home_id)
-        away = self._state(states, away_id)
+        home = states.get(home_id, _TeamState(elo=self.BASE_ELO))
+        away = states.get(away_id, _TeamState(elo=self.BASE_ELO))
         home_form = self._aggregates(home, "H")
         away_form = self._aggregates(away, "A")
         home_rest = self._rest_days(home, kickoff)
@@ -369,8 +403,8 @@ class FeatureEngineer:
         states: dict[int, _TeamState],
     ) -> None:
         assert record.home_score is not None and record.away_score is not None
-        home = states.setdefault(record.home_team_id, _TeamState())
-        away = states.setdefault(record.away_team_id, _TeamState())
+        home = states.setdefault(record.home_team_id, _TeamState(elo=self.BASE_ELO))
+        away = states.setdefault(record.away_team_id, _TeamState(elo=self.BASE_ELO))
         if record.home_score > record.away_score:
             home_points, away_points, actual_home = 3.0, 0.0, 1.0
         elif record.home_score == record.away_score:

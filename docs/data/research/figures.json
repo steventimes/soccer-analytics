@@ -1,284 +1,1911 @@
 {
   "figures": [
     {
-      "alt": "压迫、进球概率、空间控制与组织进攻。各实验使用各自样本与指标，请在图中核对分母和误差范围。",
+      "id": "analysis-upgrades",
+      "title": "压迫、进球概率、空间控制与组织进攻",
+      "topic": "模型比较",
       "filename": "analysis-upgrades.svg",
       "format": "svg",
-      "id": "analysis-upgrades",
+      "alt": "压迫、进球概率、空间控制与组织进攻。各实验使用各自样本与指标，请在图中核对分母和误差范围。",
       "scope": "各实验使用各自样本与指标，请在图中核对分母和误差范围。",
       "source": "公开研究实验汇总",
-      "title": "压迫、进球概率、空间控制与组织进攻",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "Historical samples · each panel retains its own units and denominator Details and sources: results/analysis-upgrades.json. Open individual figures for complete context and spatial surfaces.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "31.7%",
+              "Regain",
+              "496 (31.7%)",
+              "Disruption",
+              "123 (7.8%)",
+              "60.5%",
+              "Unknown",
+              "948 (60.5%)",
+              "Pressing outcomes",
+              "20 matches · 1,567 chains"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−0.004",
+              "−0.002",
+              "0.000",
+              "0.002",
+              "0.004",
+              "GRU minus baseline log loss",
+              "xT + location*",
+              "Logistic context",
+              "Training prior",
+              "Tree context",
+              "GRU vs baselines",
+              "12,000 states · 95% paired intervals"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "0",
+              "5",
+              "10",
+              "15",
+              "20",
+              "Mean absolute difference (percentage points)",
+              "Nearest / Gaussian",
+              "Nearest / Arrival",
+              "Gaussian / Arrival",
+              "16.73",
+              "13.28",
+              "7.49",
+              "Spatial model sensitivity",
+              "Two games · 240 eligible frames"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "−0.024",
+              "−0.016",
+              "−0.008",
+              "0.000",
+              "Augmented minus baseline",
+              "MAE of xGBuildup/90",
+              "Performance only",
+              "Carry-forward buildup",
+              "Next-season buildup",
+              "1,823 pairs · 95% paired intervals"
+            ]
+          }
+        ],
+        "notes": [
+          "Football analysis · four independent questions",
+          "Historical samples · each panel retains its own units and denominator",
+          "Details and sources: results/analysis-upgrades.json. Open individual figures for complete context and spatial surfaces."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "压迫链如何结束。供应商标注的压迫链，包含夺回、干扰与未知结果。",
+      "id": "analysis-upgrades-pressing",
+      "title": "压迫链如何结束",
+      "topic": "战术与空间",
       "filename": "analysis-upgrades-pressing.svg",
       "format": "svg",
-      "id": "analysis-upgrades-pressing",
+      "alt": "压迫链如何结束。供应商标注的压迫链，包含夺回、干扰与未知结果。",
       "scope": "供应商标注的压迫链，包含夺回、干扰与未知结果。",
       "source": "SkillCorner 开放比赛数据",
-      "title": "压迫链如何结束",
-      "topic": "战术与空间"
+      "text_alternative": {
+        "description": "SkillCorner · 20 A-League matches · 1,567 distinct pressing chains Unknown outcomes remain in the total. These supplier labels describe this historical sample.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "31.7%",
+              "Regain",
+              "496 (31.7%)",
+              "Disruption",
+              "123 (7.8%)",
+              "60.5%",
+              "Unknown",
+              "948 (60.5%)"
+            ]
+          }
+        ],
+        "notes": [
+          "How often did pressing end in a regain?",
+          "SkillCorner · 20 A-League matches · 1,567 distinct pressing chains",
+          "Unknown outcomes remain in the total. These supplier labels describe this historical sample."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "上下文模型能否改善进球概率预测。历史测试集上的配对比较，区间按比赛重采样。",
+      "id": "analysis-upgrades-goal-probability",
+      "title": "上下文模型能否改善进球概率预测",
+      "topic": "模型比较",
       "filename": "analysis-upgrades-goal-probability.svg",
       "format": "svg",
-      "id": "analysis-upgrades-goal-probability",
+      "alt": "上下文模型能否改善进球概率预测。历史测试集上的配对比较，区间按比赛重采样。",
       "scope": "历史测试集上的配对比较，区间按比赛重采样。",
       "source": "Wyscout 历史事件实验",
-      "title": "上下文模型能否改善进球概率预测",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "Wyscout England 2017/18 · 12,000 held-out states · 103 score-positive and 14 concede-positive states Intervals: 95% paired match bootstrap, conditional on fitted models. Negative differences favour GRU. *xT + location uses extra training events. Model search and compute budgets differ.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0.045",
+              "0.046",
+              "0.047",
+              "0.048",
+              "0.049",
+              "0.050",
+              "0.051",
+              "0.052",
+              "Test score log loss · lower is better",
+              "xT + location*",
+              "Logistic context",
+              "Training prior",
+              "GRU context",
+              "Tree context",
+              "0.04667",
+              "0.04778",
+              "0.04939",
+              "0.04941",
+              "0.05041",
+              "Absolute error"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−0.004",
+              "−0.002",
+              "0.000",
+              "0.002",
+              "0.004",
+              "GRU minus baseline log loss",
+              "xT + location*",
+              "Logistic context",
+              "Training prior",
+              "Tree context",
+              "GRU difference and uncertainty"
+            ]
+          }
+        ],
+        "notes": [
+          "Does sequence context improve goal prediction?",
+          "Wyscout England 2017/18 · 12,000 held-out states · 103 score-positive and 14 concede-positive states",
+          "Intervals: 95% paired match bootstrap, conditional on fitted models. Negative differences favour GRU.",
+          "*xT + location uses extra training events. Model search and compute budgets differ."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "同一帧下的三种空间控制模型。同一公开追踪帧和网格上的模型差异，没有空间控制真值。",
+      "id": "analysis-upgrades-space-control",
+      "title": "同一帧下的三种空间控制模型",
+      "topic": "战术与空间",
       "filename": "analysis-upgrades-space-control.svg",
       "format": "svg",
-      "id": "analysis-upgrades-space-control",
+      "alt": "同一帧下的三种空间控制模型。同一公开追踪帧和网格上的模型差异，没有空间控制真值。",
       "scope": "同一公开追踪帧和网格上的模型差异，没有空间控制真值。",
       "source": "Metrica Sports 开放追踪数据",
-      "title": "同一帧下的三种空间控制模型",
-      "topic": "战术与空间"
+      "text_alternative": {
+        "description": "Metrica open sample · nominal 105 × 68 m grid · home-side control share Home: circles · Away: triangles · Ball: diamond. Attacking direction is unknown. Frame nearest the median Gaussian/arrival difference among all 240 samples; no accuracy ground truth. Finite-coordinate tracking; supplier detection flags unavailable. Metrica Sports open data.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Nearest player"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "Gaussian influence"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "Arrival competition"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "0% home",
+              "50%",
+              "100% home"
+            ]
+          }
+        ],
+        "notes": [
+          "Three spatial models, one observed frame",
+          "Metrica open sample · nominal 105 × 68 m grid · home-side control share",
+          "Home: circles · Away: triangles · Ball: diamond. Attacking direction is unknown.",
+          "Frame nearest the median Gaussian/arrival difference among all 240 samples; no accuracy ground truth.",
+          "Finite-coordinate tracking; supplier detection flags unavailable. Metrica Sports open data."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "加入 xGBuildup 与 xGChain 后的预测比较。用历史赛季的参与指标预测下一赛季 xGBuildup/90，区间按球员聚类。",
+      "id": "analysis-upgrades-buildup",
+      "title": "加入 xGBuildup 与 xGChain 后的预测比较",
+      "topic": "球员与球队",
       "filename": "analysis-upgrades-buildup.svg",
       "format": "svg",
-      "id": "analysis-upgrades-buildup",
+      "alt": "加入 xGBuildup 与 xGChain 后的预测比较。用历史赛季的参与指标预测下一赛季 xGBuildup/90，区间按球员聚类。",
       "scope": "用历史赛季的参与指标预测下一赛季 xGBuildup/90，区间按球员聚类。",
       "source": "Understat 历史球员面板实验",
-      "title": "加入 xGBuildup 与 xGChain 后的预测比较",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "Target: next-season xGBuildup /90 · Understat · 1,823 held-out pairs · target seasons 2024/25 and 2025/26 Intervals: 95% paired player-cluster bootstrap, conditional on this selected sample and fitted models. xGBuildup is attributed involvement. Partial 2026/27 profiles are excluded from prediction targets.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0.07",
+              "0.08",
+              "0.09",
+              "0.10",
+              "0.11",
+              "Next-season xGBuildup/90",
+              "Mean absolute error",
+              "Performance only",
+              "Carry-forward buildup",
+              "+ buildup and chain",
+              "0.10155",
+              "0.08568",
+              "0.07664",
+              "Absolute error"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−0.024",
+              "−0.016",
+              "−0.008",
+              "0.000",
+              "Augmented minus baseline",
+              "MAE of xGBuildup/90",
+              "Performance only",
+              "Carry-forward buildup",
+              "Added-feature difference and uncertainty"
+            ]
+          }
+        ],
+        "notes": [
+          "Do buildup features improve next-season prediction?",
+          "Target: next-season xGBuildup /90 · Understat · 1,823 held-out pairs · target seasons 2024/25 and 2025/26",
+          "Intervals: 95% paired player-cluster bootstrap, conditional on this selected sample and fitted models.",
+          "xGBuildup is attributed involvement. Partial 2026/27 profiles are excluded from prediction targets."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "机会模型的特征消融比较。同一历史测试划分下的模型与特征组合，结果不代表其他赛季。",
+      "id": "chance-ablations",
+      "title": "机会模型的特征消融比较",
+      "topic": "模型比较",
       "filename": "chance-ablations.svg",
       "format": "svg",
-      "id": "chance-ablations",
+      "alt": "机会模型的特征消融比较。同一历史测试划分下的模型与特征组合，结果不代表其他赛季。",
       "scope": "同一历史测试划分下的模型与特征组合，结果不代表其他赛季。",
       "source": "StatsBomb 开放事件实验",
-      "title": "机会模型的特征消融比较",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "After the third action · 901 held-out matches · Full logistic Brier = 0.100071 Zero marks full logistic. All rows share the logistic family, chronological split and fitting budget. Differences are descriptive point estimates with no reported intervals; feature associations have no causal interpretation.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0.0000",
+              "0.0005",
+              "0.0010",
+              "0.0015",
+              "0.0020",
+              "0.0025",
+              "0.0030",
+              "Brier score difference from full logistic · lower is better",
+              "Without opponent context",
+              "Full logistic",
+              "Without formation",
+              "Without channels / width",
+              "Context + formation",
+              "Context baseline",
+              "0.099959",
+              "-0.000113",
+              "0.100071",
+              "+0.000000",
+              "0.100089",
+              "+0.000017",
+              "0.100876",
+              "+0.000805",
+              "0.103146",
+              "+0.003075",
+              "0.103228",
+              "+0.003156",
+              "Brier score",
+              "Difference"
+            ]
+          }
+        ],
+        "notes": [
+          "Chance-model feature ablations",
+          "After the third action · 901 held-out matches · Full logistic Brier = 0.100071",
+          "Zero marks full logistic. All rows share the logistic family, chronological split and fitting budget.",
+          "Differences are descriptive point estimates with no reported intervals; feature associations have no causal",
+          "interpretation."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "切尔西与 PSG 的决赛踢法变化。2025 世俱杯决赛与各队此前六场比较，未校准对手强度。",
+      "id": "chelsea-psg-final",
+      "title": "切尔西与 PSG 的决赛踢法变化",
+      "topic": "球员与球队",
       "filename": "chelsea-psg-final.svg",
       "format": "svg",
-      "id": "chelsea-psg-final",
+      "alt": "切尔西与 PSG 的决赛踢法变化。2025 世俱杯决赛与各队此前六场比较，未校准对手强度。",
       "scope": "2025 世俱杯决赛与各队此前六场比较，未校准对手强度。",
       "source": "FIFA Training Centre 官方比赛报告",
-      "title": "切尔西与 PSG 的决赛踢法变化",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "2025 Club World Cup · 13 July final · six pre-final matches per team · whole-match descriptive comparison Sources: FIFA official match reports; Chelsea match report for score state. Chelsea led 3–0 at half-time. Selected case; no causal claim. Six earlier games per team; means are not opponent-adjusted or per 90. Different phase denominators retain FIFA definitions, without renormalizing. Whole-match shares cannot establish opening pressure or synchronized runs; a lead, conditions and substitutions can change later play.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Chelsea",
+              "PSG",
+              "56.0",
+              "32.3",
+              "62.3",
+              "61.0",
+              "Match possession · in-contest share separate",
+              "Controlled possession"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "Chelsea",
+              "PSG",
+              "1.5",
+              "9.0",
+              "1.5",
+              "1.0",
+              "FIFA in-possession phase share",
+              "Long-ball phase"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "0",
+              "25",
+              "50",
+              "75",
+              "100",
+              "Reported share (%)",
+              "Chelsea",
+              "PSG",
+              "18.8",
+              "27.0",
+              "9.5",
+              "5.0",
+              "FIFA out-of-possession phase share",
+              "Mid-block phase"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "0",
+              "25",
+              "50",
+              "75",
+              "100",
+              "Reported share (%)",
+              "Chelsea",
+              "PSG",
+              "9.5",
+              "6.0",
+              "13.0",
+              "15.0",
+              "FIFA out-of-possession phase share",
+              "Counter-press phase"
+            ]
+          }
+        ],
+        "notes": [
+          "Chelsea 3–0 PSG: the final against each team's earlier games",
+          "2025 Club World Cup · 13 July final · six pre-final matches per team · whole-match descriptive comparison",
+          "Sources: FIFA official match reports; Chelsea match report for score state. Chelsea led 3–0 at half-time. Selected case; no causal claim.",
+          "Six earlier games per team; means are not opponent-adjusted or per 90. Different phase denominators retain FIFA definitions, without renormalizing.",
+          "Whole-match shares cannot establish opening pressure or synchronized runs; a lead, conditions and substitutions can change later play.",
+          "Earlier match",
+          "Pre-final mean",
+          "Final"
+        ]
+      },
+      "aggregate_url": "case.json"
     },
     {
-      "alt": "跑动负荷与画面可见范围。公开追踪片段的观测量，画面覆盖限制了可解释范围。",
+      "id": "external-load",
+      "title": "跑动负荷与画面可见范围",
+      "topic": "跑动与负荷",
       "filename": "external-load.svg",
       "format": "svg",
-      "id": "external-load",
+      "alt": "跑动负荷与画面可见范围。公开追踪片段的观测量，画面覆盖限制了可解释范围。",
       "scope": "公开追踪片段的观测量，画面覆盖限制了可解释范围。",
       "source": "SkillCorner 开放转播追踪样本",
-      "title": "跑动负荷与画面可见范围",
-      "topic": "跑动与负荷"
+      "text_alternative": {
+        "description": "20 selected A-League 2024/25 fixtures · Detected positions only; incomplete broadcast exposure Workload labels give pooled observed player-minutes. Rates do not fill missing time or measure fitness. Median visibility: 42.6%; 1/623 records reach 80%. The 80% reference gates rolling windows, not entire records.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0",
+              "5",
+              "10",
+              "15",
+              "20",
+              "25",
+              "30",
+              "35",
+              "40",
+              "Distance >20 km/h (m per observed player minute)",
+              "Center Forward",
+              "Central Defender",
+              "Full Back",
+              "Midfield",
+              "Other",
+              "Wide Attacker",
+              "24.1 · 857 min",
+              "5.2 · 1,115 min",
+              "16.1 · 1,294 min",
+              "10.1 · 1,818 min",
+              "1.0 · 150 min",
+              "26.5 · 1,182 min",
+              "17.4 · 1,087 min",
+              "21.3 · 1,088 min",
+              "25.0 · 1,110 min",
+              "19.9 · 1,858 min",
+              "1.0 · 175 min",
+              "18.1 · 1,430 min",
+              "Observed high-speed workload",
+              "In Possession",
+              "Out Of Possession"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0%",
+              "20%",
+              "40%",
+              "60%",
+              "80%",
+              "100%",
+              "Observed segment time / nominal playing time",
+              "0",
+              "20",
+              "40",
+              "60",
+              "80",
+              "100",
+              "120",
+              "Player-match records",
+              "80% reference",
+              "(window gate)",
+              "Broadcast visibility · 623 records"
+            ]
+          }
+        ],
+        "notes": [
+          "External match load and observation coverage",
+          "20 selected A-League 2024/25 fixtures · Detected positions only; incomplete broadcast exposure",
+          "Workload labels give pooled observed player-minutes. Rates do not fill missing time or measure fitness.",
+          "Median visibility: 42.6%; 1/623 records reach 80%. The 80% reference gates rolling windows, not entire records."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "射门来自哪里。单场比赛的射门位置与结果，样本和方向见图中说明。",
+      "id": "football-shot-map",
+      "title": "射门来自哪里",
+      "topic": "比赛片段",
       "filename": "football-shot-map.svg",
       "format": "svg",
-      "id": "football-shot-map",
+      "alt": "射门来自哪里。单场比赛的射门位置与结果，样本和方向见图中说明。",
       "scope": "单场比赛的射门位置与结果，样本和方向见图中说明。",
       "source": "StatsBomb 开放事件数据",
-      "title": "射门来自哪里",
-      "topic": "比赛片段"
+      "text_alternative": {
+        "description": "Spain 2–1 Germany · 2024-07-05 · supplied StatsBomb xG Source: StatsBomb Open Data. Circle area encodes supplied xG with a minimum visible size; filled circles are goals. Attacking halves shown; all located shots retained. Both teams attack right in 120 × 80 provider units. Goal labels use elapsed match clock (MM:SS). Shootouts excluded.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Attacking direction",
+              "Spain · 19 shots · 1.53 xG",
+              "Mikel Merino Zazón",
+              "118:53",
+              "Daniel Olmo Carvajal",
+              "51:00"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "Attacking direction",
+              "Germany · 23 shots · 1.63 xG",
+              "Florian Wirtz",
+              "88:21"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "xG per shot",
+              "0.05",
+              "0.20",
+              "0.50",
+              "Goal",
+              "Other shot"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": []
+          }
+        ],
+        "notes": [
+          "Shot locations and supplied xG",
+          "Spain 2–1 Germany · 2024-07-05 · supplied StatsBomb xG",
+          "Source: StatsBomb Open Data. Circle area encodes supplied xG with a minimum visible size; filled circles are goals.",
+          "Attacking halves shown; all located shots retained. Both teams attack right in 120 × 80 provider units.",
+          "Goal labels use elapsed match clock (MM:SS). Shootouts excluded."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "传球联系集中在哪些位置。指定比赛和时段的完成传球网络，节点位置为事件起点均值。",
+      "id": "football-passing-network",
+      "title": "传球联系集中在哪些位置",
+      "topic": "比赛片段",
       "filename": "football-passing-network.svg",
       "format": "svg",
-      "id": "football-passing-network",
+      "alt": "传球联系集中在哪些位置。指定比赛和时段的完成传球网络，节点位置为事件起点均值。",
       "scope": "指定比赛和时段的完成传球网络，节点位置为事件起点均值。",
       "source": "StatsBomb 开放事件数据",
-      "title": "传球联系集中在哪些位置",
-      "topic": "比赛片段"
+      "text_alternative": {
+        "description": "First half, 10–40 minutes · completed passes only Source: StatsBomb Open Data. Dots = mean completed-pass origin; number tags are moved for legibility. Nodes require ≥3 origins. Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action locations do not establish a fixed formation.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Attacking direction",
+              "Spain",
+              "2",
+              "7",
+              "8",
+              "17",
+              "24",
+              "14",
+              "3",
+              "19",
+              "10",
+              "23",
+              "16"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "2 Daniel Carvajal",
+              "3 Robin Le Normand",
+              "7 Álvaro Morata",
+              "8 Fabián Ruiz",
+              "10 Daniel Olmo",
+              "14 Aymeric Laporte",
+              "16 Rodri",
+              "17 Nico Williams",
+              "19 Lamine Yamal",
+              "23 Unai Simón",
+              "24 Marc Cucurella"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "Attacking direction",
+              "Germany",
+              "4",
+              "3",
+              "7",
+              "6",
+              "1",
+              "25",
+              "10",
+              "21",
+              "19",
+              "2",
+              "8"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "1 Manuel Neuer",
+              "2 Antonio Rüdiger",
+              "3 David Raum",
+              "4 Jonathan Tah",
+              "6 Joshua Kimmich",
+              "7 Kai Havertz",
+              "8 Toni Kroos",
+              "10 Jamal Musiala",
+              "19 Leroy Sané",
+              "21 İlkay Gündoğan",
+              "25 Emre Can"
+            ]
+          },
+          {
+            "label": "图表分区 5",
+            "entries": []
+          }
+        ],
+        "notes": [
+          "Who connects the passing game?",
+          "First half, 10–40 minutes · completed passes only",
+          "Source: StatsBomb Open Data. Dots = mean completed-pass origin; number tags are moved for legibility. Nodes require ≥3 origins.",
+          "Arrows show ≥3 passes in that direction; width encodes count. Mean ball-action locations do not establish a fixed formation.",
+          "3 passes",
+          "10 passes"
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "持球队员身边的可见空间。单个 360 事件画面中的可见球员，未观测球员不能视为空间无人。",
+      "id": "football-visible-space",
+      "title": "持球队员身边的可见空间",
+      "topic": "战术与空间",
       "filename": "football-visible-space.svg",
       "format": "svg",
-      "id": "football-visible-space",
+      "alt": "持球队员身边的可见空间。单个 360 事件画面中的可见球员，未观测球员不能视为空间无人。",
       "scope": "单个 360 事件画面中的可见球员，未观测球员不能视为空间无人。",
       "source": "StatsBomb 360 开放数据",
-      "title": "持球队员身边的可见空间",
-      "topic": "战术与空间"
+      "text_alternative": {
+        "description": "Spain · Unai Simón Mendibil · 123:51 Source: StatsBomb 360 / Open Data. Illustrative frame: the match's largest forward completed pass by x displacement. Player locations are event-time snapshots, not trajectories or pitch control. Coordinates: 120 × 80 provider units.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Attacking direction"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "Visible in this frame",
+              "White: camera field of view",
+              "Grey: outside camera view",
+              "Only observed players are shown.",
+              "Unseen positions remain unknown.",
+              "Teammates · 1",
+              "Opponents · 0",
+              "Pass origin",
+              "Recorded endpoint"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": []
+          }
+        ],
+        "notes": [
+          "The camera sees only part of the pitch",
+          "Spain · Unai Simón Mendibil · 123:51",
+          "Source: StatsBomb 360 / Open Data. Illustrative frame: the match's largest forward completed pass by x displacement.",
+          "Player locations are event-time snapshots, not trajectories or pitch control. Coordinates: 120 × 80 provider units."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "观测片段中的跑动与位置。公开追踪片段，不外推到完整比赛或球员能力。",
+      "id": "football-running-position",
+      "title": "观测片段中的跑动与位置",
+      "topic": "跑动与负荷",
       "filename": "football-running-position.svg",
       "format": "svg",
-      "id": "football-running-position",
+      "alt": "观测片段中的跑动与位置。公开追踪片段，不外推到完整比赛或球员能力。",
       "scope": "公开追踪片段，不外推到完整比赛或球员能力。",
       "source": "Metrica Sports 开放追踪数据",
-      "title": "观测片段中的跑动与位置",
-      "topic": "跑动与负荷"
+      "text_alternative": {
+        "description": "Metrica sample 1 · Player8 · 11.26 km from recorded coordinates · 145,006 finite-coordinate samples Stadium frame · nominal 105 × 68 m No change of attacking direction between halves applied Source: Metrica Sports sample data. Anonymous home player selected by distance from recorded coordinates. Sampled gaps >1s remain open. Occupancy describes recorded positions, not tactical role. Supplier detection flags are unavailable. Off-pitch coordinates enter boundary bins. No Gaussian smoothing; nearest-cell display, without interpolated intensity.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Full-match occupancy · 20 × 12 bins"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "First 120 seconds · sampled path",
+              "Start · 0.0s",
+              "End · 119.6s"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "0.0",
+              "0.5",
+              "1.0",
+              "1.5",
+              "2.0",
+              "Share of finite-coordinate samples per bin (%)"
+            ]
+          }
+        ],
+        "notes": [
+          "Recorded positions of an anonymous player",
+          "Metrica sample 1 · Player8 · 11.26 km from recorded coordinates · 145,006 finite-coordinate samples",
+          "Stadium frame · nominal 105 × 68 m",
+          "No change of attacking direction between halves applied",
+          "Source: Metrica Sports sample data. Anonymous home player selected by distance from recorded coordinates.",
+          "Sampled gaps >1s remain open. Occupancy describes recorded positions, not tactical role. Supplier detection flags are unavailable.",
+          "Off-pitch coordinates enter boundary bins. No Gaussian smoothing; nearest-cell display, without interpolated intensity."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "球员代理目标的模型比较。历史球员样本上的测试误差，代理指标不等于潜力或实际能力。",
+      "id": "player-assessment",
+      "title": "球员代理目标的模型比较",
+      "topic": "球员与球队",
       "filename": "player-assessment.svg",
       "format": "svg",
-      "id": "player-assessment",
+      "alt": "球员代理目标的模型比较。历史球员样本上的测试误差，代理指标不等于潜力或实际能力。",
       "scope": "历史球员样本上的测试误差，代理指标不等于潜力或实际能力。",
       "source": "Wyscout 历史球员事件实验",
-      "title": "球员代理目标的模型比较",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 · Positive values mean lower prediction error; zero means the same MAE as the baseline Model and baseline selected on validation only. Reduction = 100 × (baseline MAE − model MAE) / baseline MAE. Lines: 95% entity-bootstrap intervals conditional on fitted models, unadjusted for multiple comparisons.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−10",
+              "0",
+              "10",
+              "20",
+              "30",
+              "MAE reduction vs selected baseline (%)",
+              "Non-penalty goals / 90",
+              "Progressive passes / 90",
+              "Pass completion",
+              "Recorded duel wins",
+              "Recorded keeper saves",
+              "+11.3%",
+              "n=1,105 windows",
+              "+2.5%",
+              "n=1,105 windows",
+              "+1.4%",
+              "n=1,105 windows",
+              "+3.1%",
+              "n=1,026 windows",
+              "+5.1%",
+              "n=92 windows",
+              "Later chronological windows"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−10",
+              "0",
+              "10",
+              "20",
+              "30",
+              "MAE reduction vs selected baseline (%)",
+              "+10.8%",
+              "n=226 windows",
+              "+0.4%",
+              "n=226 windows",
+              "-7.3%",
+              "n=226 windows",
+              "+4.0%",
+              "n=215 windows",
+              "Not evaluated",
+              "Held-out player identities"
+            ]
+          }
+        ],
+        "notes": [
+          "Player assessment against historical baselines",
+          "Wyscout 2017/18 · Positive values mean lower prediction error; zero means the same MAE as the baseline",
+          "Model and baseline selected on validation only. Reduction = 100 × (baseline MAE − model MAE) / baseline MAE.",
+          "Lines: 95% entity-bootstrap intervals conditional on fitted models, unadjusted for multiple comparisons."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "事件表示学习的测试结果。Wyscout 2017/18，点与横线为种子均值和标准差，标准差不是置信区间。",
+      "id": "representation-figure-1",
+      "title": "事件表示学习的测试结果",
+      "topic": "表示学习",
       "filename": "representation-figure-1.svg",
       "format": "svg",
-      "id": "representation-figure-1",
+      "alt": "事件表示学习的测试结果。Wyscout 2017/18，点与横线为种子均值和标准差，标准差不是置信区间。",
       "scope": "Wyscout 2017/18，点与横线为种子均值和标准差，标准差不是置信区间。",
       "source": "Wyscout 历史事件表示学习实验",
-      "title": "事件表示学习的测试结果",
-      "topic": "表示学习"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 · England · 8,000 sampled pass sequences from 101 test matches Neural models: mean ± 1 seed SD across 3 seeds (11, 29, 47). SD is optimizer variability, not a confidence interval. Open diamonds: 3 methods fitted once. Both panels keep method order; axes have different units and scales. Displacement measures recorded endpoint minus start position, not intended destination or chance value.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0.43",
+              "0.44",
+              "0.45",
+              "0.46",
+              "Log loss · lower is better",
+              "Constant training prior",
+              "Linear context",
+              "Gradient-boosted trees",
+              "Separate single tasks",
+              "Shared multi-task",
+              "Current event only",
+              "Feedforward MLP context",
+              "Source model, zero-shot",
+              "Supervised transfer · frozen",
+              "Supervised transfer · fine-tuned",
+              "Self-supervised · frozen",
+              "Self-supervised · fine-tuned",
+              "0.46107 · fixed",
+              "0.44276 · fixed",
+              "0.42944 · fixed",
+              "0.44842 ± 0.00201",
+              "0.44843 ± 0.00160",
+              "0.45995 ± 0.00005",
+              "0.44545 ± 0.00071",
+              "0.44157 ± 0.00082",
+              "0.43897 ± 0.00067",
+              "0.43794 ± 0.00059",
+              "0.45089 ± 0.00130",
+              "0.44210 ± 0.00030",
+              "Mean ± seed SD",
+              "Pass completion"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "11.0",
+              "11.2",
+              "11.4",
+              "11.6",
+              "MAE (% of pitch length) · lower is better",
+              "11.537 · fixed",
+              "11.325 · fixed",
+              "10.935 · fixed",
+              "11.284 ± 0.041",
+              "11.354 ± 0.041",
+              "11.384 ± 0.061",
+              "11.399 ± 0.093",
+              "11.265 ± 0.079",
+              "11.301 ± 0.022",
+              "11.283 ± 0.086",
+              "11.440 ± 0.044",
+              "11.366 ± 0.034",
+              "Mean ± seed SD",
+              "Forward displacement"
+            ]
+          }
+        ],
+        "notes": [
+          "Representation learning on held-out passes",
+          "Wyscout 2017/18 · England · 8,000 sampled pass sequences from 101 test matches",
+          "Neural models: mean ± 1 seed SD across 3 seeds (11, 29, 47). SD is optimizer variability, not a confidence interval.",
+          "Open diamonds: 3 methods fitted once. Both panels keep method order; axes have different units and scales.",
+          "Displacement measures recorded endpoint minus start position, not intended destination or chance value."
+        ]
+      },
+      "aggregate_url": "representation.json"
     },
     {
-      "alt": "表示学习模型的训练过程。目标联赛验证损失，仅画一个随机种子的训练过程。",
+      "id": "representation-figure-2",
+      "title": "表示学习模型的训练过程",
+      "topic": "表示学习",
       "filename": "representation-figure-2.svg",
       "format": "svg",
-      "id": "representation-figure-2",
+      "alt": "表示学习模型的训练过程。目标联赛验证损失，仅画一个随机种子的训练过程。",
       "scope": "目标联赛验证损失，仅画一个随机种子的训练过程。",
       "source": "Wyscout 历史事件表示学习实验",
-      "title": "表示学习模型的训练过程",
-      "topic": "表示学习"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 · England · Three neural training paths · Illustrative seed 11 Lower validation loss is better. Checkpoints are selected on validation loss; test outcomes do not select epochs. Only one seed is plotted here. Figure 1 reports all methods and optimizer variability across the complete seed set.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "1",
+              "5",
+              "10",
+              "15",
+              "Target-training epoch",
+              "0.480",
+              "0.485",
+              "0.490",
+              "0.495",
+              "0.500",
+              "0.505",
+              "Validation loss · completion BCE + displacement MSE",
+              "Shared multi-task",
+              "Final epoch 0.49246",
+              "Supervised transfer · fine-tuned",
+              "Final epoch 0.48540",
+              "Self-supervised · fine-tuned",
+              "Final epoch 0.48836"
+            ]
+          }
+        ],
+        "notes": [
+          "Validation loss during target training",
+          "Wyscout 2017/18 · England · Three neural training paths · Illustrative seed 11",
+          "Lower validation loss is better. Checkpoints are selected on validation loss; test outcomes do not select epochs.",
+          "Only one seed is plotted here. Figure 1 reports all methods and optimizer variability across the complete seed set."
+        ]
+      },
+      "aggregate_url": "representation.json"
     },
     {
-      "alt": "相同历史输入下的五联赛模型对照。MLP与GRU减去各自联赛的树基线，负值误差更低。横线为固定模型的逐项整场重采样范围，不含训练不确定性；同赛季对照不能证明跨赛季效果。",
+      "id": "representation-leagues-figure-1",
+      "title": "相同历史输入下的五联赛模型对照",
+      "topic": "表示学习",
       "filename": "representation-leagues-figure-1.svg",
       "format": "svg",
-      "id": "representation-leagues-figure-1",
+      "alt": "相同历史输入下的五联赛模型对照。MLP与GRU减去各自联赛的树基线，负值误差更低。横线为固定模型的逐项整场重采样范围，不含训练不确定性；同赛季对照不能证明跨赛季效果。",
       "scope": "MLP与GRU减去各自联赛的树基线，负值误差更低。横线为固定模型的逐项整场重采样范围，不含训练不确定性；同赛季对照不能证明跨赛季效果。",
       "source": "Wyscout 2017/18，五联赛独立目标训练",
-      "title": "相同历史输入下的五联赛模型对照",
-      "topic": "表示学习"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 · train/validation/test sampled cap 8,000 each · 3 neural seeds · 15 epochs · run 76efac828d6b93d5 Points: fixed-seed mean loss minus one fitted HistGradientBoosting baseline. Lines: pointwise 2.5–97.5% whole-match resampling ranges. The models and sampled passes stay fixed. Ranges exclude training/selection uncertainty; repeated-team dependence is not modelled. Each league trains on its own pre-January data, validates in January–February and tests from March. England informed the original design. No retuning, source pretraining or cross-season claim. n = sampled test matches; displacement is recorded endpoint minus start.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0.000",
+              "0.005",
+              "0.010",
+              "0.015",
+              "0.020",
+              "0.025",
+              "0.030",
+              "Completion log loss difference",
+              "England (n=101)",
+              "France (n=110)",
+              "Germany (n=90)",
+              "Italy (n=121)",
+              "Spain (n=123)",
+              "Method minus target-trained tree · lower is better"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0.0",
+              "0.1",
+              "0.2",
+              "0.3",
+              "0.4",
+              "0.5",
+              "0.6",
+              "Displacement MAE difference",
+              "Pitch percentage points",
+              "England (n=101)",
+              "France (n=110)",
+              "Germany (n=90)",
+              "Italy (n=121)",
+              "Spain (n=123)",
+              "Method minus target-trained tree · lower is better"
+            ]
+          }
+        ],
+        "notes": [
+          "Same-history tree, MLP and GRU models across five leagues",
+          "Wyscout 2017/18 · train/validation/test sampled cap 8,000 each · 3 neural seeds · 15 epochs · run 76efac828d6b93d5",
+          "Points: fixed-seed mean loss minus one fitted HistGradientBoosting baseline. Lines: pointwise 2.5–97.5% whole-match",
+          "resampling ranges.",
+          "The models and sampled passes stay fixed. Ranges exclude training/selection uncertainty; repeated-team dependence is not",
+          "modelled.",
+          "Each league trains on its own pre-January data, validates in January–February and tests from March. England informed the",
+          "original design.",
+          "No retuning, source pretraining or cross-season claim. n = sampled test matches; displacement is recorded endpoint minus",
+          "start.",
+          "MLP",
+          "GRU"
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "年轻球员观察分组与传球方向。历史事件样本中的跟进分组与位置分布，分组不等于潜力排名。",
+      "id": "scouting-observations",
+      "title": "年轻球员观察分组与传球方向",
+      "topic": "球员与球队",
       "filename": "scouting-observations.svg",
       "format": "svg",
-      "id": "scouting-observations",
+      "alt": "年轻球员观察分组与传球方向。历史事件样本中的跟进分组与位置分布，分组不等于潜力排名。",
       "scope": "历史事件样本中的跟进分组与位置分布，分组不等于潜力排名。",
       "source": "Wyscout 历史球员与事件统计",
-      "title": "年轻球员观察分组与传球方向",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 · Historical observations at the 31 May 2018 cutoff Tiers describe current evidence, not future potential. Eligible ages: 16–21; no 16-year-olds were covered. Pass shares pool located attempts within each position; they do not measure standing positions.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "Calendar age on 31 May 2018",
+              "0",
+              "20",
+              "40",
+              "60",
+              "80",
+              "100",
+              "120",
+              "140",
+              "160",
+              "Players",
+              "0",
+              "4",
+              "17",
+              "54",
+              "91",
+              "146",
+              "Follow-up tiers · 312 players aged 16–21",
+              "Limited",
+              "Routine follow-up",
+              "Review signals"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0%",
+              "20%",
+              "40%",
+              "60%",
+              "80%",
+              "100%",
+              "Share of located attempted passes",
+              "Defender",
+              "n=611,946 passes",
+              "Forward",
+              "n=185,413 passes",
+              "Goalkeeper",
+              "n=57,940 passes",
+              "Midfielder",
+              "n=601,922 passes",
+              "55%",
+              "34%",
+              "94%",
+              "45%",
+              "25%",
+              "33%",
+              "6%",
+              "29%",
+              "20%",
+              "33%",
+              "Backward 0.4%",
+              "26%",
+              "Pass direction by recorded position",
+              "Forward",
+              "Lateral",
+              "Backward"
+            ]
+          }
+        ],
+        "notes": [
+          "Youth observations and passing habits",
+          "Wyscout 2017/18 · Historical observations at the 31 May 2018 cutoff",
+          "Tiers describe current evidence, not future potential. Eligible ages: 16–21; no 16-year-olds were covered.",
+          "Pass shares pool located attempts within each position; they do not measure standing positions."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "转移球前后的传球上下文。规则识别的转移球与匹配比较，事件上下文不证明因果效果。",
+      "id": "switch-context",
+      "title": "转移球前后的传球上下文",
+      "topic": "战术与空间",
       "filename": "switch-context.svg",
       "format": "svg",
-      "id": "switch-context",
+      "alt": "转移球前后的传球上下文。规则识别的转移球与匹配比较，事件上下文不证明因果效果。",
       "scope": "规则识别的转移球与匹配比较，事件上下文不证明因果效果。",
       "source": "SkillCorner 开放比赛数据",
-      "title": "转移球前后的传球上下文",
-      "topic": "战术与空间"
+      "text_alternative": {
+        "description": "Wellington P FC vs Auckland FC · 2024-12-07 Match 1899585 · event 8_865 · provider pressure: medium pressure · outcome: unsuccessful Source: SkillCorner open data. Arrows require continuous detections; unavailable or extrapolated positions are not filled. Dashed link is not a measured ball trajectory. Ball/far side does not establish an overload. Illustrative selection by detection coverage.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "Ball side",
+              "Far side",
+              "Attack · provider direction normalized",
+              "Release",
+              "Identified target"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "Detected at release",
+              "10 teammates",
+              "10 opponents",
+              "Tracking alignment",
+              "Ball anchor error: 0.87 m",
+              "Detected players only",
+              "Movement availability",
+              "8 complete teammate windows",
+              "Possession: own or unassigned"
+            ]
+          }
+        ],
+        "notes": [
+          "A cross-field pass and the movement we can observe",
+          "Wellington P FC vs Auckland FC · 2024-12-07",
+          "Match 1899585 · event 8_865 · provider pressure: medium pressure · outcome: unsuccessful",
+          "Source: SkillCorner open data. Arrows require continuous detections; unavailable or extrapolated positions are not filled.",
+          "Dashed link is not a measured ball trajectory. Ball/far side does not establish an overload. Illustrative selection by detection coverage.",
+          "Teammate at release",
+          "Opponent at release",
+          "Release to identified target",
+          "Teammate motion: −1 to +1s",
+          "Nearby opponent: −1s to release"
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "球队预测模型与基线比较。历史比赛的时间顺序留出评估，具体指标与基线见图。",
+      "id": "team-assessment",
+      "title": "球队预测模型与基线比较",
+      "topic": "球员与球队",
       "filename": "team-assessment.svg",
       "format": "svg",
-      "id": "team-assessment",
+      "alt": "球队预测模型与基线比较。历史比赛的时间顺序留出评估，具体指标与基线见图。",
       "scope": "历史比赛的时间顺序留出评估，具体指标与基线见图。",
       "source": "Football-Data 历史赛果与球队统计",
-      "title": "球队预测模型与基线比较",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "22 separate league samples · Held-out 2025 season · n = test matches in each league Positive values mean lower deviance than the fitted home/away scoring-mean baseline. League models and scales are fitted separately. These point estimates have no reported uncertainty intervals.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−5",
+              "0",
+              "5",
+              "10",
+              "15",
+              "Poisson deviance reduction vs home/away scoring means (%)",
+              "PPL · n=306",
+              "GSL · n=236",
+              "BL1 · n=306",
+              "DED · n=306",
+              "SA · n=380",
+              "TSL · n=306",
+              "PD · n=380",
+              "FL1 · n=306",
+              "SPL · n=228",
+              "BPL · n=311",
+              "PL · n=380",
+              "SL1 · n=180",
+              "SD · n=462",
+              "ENL · n=552",
+              "EL1 · n=552",
+              "ELC · n=552",
+              "FL2 · n=305",
+              "EL2 · n=552",
+              "SB · n=380",
+              "BL2 · n=306",
+              "SCC · n=180",
+              "SL2 · n=180",
+              "+15.76%",
+              "+12.48%",
+              "+11.97%",
+              "+9.58%",
+              "+7.82%",
+              "+7.73%",
+              "+7.18%",
+              "+5.27%",
+              "+5.24%",
+              "+4.38%",
+              "+4.33%",
+              "+3.80%",
+              "+3.00%",
+              "+2.51%",
+              "+1.61%",
+              "+1.13%",
+              "+0.89%",
+              "+0.55%",
+              "-0.82%",
+              "-0.98%",
+              "-1.79%",
+              "-3.24%"
+            ]
+          }
+        ],
+        "notes": [
+          "Team scoring models by league",
+          "22 separate league samples · Held-out 2025 season · n = test matches in each league",
+          "Positive values mean lower deviance than the fitted home/away scoring-mean baseline.",
+          "League models and scales are fitted separately. These point estimates have no reported uncertainty intervals."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "空间球风表示的识别稳定性。Wyscout 2017/18，同俱乐部且两段各至少900分钟的球员。种子范围不是置信区间；识别率不是能力评分，人数见图。",
+      "id": "spatial-style-figure-1",
+      "title": "空间球风表示的识别稳定性",
+      "topic": "模型比较",
       "filename": "spatial-style-figure-1.svg",
       "format": "svg",
-      "id": "spatial-style-figure-1",
+      "alt": "空间球风表示的识别稳定性。Wyscout 2017/18，同俱乐部且两段各至少900分钟的球员。种子范围不是置信区间；识别率不是能力评分，人数见图。",
       "scope": "Wyscout 2017/18，同俱乐部且两段各至少900分钟的球员。种子范围不是置信区间；识别率不是能力评分，人数见图。",
       "source": "Wyscout 公开事件与 Player Vectors 启发的本地实验",
-      "title": "空间球风表示的识别稳定性",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 | 598 outfield players | early basis frozen before 2018-01-01 Dot = mean; horizontal range = min-max over 3 NMF seeds, not a confidence interval. Dotted line = random rank-1 chance. Same club and at least 900 minutes in both periods. Ground attacking duels are observed take-on proxies, not inferred carries. This closed-set task measures on-ball style stability, not player ability or transfer success.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0%",
+              "20%",
+              "40%",
+              "60%",
+              "80%",
+              "100%",
+              "Top-1 identity retrieval (tie-aware)",
+              "Action frequencies (4)",
+              "Spatial maps (12,500)",
+              "NMF: starts only (18)",
+              "NMF: pass starts + ends (18)",
+              "21.9%",
+              "45.3%",
+              "46.4%",
+              "43.2%",
+              "Same-league candidates"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0%",
+              "20%",
+              "40%",
+              "60%",
+              "80%",
+              "100%",
+              "Top-1 identity retrieval (tie-aware)",
+              "28.3%",
+              "49.7%",
+              "48.9%",
+              "46.2%",
+              "Same league + position"
+            ]
+          }
+        ],
+        "notes": [
+          "Can later actions identify the same player?",
+          "Wyscout 2017/18 | 598 outfield players | early basis frozen before 2018-01-01",
+          "Dot = mean; horizontal range = min-max over 3 NMF seeds, not a confidence interval. Dotted line = random rank-1 chance.",
+          "Same club and at least 900 minutes in both periods. Ground attacking duels are observed take-on proxies, not inferred",
+          "carries.",
+          "This closed-set task measures on-ball style stability, not player ability or transfer success."
+        ]
+      },
+      "aggregate_url": "spatial-style.json"
     },
     {
-      "alt": "早段动作拟合的传球空间基底。只展示一个固定种子的前两个传球分量，起终点共用色阶。基底不是站位时长或空间控制。",
+      "id": "spatial-style-figure-2",
+      "title": "早段动作拟合的传球空间基底",
+      "topic": "球员与球队",
       "filename": "spatial-style-figure-2.svg",
       "format": "svg",
-      "id": "spatial-style-figure-2",
+      "alt": "早段动作拟合的传球空间基底。只展示一个固定种子的前两个传球分量，起终点共用色阶。基底不是站位时长或空间控制。",
       "scope": "只展示一个固定种子的前两个传球分量，起终点共用色阶。基底不是站位时长或空间控制。",
       "source": "Wyscout 2017/18 早段聚合传球热图",
-      "title": "早段动作拟合的传球空间基底",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 | 2017-08-04 to 2017-12-31 | seed 42 First two of five pass components | joint start/end basis has unit L1 mass Native Wyscout coordinates; 50 × 50 cells, Gaussian input sigma=1 cells; nearest-cell display. Fixed reference configuration: 4/4/5/5 components; local 70% variance selection was not performed. One shared colour scale. Aggregate fitted patterns, not occupancy time. Components are not ordered by ability or quality.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0",
+              "50",
+              "100",
+              "Pitch x (%) → attack",
+              "0",
+              "50",
+              "100",
+              "Pitch y (%)",
+              "Basis 1: pass starts"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0",
+              "50",
+              "100",
+              "Pitch x (%) → attack",
+              "0",
+              "50",
+              "100",
+              "Pitch y (%)",
+              "Basis 1: pass ends"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "0",
+              "50",
+              "100",
+              "Pitch x (%) → attack",
+              "0",
+              "50",
+              "100",
+              "Pitch y (%)",
+              "Basis 2: pass starts"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "0",
+              "50",
+              "100",
+              "Pitch x (%) → attack",
+              "0",
+              "50",
+              "100",
+              "Pitch y (%)",
+              "Basis 2: pass ends"
+            ]
+          },
+          {
+            "label": "图表分区 5",
+            "entries": [
+              "0.0000",
+              "0.0005",
+              "0.0010",
+              "0.0015",
+              "0.0020",
+              "0.0025",
+              "Basis mass per grid cell"
+            ]
+          }
+        ],
+        "notes": [
+          "Spatial basis learned from early actions only",
+          "Wyscout 2017/18 | 2017-08-04 to 2017-12-31 | seed 42",
+          "First two of five pass components | joint start/end basis has unit L1 mass",
+          "Native Wyscout coordinates; 50 × 50 cells, Gaussian input sigma=1 cells; nearest-cell display.",
+          "Fixed reference configuration: 4/4/5/5 components; local 70% variance selection was not performed. One shared colour",
+          "scale.",
+          "Aggregate fitted patterns, not occupancy time. Components are not ordered by ability or quality."
+        ]
+      },
+      "aggregate_url": "spatial-style.json"
     },
     {
-      "alt": "动作历史能否改善进球与失球概率。英超、法甲时间留出，排除当前进球状态。横线按整场比赛重采样，未覆盖训练不确定性。",
+      "id": "vaep-spadl-figure-1",
+      "title": "动作历史能否改善进球与失球概率",
+      "topic": "模型比较",
       "filename": "vaep-spadl-figure-1.svg",
       "format": "svg",
-      "id": "vaep-spadl-figure-1",
+      "alt": "动作历史能否改善进球与失球概率。英超、法甲时间留出，排除当前进球状态。横线按整场比赛重采样，未覆盖训练不确定性。",
       "scope": "英超、法甲时间留出，排除当前进球状态。横线按整场比赛重采样，未覆盖训练不确定性。",
       "source": "Wyscout 2017/18 与本地 SPADL/VAEP 对照",
-      "title": "动作历史能否改善进球与失球概率",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "Wyscout 2017/18 | whole-match calendar holdouts from 2018-03-01 | current goals excluded here Dots are paired mean loss differences; lines are 95% intervals from 1,000 whole-match bootstrap samples. Models are fixed before test evaluation. Intervals do not include training uncertainty or dependence between repeat teams. Post-action inputs and a ten-action window (including the current action); not the existing native pre-pass task.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−0.005",
+              "0.000",
+              "0.005",
+              "Loss difference (lower is better)",
+              "England vs training frequency",
+              "England vs one action",
+              "France vs training frequency",
+              "France vs one action",
+              "Scoring | log loss"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−0.005",
+              "0.000",
+              "0.005",
+              "Loss difference (lower is better)",
+              "England vs training frequency",
+              "England vs one action",
+              "France vs training frequency",
+              "France vs one action",
+              "Conceding | log loss"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "−0.0003",
+              "0.0000",
+              "0.0003",
+              "Loss difference (lower is better)",
+              "England vs training frequency",
+              "England vs one action",
+              "France vs training frequency",
+              "France vs one action",
+              "Scoring | binary Brier"
+            ]
+          },
+          {
+            "label": "图表分区 4",
+            "entries": [
+              "−0.0003",
+              "0.0000",
+              "0.0003",
+              "Loss difference (lower is better)",
+              "England vs training frequency",
+              "England vs one action",
+              "France vs training frequency",
+              "France vs one action",
+              "Conceding | binary Brier"
+            ]
+          }
+        ],
+        "notes": [
+          "Do recent SPADL actions improve state probabilities?",
+          "Wyscout 2017/18 | whole-match calendar holdouts from 2018-03-01 | current goals excluded here",
+          "Dots are paired mean loss differences; lines are 95% intervals from 1,000 whole-match bootstrap samples.",
+          "Models are fixed before test evaluation. Intervals do not include training uncertainty or dependence between repeat",
+          "teams.",
+          "Post-action inputs and a ten-action window (including the current action); not the existing native pre-pass task."
+        ]
+      },
+      "aggregate_url": "vaep-spadl.json"
     },
     {
-      "alt": "动作增量中的进攻与防守贡献。测试集按动作类型汇总，不是球员排名或因果效果。转换器补出的带球会单独计数。",
+      "id": "vaep-spadl-figure-2",
+      "title": "动作增量中的进攻与防守贡献",
+      "topic": "球员与球队",
       "filename": "vaep-spadl-figure-2.svg",
       "format": "svg",
-      "id": "vaep-spadl-figure-2",
+      "alt": "动作增量中的进攻与防守贡献。测试集按动作类型汇总，不是球员排名或因果效果。转换器补出的带球会单独计数。",
       "scope": "测试集按动作类型汇总，不是球员排名或因果效果。转换器补出的带球会单独计数。",
       "source": "Wyscout 公开事件与 socceraction 1.5.3 转换",
-      "title": "动作增量中的进攻与防守贡献",
-      "topic": "球员与球队"
+      "text_alternative": {
+        "description": "Three-action model | offensive = scoring probability change | defensive = reduction in conceding probability Held-out action-type means, not player rankings or causal effects. Action mix and calibration affect these values; no confidence intervals shown. The first action of each period and incomplete ten-action windows are excluded. Inferred dribbles in the value cohort: England 7,408, France 7,922. Official penalty/corner priors are retained; period boundaries and post-own-goal baselines reset explicitly.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−0.02",
+              "0.00",
+              "0.02",
+              "0.04",
+              "0.06",
+              "Mean change in goal probability per action",
+              "Pass",
+              "Cross",
+              "Dribble (converter)",
+              "Interception",
+              "Tackle",
+              "Clearance",
+              "Foul",
+              "Shot",
+              "Keeper save",
+              "n=85,783",
+              "n=3,165",
+              "n=8,741",
+              "n=8,884",
+              "n=885",
+              "n=3,100",
+              "n=1,950",
+              "n=2,120",
+              "n=617",
+              "England",
+              "Offensive",
+              "Defensive",
+              "Total"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−0.02",
+              "0.00",
+              "0.02",
+              "0.04",
+              "0.06",
+              "Mean change in goal probability per action",
+              "n=91,475",
+              "n=3,546",
+              "n=9,733",
+              "n=9,132",
+              "n=878",
+              "n=3,076",
+              "n=2,569",
+              "n=2,471",
+              "n=700",
+              "France"
+            ]
+          }
+        ],
+        "notes": [
+          "State value becomes an action increment",
+          "Three-action model | offensive = scoring probability change | defensive = reduction in conceding probability",
+          "Held-out action-type means, not player rankings or causal effects. Action mix and calibration affect these values; no",
+          "confidence intervals shown.",
+          "The first action of each period and incomplete ten-action windows are excluded. Inferred dribbles in the value cohort:",
+          "England 7,408, France 7,922.",
+          "Official penalty/corner priors are retained; period boundaries and post-own-goal baselines reset explicitly."
+        ]
+      },
+      "aggregate_url": "vaep-spadl.json"
     },
     {
-      "alt": "比分模型的差值有多稳定。五联赛固定历史预测，按整天比赛配对重采样。三种平均块长度的百分位范围不等同于显著性或未来赛季优势。",
+      "id": "outcome-comparison",
+      "title": "比分模型的差值有多稳定",
+      "topic": "模型比较",
       "filename": "outcome-comparison.svg",
       "format": "svg",
-      "id": "outcome-comparison",
+      "alt": "比分模型的差值有多稳定。五联赛固定历史预测，按整天比赛配对重采样。三种平均块长度的百分位范围不等同于显著性或未来赛季优势。",
       "scope": "五联赛固定历史预测，按整天比赛配对重采样。三种平均块长度的百分位范围不等同于显著性或未来赛季优势。",
       "source": "Football-Data 2022/23–2024/25，固定比分配置与默认 XGBoost",
-      "title": "比分模型的差值有多稳定",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "Development-selected score configurations · fixed default XGBoost reference · lower difference favors score model Lines: 2.5%–97.5% stationary-bootstrap percentiles, 2,000 paired resamples per setting. Blocks count observed UTC match-days. Historical cohort reused; pointwise exploratory ranges, no significance claim. Run b72b4ac0a4df45e4 · frozen predictions, no refitting · Football-Data 2022/23–2024/25",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−0.125",
+              "−0.100",
+              "−0.075",
+              "−0.050",
+              "−0.025",
+              "0.000",
+              "0.025",
+              "0.050",
+              "0.075",
+              "Paired log loss difference: score configuration minus default XGBoost",
+              "Premier League · Poisson",
+              "231 matches · 69 observed days",
+              "Ligue 1 · Decayed Poisson",
+              "198 matches · 64 observed days",
+              "Bundesliga · Dixon–Coles",
+              "184 matches · 58 observed days",
+              "Serie A · Dixon–Coles",
+              "228 matches · 83 observed days",
+              "La Liga · Poisson",
+              "228 matches · 82 observed days",
+              "Mean block 1",
+              "Mean block 3",
+              "Mean block 7"
+            ]
+          }
+        ],
+        "notes": [
+          "Historical forecast differences",
+          "Development-selected score configurations · fixed default XGBoost reference · lower difference favors score model",
+          "Lines: 2.5%–97.5% stationary-bootstrap percentiles, 2,000 paired resamples per setting.",
+          "Blocks count observed UTC match-days. Historical cohort reused; pointwise exploratory ranges, no significance claim.",
+          "Run b72b4ac0a4df45e4 · frozen predictions, no refitting · Football-Data 2022/23–2024/25"
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "进球频数与完整尾项。英超 2025/26 的76场时间留出；观察频数与五种点拟合模型的期望频数。没有后验区间或拟合优度检验。",
+      "id": "paper-followup-20261019-score-counts-pl",
+      "title": "进球频数与完整尾项",
+      "topic": "模型比较",
       "filename": "paper-followup-20261019-score-counts-pl.svg",
       "format": "svg",
-      "id": "paper-followup-20261019-score-counts-pl",
+      "alt": "进球频数与完整尾项。英超 2025/26 的76场时间留出；观察频数与五种点拟合模型的期望频数。没有后验区间或拟合优度检验。",
       "scope": "英超 2025/26 的76场时间留出；观察频数与五种点拟合模型的期望频数。没有后验区间或拟合优度检验。",
       "source": "Football-Data 校验快照，2026年10月19日离线重算",
-      "title": "进球频数与完整尾项",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "PL · 76 holdout matches · 2026-03-21 to 2026-05-24 Bars: observed counts. Points: sums of point-fit probabilities; every panel retains its full remainder. No posterior intervals, goodness-of-fit p-values or model selection from these counts.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4+",
+              "0",
+              "5",
+              "10",
+              "15",
+              "20",
+              "25",
+              "Matches",
+              "Home goals"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4+",
+              "0",
+              "5",
+              "10",
+              "15",
+              "20",
+              "25",
+              "Matches",
+              "Away goals"
+            ]
+          },
+          {
+            "label": "图表分区 3",
+            "entries": [
+              "0:0",
+              "0:1",
+              "1:0",
+              "1:1",
+              "Other",
+              "scores",
+              "0",
+              "10",
+              "20",
+              "30",
+              "40",
+              "50",
+              "Matches",
+              "Low scores and remainder"
+            ]
+          }
+        ],
+        "notes": [
+          "Score distribution checks",
+          "PL · 76 holdout matches · 2026-03-21 to 2026-05-24",
+          "Bars: observed counts. Points: sums of point-fit probabilities; every panel retains its full remainder.",
+          "No posterior intervals, goodness-of-fit p-values or model selection from these counts.",
+          "Observed count",
+          "Common rates",
+          "Poisson",
+          "Decayed Poisson",
+          "Dixon–Coles",
+          "Bivariate Poisson"
+        ]
+      },
+      "aggregate_url": "model-lab.json"
     },
     {
-      "alt": "同一输出下的特征贡献分布。英超历史留出前32场，固定主胜减客胜的原始分数。树路径参照；不是校准概率或因果影响。",
+      "id": "paper-followup-20261019-global-contributions",
+      "title": "同一输出下的特征贡献分布",
+      "topic": "模型比较",
       "filename": "paper-followup-20261019-global-contributions.svg",
       "format": "svg",
-      "id": "paper-followup-20261019-global-contributions",
+      "alt": "同一输出下的特征贡献分布。英超历史留出前32场，固定主胜减客胜的原始分数。树路径参照；不是校准概率或因果影响。",
       "scope": "英超历史留出前32场，固定主胜减客胜的原始分数。树路径参照；不是校准概率或因果影响。",
       "source": "Football-Data 2025/26，开发期固定 XGBoost",
-      "title": "同一输出下的特征贡献分布",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "football-csv | PL | fixed output H - A | 32 holdout rows 2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9 Dots are matches, with one fixed output across the cohort. Native tree path statistics; no causal or probability-point interpretation. Top 12 features shown; the CSV contains every feature, original input value, contribution, main effect and baseline.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−0.08",
+              "−0.06",
+              "−0.04",
+              "−0.02",
+              "0.00",
+              "0.02",
+              "0.04",
+              "Contribution (raw margin)",
+              "elo diff",
+              "goal difference diff",
+              "home rest days",
+              "home matches seen",
+              "home goal difference",
+              "away goals against",
+              "attack diff",
+              "home elo",
+              "rest diff",
+              "home form points",
+              "home venue points",
+              "win rate diff"
+            ]
+          }
+        ],
+        "notes": [
+          "Fixed-output feature contributions",
+          "football-csv | PL | fixed output H - A | 32 holdout rows",
+          "2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9",
+          "Dots are matches, with one fixed output across the cohort. Native tree path statistics; no causal or probability-point",
+          "interpretation.",
+          "Top 12 features shown; the CSV contains every feature, original input value, contribution, main effect and baseline."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "赛前特征与原始分数贡献。同一固定类别对和样本，横轴保留特征原单位。关联散点不等于部分依赖或交互检验。",
+      "id": "paper-followup-20261019-feature-dependence",
+      "title": "赛前特征与原始分数贡献",
+      "topic": "模型比较",
       "filename": "paper-followup-20261019-feature-dependence.svg",
       "format": "svg",
-      "id": "paper-followup-20261019-feature-dependence",
+      "alt": "赛前特征与原始分数贡献。同一固定类别对和样本，横轴保留特征原单位。关联散点不等于部分依赖或交互检验。",
       "scope": "同一固定类别对和样本，横轴保留特征原单位。关联散点不等于部分依赖或交互检验。",
       "source": "Football-Data 2025/26，固定类别 TreeSHAP",
-      "title": "赛前特征与原始分数贡献",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "football-csv | PL | fixed output H - A | 32 holdout rows 2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9 The two features with highest mean absolute contribution are displayed. Each point is one observed row. This is an association display, not partial dependence, a causal response or a feature interaction test.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "−200",
+              "−150",
+              "−100",
+              "−50",
+              "0",
+              "50",
+              "100",
+              "elo diff (Elo points)",
+              "−0.08",
+              "−0.06",
+              "−0.04",
+              "−0.02",
+              "0.00",
+              "0.02",
+              "0.04",
+              "Contribution (raw margin)"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "−3",
+              "−2",
+              "−1",
+              "0",
+              "1",
+              "2",
+              "goal difference diff (goals per recent match)",
+              "−0.04",
+              "−0.02",
+              "0.00",
+              "0.02",
+              "0.04",
+              "Contribution (raw margin)"
+            ]
+          }
+        ],
+        "notes": [
+          "Feature values and contributions",
+          "football-csv | PL | fixed output H - A | 32 holdout rows",
+          "2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9",
+          "The two features with highest mean absolute contribution are displayed. Each point is one observed row.",
+          "This is an association display, not partial dependence, a causal response or a feature interaction test."
+        ]
+      },
+      "aggregate_url": null
     },
     {
-      "alt": "显式特征交互与主效应。对角为平均绝对主效应，非对角为完整成对交互的平均绝对值；不是显著性或因果图。",
+      "id": "paper-followup-20261019-feature-interactions",
+      "title": "显式特征交互与主效应",
+      "topic": "模型比较",
       "filename": "paper-followup-20261019-feature-interactions.svg",
       "format": "svg",
-      "id": "paper-followup-20261019-feature-interactions",
+      "alt": "显式特征交互与主效应。对角为平均绝对主效应，非对角为完整成对交互的平均绝对值；不是显著性或因果图。",
       "scope": "对角为平均绝对主效应，非对角为完整成对交互的平均绝对值；不是显著性或因果图。",
       "source": "Football-Data 2025/26，原生 TreeSHAP 交互",
-      "title": "显式特征交互与主效应",
-      "topic": "模型比较"
+      "text_alternative": {
+        "description": "football-csv | PL | fixed output H - A | 32 holdout rows 2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9 Diagonal: mean absolute main effect. Off diagonal: mean absolute total pair interaction (twice one native half-cell). All feature pairs, including omitted features, remain in interaction-pairs.csv. Statistical significance and causal effects are not inferred.",
+        "reading_order": "按原图坐标分区转录标题、轴标签、标注和显示数值，保留原图精度。分区内按原图文字顺序列出，不补充未标注的估计或结论。",
+        "panels": [
+          {
+            "label": "图表分区 1",
+            "entries": [
+              "elo",
+              "diff",
+              "goal",
+              "difference",
+              "diff",
+              "home",
+              "rest",
+              "days",
+              "home",
+              "matches",
+              "seen",
+              "home",
+              "goal",
+              "difference",
+              "away",
+              "goals",
+              "against",
+              "attack",
+              "diff",
+              "home",
+              "elo",
+              "elo diff",
+              "goal difference diff",
+              "home rest days",
+              "home matches seen",
+              "home goal difference",
+              "away goals against",
+              "attack diff",
+              "home elo"
+            ]
+          },
+          {
+            "label": "图表分区 2",
+            "entries": [
+              "0.00",
+              "0.01",
+              "0.02",
+              "0.03",
+              "0.04",
+              "Mean absolute raw-margin effect"
+            ]
+          }
+        ],
+        "notes": [
+          "Native TreeSHAP interactions",
+          "football-csv | PL | fixed output H - A | 32 holdout rows",
+          "2026-03-21 to 2026-04-25 | model 248ab51bf6b5 | run 3c493184a1e17c956bc9",
+          "Diagonal: mean absolute main effect. Off diagonal: mean absolute total pair interaction (twice one native half-cell).",
+          "All feature pairs, including omitted features, remain in interaction-pairs.csv. Statistical significance and causal",
+          "effects are not inferred."
+        ]
+      },
+      "aggregate_url": null
     }
   ]
 }

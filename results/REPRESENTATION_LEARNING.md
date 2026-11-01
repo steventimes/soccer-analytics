@@ -105,7 +105,9 @@
 ## 复现与后续使用
 
 ```bash
-python -m pip install -r requirements-deep-learning.txt --index-url https://download.pytorch.org/whl/cpu
+python -m pip install pip==26.2.2
+python -m pip install --group research -c config/constraints-main.txt
+python -m pip install --group deep-learning --index-url https://download.pytorch.org/whl/cpu
 python -m app.research representation-lab --epochs 15 --train-cap 8000 --seeds 11,29,47 --output-dir .tmp/representation-paired-20261015/run
 python -m app.research export-research --experiment-report .tmp/representation-paired-20261015/run/summary.json
 ```
