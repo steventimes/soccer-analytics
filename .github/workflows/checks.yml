@@ -133,9 +133,11 @@ jobs:
       - name: Install dependency-group support
         if: needs.scope.outputs.python == 'true'
         run: python -m pip install pip==26.2.2
-      - name: Install prediction dependencies
+      - name: Install prediction and estimator-test dependencies
         if: needs.scope.outputs.python == 'true' && matrix.profile == 'minimal'
-        run: python -m pip install --group runtime -c config/constraints-main.txt
+        run: |
+          python -m pip install --group runtime -c config/constraints-main.txt
+          python -m pip install scikit-learn -c config/constraints-main.txt
       - name: Install research dependencies
         if: needs.scope.outputs.python == 'true' && matrix.profile == 'research'
         run: python -m pip install --group research -c config/constraints-main.txt
