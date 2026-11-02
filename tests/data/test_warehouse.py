@@ -507,25 +507,7 @@ class TestWarehouse(unittest.TestCase):
                     2,
                 )
 
-    def test_raw_file_roundtrip_and_duplicate_ingest(self):
-        from app.data_service.warehouse import Warehouse
-
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            source = root / "players.csv"
-            source.write_bytes(b"id,name\n1,A\n")
-            with Warehouse(root / "football.sqlite3") as db:
-                dataset = db.dataset("fifa-test", "game", "test", edition="FIFA test")
-                first = db.asset(dataset, source, "players.csv")
-                second = db.asset(dataset, source, "players.csv")
-                self.assertEqual(first, second)
-                self.assertEqual(db.read_raw(first), source.read_bytes())
-                self.assertEqual(
-                    db.connection.execute("SELECT COUNT(*) FROM assets").fetchone()[0],
-                    1,
-                )
-
-    def test_changed_file_keeps_both_source_revisions(self):
+    def test_raw_assets_deduplicate_and_keep_both_source_revisions(self):
         from app.data_service.warehouse import Warehouse
 
         with tempfile.TemporaryDirectory() as directory:
@@ -535,6 +517,11 @@ class TestWarehouse(unittest.TestCase):
             with Warehouse(root / "football.sqlite3") as db:
                 dataset = db.dataset("ratings", "game", "test")
                 first = db.asset(dataset, source, source.name)
+                self.assertEqual(db.asset(dataset, source, source.name), first)
+                self.assertEqual(
+                    db.connection.execute("SELECT COUNT(*) FROM assets").fetchone()[0],
+                    1,
+                )
                 source.write_bytes(b'{"rating":81}')
                 second = db.asset(dataset, source, source.name)
                 self.assertNotEqual(first, second)
