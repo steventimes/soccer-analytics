@@ -63,7 +63,7 @@ def archive_outputs(db, dataset_name, output, kind, edition, *, filenames=None):
     Explicit names are relative to output. Validate the whole selection before
     creating a dataset or writing any artifact so partial selections fail closed.
     """
-    from app.data_service.build_warehouse import document
+    from app.data_service.warehouse import document
     from app.data_service.archive import resolve_asset_path
 
     output = Path(output)

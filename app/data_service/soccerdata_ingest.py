@@ -8,8 +8,7 @@ import math
 from pathlib import Path
 import re
 
-from .warehouse import Warehouse, quote
-from .build_warehouse import document
+from .warehouse import Warehouse, document, quote
 from .repository_data import csv_schema
 from .soccerdata_collect import RESPONSE_CAPTURE_SCHEMA
 

@@ -15,8 +15,7 @@ import logging
 from pathlib import Path
 
 from .archive import verify_asset_file
-from .build_warehouse import document
-from .warehouse import Warehouse
+from .warehouse import Warehouse, document
 
 logger = logging.getLogger(__name__)
 

@@ -480,9 +480,9 @@
       "sha256": "334b1a32bff77de38cf5178612c959da9d9427e1e227e3178b147dcfacd4299e"
     },
     {
-      "bytes": 4705,
+      "bytes": 4699,
       "path": "app/analytics/artifacts.py",
-      "sha256": "42194bd6a99c58e38848df5b047a55a635f611bea2a8c0a9c0db7e44f86d171e"
+      "sha256": "204c2a1ca22d3bba2bbe5e8edda59e4a2f15639b7f05ac1fca4b86615444e078"
     },
     {
       "bytes": 7165,
@@ -820,9 +820,9 @@
       "sha256": "d0f506410ce61c74d3a2331e79c958414c1ec82102756d79cba4f085a62958f7"
     },
     {
-      "bytes": 30659,
+      "bytes": 30005,
       "path": "app/data_service/build_warehouse.py",
-      "sha256": "81bcf056d01d4b20bd9bc2d646531f4607a23b342af79b11da1e2cbff70b15af"
+      "sha256": "7ea7a1a42bdbdd826b88eb2f54f86bb6ea39091ded428a281038504e7036e257"
     },
     {
       "bytes": 10648,
@@ -890,19 +890,19 @@
       "sha256": "c53a0b7fee255441c77b68d60a4ad21d7aca2b657491e827046ae08d67bc6753"
     },
     {
-      "bytes": 31832,
+      "bytes": 31804,
       "path": "app/data_service/recent_matches.py",
-      "sha256": "e10b54dd1a8af8f212fd3870102929a0942b9721a2d9fc0855b7e518cb14d26a"
+      "sha256": "34808e6b0539c53a4bc2b21ff3cd2d52366970447521067a072c5ec3f3058711"
     },
     {
-      "bytes": 4254,
+      "bytes": 4226,
       "path": "app/data_service/references.py",
-      "sha256": "97ed9f3831f82cd425d59111ebea4ad79588a3e280b4fa476f0c0be402edc618"
+      "sha256": "78b27bc9cd9015d87b880b990090dfae9d3dfd581ad96cf62ff36deea87cfb49"
     },
     {
-      "bytes": 9986,
+      "bytes": 9958,
       "path": "app/data_service/repository_data.py",
-      "sha256": "28c0d6fdcb4366b4bdec69501fa611fc80fd2c7b3598f77efaf59f8f9246553d"
+      "sha256": "e7a0149059291cdaa993ae4f1142796d24e4180ef0b4a0d406e64214567972ff"
     },
     {
       "bytes": 28819,
@@ -910,14 +910,14 @@
       "sha256": "d447ff041c7d0a6bfeea5bdeb49e2e71b943c58bb7153a591d814d57a5a42fab"
     },
     {
-      "bytes": 11990,
+      "bytes": 11962,
       "path": "app/data_service/soccerdata_ingest.py",
-      "sha256": "8eefac044b52affdbc0b056eb811d48aca2329a8b898f9c0a53ea77cc8289678"
+      "sha256": "0a7a05fb4a4ef6b58ee80a127207d9471544b5069a52e4647400ad4347ac70f9"
     },
     {
-      "bytes": 4478,
+      "bytes": 4450,
       "path": "app/data_service/tactical_evidence.py",
-      "sha256": "f3435330c4ab99176ffa725a7647a327b488ec7bc67fe99fe6b4567e6e2c29c7"
+      "sha256": "71c586d0ff591196290bf46d2362fa4da2762865bd193dfb3f97d1263acb60ca"
     },
     {
       "bytes": 10366,
@@ -925,14 +925,14 @@
       "sha256": "2d2bee8a364e6758b80e7ead89c89ee9e0235b98a472d8cdcafb4ab64d3eb873"
     },
     {
-      "bytes": 16982,
+      "bytes": 17668,
       "path": "app/data_service/warehouse.py",
-      "sha256": "0e610da39893512362d1c939ce4cb2d773a95324c25b8dc9f86709696b57e580"
+      "sha256": "e3ebc168ab9ab717f4a04e33b902f9f052ec167a24cfb859f5ab79e95b62e049"
     },
     {
-      "bytes": 11484,
+      "bytes": 11448,
       "path": "app/data_service/wyscout.py",
-      "sha256": "5826486d11e3245e86dfb810b93d52a52d2baf1a40dcbd32d76b44732a570a14"
+      "sha256": "542ad1b87a8951d296faa397b1f5cd1c64bdc3d38c33168ecd7e8ed9cc57e2fd"
     },
     {
       "bytes": 4717,

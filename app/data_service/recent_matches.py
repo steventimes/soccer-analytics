@@ -15,10 +15,9 @@ from threading import Lock
 import requests
 
 from .archive import _request, verify_asset_file
-from .build_warehouse import document
 from .fetch.fetcher import SlidingWindowRateLimiter
 from .fetch.public import LEAGUES, FootballCSVClient, _identity
-from .warehouse import Warehouse
+from .warehouse import Warehouse, document
 
 COMPETITIONS = {
     **{

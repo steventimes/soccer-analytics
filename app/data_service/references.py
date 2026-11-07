@@ -4,8 +4,7 @@ import argparse
 import csv
 import json
 from pathlib import Path
-from .warehouse import Warehouse
-from .build_warehouse import document, table_name
+from .warehouse import Warehouse, document, table_name
 
 
 def ingest(database="data/football.sqlite3", root=".tmp/open-data/research-references"):

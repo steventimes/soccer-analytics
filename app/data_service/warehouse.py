@@ -6,6 +6,7 @@ import csv
 import hashlib
 import io
 import json
+import re
 import sqlite3
 import zlib
 from pathlib import Path
@@ -15,6 +16,28 @@ from .archive import open_asset_file
 
 def quote(value):
     return '"' + value.replace('"', '""') + '"'
+
+
+def table_name(value):
+    return re.sub(r"[^a-zA-Z0-9_]", "_", value.lower())
+
+
+def document(db, aid, path, kind):
+    if db.done(aid, "document"):
+        return
+    try:
+        with open_asset_file(path, "r", encoding="utf-8-sig") as handle:
+            payload = handle.read()
+        json.loads(payload)
+        db.connection.execute(
+            "INSERT OR REPLACE INTO documents VALUES(?,?,?)", (aid, kind, payload)
+        )
+        db.finish(aid, "document", 1)
+    except (ValueError, UnicodeError) as exc:
+        db.connection.execute(
+            "INSERT OR REPLACE INTO quarantine VALUES(?,?)", (aid, str(exc))
+        )
+        db.finish(aid, "document", 0)
 
 
 class Warehouse:

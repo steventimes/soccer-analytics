@@ -5,8 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from .warehouse import Warehouse
-from .build_warehouse import document
+from .warehouse import Warehouse, document
 
 
 def validate_card(source, card, text):

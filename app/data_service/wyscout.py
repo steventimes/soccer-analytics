@@ -8,7 +8,7 @@ from pathlib import Path, PureWindowsPath
 import tempfile
 import zipfile
 import requests
-from .warehouse import Warehouse
+from .warehouse import Warehouse, document
 
 
 def json_items(stream):
@@ -189,7 +189,6 @@ def ingest(database="data/football.sqlite3", root=".tmp/open-data/wyscout"):
         CREATE TABLE IF NOT EXISTS wyscout_entities(asset_id INTEGER REFERENCES assets(id),row_number INTEGER,entity_type TEXT,entity_id INTEGER,payload TEXT,PRIMARY KEY(asset_id,row_number));
         CREATE INDEX IF NOT EXISTS wyscout_event_match ON wyscout_events(match_id,player_id);
         """)
-        from .build_warehouse import document
         import io
 
         for source in sorted(
