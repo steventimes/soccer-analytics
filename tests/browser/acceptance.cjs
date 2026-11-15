@@ -19,6 +19,46 @@ let browser;const results=[],errors=[];const reportName=selectedCases?'acceptanc
  const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',acceptDownloads:true});const page=await context.newPage();page.on('pageerror',error=>errors.push({url:page.url(),message:error.message}));
  async function go(url){await page.goto(base+'/'+url);await page.waitForLoadState('networkidle');}
  async function check(name,fn){knownCases.add(name);if(selectedCases&&!selectedCases.has(name))return;try{await fn();results.push({name,status:'passed'});}catch(error){results.push({name,status:'failed',error:error.message,stack:error.stack});await page.screenshot({path:path.join(out,name+'-failure.png')}).catch(()=>{});} console.log(JSON.stringify(results.at(-1)));fs.writeFileSync(path.join(out,reportName),JSON.stringify({results,errors},null,2));}
+ await check('snapshot-health-refreshes-after-early-release-expiry',async()=>{
+  const generated='2026-07-09T00:00:00Z',names=['manifest','operations','release','predictions','preset_questions','scores'];
+  const payloads=Object.fromEntries(names.map(name=>[name,JSON.parse(fs.readFileSync(path.join(docs,'data',name+'.json'),'utf8'))]));
+  for(const value of Object.values(payloads))value.generated_at=generated;
+  Object.assign(payloads.release,{expires_at:'2026-07-09T06:00:00Z',release_decision:'approved',can_publish_recommendations:true,blockers:[]});
+  const fixture=Object.fromEntries(names.filter(name=>name!=='manifest').map(name=>[name,JSON.stringify(payloads[name])]));
+  const manifestKeys={operations:'operations',release:'release_governance',predictions:'predictions',preset_questions:'preset_questions',scores:'scores'};
+  for(const [name,raw]of Object.entries(fixture))payloads.manifest.artifacts[manifestKeys[name]]={...payloads.manifest.artifacts[manifestKeys[name]],size_bytes:Buffer.byteLength(raw),sha256:require('node:crypto').createHash('sha256').update(raw).digest('hex')};
+  fixture.manifest=JSON.stringify(payloads.manifest);
+  for(const start of ['2026-07-09T01:00:00Z','2026-07-09T07:00:00Z']){
+   const probeContext=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce',acceptDownloads:true});const probe=await probeContext.newPage();
+   try{
+    await probe.route('**/data/*.json',route=>{const name=path.basename(new URL(route.request().url()).pathname,'.json');return fixture[name]?route.fulfill({status:200,contentType:'application/json',body:fixture[name]}):route.continue();});
+    await probe.clock.install({time:new Date(start)});await probe.goto(base+'/predictions.html');await probe.waitForFunction(()=>document.body.classList.contains('is-ready'));
+    assert.doesNotMatch(await probe.locator('#data-health').innerText(),/已过期|完整性检查未通过/);
+    if(start.includes('01:00')){assert.equal(await probe.locator('#release-status').innerText(),'允许发布');await probe.clock.fastForward(5*60*60*1000+5);}
+    assert.equal(await probe.locator('#release-status').innerText(),'暂停');assert.doesNotMatch(await probe.locator('#data-health').innerText(),/已过期/);
+    await probe.clock.fastForward(start.includes('01:00')?18*60*60*1000+10:17*60*60*1000+10);
+    assert.match(await probe.locator('#data-health').innerText(),/已过期，请刷新/,'snapshot health must cross its own24h boundary after release expiry');
+    assert.equal(await probe.locator('#release-status').innerText(),'暂停','refreshing health never reauthorizes recommendations');
+   }finally{await probeContext.close();}
+  }
+ });
+ await check('match-detail-must-match-catalog-before-render-or-export',async()=>{
+  const catalog=JSON.parse(fs.readFileSync(path.join(docs,'data/research/matches.json'),'utf8')),entry=catalog.matches.find(row=>row.id==='statsbomb-3942819');
+  const original=JSON.parse(fs.readFileSync(path.join(docs,'data/research/matches',entry.id+'.json'),'utf8'));
+  let mismatch='date';const probe=await context.newPage();
+  try{
+   await probe.route('**/data/research/matches/'+entry.id+'.json',route=>{const detail=structuredClone(original);if(mismatch==='date')detail.date='2000-01-01';if(mismatch==='teams')detail.teams=detail.teams.slice().reverse();return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(detail)});});
+   await probe.goto(base+'/matches.html?match='+entry.id+'&team=Netherlands&view=shots#match-explorer');
+   for(const field of ['date','teams']){
+    if(field==='teams'){mismatch='teams';await probe.locator('#match-retry').click();}
+    await probe.waitForFunction(()=>!document.querySelector('#match-export').disabled||!document.querySelector('#match-retry').hidden);
+    assert.equal(await probe.locator('#match-export').isDisabled(),true,'mismatched '+field+' must not become downloadable');
+    assert.equal(await probe.locator('#match-chart svg').count(),0);assert.match(await probe.locator('#match-status').innerText(),/摘要不匹配/);
+   }
+   mismatch=null;await probe.locator('#match-retry').click();await probe.waitForFunction(()=>!document.querySelector('#match-export').disabled);
+   assert.equal(await probe.locator('#match-chart svg').count(),1,'retry recovers using a matching detail instead of caching the rejected payload');
+  }finally{await probe.close();}
+ });
  await check('routes-and-responsive-layout',async()=>{
   for(const width of [1440,390,320]){
    await page.setViewportSize({width,height:width===1440?1000:844});
@@ -354,7 +394,9 @@ let browser;const results=[],errors=[];const reportName=selectedCases?'acceptanc
  await check('cancelled-snapshot-and-research-can-retry',async()=>{
   let held=true;await page.route('**/data/scores.json',route=>held?undefined:route.continue());
   try{
-   const request=page.waitForRequest('**/data/scores.json');await page.goto(base+'/predictions.html',{waitUntil:'domcontentloaded'});await request;await page.waitForFunction(()=>performance.getEntriesByType('resource').some(row=>row.name.endsWith('/data/predictions.json')));
+   const request=page.waitForRequest('**/data/scores.json'),predictionRead=page.waitForResponse('**/data/predictions.json');
+   await page.goto(base+'/predictions.html',{waitUntil:'domcontentloaded'});await request;
+   const predictionResponse=await predictionRead;assert.ok(predictionResponse.ok());assert.equal(await predictionResponse.finished(),null);
    await page.evaluate(()=>window.TouchlineData.cancel('./data/scores.json'));await page.waitForFunction(()=>!document.querySelector('#snapshot-retry').hidden&&!document.querySelector('#snapshot-retry').disabled);
    await page.locator('details:has(#prediction-errors) > summary').click();
    assert.match(await page.locator('#prediction-errors').innerText(),/SCORES_ARTIFACT_UNAVAILABLE/);assert.match(await page.locator('#recommended-bets').innerText(),/候选列表未就绪/);assert.equal(await page.locator('#recommended-bets article').count(),0);

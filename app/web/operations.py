@@ -12,7 +12,14 @@ from app.ml.forecast_identity import (
     SUPPORTED_MODEL_SCHEMAS,
 )
 from app.web.preset_questions import HIGH_CONFIDENCE_THRESHOLD
-from app.web.model_quality import probability_quality_passes
+from app.web.model_quality import (
+    _number,
+    _positive_int,
+    _sha256,
+    _timestamp,
+    _valid_prediction_probability_contract,
+    probability_quality_passes,
+)
 from app.web.operation_alerts import _build_alerts
 
 
@@ -467,13 +474,6 @@ def _deduplicate_predictions(
     return unique, duplicate_count, conflict_count
 
 
-def _sha256(value: Any) -> str | None:
-    if not isinstance(value, str) or len(value) != 64:
-        return None
-    normalized = value.lower()
-    return normalized if all(character in "0123456789abcdef" for character in normalized) else None
-
-
 def _prediction_model_identity(
     prediction: Mapping[str, Any],
 ) -> tuple[str, str] | None:
@@ -493,44 +493,6 @@ def _prediction_model_identity(
         return None
     model_sha256 = _sha256(model.get("model_sha256"))
     return (competition, model_sha256) if model_sha256 is not None else None
-
-
-def _valid_prediction_probability_contract(
-    prediction: Mapping[str, Any],
-) -> bool:
-    confidence = _number(prediction.get("confidence"))
-    probabilities = prediction.get("probabilities")
-    probability_keys = ("away_win", "draw", "home_win")
-    if (
-        confidence is None
-        or not 0.0 <= confidence <= 1.0
-        or not isinstance(probabilities, Mapping)
-        or set(probabilities) != set(probability_keys)
-    ):
-        return False
-    values = [_number(probabilities.get(name)) for name in probability_keys]
-    if (
-        any(value is None or not 0.0 <= value <= 1.0 for value in values)
-        or not math.isclose(
-            math.fsum(float(value) for value in values),
-            1.0,
-            rel_tol=0.0,
-            abs_tol=1e-6,
-        )
-    ):
-        return False
-    normalized = [float(value) for value in values]
-    best_index = max(range(3), key=normalized.__getitem__)
-    return (
-        math.isclose(
-            confidence,
-            normalized[best_index],
-            rel_tol=0.0,
-            abs_tol=1e-6,
-        )
-        and prediction.get("prediction")
-        == ("AWAY_WIN", "DRAW", "HOME_WIN")[best_index]
-    )
 
 
 def _validated_reliability(
@@ -601,34 +563,6 @@ def _validated_reliability(
             }
         )
     return sorted(summaries, key=lambda item: item["class_index"])
-
-
-def _number(value: Any) -> float | None:
-    if isinstance(value, bool):
-        return None
-    try:
-        numeric = float(value)
-    except (TypeError, ValueError):
-        return None
-    return numeric if math.isfinite(numeric) else None
-
-
-def _positive_int(value: Any) -> int | None:
-    if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
-        return None
-    return value
-
-
-def _timestamp(value: Any) -> datetime | None:
-    if not isinstance(value, str) or not value.strip():
-        return None
-    try:
-        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
-    except ValueError:
-        return None
-    if parsed.tzinfo is None:
-        return None
-    return parsed.astimezone(UTC)
 
 
 def _average(values: list[float]) -> float | None:

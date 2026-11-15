@@ -14,17 +14,10 @@ from app.file_io import (
 from app.config import load_settings
 from app.ml.prediction import PredictionEngine, PredictionRun
 from app.web.operations import build_operations_summary
-from app.web.preset_questions import build_preset_questions
+from app.web.preset_questions import _utc, build_preset_questions
 from app.web.release_governance import build_release_governance
 from app.web.scores import fetch_daily_scores_with_diagnostics
 from app.web.site_paths import repo_root
-
-
-def _utc(now: datetime | None = None) -> datetime:
-    current = now or datetime.now(UTC)
-    if current.tzinfo is None:
-        current = current.replace(tzinfo=UTC)
-    return current.astimezone(UTC)
 
 
 def _artifact_path(path: Path) -> str:

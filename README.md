@@ -2,6 +2,8 @@
 
 # Soccer Analytics
 
+> **Maintenance ended on 2026-11-15.** This project is retired. GitHub Pages publishing has been canceled, and no further data collection, model fitting, or prediction updates are planned. The summaries and page examples below are historical snapshots, not a live service. Private datasets are not part of the retained code archive; data-dependent commands need separately obtained inputs. The remaining sections are retained as historical guidance.
+
 [浏览结果](#浏览研究页面) · [环境](#环境与命令) · [来源](DATA_SOURCES.md) · [复现](REPRODUCING.md) · [研究结果](results/README.md)
 
 | 想做什么 | 入口 |
@@ -187,5 +189,7 @@ python scripts/public_manifest.py
 AgentTune全文现已读完。已加入共同起点的Random、GP、TPE、GA与width=1/2局部beam研究入口，以及真实拟合成本和开发期外层检验；本轮工程集中验证已通过。规整真实观察记录并显式保留初始训练区间后，单个PL队列的时间准入已通过；冷启动与小验证样本仍不足以给出采用排名。默认搜索保持原样，DOT、低保真与持久试验缓存继续暂缓。复现入口见[严格搜索对照](REPRODUCING.md#strict-search-comparison)，范围与进度见[实现报告](IMPLEMENTATION_REPORT.md#search-implementation-20261025)。
 
 本地公开准备摘要对应 2026 赛季英超的70场规整比赛，观察截点为 `2026-10-26 00:29:08.025013 UTC`：60场开发标签、50场去重训练、10场内层验证和10场开发期外层。时间准入通过，准备状态仍为 `insufficient`，未执行真实搜索拟合。页面保留该次诊断的原代码和协议身份；当前源码的界面或权限维护不会改写历史报告。受控测试和本地 Chrome 验证不代表未来收益、远端 CI 或已发布网站验收。
+
+这份70场摘要是固定诊断快照，不等于所有来源的当前库存。后续汇编观察及其使用边界见[数据来源](DATA_SOURCES.md)。
 
 [10 月 19 日离线结果](results/paper-followup-20261019)来自同一英超 2025/26 快照，包含比分、评级、校准、可选树搜索和固定输出解释。它们不替代既有五联赛结果、生产模型或当前赛季预测。历史实验细节与结论统一在[结果说明](results/README.md)，本轮维护和验证状态见实现报告。

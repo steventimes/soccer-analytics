@@ -1,6 +1,8 @@
 'Build bounded, source-backed public exploration summaries from local inputs.\n\nRun with python -m app.analytics.events.exploration. No downloads or active model writes.\n'
 from __future__ import annotations
 
+from app.analytics.events.passing_motifs import point
+
 import argparse
 from collections import Counter, defaultdict
 from datetime import UTC, datetime
@@ -26,13 +28,6 @@ def summarize_shot_sequences(match, events):
     """
     teams = (match["home_team"], match["away_team"])
     groups, unassigned = {}, dict.fromkeys(teams, 0)
-
-    def point(value):
-        if (isinstance(value, list) and len(value) >= 2
-                and all(type(v) in (int, float) and math.isfinite(v) for v in value[:2])
-                and 0 <= value[0] <= 120 and 0 <= value[1] <= 80):
-            return value[:2]
-        return None
 
     for event in events:
         period, team = event.get("period"), event.get("team", {}).get("name")

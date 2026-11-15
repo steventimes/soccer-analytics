@@ -365,7 +365,10 @@ async function matchExplorer() {
     try {
       const result = cache.get(selected.id) || await explorationJson(`matches/${selected.id}`);
       if (current !== request) return;
-      if (result.id !== selected.id || !Array.isArray(result.segments)) throw new Error("比赛摘要不匹配");
+      if (result.id !== selected.id || result.date !== selected.date
+        || !Array.isArray(result.teams) || result.teams.length !== selected.teams.length
+        || result.teams.some((team, index) => team !== selected.teams[index])
+        || !Array.isArray(result.segments)) throw new Error("比赛摘要不匹配");
       data = result; render();
       if (restoreQuery instanceof URLSearchParams) restoreMatchState(restoreQuery);
       cache.set(selected.id, data);

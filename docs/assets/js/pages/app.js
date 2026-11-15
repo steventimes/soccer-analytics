@@ -693,6 +693,12 @@ async function init() {
     renderMetrics(state.predictions, operations, state.predictionsAvailable, activeRelease);
     renderRelease(activeRelease);
     renderRecommended(preset, activeRelease);
+    clearTimeout(state.releaseTimer);
+    const now = Date.now();
+    const nextBoundary = [Date.parse(release?.expires_at), Date.parse(manifest?.generated_at) + RELEASE_MAX_AGE_MS]
+      .filter((time) => time > now && time <= now + RELEASE_MAX_AGE_MS)
+      .sort((a, b) => a - b)[0];
+    if (nextBoundary !== undefined) state.releaseTimer = setTimeout(refreshPublishing, nextBoundary - now + 1);
   };
   document.getElementById("footer-run-id").textContent = manifest?.run_id
     ? `运行 ${manifest.run_id}`
@@ -703,11 +709,6 @@ async function init() {
   populateCompetitionFilter(state.predictions);
   renderPredictions();
   refreshPublishing();
-  clearTimeout(state.releaseTimer);
-  const expires = Date.parse(release?.expires_at);
-  if (expires > Date.now() && expires <= Date.now() + RELEASE_MAX_AGE_MS) {
-    state.releaseTimer = setTimeout(refreshPublishing, expires - Date.now() + 1);
-  }
   renderScores(scores);
   renderErrors(predictionPayload, scores, failures);
   retry.hidden = snapshotUsable; retry.disabled = false;

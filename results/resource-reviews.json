@@ -13,6 +13,29 @@
   ],
   "pending_references": [
     {
+      "id": "iball",
+      "url": "https://github.com/ASportsV/iBall",
+      "added_at": "2026-11-04",
+      "reviewed_at": "2026-11-04",
+      "source": "user_supplied",
+      "commit": "0fc392754a7c81511ab70787f370c960cb9a55ef",
+      "common_submodule_commit": "290b9dadc2d81e9376dfd9bd6cd9d3f3d330ed5f",
+      "status": "scoped_source_review_without_runtime",
+      "implementation_status": "candidate_not_implemented",
+      "runtime_tested": false,
+      "review_scope": "README、球员选择、可视化渲染、数据后处理，以及固定common子模块的帧类型与加载逻辑。未阅读论文全文，未运行上游。",
+      "candidate": "在现有进攻序列视图中增加选中动作的球场就地标注，收敛无关信息。复用既有逐动作选择、高亮与表格，不重复实现播放器。",
+      "future_validation": "手机、键盘与点击均能定位同一动作，球场标注、URL选择合同及表格内容保持一致。",
+      "data_dependent_direction": "连续空间关系叠加仅在匹配的追踪数据上研究。StatsBomb 360是静态瞬间，比分CSV不能提供连续轨迹。视频叠加另需同步视频、屏幕坐标和分割遮罩。",
+      "limitations": [
+        "随后接球者提示仅适合录像回看，不作为当时可用的预测输入。",
+        "README仍将眼动组件和CV管线列为待发布。",
+        "本次未确认代码许可，不直接复制代码。",
+        "没有验证足球场景收益，不改变W13/Q05准入。"
+      ],
+      "counting_policy": "新增独立参考，不更改历史阅读计数，也不计为论文全文已读。"
+    },
+    {
       "added_at": "2026-10-17",
       "authorized_at": "2026-10-17",
       "followup_review_2026_10_19": {
